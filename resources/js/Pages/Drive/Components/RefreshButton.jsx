@@ -32,7 +32,8 @@ export default function RefreshButton() {
                 title="Use: In case of missing files, regenerate thumbnail OR after manual changes to storage directory"
             >
 
-                {isLoading ? (<div className="w-5 h-5 border-t-2 border-blue-300 border-solid rounded-full animate-spin"></div>) : (
+                {isLoading ? (<div
+                    className="w-5 h-5 border-t-2 border-blue-300 border-solid rounded-full animate-spin"></div>) : (
                     <>
                         <RefreshCwIcon className="text-blue-400 inline mr-1 scale-90 "/> <span>Re Sync</span>
                     </>

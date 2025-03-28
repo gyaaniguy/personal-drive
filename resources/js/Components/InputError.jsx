@@ -1,4 +1,4 @@
-export default function InputError({ message, className = '', ...props }) {
+export default function InputError({message, className = '', ...props}) {
     return message ? (
         <p
             {...props}

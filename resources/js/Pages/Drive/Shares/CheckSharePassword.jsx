@@ -16,8 +16,10 @@ const CheckSharePassword = ({slug}) => {
     };
 
     return (
-        <div className="max-w-7xl mx-auto p-0 m-0 bg-gray-800 min-h-screen gap-x-2 flex flex-col text-gray-300  items-center justify-center">
-            <div className="space-x-2  relative  -top-12 left-1/2 left-1/2 transform -translate-x-1/2 w-full"><AlertBox /></div>
+        <div
+            className="max-w-7xl mx-auto p-0 m-0 bg-gray-800 min-h-screen gap-x-2 flex flex-col text-gray-300  items-center justify-center">
+            <div className="space-x-2  relative  -top-12 left-1/2 left-1/2 transform -translate-x-1/2 w-full">
+                <AlertBox/></div>
             <h1 className="text-4xl m-10">Enter Password For Share</h1>
             <form className="space-x-2 " onSubmit={handleSubmit}>
                 <input

@@ -39,7 +39,7 @@ const RenameModal = ({
         }, {
             preserveState: true,
             preserveScroll: true,
-            only: ['files','flash', 'errors'],
+            only: ['files', 'flash', 'errors'],
             onSuccess: (response) => {
                 console.log(response);
                 handleCloseRenameModal(false);

@@ -10,11 +10,11 @@ const AlertBox = React.memo(function AlertBox({message, alertStatus = true}) {
     // Effect to update messageToPrint when props change
     useEffect(() => {
         if (!flash.message && Object.keys(errors).length === 0 && message) {
-            let alertBoxDataCopy = {message: message, status: alertStatus }
+            let alertBoxDataCopy = {message: message, status: alertStatus}
             setAlertBoxData(alertBoxDataCopy);
         } else {
             let alertBoxDataCopy = Object.assign({}, flash);
-            ;
+
             if (errors && Object.keys(errors).length > 0) {
                 alertBoxDataCopy.message = Object.values(errors).flat().join(', ');
                 alertBoxDataCopy.status = false;

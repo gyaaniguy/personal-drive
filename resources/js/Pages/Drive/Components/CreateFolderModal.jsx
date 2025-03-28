@@ -1,9 +1,9 @@
 import React, {useState} from 'react';
-import  Modal  from './Modal.jsx'
+import Modal from './Modal.jsx'
 import {router} from "@inertiajs/react";
 
 
-const CreateFolderModal = ({isModalOpen, setIsModalOpen, path  }) => {
+const CreateFolderModal = ({isModalOpen, setIsModalOpen, path}) => {
     const [folderName, setFolderName] = useState('');
 
     const handleSubmit = async (e) => {

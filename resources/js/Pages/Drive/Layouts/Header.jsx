@@ -1,10 +1,9 @@
-
 import NavLink from '@/Components/NavLink.jsx';
-import {Link, router} from "@inertiajs/react";
+import {Link} from "@inertiajs/react";
 import SearchBar from "@/Pages/Drive/Components/SearchBar.jsx";
 import useSearchUtil from '@/Pages/Drive/Hooks/useSearchUtil.jsx';
 
-export default function Header({  }) {
+export default function Header({}) {
     const {handleSearch} = useSearchUtil();
     return (
         <div className="bg-gray-900">
@@ -15,7 +14,7 @@ export default function Header({  }) {
                             <NavLink
                                 href={route('drive')}
                             >
-                                <img src="/img/logo.png" alt="Logo" className="hidden md:inline-block w-16  " />
+                                <img src="/img/logo.png" alt="Logo" className="hidden md:inline-block w-16  "/>
                             </NavLink>
                             <NavLink
                                 href={route('drive')}

@@ -4,10 +4,10 @@ import InputLabel from '@/Components/InputLabel';
 import PrimaryButton from '@/Components/PrimaryButton';
 import TextInput from '@/Components/TextInput';
 import GuestLayout from '@/Pages/Drive/Layouts/GuestLayout';
-import { Head, Link, useForm } from '@inertiajs/react';
+import {Head, useForm} from '@inertiajs/react';
 
-export default function Login({ status }) {
-    const { data, setData, post, processing, errors, reset } = useForm({
+export default function Login({status}) {
+    const {data, setData, post, processing, errors, reset} = useForm({
         username: '',
         password: '',
         remember: false,
@@ -25,7 +25,7 @@ export default function Login({ status }) {
 
     return (
         <GuestLayout>
-            <Head title="Log in" />
+            <Head title="Log in"/>
 
             {status && (
                 <div className="mb-4 text-sm font-medium text-green-600">
@@ -35,7 +35,7 @@ export default function Login({ status }) {
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="username" value="Username" />
+                    <InputLabel htmlFor="username" value="Username"/>
 
                     <TextInput
                         id="username"
@@ -48,11 +48,11 @@ export default function Login({ status }) {
                         onChange={(e) => setData('username', e.target.value)}
                     />
 
-                    <InputError message={errors.username} className="mt-2" />
+                    <InputError message={errors.username} className="mt-2"/>
                 </div>
 
                 <div className="mt-4">
-                    <InputLabel htmlFor="password" value="Password" />
+                    <InputLabel htmlFor="password" value="Password"/>
 
                     <TextInput
                         id="password"
@@ -64,7 +64,7 @@ export default function Login({ status }) {
                         onChange={(e) => setData('password', e.target.value)}
                     />
 
-                    <InputError message={errors.password} className="mt-2" />
+                    <InputError message={errors.password} className="mt-2"/>
                 </div>
 
                 <div className="mt-4 block">

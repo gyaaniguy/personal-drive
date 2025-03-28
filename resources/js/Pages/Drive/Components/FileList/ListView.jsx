@@ -1,9 +1,7 @@
 import React from 'react';
 
 import FileListRow from "./FileListRow.jsx";
-import { Link } from '@inertiajs/react';
-
-import {useNavigate} from 'react-router-dom';
+import {Link} from '@inertiajs/react';
 import SortIcon from "../../Svgs/SortIcon.jsx";
 
 
@@ -61,7 +59,8 @@ const ListView = ({
             </div>
             {(isSearch || (path && !path.match(/shared\/[A-Za-z0-9\-_]+$/) && path !== '/drive')) && (
                 <div>
-                    <Link className="cursor-pointer hover:bg-gray-700 p-4 px-8 w-full block" title="Go Up" href={path ? path.substring(0, path.lastIndexOf('/')) : `/drive`} >..</Link>
+                    <Link className="cursor-pointer hover:bg-gray-700 p-4 px-8 w-full block" title="Go Up"
+                          href={path ? path.substring(0, path.lastIndexOf('/')) : `/drive`}>..</Link>
                 </div>
             )}
             <div className=" flex flex-wrap text-sm sm:text-base">

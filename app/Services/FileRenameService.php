@@ -18,4 +18,5 @@ class FileRenameService
         if (!$updated) {
             throw FileRenameException::couldNotUpdateIndex();
         }
-    }}
+    }
+}

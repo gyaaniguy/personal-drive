@@ -24,7 +24,7 @@ export default function ShareFilesGuestHome({files, path, token, slug}) {
                                 handleSelectAllToggle={handleSelectAllToggle} selectedFiles={selectedFiles}
                                 handlerSelectFile={handlerSelectFileMemo}
                                 isAdmin={false} slug={slug}
-                               />
+            />
         </div>
     );
 }

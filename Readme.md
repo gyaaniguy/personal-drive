@@ -127,6 +127,7 @@ The setup script adjusts permissions and ownership if provided with root access
 - Two layouts: list view and tile view
 - Fast sort, even for thousands of files
 - Breadcrumb navigation
+- Rename functionality
 
 ### Development:
 Built with Laravel 11 and React. Inertia.js connects React components to the Laravel backend. Uses SQLite as the database.
@@ -149,7 +150,6 @@ Admin Password cannot be changed. This is done to reduce attack surface. If you 
 
 ### Todo:
 - Drag and Drop Upload
-- Rename Functionality
 
 ### Screenshots:
 

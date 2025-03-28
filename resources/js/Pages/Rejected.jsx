@@ -1,6 +1,6 @@
 export default function Rejected({message}) {
 
-     message = message || 'You do not have permission to view this page' ;
+    message = message || 'You do not have permission to view this page';
     return (
         <div className="flex items-center justify-center h-screen bg-gray-100">
             <div className="text-center">

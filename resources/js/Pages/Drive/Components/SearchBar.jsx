@@ -6,7 +6,7 @@ export default function SearchBar({handleSearch}) {
         setSearchValue('');
     };
     return (<div>
-        <form className="flex space-x-2 items-center text-gray-300" >
+        <form className="flex space-x-2 items-center text-gray-300">
             <div className="relative">
                 <input type="text" id="searchbox"
                        className="border border-gray-300 rounded-md p-1 md:p-2 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500 bg-gray-700 w-28 sm:w-44 md:w-52"

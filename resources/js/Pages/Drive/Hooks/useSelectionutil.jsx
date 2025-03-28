@@ -1,7 +1,6 @@
-
 import {useCallback, useState} from "react";
 
-function useSelectionUtil( ) {
+function useSelectionUtil() {
 
     const [selectedFiles, setSelectedFiles] = useState(new Set());
     const [selectAllToggle, setSelectAllToggle] = useState(false);
@@ -30,7 +29,14 @@ function useSelectionUtil( ) {
         }
     }
 
-    return {selectAllToggle, handleSelectAllToggle, selectedFiles, setSelectedFiles, setSelectAllToggle, handlerSelectFileMemo}
+    return {
+        selectAllToggle,
+        handleSelectAllToggle,
+        selectedFiles,
+        setSelectedFiles,
+        setSelectAllToggle,
+        handlerSelectFileMemo
+    }
 
 }
 

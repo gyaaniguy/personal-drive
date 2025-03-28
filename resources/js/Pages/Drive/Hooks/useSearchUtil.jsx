@@ -1,7 +1,6 @@
-
 import {router} from "@inertiajs/react";
 
-function useSearchUtil( ) {
+function useSearchUtil() {
 
     async function handleSearch(e, searchText) {
         e.preventDefault();
@@ -10,6 +9,7 @@ function useSearchUtil( ) {
             }
         });
     }
+
     return {handleSearch}
 }
 

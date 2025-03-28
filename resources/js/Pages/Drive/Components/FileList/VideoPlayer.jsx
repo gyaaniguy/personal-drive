@@ -1,9 +1,9 @@
 import React, {useEffect, useRef, useState} from 'react';
 
 const VideoPlayer = ({id, slug}) => {
-    let src = '/fetch-file/' + id ;
+    let src = '/fetch-file/' + id;
 
-    src += slug ?  '/' + slug : ''
+    src += slug ? '/' + slug : ''
     const [autoplay, setAutoplay] = useState(() => {
         const savedAutoplay = localStorage.getItem('videoAutoplay');
         return savedAutoplay !== null ? JSON.parse(savedAutoplay) : false;

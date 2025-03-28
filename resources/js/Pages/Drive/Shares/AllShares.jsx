@@ -40,7 +40,9 @@ export default function AllShares({shares}) {
                                 <th className="py-3 mb-6 px-4 border-b border-gray-700 hidden md:table-cell">Created</th>
                                 <th className="py-3 mb-6 px-4 border-b border-gray-700 ">Details
                                 </th>
-                                <th className="py-2 mb-6 px-4 border-b border-gray-700 hidden md:table-cell">Has Password</th>
+                                <th className="py-2 mb-6 px-4 border-b border-gray-700 hidden md:table-cell">Has
+                                    Password
+                                </th>
                                 <th className="py-3 mb-6 px-4 border-b border-gray-700 hidden md:table-cell">Expiring on
                                 </th>
                                 <th className="py-3 mb-6 px-4 border-b border-gray-700 ">Enabled</th>
@@ -51,7 +53,8 @@ export default function AllShares({shares}) {
                             <tbody className="">
 
                             {shares.map((share) => (
-                                <tr key={share.id} className={` hover:bg-gray-700/20 ${share.enabled ? '' : 'bg-red-800/50'} text-sm`}>
+                                <tr key={share.id}
+                                    className={` hover:bg-gray-700/20 ${share.enabled ? '' : 'bg-red-800/50'} text-sm`}>
                                     <td className="hidden md:table-cell p-1 sm:p-2 md:p-4  ">
                                         {new Date(share.created_at).toLocaleDateString()}
                                     </td>
@@ -60,13 +63,14 @@ export default function AllShares({shares}) {
                                             <span className="font-semibold text-sm sm:text-lg text-indigo-300">
                                                 {window.location.hostname + '/shared/' + share.slug}
                                             </span>
-                                            <div className="flex items-center justify-center gap-1 hidden md:table-cell">
+                                            <div
+                                                className="flex items-center justify-center gap-1 hidden md:table-cell">
                                                 <span className="text-sm sm:text-lg text-gray-400 font-semibold">
                                                     {share.shared_files.length}
                                                 </span>
                                                 <span className="text-sm text-gray-400 ">
-                                                   {share.shared_files.length > 1 && `files` }
-                                                   {share.shared_files.length <= 1  && `file` }
+                                                   {share.shared_files.length > 1 && `files`}
+                                                    {share.shared_files.length <= 1 && `file`}
                                                 </span>
                                             </div>
                                         </div>

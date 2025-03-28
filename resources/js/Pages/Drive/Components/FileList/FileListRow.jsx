@@ -22,7 +22,7 @@ const FileListRow = React.memo(function FileListRow({
                                                     }) {
 
         return (
-            <div  className="cursor-pointer hover:bg-gray-700 group flex flex-row w-full">
+            <div className="cursor-pointer hover:bg-gray-700 group flex flex-row w-full">
                 <div
                     className="p-2 md:px-6 w-20 items-center flex hover:bg-gray-900 justify-center"
                     onClick={() => handlerSelectFile(file)}

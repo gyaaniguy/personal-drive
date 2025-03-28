@@ -1,17 +1,13 @@
-import {
-    Dialog,
-    DialogPanel,
-    Transition,
-    TransitionChild,
-} from '@headlessui/react';
+import {Dialog, DialogPanel, Transition, TransitionChild,} from '@headlessui/react';
 
 export default function Modal({
-    children,
-    show = false,
-    maxWidth = '2xl',
-    closeable = true,
-    onClose = () => {},
-}) {
+                                  children,
+                                  show = false,
+                                  maxWidth = '2xl',
+                                  closeable = true,
+                                  onClose = () => {
+                                  },
+                              }) {
     const close = () => {
         if (closeable) {
             onClose();
@@ -42,7 +38,7 @@ export default function Modal({
                     leaveFrom="opacity-100"
                     leaveTo="opacity-0"
                 >
-                    <div className="absolute inset-0 bg-gray-900/75" />
+                    <div className="absolute inset-0 bg-gray-900/75"/>
                 </TransitionChild>
 
                 <TransitionChild

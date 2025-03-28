@@ -1,7 +1,6 @@
-import Header from "@/Pages/Drive/Layouts/Header.jsx";
 import AlertBox from "@/Pages/Drive/Components/AlertBox.jsx";
 
-export default function SetupRaw({ children }) {
+export default function SetupRaw({children}) {
     return (
         <>
             <div className="p-4 space-y-4 max-w-7xl mx-auto text-gray-300">

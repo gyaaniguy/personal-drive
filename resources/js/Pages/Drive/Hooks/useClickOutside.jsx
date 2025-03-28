@@ -1,5 +1,5 @@
-
 import {useEffect} from "react";
+
 function useClickOutside(ref, handler) {
     useEffect(() => {
         const listener = (event) => {

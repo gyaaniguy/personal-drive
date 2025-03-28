@@ -4,10 +4,7 @@ namespace App\Http\Controllers\DriveControllers;
 
 use App\Http\Requests\DriveRequests\FileRenameRequest;
 use App\Models\LocalFile;
-use App\Services\FileDeleteService;
 use App\Services\FileRenameService;
-use App\Services\LocalFileStatsService;
-use App\Services\LPathService;
 use App\Traits\FlashMessages;
 use Illuminate\Http\RedirectResponse;
 
@@ -30,9 +27,8 @@ class FileRenameController
         $id = $request->validated('id');
         $filename = $request->validated('filename');
 
-
         $file = LocalFile::getById($id);
-        if (!$file || !$file->getPrivatePathNameForFile()){
+        if (!$file || !$file->getPrivatePathNameForFile()) {
             return $this->error('Could not find file!');
         }
         try {

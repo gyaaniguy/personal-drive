@@ -109,7 +109,7 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
                             <RenameModalButton classes="hidden group-hover:block mr-2  z-10"
                                                setIsRenameModalOpen={setIsRenameModalOpen}
                                                setFileToRename={setFileToRename}
-                                               fileToRename={file} /> </>)
+                                               fileToRename={file}/> </>)
                         }
                         <DownloadButton
                             classes="w-full  justify-center  text-center hover:bg-blue-500/20 text-blue-500 py-2 rounded-md "

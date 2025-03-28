@@ -1,4 +1,4 @@
-import {DeleteIcon, Trash2Icon} from "lucide-react";
+import {Trash2Icon} from "lucide-react";
 import {router} from "@inertiajs/react";
 import Button from "./Generic/Button.jsx"
 
@@ -25,9 +25,10 @@ const DeleteButton = ({setSelectedFiles, selectedFiles, classes, setSelectAllTog
     }
 
     return (
-        <Button classes={`border border-red-900 text-red-200 hover:bg-red-950 active:bg-gray-900 ${classes}`}     onClick={confirmAndDelete}
+        <Button classes={`border border-red-900 text-red-200 hover:bg-red-950 active:bg-gray-900 ${classes}`}
+                onClick={confirmAndDelete}
         >
-            <Trash2Icon className={`text-red-500 hidden sm:inline w-4 h-4`} />
+            <Trash2Icon className={`text-red-500 hidden sm:inline w-4 h-4`}/>
             {!classes && <span className={`mx-1`}>Delete</span>}
         </Button>
     );

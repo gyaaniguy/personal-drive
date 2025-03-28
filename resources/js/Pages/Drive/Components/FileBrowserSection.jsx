@@ -12,7 +12,7 @@ import DownloadButton from "@/Pages/Drive/Components/DownloadButton.jsx";
 import ShowShareModalButton from "@/Pages/Drive/Components/Shares/ShowShareModalButton.jsx";
 import DeleteButton from "@/Pages/Drive/Components/DeleteButton.jsx";
 import UploadMenu from "@/Pages/Drive/Components/UploadMenu.jsx";
-import { usePage } from '@inertiajs/react';
+import {usePage} from '@inertiajs/react';
 import RenameModal from "@/Pages/Drive/Components/FileList/RenameModal.jsx";
 
 const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
@@ -26,7 +26,7 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
         handlerSelectFileMemo
     } = useSelectionUtil();
 
-    const { url } = usePage();
+    const {url} = usePage();
 
     const [isSearch, setIsSearch] = useState(false);
     const [statusMessage, setStatusMessage] = useState('')
@@ -141,7 +141,7 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
 
             <RenameModal isRenameModalOpen={isRenameModalOpen} setIsRenameModalOpen={setIsRenameModalOpen}
                          setFileToRename={setFileToRename} fileToRename={fileToRename}
-                        path={path}/>
+                         path={path}/>
 
 
             <AlertBox message={statusMessage} alertStatus={alertStatus}/>
@@ -153,7 +153,8 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
                         <div className='flex gap-x-1 h-10'>
                             <DownloadButton setSelectedFiles={setSelectedFiles} selectedFiles={selectedFiles}
                                             setStatusMessage={setStatusMessage} statusMessage={statusMessage}
-                                            setSelectAllToggle={setSelectAllToggle} slug={slug} setAlertStatus={setAlertStatus}/>
+                                            setSelectAllToggle={setSelectAllToggle} slug={slug}
+                                            setAlertStatus={setAlertStatus}/>
                             {isAdmin &&
                                 <>
                                     <ShowShareModalButton setIsShareModalOpen={setIsShareModalOpen}/>
