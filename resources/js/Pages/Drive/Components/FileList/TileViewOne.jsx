@@ -53,22 +53,18 @@ const TileViewOne = ({
                         onClick={(e) => handleSortClick(e, 'filename')}
                     >
                         Name <SortIcon classes={`${sortDetails.key === 'filename' ? 'text-blue-500' : 'gray'} `}/>
-
-
                     </button>
                     <button
                         className={`p-1 rounded-md bg-gray-700 hover:bg-gray-600  ${sortDetails.key === 'file_type' ? 'bg-gray-900 border border-gray-500/80  text-blue-400' : ''}`}
                         onClick={(e) => handleSortClick(e, 'file_type')}
                     >
                         Type <SortIcon classes={`${sortDetails.key === 'file_type' ? 'text-blue-500' : 'gray'} `}/>
-
                     </button>
                     <button
                         className={`p-1 rounded-md bg-gray-700 hover:bg-gray-600  ${sortDetails.key === 'size' ? 'bg-gray-900 border border-gray-500/80 text-blue-400' : ''}`}
                         onClick={(e) => handleSortClick(e, 'size')}
                     >
                         Size <SortIcon classes={`${sortDetails.key === 'size' ? 'text-blue-500' : 'gray'} `}/>
-
                     </button>
                 </div>
             </div>

@@ -20,7 +20,6 @@ const RenameModal = ({
     }, [fileToRename]);
     const handleChange = (e) => {
         const {id, value} = e.target;
-        console.log(value, id);
         setFormData(prevState => ({
             ...prevState,
             [id]: value
@@ -41,7 +40,6 @@ const RenameModal = ({
             preserveScroll: true,
             only: ['files', 'flash', 'errors'],
             onSuccess: (response) => {
-                console.log(response);
                 handleCloseRenameModal(false);
             },
             onFinish: () => {
