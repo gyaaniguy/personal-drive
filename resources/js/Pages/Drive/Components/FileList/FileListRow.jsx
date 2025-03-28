@@ -16,7 +16,9 @@ const FileListRow = React.memo(function FileListRow({
                                                         isAdmin,
                                                         path,
                                                         slug,
-                                                        setSelectedFiles
+                                                        setSelectedFiles,
+                                                        setIsRenameModalOpen,
+                                                        setFileToRename
                                                     }) {
 
         return (
@@ -46,6 +48,8 @@ const FileListRow = React.memo(function FileListRow({
                             path={path}
                             slug={slug}
                             setSelectedFiles={setSelectedFiles}
+                            setIsRenameModalOpen={setIsRenameModalOpen}
+                            setFileToRename={setFileToRename}
                         />
                     ) : (
                         <FileItem
@@ -61,6 +65,8 @@ const FileListRow = React.memo(function FileListRow({
                             path={path}
                             slug={slug}
                             setSelectedFiles={setSelectedFiles}
+                            setIsRenameModalOpen={setIsRenameModalOpen}
+                            setFileToRename={setFileToRename}
                         />
                     )}
                 </div>

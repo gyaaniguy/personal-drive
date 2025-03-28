@@ -24,6 +24,10 @@ class LocalFile extends Model
         return $this->hasMany(SharedFile::class, 'file_id');
     }
 
+    public static function getById(string $id): ?self
+    {
+        return self::where('id', $id)->first();
+    }
     public static function getByIds(array $fileIds): Builder
     {
         return self::whereIn('id', $fileIds);

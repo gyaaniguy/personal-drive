@@ -26,7 +26,9 @@ const ListView = ({
                       setFilesToShare,
                       isAdmin,
                       slug,
-                      setSelectedFiles
+                      setSelectedFiles,
+                      setIsRenameModalOpen,
+                      setFileToRename
                   }) => {
     function handleSortClick(e, key) {
         let sortedFiles = sortCol(filesCopy, key);
@@ -80,6 +82,8 @@ const ListView = ({
                         path={path}
                         slug={slug}
                         setSelectedFiles={setSelectedFiles}
+                        setIsRenameModalOpen={setIsRenameModalOpen}
+                        setFileToRename={setFileToRename}
                     />
                 ))}
             </div>

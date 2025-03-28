@@ -13,6 +13,7 @@ import ShowShareModalButton from "@/Pages/Drive/Components/Shares/ShowShareModal
 import DeleteButton from "@/Pages/Drive/Components/DeleteButton.jsx";
 import UploadMenu from "@/Pages/Drive/Components/UploadMenu.jsx";
 import { usePage } from '@inertiajs/react';
+import RenameModal from "@/Pages/Drive/Components/FileList/RenameModal.jsx";
 
 const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
 
@@ -32,6 +33,8 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
     const [alertStatus, setAlertStatus] = useState(true)
     const [filesToShare, setFilesToShare] = useState(new Set());
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
+    const [fileToRename, setFileToRename] = useState(new Set());
+    const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
 
     const navigate = useNavigate();
 
@@ -136,6 +139,11 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
                         setSelectedFiles={setSelectedFiles} selectedFiles={filesToShare}
                         setSelectAllToggle={setSelectAllToggle} path={path}/>
 
+            <RenameModal isRenameModalOpen={isRenameModalOpen} setIsRenameModalOpen={setIsRenameModalOpen}
+                         setFileToRename={setFileToRename} fileToRename={fileToRename}
+                        path={path}/>
+
+
             <AlertBox message={statusMessage} alertStatus={alertStatus}/>
 
             <div className="rounded-md gap-x-2 flex sm:flex-row flex-col items-start md:mt-5  justify-between ">
@@ -208,6 +216,8 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
                                 isAdmin={isAdmin}
                                 slug={slug}
                                 setSelectedFiles={setSelectedFiles}
+                                setIsRenameModalOpen={setIsRenameModalOpen}
+                                setFileToRename={setFileToRename}
                             />
                         }
                         {currentViewMode === 'ListView' &&
@@ -231,6 +241,8 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
                                 isAdmin={isAdmin}
                                 slug={slug}
                                 setSelectedFiles={setSelectedFiles}
+                                setIsRenameModalOpen={setIsRenameModalOpen}
+                                setFileToRename={setFileToRename}
                             />
                         }
                     </>

@@ -24,6 +24,8 @@ const TileViewOne = ({
                          isAdmin,
                          slug,
                          setSelectedFiles,
+                         setIsRenameModalOpen,
+                         setFileToRename
                      }) => {
 
     useEffect(() => {
@@ -87,6 +89,8 @@ const TileViewOne = ({
                         path={path}
                         slug={slug}
                         setSelectedFiles={setSelectedFiles}
+                        setIsRenameModalOpen={setIsRenameModalOpen}
+                        setFileToRename={setFileToRename}
                     />
                 ))}
             </div>

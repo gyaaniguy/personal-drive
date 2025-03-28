@@ -1,0 +1,47 @@
+<?php
+
+namespace App\Http\Controllers\DriveControllers;
+
+use App\Http\Requests\DriveRequests\FileRenameRequest;
+use App\Models\LocalFile;
+use App\Services\FileDeleteService;
+use App\Services\FileRenameService;
+use App\Services\LocalFileStatsService;
+use App\Services\LPathService;
+use App\Traits\FlashMessages;
+use Illuminate\Http\RedirectResponse;
+
+class FileRenameController
+{
+    use FlashMessages;
+
+
+
+    protected FileRenameService $fileRenameService;
+
+    public function __construct(
+        FileRenameService $fileRenameService
+    ) {
+        $this->fileRenameService = $fileRenameService;
+    }
+
+    public function index(FileRenameRequest $request): RedirectResponse
+    {
+        $id = $request->validated('id');
+        $filename = $request->validated('filename');
+
+
+        $file = LocalFile::getById($id);
+        if (!$file || !$file->getPrivatePathNameForFile()){
+            return $this->error('Could not find file!');
+        }
+        try {
+            $this->fileRenameService->renameFile($file, $filename);
+        } catch (\Exception $e) {
+            return $this->error('An error occurred: ' . $e->getMessage());
+        }
+
+        return $this->success('Renamed to '. $filename);
+    }
+
+}

@@ -4,6 +4,7 @@ import {Link} from "@inertiajs/react";
 import DeleteButton from "@/Pages/Drive/Components/DeleteButton.jsx";
 import DownloadButton from "@/Pages/Drive/Components/DownloadButton.jsx";
 import ShowShareModalButton from "@/Pages/Drive/Components/Shares/ShowShareModalButton.jsx";
+import RenameModalButton from "@/Pages/Drive/Components/Shares/RenameModalButton.jsx";
 
 const FileTileViewCard = React.memo(function FileTileViewCard({
                                                                   file,
@@ -19,7 +20,9 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
                                                                   isAdmin,
                                                                   path,
                                                                   slug,
-                                                                  setSelectedFiles
+                                                                  setSelectedFiles,
+                                                                  setIsRenameModalOpen,
+                                                                  setFileToRename
                                                               }) {
         const selectedFileSet = new Set([file.id]);
         let imageSrc = '/fetch-thumb/' + file.id;
@@ -33,7 +36,8 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
                 <div className="">
                     {/* Filename and Checkbox Header */}
                     <div className="flex items-center justify-between relative">
-                        <h3 className=" font-medium truncate max-w-[120px] sm:max-w-[160px] md:max-w-[200px] text-sm text-gray-400 mb-3 mt-1 overflow-hidden" title={(isSearch ? file.public_path + '/' : '') + file.filename}>
+                        <h3 className=" font-medium truncate max-w-[120px] sm:max-w-[160px] md:max-w-[200px] text-sm text-gray-400 mb-3 mt-1 overflow-hidden"
+                            title={(isSearch ? file.public_path + '/' : '') + file.filename}>
                             {(isSearch ? file.public_path + '/' : '') + file.filename}
                         </h3>
                         <div
@@ -77,8 +81,9 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
                             className="flex justify-center pb-3 transition-transform duration-200"
                         >
                             <Link
-                                href={(isSearch ? '/drive/' + (file.public_path ? file.public_path + '/':'') : path + '/') + file.filename}
-                                className={`flex items-center  cursor-pointer h-[220px] w-[220px] justify-center`} preserveScroll
+                                href={(isSearch ? '/drive/' + (file.public_path ? file.public_path + '/' : '') : path + '/') + file.filename}
+                                className={`flex items-center  cursor-pointer h-[220px] w-[220px] justify-center`}
+                                preserveScroll
                             >
                                 <Folder className={`mr-2 text-yellow-600`} size={120}/>
                             </Link>
@@ -96,19 +101,24 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
                                 selectedFiles={selectedFileSet} setSelectedFiles={setSelectedFiles}/>
                         </div>
                     }
-                        <div className="flex-1 flex ">
-                            {isAdmin && <ShowShareModalButton classes="hidden group-hover:block mr-2  z-10"
-                                                              setIsShareModalOpen={setIsShareModalOpen}
-                                                              setFilesToShare={setFilesToShare}
-                                                              filesToShare={new Set([file.id])}/>}
-                            <DownloadButton
-                                classes="w-full  justify-center  text-center hover:bg-blue-500/20 text-blue-500 py-2 rounded-md "
-                                selectedFiles={selectedFileSet}
-                                token={token}
-                                setStatusMessage={setStatusMessage}
-                                setAlertStatus={setAlertStatus}
-                                slug={slug}/>
-                            </div>
+                    <div className="flex-1 flex ">
+                        {isAdmin && (<><ShowShareModalButton classes="hidden group-hover:block mr-2  z-10"
+                                                             setIsShareModalOpen={setIsShareModalOpen}
+                                                             setFilesToShare={setFilesToShare}
+                                                             filesToShare={new Set([file.id])}/>
+                            <RenameModalButton classes="hidden group-hover:block mr-2  z-10"
+                                               setIsRenameModalOpen={setIsRenameModalOpen}
+                                               setFileToRename={setFileToRename}
+                                               fileToRename={file} /> </>)
+                        }
+                        <DownloadButton
+                            classes="w-full  justify-center  text-center hover:bg-blue-500/20 text-blue-500 py-2 rounded-md "
+                            selectedFiles={selectedFileSet}
+                            token={token}
+                            setStatusMessage={setStatusMessage}
+                            setAlertStatus={setAlertStatus}
+                            slug={slug}/>
+                    </div>
                 </div>
             </div>
         )

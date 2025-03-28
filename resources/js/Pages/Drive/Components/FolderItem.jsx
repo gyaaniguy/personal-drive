@@ -4,6 +4,7 @@ import DownloadButton from "./DownloadButton.jsx";
 import DeleteButton from "@/Pages/Drive/Components/DeleteButton.jsx";
 import React from "react";
 import ShowShareModalButton from "@/Pages/Drive/Components/Shares/ShowShareModalButton.jsx";
+import RenameModalButton from "@/Pages/Drive/Components/Shares/RenameModalButton.jsx";
 
 
 const FolderItem = React.memo(function FolderItem({
@@ -18,7 +19,9 @@ const FolderItem = React.memo(function FolderItem({
                                                       isAdmin,
                                                       path,
                                                       slug,
-                                                      setSelectedFiles
+                                                      setSelectedFiles,
+                                                      setIsRenameModalOpen,
+                                                      setFileToRename
                                                   }) {
 
     return (
@@ -26,7 +29,7 @@ const FolderItem = React.memo(function FolderItem({
             className={` flex items-center hover:bg-gray-900  justify-between`}
         >
             <Link
-                href={(isSearch ? '/drive/' + (file.public_path ? file.public_path + '/':'') : path + '/') + file.filename}
+                href={(isSearch ? '/drive/' + (file.public_path ? file.public_path + '/' : '') : path + '/') + file.filename}
                 className={`p-4  flex items-center w-full  ${isSelected ? 'bg-blue-100' : ''}`}
                 preserveScroll
             >
@@ -40,18 +43,31 @@ const FolderItem = React.memo(function FolderItem({
 
             <div className="flex gap-x-1">
                 {isAdmin && <DeleteButton classes="hidden group-hover:block mr-2  z-10"
-                                          selectedFiles={new Set([file.id])} setSelectedFiles={setSelectedFiles} />
+                                          selectedFiles={new Set([file.id])} setSelectedFiles={setSelectedFiles}/>
                 }
                 <DownloadButton classes="hidden  group-hover:block mr-2  z-10"
                                 selectedFiles={new Set([file.id])} token={token}
-                                setStatusMessage={setStatusMessage} slug={slug}                             setAlertStatus={setAlertStatus}
+                                setStatusMessage={setStatusMessage} slug={slug} setAlertStatus={setAlertStatus}
                 />
-                {isAdmin && <ShowShareModalButton classes="hidden group-hover:block mr-2  z-10"
-                                                  setIsShareModalOpen={setIsShareModalOpen}
-                                                  setFilesToShare={setFilesToShare} filesToShare={new Set([file.id])}/>}
-            </div>
-        </div>
+                {isAdmin &&
+                    (
+                        <>
+                            <ShowShareModalButton
+                                classes="hidden group-hover:block mr-2 z-10"
+                                setIsShareModalOpen={setIsShareModalOpen}
+                                setFilesToShare={setFilesToShare}
+                                filesToShare={new Set([file.id])}/>
+                            <RenameModalButton
+                                classes="hidden group-hover:block mr-2  z-10"
+                                setIsRenameModalOpen={setIsRenameModalOpen}
+                                setFileToRename={setFileToRename}
+                                fileToRename={file}/>
+                        </>
+                    )
 
+                }
+            < /div>
+        </div>
     );
 })
 export default FolderItem;

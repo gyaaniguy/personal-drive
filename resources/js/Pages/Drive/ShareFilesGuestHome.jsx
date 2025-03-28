@@ -1,9 +1,6 @@
 import useSelectionUtil from "@/Pages/Drive/Hooks/useSelectionutil.jsx";
 import FileBrowserSection from "@/Pages/Drive/Components/FileBrowserSection.jsx";
 import AlertBox from "@/Pages/Drive/Components/AlertBox.jsx";
-import RefreshButton from "@/Pages/Drive/Components/RefreshButton.jsx";
-import DownloadButton from "@/Pages/Drive/Components/DownloadButton.jsx";
-import ShowShareModalButton from "@/Pages/Drive/Components/Shares/ShowShareModalButton.jsx";
 import {useState} from "react";
 
 export default function ShareFilesGuestHome({files, path, token, slug}) {
