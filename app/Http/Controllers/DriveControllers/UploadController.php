@@ -64,7 +64,7 @@ class UploadController extends Controller
             }
             try {
                 if ($file->move($filesDirectory, $file->getClientOriginalName())) {
-                    chmod($filesDirectory . '/' . $file->getClientOriginalName(), 0640); // Setting permissions to 0640
+                    chmod($filesDirectory . '/' . $file->getClientOriginalName(), 0640);
                     $successfulUploads++;
                 }
             } catch (Error $e) {

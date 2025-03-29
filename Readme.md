@@ -125,9 +125,18 @@ The setup script adjusts permissions and ownership if provided with root access
 - Select one or all files in a folder
 - Download, delete, share selected files
 - Two layouts: list view and tile view
+- Sort based on size, type or name
 - Fast sort, even for thousands of files
 - Breadcrumb navigation
 - Rename functionality
+- Drag and Drop to Upload files and folders. 
+
+
+### Forgot password: 
+Admin Password cannot be changed. This is done to reduce attack surface. If you forget your password: 
+- reinstall the app OR delete the `database/database.sqlite` file -> This will remove all 'shares'
+- Manually edit the password in the above database file
+
 
 ### Development:
 Built with Laravel 11 and React. Inertia.js connects React components to the Laravel backend. Uses SQLite as the database.
@@ -139,22 +148,41 @@ APP_ENV=development
 ```
 To build frontend components run `npm run build ; npm run dev`
 
+### Troubleshooting
+- Permissions are important ! I have improved error handling, so the app informs the user. But if getting unexpected errors. Please ensure important directories have write permissions.
+  - data storage folder -> as set in settings. 
+  - ./database folder | ./database/database.sqlite file
+  - ./bootstrap/cache 
+  - ./storage 
+- Large Uploads failing: PHP upload limits are annoyingly low.  
+  - Edit php.ini 
+```ini
+; php.ini
+upload_max_filesize = 1G
+post_max_size = 1G
+max_file_uploads = 10000
+```
+  - nginx/apache can also have their own limits. Caddy just works.
 
-### Forgot password: 
-Admin Password cannot be changed. This is done to reduce attack surface. If you forget your password: 
-- reinstall the app OR delete the `database/database.sqlite` file -> This will remove all 'shares'
-- Manually edit the password in the above database file
-
-### Known Issues:
-- Files overwrite existing ones without rename options
 
 ### Todo:
-- Drag and Drop Upload
+- fix: Files overwrite existing ones without rename options
+- feature: Create new file feature
+- feature: Edit text files
+- feature: Improve PDF preview. Currently only shows one page
+- feature: More preview-able files - doc, docx, ppt. Unsure if this will be feasible.
+
 
 ### Screenshots:
 
 <p align="center">
   <img src="public/img/share-screen.png" alt="Logo">
+ <h4 align="center">List View</h4>
+
+  <img src="public/img/list_view.png" alt="Logo">
+ <h4 align="center">Tile View</h4>
+
+  <img src="public/img/tile_view.png" alt="Logo">
  <h2 align="center">PERSONAL DRIVE</h2>
  <p align="center">A self hosted alternative to google drive and dropbox. 
 </p>
