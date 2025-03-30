@@ -25,17 +25,21 @@ RUN cp .env.example .env
 # Install Composer
 RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
 
-# Install PHP dependencies
-RUN composer install --no-interaction --prefer-dist --no-dev && rm -rf /root/.composer
 
-# Install npm dependencies
-RUN npm ci && npm run build
 
 
 # Create new directory and set permissions
 RUN mkdir /var/www/html/personal-drive-storage-folder \
 && chown -R www-data:www-data storage bootstrap/cache database /var/www/html/personal-drive-storage-folder \
-&& chmod -R 770 storage bootstrap/cache database
+&& chmod -R 770 storage bootstrap/cache database && touch database/database.sqlite
+
+
+
+# Install PHP dependencies
+RUN composer install --no-interaction --prefer-dist --no-dev && rm -rf /root/.composer
+
+# Install npm dependencies
+RUN npm ci && npm run build
 
 # Clear & cache config
 RUN php artisan config:clear && php artisan config:cache

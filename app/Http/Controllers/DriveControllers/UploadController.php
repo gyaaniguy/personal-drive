@@ -124,7 +124,10 @@ class UploadController extends Controller
 
         }
         if ($request->action === 'overwrite') {
-            $this->uploadService->replaceFromTemp();
+            $res =  $this->uploadService->replaceFromTemp();
+            if (!$res){
+                return $this->error('overwriting failed !');
+            }
 
             return $this->success('Overwritten successfully');
 

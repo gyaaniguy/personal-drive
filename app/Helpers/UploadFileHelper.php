@@ -28,7 +28,7 @@ class UploadFileHelper
     {
 
         if (File::exists($dir)) {
-            File::deleteDirectory($dir); // Delete everything inside UUID dir
+            return File::deleteDirectory($dir); // Delete everything inside UUID dir
         }
 
         return true;
