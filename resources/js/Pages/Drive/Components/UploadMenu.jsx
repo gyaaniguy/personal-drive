@@ -73,7 +73,7 @@ const UploadMenu = ({path, setStatusMessage, files}) => {
         if (uploadedFiles.length > 0) {
             useThumbnailGenerator(files, path);
         }
-        if (flash.more_info?.replaceAbort){
+        if (flash.more_info?.replaceAbort) {
             setIsReplaceAbortModalOpen(true)
         }
     }, [uploadedFiles, flash.more_info]);
@@ -81,7 +81,8 @@ const UploadMenu = ({path, setStatusMessage, files}) => {
     return (
         <>
             <FileDropzone onFilesAccepted={handleDroppedFiles}/>
-            {isReplaceAbortModalOpen && <ReplaceAbortModal isReplaceAbortModalOpen={isReplaceAbortModalOpen} setIsReplaceAbortModalOpen={setIsReplaceAbortModalOpen}/> }
+            {isReplaceAbortModalOpen && <ReplaceAbortModal isReplaceAbortModalOpen={isReplaceAbortModalOpen}
+                                                           setIsReplaceAbortModalOpen={setIsReplaceAbortModalOpen}/>}
 
             <div ref={menuRef} className='relative mr-1 p-0'>
 

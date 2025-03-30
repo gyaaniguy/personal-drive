@@ -10,7 +10,7 @@ trait FlashMessages
     {
         session()->flash('message', $message);
         session()->flash('status');
-        if ($moreInfo){
+        if ($moreInfo) {
             session()->flash('more_info', $moreInfo);
         }
 

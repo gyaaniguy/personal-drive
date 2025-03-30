@@ -1,6 +1,6 @@
 import React from 'react';
 import Modal from './Modal.jsx';
-import {router, useForm} from '@inertiajs/react';
+import {useForm} from '@inertiajs/react';
 
 const ReplaceAbort = ({isReplaceAbortModalOpen, setIsReplaceAbortModalOpen}) => {
     const {data, setData, post} = useForm({action: ''});
@@ -25,7 +25,7 @@ const ReplaceAbort = ({isReplaceAbortModalOpen, setIsReplaceAbortModalOpen}) => 
             preserveScroll: true,
             only: ['files', 'flash', 'errors'],
             onSuccess: (response) => {
-                console.log('response' , response);
+                console.log('response', response);
                 handleCloseModal(false);
                 setTimeout(forceReloadImages, 500);
             },

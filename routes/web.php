@@ -21,8 +21,10 @@ Route::middleware(['auth', CheckAdmin::class])->group(callback: function () {
         ->where('path', '.*')
         ->name('drive');
     Route::post('/upload', [DriveControllers\UploadController::class, 'store'])->name('s3.upload') ->middleware(CleanupTempFiles::class);
-    Route::post('/create-folder', [DriveControllers\UploadController::class, 'createFolder'])->middleware(CleanupTempFiles::class);;
-    Route::post('/delete-files', [DriveControllers\FileDeleteController::class, 'deleteFiles'])->middleware(CleanupTempFiles::class);;
+    Route::post('/create-folder', [DriveControllers\UploadController::class, 'createFolder'])->middleware(CleanupTempFiles::class);
+    ;
+    Route::post('/delete-files', [DriveControllers\FileDeleteController::class, 'deleteFiles'])->middleware(CleanupTempFiles::class);
+    ;
     Route::post('/resync', [DriveControllers\ReSyncController::class, 'index']);
     Route::post('/gen-thumbs', [DriveControllers\ThumbnailController::class, 'update']);
     Route::post('/search-files', [DriveControllers\SearchFilesController::class, 'index']);

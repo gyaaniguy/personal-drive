@@ -42,7 +42,7 @@ class LocalFileStatsService
     public function generateStats(string $path = ''): int
     {
         $privatePath = $this->pathService->genPrivatePathFromPublic($path);
-        if (!$privatePath ) {
+        if (!$privatePath) {
             return false;
         }
 

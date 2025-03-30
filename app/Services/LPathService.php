@@ -31,7 +31,7 @@ class LPathService
     public function getTempStorageDirPath(): string
     {
         $storagePath = Setting::getSettingByKeyName(Setting::$storagePath);
-        if (! $storagePath ) {
+        if (! $storagePath) {
             return '';
         }
 

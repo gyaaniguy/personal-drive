@@ -2,7 +2,6 @@
 
 namespace App\Http\Requests\DriveRequests;
 
-use App\Http\Requests\CommonRequest;
 use Illuminate\Foundation\Http\FormRequest;
 
 class ReplaceAbortRequest extends FormRequest

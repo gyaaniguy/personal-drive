@@ -14,9 +14,7 @@ use App\Services\UploadService;
 use App\Traits\FlashMessages;
 use Error;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 
 class UploadController extends Controller
 {
@@ -53,7 +51,7 @@ class UploadController extends Controller
 
         if ($duplicatesDetected > 0) {
             $this->localFileStatsService->generateStats($publicPath);
-            return $this->success('Duplicates Detected2 !  '.$successfulUploads.' out of '.count($files) ,['replaceAbort' => true]);
+            return $this->success('Duplicates Detected2 !  '.$successfulUploads.' out of '.count($files), ['replaceAbort' => true]);
         }
 
         if ($successfulUploads > 0) {
@@ -120,12 +118,12 @@ class UploadController extends Controller
     public function abortReplace(ReplaceAbortRequest $request): RedirectResponse
     {
 
-        if ( $request->action === 'abort'){
+        if ($request->action === 'abort') {
             $this->uploadService->cleanOldTempFiles();
             return $this->success('Aborted Overwrite');
 
         }
-        if ( $request->action === 'overwrite'){
+        if ($request->action === 'overwrite') {
             $this->uploadService->replaceFromTemp();
 
             return $this->success('Overwritten successfully');
