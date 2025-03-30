@@ -43,7 +43,7 @@ RUN php artisan config:clear && php artisan config:cache
 # Copy Apache config
 COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
-# remove vite dev file, just in case. 
+# remove vite dev file, just in case.
 RUN rm -f public/hot
 
 # Enable Apache modules
