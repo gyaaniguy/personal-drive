@@ -6,7 +6,6 @@ const ReplaceAbort = ({isReplaceAbortModalOpen, setIsReplaceAbortModalOpen}) => 
     const {data, setData, post} = useForm({action: ''});
 
     const forceReloadImages = () => {
-        console.log('forceReloadImages');
         document.querySelectorAll('img').forEach(img => {
             if (img.src.includes('/fetch-thumb/')) {
                 img.src = img.src + `?t=${Date.now()}`;
@@ -25,7 +24,6 @@ const ReplaceAbort = ({isReplaceAbortModalOpen, setIsReplaceAbortModalOpen}) => 
             preserveScroll: true,
             only: ['files', 'flash', 'errors'],
             onSuccess: (response) => {
-                console.log('response', response);
                 handleCloseModal(false);
                 setTimeout(forceReloadImages, 500);
             },

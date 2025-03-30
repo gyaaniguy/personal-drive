@@ -7,7 +7,6 @@ const AlertBox = React.memo(function AlertBox({message, alertStatus = true}) {
     let bgStatus = 'bg-gray-500';
     let {flash, errors} = usePage().props;
     const [alertBoxData, setAlertBoxData] = useState(flash);
-    console.log(flash);
     // Effect to update messageToPrint when props change
     useEffect(() => {
         if (!flash.message && Object.keys(errors).length === 0 && message) {
