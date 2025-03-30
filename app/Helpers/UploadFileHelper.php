@@ -2,6 +2,8 @@
 
 namespace App\Helpers;
 
+use Illuminate\Support\Facades\File;
+
 class UploadFileHelper
 {
     public static function getUploadedFileFullPath($fileIndex): string
@@ -21,4 +23,15 @@ class UploadFileHelper
 
         return true;
     }
+
+    public static function deleteFolder(string $dir): bool
+    {
+
+        if (File::exists($dir)) {
+            File::deleteDirectory($dir); // Delete everything inside UUID dir
+        }
+
+        return true;
+    }
+
 }

@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
+use SplFileInfo;
 
 class LocalFile extends Model
 {
@@ -105,5 +106,13 @@ class LocalFile extends Model
     public static function getItemSizeText($item): string
     {
         return $item->size || $item->is_dir ? FileSizeFormatter::format((int) $item->size) : '0 KB' ;
+    }
+
+    public static function getForFileObj(SplFileInfo $file)
+    {
+        return self::where('filename', $file->getFilename())
+            ->where('public_path', $file->getRelativePath())
+            ->first();
+
     }
 }

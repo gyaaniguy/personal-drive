@@ -28,6 +28,15 @@ class LPathService
 
         return $storagePath.DIRECTORY_SEPARATOR.$uuid;
     }
+    public function getTempStorageDirPath(): string
+    {
+        $storagePath = Setting::getSettingByKeyName(Setting::$storagePath);
+        if (! $storagePath ) {
+            return '';
+        }
+
+        return $storagePath.DIRECTORY_SEPARATOR. "temp_storage";
+    }
 
     public function getThumbnailDirPath(): string
     {
@@ -40,7 +49,7 @@ class LPathService
         return $storagePath.DIRECTORY_SEPARATOR.$uuid;
     }
 
-    public function genPrivatePathWithPublic(string $publicPath = ''): string
+    public function genPrivatePathFromPublic(string $publicPath = ''): string
     {
         $privateRoot = $this->getStorageDirPath();
         if (! $privateRoot) {

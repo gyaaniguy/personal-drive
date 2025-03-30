@@ -36,6 +36,11 @@ class HandleInertiaMiddlware extends Middleware
             $flashA['shared_link'] = $sharedLink;
         }
 
+        $moreInfo = $request->session()->get('more_info');
+        if ($moreInfo) {
+            $flashA['more_info'] = $moreInfo;
+        }
+
         return [
             ...parent::share($request),
             'flash' => $flashA,

@@ -93,26 +93,26 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
 
                 {/* Action Buttons */}
                 <div
-                    className="justify-between absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full px-3 mb-2 opacity-60 group-hover:flex hidden">
+                    className="justify-between absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full px-3 mb-2 opacity-70 group-hover:flex hidden ">
                     {isAdmin &&
                         <div className="flex-1">
                             <DeleteButton
-                                classes=" bg-red-500/10 hover:bg-red-500/20 text-red-500 py-2 px-4 rounded-md transition-colors duration-200"
+                                classes=" bg-red-500/10 hover:bg-red-500/20 text-red-500 py-2 px-4 rounded-md transition-colors duration-200  "
                                 selectedFiles={selectedFileSet} setSelectedFiles={setSelectedFiles}/>
                         </div>
                     }
                     <div className="flex-1 flex ">
-                        {isAdmin && (<><ShowShareModalButton classes="hidden group-hover:block mr-2  z-10"
+                        {isAdmin && (<><ShowShareModalButton classes="hidden group-hover:block mr-2 z-10"
                                                              setIsShareModalOpen={setIsShareModalOpen}
                                                              setFilesToShare={setFilesToShare}
                                                              filesToShare={new Set([file.id])}/>
-                            <RenameModalButton classes="hidden group-hover:block mr-2  z-10"
+                            <RenameModalButton classes="hidden group-hover:block mr-2 z-10"
                                                setIsRenameModalOpen={setIsRenameModalOpen}
                                                setFileToRename={setFileToRename}
                                                fileToRename={file}/> </>)
                         }
                         <DownloadButton
-                            classes="w-full  justify-center  text-center hover:bg-blue-500/20 text-blue-500 py-2 rounded-md "
+                            classes="w-full  justify-center hover:bg-green-950 text-center   py-2 rounded-md "
                             selectedFiles={selectedFileSet}
                             token={token}
                             setStatusMessage={setStatusMessage}

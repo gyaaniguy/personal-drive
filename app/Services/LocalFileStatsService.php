@@ -23,7 +23,7 @@ class LocalFileStatsService
 
     public function addFolderPathStat(string $folderName, string $publicPath): void
     {
-        $itemPrivatePathname = $this->pathService->genPrivatePathWithPublic($publicPath);
+        $itemPrivatePathname = $this->pathService->genPrivatePathFromPublic($publicPath);
         try {
             LocalFile::create([
                 'filename' => $folderName,
@@ -41,45 +41,22 @@ class LocalFileStatsService
 
     public function generateStats(string $path = ''): int
     {
-        $rootPathLen = strlen($this->pathService->getStorageDirPath()) + 1;
-        $privatePath = $this->pathService->genPrivatePathWithPublic($path);
-        if (! $privatePath || ! $rootPathLen) {
+        $privatePath = $this->pathService->genPrivatePathFromPublic($path);
+        if (!$privatePath ) {
             return false;
         }
 
-        return $this->populateLocalFileWithStats($privatePath, $rootPathLen);
+        return $this->populateLocalFileWithStats($privatePath);
     }
 
-    private function populateLocalFileWithStats(string $privatePath, int $rootPathLen): int
+    private function populateLocalFileWithStats(string $privatePath): int
     {
         $insertArr = [];
         $dirSizes = [];
         $iterator = $this->createFileIterator($privatePath);
         $filesUpdated = 0;
         foreach ($iterator as $item) {
-            $itemPrivatePathname = $item->getPath();
-            $currentDir = dirname($item->getPathname());
-            if (! $item->isDir()) {
-                $dirSizes[$currentDir] = array_key_exists(
-                    $currentDir,
-                    $dirSizes
-                ) ? $dirSizes[$currentDir] + $item->getSize() : $item->getSize();
-            } elseif (array_key_exists($item->getPathname(), $dirSizes)) {
-                $dirSizes[$currentDir] = array_key_exists(
-                    $currentDir,
-                    $dirSizes
-                ) ? $dirSizes[$currentDir] + $dirSizes[$item->getPathname()] : $dirSizes[$item->getPathname()];
-            }
-            $publicPathname = substr($itemPrivatePathname, $rootPathLen);
-            $insertArr[] = [
-                'filename' => $item->getFilename(),
-                'is_dir' => $item->isDir(),
-                'public_path' => $publicPathname,
-                'private_path' => $itemPrivatePathname,
-                'size' => $item->isDir() ? $dirSizes[$item->getPathname()] ?? '' : $item->getSize(),
-                'user_id' => Auth::user()?->id ?? 1, // Set the appropriate user ID
-                'file_type' => $this->getFileType($item),
-            ];
+            $insertArr[] = $this->getFileItemDetails($item, $dirSizes);
             // Insert in chunks of 100
             if (count($insertArr) === 100) {
                 $filesUpdated += LocalFile::insertRows($insertArr);
@@ -87,7 +64,7 @@ class LocalFileStatsService
             }
         }
         // Insert remaining items if any
-        if (! empty($insertArr)) {
+        if (!empty($insertArr)) {
             $filesUpdated += LocalFile::insertRows($insertArr);
         }
 
@@ -128,4 +105,44 @@ class LocalFileStatsService
 
         return $fileType;
     }
+
+
+    public function updateFileStats(LocalFile $localFile, SplFileInfo $file)
+    {
+        $localFile?->update([
+            'size' => $file->getSize(),
+            'is_dir' => $file->isDir(),
+            'file_type' => $this->getFileType($file),
+        ]);
+    }
+
+    public function getFileItemDetails(mixed $item, array &$dirSizes): array
+    {
+        $rootPathLen = strlen($this->pathService->getStorageDirPath()) + 1;
+
+        $itemPrivatePathname = $item->getPath();
+        $currentDir = dirname($item->getPathname());
+        if (!$item->isDir()) {
+            $dirSizes[$currentDir] = array_key_exists(
+                $currentDir,
+                $dirSizes
+            ) ? $dirSizes[$currentDir] + $item->getSize() : $item->getSize();
+        } elseif (array_key_exists($item->getPathname(), $dirSizes)) {
+            $dirSizes[$currentDir] = array_key_exists(
+                $currentDir,
+                $dirSizes
+            ) ? $dirSizes[$currentDir] + $dirSizes[$item->getPathname()] : $dirSizes[$item->getPathname()];
+        }
+        $publicPathname = substr($itemPrivatePathname, $rootPathLen);
+        return [
+            'filename' => $item->getFilename(),
+            'is_dir' => $item->isDir(),
+            'public_path' => $publicPathname,
+            'private_path' => $itemPrivatePathname,
+            'size' => $item->isDir() ? $dirSizes[$item->getPathname()] ?? '' : $item->getSize(),
+            'user_id' => Auth::user()?->id ?? 1, // Set the appropriate user ID
+            'file_type' => $this->getFileType($item),
+        ];
+    }
+
 }

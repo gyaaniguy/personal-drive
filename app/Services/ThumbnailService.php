@@ -28,13 +28,9 @@ class ThumbnailService
         $this->pathService = $pathService;
     }
 
-    /**
-     * @throws ImageRelatedException
-     */
     public function genThumbnailsForFileIds(array $fileIds): int
     {
         $filesToGenerateFor = $this->getGeneratableFiles($fileIds)->get();
-
         return $this->generateThumbnailsForFiles($filesToGenerateFor);
     }
 
