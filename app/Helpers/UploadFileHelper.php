@@ -2,13 +2,24 @@
 
 namespace App\Helpers;
 
+use App\Exceptions\PersonalDriveExceptions\UploadFileException;
 use Illuminate\Support\Facades\File;
 
 class UploadFileHelper
 {
     public static function getUploadedFileFullPath($fileIndex): string
     {
-        return $_FILES['files']['full_path'][$fileIndex];
+        //ltrim -> coz different environments
+        $fullPath = ltrim($_FILES['files']['full_path'][$fileIndex], '.');
+        return self::sanitizePath($fullPath);
+
+    }
+    private static function sanitizePath(string $path): string
+    {
+        if (str_contains($path, '..')) {
+            UploadFileException::invalidPath();
+        }
+        return $path;
     }
 
     public static function makeFolder(string $path, int $permission = 0750): bool

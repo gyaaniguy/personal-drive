@@ -13,4 +13,8 @@ class UploadFileException extends PersonalDriveException
     {
         return new self('Could not create new directory');
     }
+    public static function invalidPath(): UploadFileException
+    {
+        return new self('The upload path or dir contains invalid characters');
+    }
 }

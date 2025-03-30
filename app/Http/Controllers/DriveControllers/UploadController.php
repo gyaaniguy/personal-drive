@@ -14,7 +14,9 @@ use App\Services\UploadService;
 use App\Traits\FlashMessages;
 use Error;
 use Illuminate\Http\RedirectResponse;
+use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
+use Illuminate\Support\Facades\Session;
 
 class UploadController extends Controller
 {
@@ -51,7 +53,8 @@ class UploadController extends Controller
 
         if ($duplicatesDetected > 0) {
             $this->localFileStatsService->generateStats($publicPath);
-            return $this->success('Duplicates Detected2 !  '.$successfulUploads.' out of '.count($files), ['replaceAbort' => true]);
+            return $this->success('Duplicates Detected2 !  '.$successfulUploads.' out of '.count($files),
+                ['replaceAbort' => true]);
         }
 
         if ($successfulUploads > 0) {
@@ -73,6 +76,9 @@ class UploadController extends Controller
             $fileNameWithDir = UploadFileHelper::getUploadedFileFullPath($index);
             $destinationFullPath = $privatePath.$fileNameWithDir;
             if (file_exists($destinationFullPath) && $tempStorageDirFull) {
+                Log::error($tempStorageDirFull);
+                Log::error($fileNameWithDir);
+                Log::error($tempStorageDirFull.($publicPath ? '/'.$publicPath : '').$fileNameWithDir);
                 $duplicatesDetected++;
                 $this->uploadToDir($tempStorageDirFull.($publicPath ? '/'.$publicPath : '').$fileNameWithDir, $file);
             } else {
@@ -117,23 +123,21 @@ class UploadController extends Controller
 
     public function abortReplace(ReplaceAbortRequest $request): RedirectResponse
     {
+        Log::error(__LINE__, Session::all());
 
         if ($request->action === 'abort') {
             $this->uploadService->cleanOldTempFiles();
             return $this->success('Aborted Overwrite');
-
         }
         if ($request->action === 'overwrite') {
-            $res =  $this->uploadService->replaceFromTemp();
-            if (!$res){
+            $res = $this->uploadService->replaceFromTemp();
+            if (!$res) {
                 return $this->error('overwriting failed !');
             }
 
             return $this->success('Overwritten successfully');
-
         }
         return Redirect::back();
-
     }
 
 

@@ -33,11 +33,15 @@ class UploadService
         $tempStorageUuid = Str::uuid()->toString();
         Session::put($this->tempUuid, $tempStorageUuid);
         Session::put($this->tempUuidTime, now());
+        Log::error(__LINE__, Session::all());
+
         return $this->getTempStorageDirFull();
     }
 
     public function getTempStorageDirFull(): string
     {
+        Log::error(__LINE__, Session::all());
+
         $tempUuid = Session::get($this->tempUuid);
         if (!$tempUuid) {
             return '';
@@ -48,6 +52,8 @@ class UploadService
 
     public function replaceFromTemp(): bool
     {
+        Log::error(__LINE__, Session::all());
+
         $tempDirFullPath = $this->getTempStorageDirFull();
 
         if ($tempDirFullPath && file_exists($tempDirFullPath) && is_dir($tempDirFullPath)) {
@@ -95,6 +101,7 @@ class UploadService
 
     public function cleanOldTempFiles(): bool
     {
+
         Log::error('cleanoldtemp');
         $tempDirFull = $this->getTempStorageDirFull();
         Log::error($tempDirFull);
