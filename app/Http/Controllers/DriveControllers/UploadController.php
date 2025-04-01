@@ -14,9 +14,7 @@ use App\Services\UploadService;
 use App\Traits\FlashMessages;
 use Error;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Redirect;
-use Illuminate\Support\Facades\Session;
 
 class UploadController extends Controller
 {

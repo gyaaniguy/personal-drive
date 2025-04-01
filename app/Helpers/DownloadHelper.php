@@ -13,7 +13,7 @@ class DownloadHelper
     /**
      * @throws FetchFileException
      */
-    public static function createZipArchive(Collection $localFiles, string $outputZipPath): ZipArchive
+    public function createZipArchive(Collection $localFiles, string $outputZipPath): ZipArchive
     {
         $zip = new ZipArchive();
 

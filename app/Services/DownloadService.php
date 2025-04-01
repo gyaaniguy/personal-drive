@@ -9,6 +9,13 @@ use Illuminate\Support\Str;
 
 class DownloadService
 {
+    protected DownloadHelper $downloadHelper;
+
+    public function __construct(DownloadHelper $downloadHelper)
+    {
+        $this->downloadHelper = $downloadHelper;
+    }
+
     /**
      * @throws FetchFileException
      */
@@ -32,8 +39,7 @@ class DownloadService
     public function createZipFile(Collection $localFiles): string
     {
         $outputZipPath = '/tmp'.DIRECTORY_SEPARATOR.'personal_drive_'.Str::random(4).'_'.now()->format('Y_m_d').'.zip';
-        DownloadHelper::createZipArchive($localFiles, $outputZipPath);
-
+        $this->downloadHelper->createZipArchive($localFiles, $outputZipPath);
         return $outputZipPath;
     }
 }

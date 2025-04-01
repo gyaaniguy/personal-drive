@@ -12,6 +12,18 @@ it('returns the full path of the uploaded file', function () {
     expect($fullPath)->toBe('/path/to/file.txt');
 });
 
+it('returns the realtive path', function () {
+    $_FILES['files']['full_path'][0] = './file.txt';
+    $fullPath = UploadFileHelper::getUploadedFileFullPath(0);
+    expect($fullPath)->toBe('/file.txt');
+});
+
+it('returns the realtive path 2', function () {
+    $_FILES['files']['full_path'][0] = '/file.txt';
+    $fullPath = UploadFileHelper::getUploadedFileFullPath(0);
+    expect($fullPath)->toBe('/file.txt');
+});
+
 it('creates a folder with the specified permissions', function () {
     $path = __DIR__ . '/test_folder';
     $result = UploadFileHelper::makeFolder($path, 0750);

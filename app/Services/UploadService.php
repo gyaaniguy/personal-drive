@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Helpers\UploadFileHelper;
 use App\Models\LocalFile;
 use Illuminate\Support\Facades\File;
-use Illuminate\Support\Facades\Log;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use SplFileInfo;

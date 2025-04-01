@@ -14,16 +14,11 @@ class FileDeleteService
 
         foreach ($filesInDB->get() as $file) {
             $privateFilePathName = $file->getPrivatePathNameForFile();
-            if (! file_exists($privateFilePathName)) {
+            if (!file_exists($privateFilePathName)) {
                 continue;
             }
 
-            // Handle directory deletion
-            if (
-                $this->isDeletableDirectory($file, $privateFilePathName, $rootPath)
-            ) {
-                File::deleteDirectory($privateFilePathName);
-                $file->deleteUsingPublicPath();
+            if ($this->handleDirectoryDeletion($file, $privateFilePathName, $rootPath)) {
                 $filesDeleted++;
             }
 
@@ -36,15 +31,28 @@ class FileDeleteService
         return $filesDeleted;
     }
 
-    private function isDeletableDirectory(LocalFile $file, string $privateFilePathName, string $rootPath): bool
+    protected function handleDirectoryDeletion(LocalFile $file, string $privateFilePathName, string $rootPath): bool
     {
-        return $file->is_dir === 1 && file_exists($privateFilePathName) && is_dir($privateFilePathName) && strstr(
-            $privateFilePathName,
-            $rootPath
-        );
+        if ($this->isDeletableDirectory($file, $privateFilePathName) &&
+            $this->isDirSubDirOfStorage($privateFilePathName, $rootPath)) {
+            File::deleteDirectory($privateFilePathName);
+            $file->deleteUsingPublicPath();
+            return true;
+        }
+        return false;
     }
 
-    private function isDeletableFile(LocalFile $file): bool
+    public function isDeletableDirectory(LocalFile $file, string $privateFilePathName): bool
+    {
+        return $file->is_dir === 1 && file_exists($privateFilePathName) && is_dir($privateFilePathName);
+    }
+
+    public function isDirSubDirOfStorage(string $privateFilePathName, string $rootPath): string|false
+    {
+        return strstr($privateFilePathName, $rootPath);
+    }
+
+    public function isDeletableFile(LocalFile $file): bool
     {
         return $file->is_dir === 0;
     }

@@ -15,7 +15,7 @@ class LPathService
 
     public function cleanDrivePublicPath(string $path): string
     {
-        return preg_replace('#^/drive/?#', '', $path);
+        return preg_replace('#^/drive(/|$)#', '', $path);
     }
 
     public function getStorageDirPath(): string

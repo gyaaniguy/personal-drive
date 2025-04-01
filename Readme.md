@@ -4,6 +4,9 @@
  <p align="center">A self hosted alternative to google drive and dropbox. 
 </p>
 
+## Why Personal Drive ? 
+- Keep your data with yourself. 
+- Several hosting companies provide really cheap data storage (buyvm.net)
 ## Demo:
 https://demo.personaldrive.xyz/
 
