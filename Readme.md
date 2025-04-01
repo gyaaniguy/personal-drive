@@ -10,6 +10,32 @@
 ## Demo:
 https://demo.personaldrive.xyz/
 
+
+## Features:
+
+- Share files:
+  - Password protection
+  - Set expiration
+  - Set custom URL
+  - A sharing control panel, to pause and delete existing shares
+- Media player. Slideshow:
+  - Play and view images and videos
+  - Preview text and pdf files
+  - Keyboard shortcuts available during slideshow . Left, right, escape
+- Files are indexed
+- Dynamically generated thumbnails
+- Upload multiple files or entire folders recursively
+- Select one or all files in a folder
+- Download, delete, share selected files
+- Two layouts: list view and tile view
+- Sort based on size, type or name
+- Fast sort, even for thousands of files
+- Breadcrumb navigation
+- Rename functionality
+- Drag and Drop to Upload files and folders
+- Duplicate detection and overwriting/abort option
+
+
 ## Requirements:
 - A server running PHP with sqlite, PHP composer, nodejs, npm.
 - Sudo access for setting permissions.
@@ -110,30 +136,6 @@ bootstrap/cache
 database
 ```
 The setup script adjusts permissions and ownership if provided with root access
-
-## Features:  
-
-- Share files:
-  - Password protection
-  - Set expiration
-  - Set custom URL
-  - A sharing control panel, to pause and delete existing shares
-- Media player. Slideshow:
-  - Play and view images and videos
-  - Preview text and pdf files
-  - Keyboard shortcuts available during slideshow . Left, right, escape
-- Files are indexed
-- Dynamically generated thumbnails
-- Upload multiple files or entire folders recursively
-- Select one or all files in a folder
-- Download, delete, share selected files
-- Two layouts: list view and tile view
-- Sort based on size, type or name
-- Fast sort, even for thousands of files
-- Breadcrumb navigation
-- Rename functionality
-- Drag and Drop to Upload files and folders. 
-- Duplicate detection and overwriting/abort option
 
 
 ## Forgot password: 
