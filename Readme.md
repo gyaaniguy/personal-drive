@@ -99,7 +99,7 @@ Next :
 
 
 
-### Configuration:
+## Configuration:
 - Storage folder can be changed from 'Settings'
 - Increasing upload limits is crucial and depends on your web server app - apache, nginx, caddy. Detailed instructions are present on the 'settings' page after app installation.
 - Increasing PHP and PHP-FPM (if used) memory limits is also crucial.
@@ -111,7 +111,7 @@ database
 ```
 The setup script adjusts permissions and ownership if provided with root access
 
-### Features:  
+## Features:  
 
 - Share files:
   - Password protection
@@ -136,13 +136,13 @@ The setup script adjusts permissions and ownership if provided with root access
 - Duplicate detection and overwriting/abort option
 
 
-### Forgot password: 
+## Forgot password: 
 Admin Password cannot be changed. This is done to reduce attack surface. If you forget your password: 
 - reinstall the app OR delete the `database/database.sqlite` file -> This will remove all 'shares'
 - Manually edit the password in the above database file
 
 
-### Development:
+## Development:
 Built with Laravel 11 and React. Inertia.js connects React components to the Laravel backend. Uses SQLite as the database.
 PHP code follows psr-12 standard
 For local dev Please check the following env vars
@@ -152,7 +152,7 @@ APP_ENV=development
 ```
 To build frontend components run `npm run build ; npm run dev`
 
-### Troubleshooting
+## Troubleshooting
 - Permissions are important ! I have improved error handling, so the app informs the user. But if getting unexpected errors. Please ensure important directories have write permissions.
   - data storage folder -> as set in settings. 
   - ./database folder | ./database/database.sqlite file
@@ -169,7 +169,7 @@ max_file_uploads = 10000
   - nginx/apache can also have their own limits. Caddy just works.
 
 
-### Todo:
+## Todo:
 - feature: Create new file feature
 - feature: Edit text files
 - feature: Improve PDF preview. Currently only shows one page
@@ -177,7 +177,7 @@ max_file_uploads = 10000
 - feature: More preview-able files - doc, docx, ppt. Unsure if this will be feasible.
 
 
-### Screenshots:
+## Screenshots:
 
 <p align="center">
   <img src="public/img/share-screen.png" alt="Logo">
