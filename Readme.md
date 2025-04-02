@@ -6,7 +6,14 @@
 
 ## Why Personal Drive ? 
 - Keep your data with yourself. 
-- Several hosting companies provide really cheap data storage (buyvm.net)
+- Many hosting companies provide really cheap data storage. Examples:
+
+> buyvm.net ( + their block storage )  
+hostbrr.com  
+host-c.com  
+novacloud-hosting.com  ( contact them )  
+ 
+ 
 ## Demo:
 https://demo.personaldrive.xyz/
 
