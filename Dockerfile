@@ -31,7 +31,7 @@ RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local
 # Create new directory and set permissions
 RUN mkdir /var/www/html/personal-drive-storage-folder \
 && chown -R www-data:www-data storage bootstrap/cache database /var/www/html/personal-drive-storage-folder \
-&& chmod -R 770 storage bootstrap/cache database && touch database/database.sqlite
+&& chmod -R 770 storage bootstrap/cache database
 
 
 

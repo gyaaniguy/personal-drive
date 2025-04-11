@@ -51,6 +51,11 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($e instanceof Exception && ! $e instanceof AuthenticationException) {
                 session()->flash('message', 'Something went wrong!'.$e->getMessage());
                 session()->flash('status', false);
+                return redirect()->back();
+
+            }
+            if (str_contains($e->getMessage(), 'readonly database') || str_contains($e->getMessage(), 'open database')) {
+                return redirect()->route('rejected', 'database is readonly ! Make sure database/database.sqlite file has write permissions');
             }
         });
     })->create();

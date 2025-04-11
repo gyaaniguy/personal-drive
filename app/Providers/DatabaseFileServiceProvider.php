@@ -23,7 +23,7 @@ class DatabaseFileServiceProvider extends ServiceProvider
             }
             if (!File::exists($databasePath)) {
                 File::put($databasePath, '');
-                File::chmod($databasePath, 0666);
+                File::chmod($databasePath, 0776);
             }
         }
     }
