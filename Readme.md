@@ -41,6 +41,7 @@ https://demo.personaldrive.xyz/
 - Rename functionality
 - Drag and Drop to Upload files and folders
 - Duplicate detection and overwriting/abort option
+- Edit Text Files
 
 
 ## Requirements:
@@ -180,7 +181,6 @@ max_file_uploads = 10000
 
 ## Todo:
 - feature: Create new file feature
-- feature: Edit text files
 - feature: Improve PDF preview. Currently only shows one page
 - feature: markdown support
 - feature: More preview-able files - doc, docx, ppt. Unsure if this will be feasible.
