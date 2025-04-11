@@ -18,6 +18,7 @@ const MediaViewer = ({
     const [isActive, setIsActive] = useState(false);
     const isEditingRef = useRef(false);
     const [isInEditMode, setIsInEditMode] = useState(false);
+    const isFocusedRef = useRef(false);
 
     
     const timeoutRef = useRef(null);
@@ -25,6 +26,9 @@ const MediaViewer = ({
 
     function keepEditing(){
         console.log('isEditing ', isEditingRef.val);
+        if (isFocusedRef.current) {
+            return true;
+        }
         if (isEditingRef.current && !confirm('Discard changes? File has been edited.')) {
             return true;
         }
@@ -61,7 +65,7 @@ const MediaViewer = ({
         if (event.key === 'Escape') {
             setIsModalOpen(false);
         }
-    }, [prevClick, nextClick, isEditingRef]);
+    }, [prevClick, nextClick, isEditingRef, isFocusedRef]);
 
     useEffect(() => {
         if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
@@ -118,7 +122,7 @@ const MediaViewer = ({
                     (selectedFileType === 'video' && <VideoPlayer id={selectedid} slug={slug}/>) ||
                     (selectedFileType === 'image' && <ImageViewer id={selectedid} slug={slug}/>) ||
                     (selectedFileType === 'pdf' && <PdfViewer id={selectedid} slug={slug}/>) ||
-                    (selectedFileType === 'text' && <TxtViewer id={selectedid} slug={slug} isEditingRef={isEditingRef} isInEditMode={isInEditMode} setIsInEditMode={setIsInEditMode} />))
+                    (selectedFileType === 'text' && <TxtViewer id={selectedid} slug={slug} isEditingRef={isEditingRef} isFocusedRef={isFocusedRef} isInEditMode={isInEditMode} setIsInEditMode={setIsInEditMode} />))
                 }
             </div>
         </Modal>);

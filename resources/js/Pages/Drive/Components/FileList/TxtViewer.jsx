@@ -1,13 +1,22 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import axios from 'axios';
 
-const TxtViewer = ({ id, slug, isEditingRef, isInEditMode, setIsInEditMode}) => {
+const TxtViewer = ({ id, slug, isEditingRef, isFocusedRef, isInEditMode, setIsInEditMode}) => {
     const [content, setContent] = useState('');
     const [editedContent, setEditedContent] = useState('');
     const [isSaving, setIsSaving] = useState(false);
     const [savedMessage, setSavedMessage] = useState('');
+    const textareaRef = useRef(null);
 
     const editedContentRef = useRef('');
+
+    const handleFocus = () => {
+        isFocusedRef.current = true;
+    };
+
+    const handleBlur = () => {
+        isFocusedRef.current = false;
+    };
 
     const fetchTextFile = async (src) => {
         try {
@@ -20,15 +29,18 @@ const TxtViewer = ({ id, slug, isEditingRef, isInEditMode, setIsInEditMode}) => 
     };
 
     const saveChanges = async (contentToSave = editedContent) => {
-        console.log('save changes ' + contentToSave);
         setIsSaving(true);
         try {
             const response = await axios.post(`/save-file`, { id, content: contentToSave });
-            console.log(response);
+           // setIsInEditMode(false);
             setContent(contentToSave);
             setSavedMessage('Changes saved successfully!');
             setTimeout(() => setSavedMessage(''), 3000);
             isEditingRef.current = false;
+            isFocusedRef.current = false;
+            if (textareaRef.current) {
+                textareaRef.current.blur();
+            }
         } catch (err) {
             console.error('Error saving file:', err);
         } finally {
@@ -37,12 +49,10 @@ const TxtViewer = ({ id, slug, isEditingRef, isInEditMode, setIsInEditMode}) => 
     };
 
     const startEditing = () => {
-        console.log('startEditing ');
         setIsInEditMode(true);
     };
 
     const discardChanges = () => {
-        console.log('discard', isInEditMode);
         setEditedContent(content);
         isEditingRef.current = false;
         setIsInEditMode(false);
@@ -60,7 +70,6 @@ const TxtViewer = ({ id, slug, isEditingRef, isInEditMode, setIsInEditMode}) => 
     }, [editedContent]);
 
     const handleKeyDown = useCallback((e) => {
-        console.log('key down ' + e.key + ' ' + isInEditMode);
         if (e.ctrlKey && e.key === 'Enter' && isInEditMode) {
             console.log('ctrl+enter ' + editedContentRef.current);
             saveChanges(editedContentRef.current);
@@ -78,12 +87,15 @@ const TxtViewer = ({ id, slug, isEditingRef, isInEditMode, setIsInEditMode}) => 
         <div className="relative overflow-auto">
             {isInEditMode ? (
                 <textarea
+                    ref={textareaRef}
                     className="w-[90vw] md:w-[70vw] h-[70vh] resize-none bg-gray-900 text-300 overflow-auto"
                     value={editedContent}
                     onChange={(e) => {
                         setEditedContent(e.target.value);
                         isEditingRef.current = true;
                     }}
+                    onFocus={handleFocus}
+                    onBlur={handleBlur}
                 />
             ) : (
                 <pre
