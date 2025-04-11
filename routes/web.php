@@ -33,10 +33,10 @@ Route::middleware(['auth', CheckAdmin::class])->group(callback: function () {
     Route::post('/abort-replace', [DriveControllers\UploadController::class, 'abortReplace']);
 
     // Share control Routes
-    Route::post('/pause-share', [ShareControllers\ShareFilesModController::class, 'pause']);
-    Route::post('/delete-share', [ShareControllers\ShareFilesModController::class, 'delete']);
+    Route::post('/share-pause', [ShareControllers\ShareFilesModController::class, 'pause']);
+    Route::post('/share-delete', [ShareControllers\ShareFilesModController::class, 'delete']);
     Route::post('/share-files', [ShareControllers\ShareFilesGenController::class, 'index']);
-    Route::get('/all-shares', [ShareControllers\SharedListController::class, 'index'])->name('all-shares');
+    Route::get('/shares-all', [ShareControllers\SharedListController::class, 'index'])->name('shares-all');
 });
 
 

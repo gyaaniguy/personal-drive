@@ -7,7 +7,7 @@ import {DeleteIcon, PauseIcon, PlayIcon} from "lucide-react";
 
 export default function AllShares({shares}) {
     function handlePause(id) {
-        router.post('/pause-share', {id: id}, {
+        router.post('/share-pause', {id: id}, {
             preserveState: true,
             preserveScroll: true,
             only: ['shares', 'flash'],
@@ -17,7 +17,7 @@ export default function AllShares({shares}) {
     }
 
     function handleDelete(id) {
-        router.post('/delete-share', {id: id}, {
+        router.post('/share-delete', {id: id}, {
             preserveState: true,
             preserveScroll: true,
             only: ['shares', 'flash'],

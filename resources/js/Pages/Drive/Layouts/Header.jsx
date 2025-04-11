@@ -31,8 +31,8 @@ export default function Header({}) {
                                 Settings
                             </NavLink>
                             <NavLink
-                                href={route('all-shares')}
-                                active={route().current('all-shares')}
+                                href={route('shares-all')}
+                                active={route().current('shares-all')}
                                 className={` text-xs `}
                             >
                                 Shares

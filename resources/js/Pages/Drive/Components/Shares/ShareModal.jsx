@@ -153,7 +153,7 @@ const ShareModal = ({
                                     </span>
                                 </button>
 
-                                <Link href='/all-shares'
+                                <Link href='/shares-all'
                                       className={`text-sm text-center px-2 py-1 rounded-md  bg-blue-700 hover:bg-blue-600 active:bg-blue-700`}
                                 > All Shares
                                 </Link>
