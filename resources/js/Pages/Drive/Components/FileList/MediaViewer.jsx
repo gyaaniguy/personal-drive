@@ -16,10 +16,25 @@ const MediaViewer = ({
                          slug
                      }) => {
     const [isActive, setIsActive] = useState(false);
+    const isEditingRef = useRef(false);
+    const [isInEditMode, setIsInEditMode] = useState(false);
+
+    
     const timeoutRef = useRef(null);
     let currentFileIndex = previewAbleFiles.current.findIndex(file => file.id === selectedid);
 
+    function keepEditing(){
+        console.log('isEditing ', isEditingRef.val);
+        if (isEditingRef.current && !confirm('Discard changes? File has been edited.')) {
+            return true;
+        }
+        isEditingRef.current = false;
+        return false;
+    }
     function prevClick() {
+        if (keepEditing()) {
+            return ;
+        }
         if (previewAbleFiles.current[currentFileIndex]['prev']) {
             let file = previewAbleFiles.current[--currentFileIndex];
             selectFileForPreview(file);
@@ -27,6 +42,9 @@ const MediaViewer = ({
     }
 
     function nextClick() {
+        if (keepEditing()) {
+            return ;
+        }
         if (previewAbleFiles.current[currentFileIndex]['next']) {
             let file = previewAbleFiles.current[++currentFileIndex];
             selectFileForPreview(file);
@@ -43,15 +61,20 @@ const MediaViewer = ({
         if (event.key === 'Escape') {
             setIsModalOpen(false);
         }
-    }, [prevClick, nextClick]);
+    }, [prevClick, nextClick, isEditingRef]);
 
     useEffect(() => {
+        if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+            setIsActive(true);
+            return;
+        } 
         window.addEventListener('keydown', handleKeyDown);
         window.addEventListener('mousemove', handleMouseMove);
         return () => {
             window.removeEventListener('keydown', handleKeyDown);
             window.removeEventListener('mousemove', handleMouseMove);
         };
+        
     }, [isModalOpen]);
 
     function handleMouseMove() {
@@ -67,20 +90,27 @@ const MediaViewer = ({
         }, 10000);
     }
 
+    function onCloseModal() {
+        if (keepEditing()) {
+            return ;
+        }
+        setIsModalOpen(false);
+    }
+
 
     return (
-        <Modal isOpen={isModalOpen} onClose={setIsModalOpen} classes={` mx-auto`}>
+        <Modal isOpen={isModalOpen} onClose={onCloseModal} classes={` mx-auto`}>
             <div className=" mx-auto ">
                 {previewAbleFiles && previewAbleFiles.current[currentFileIndex] && previewAbleFiles.current[currentFileIndex].prev &&
                     <button onClick={prevClick}
-                            className={`absolute ${isActive ? 'block' : 'hidden'} left-8 sm:left-20 md:left-32 top-1/2   p-2 rounded-full hover:bg-gray-500 bg-gray-500  opacity-60  focus:outline-none z-90`}
+                            className={`absolute ${isActive ? 'block' : 'hidden'} left-8 sm:left-16  top-1/2   p-2 rounded-full hover:bg-gray-500 bg-gray-500  opacity-60  focus:outline-none z-90`}
                     >
                         <ChevronLeft className="text-white h-8 w-8 rounded-full"/>
                     </button>}
 
                 {previewAbleFiles && previewAbleFiles.current[currentFileIndex] && previewAbleFiles.current[currentFileIndex].next &&
                     <button onClick={nextClick}
-                            className={`absolute ${isActive ? 'block' : 'hidden'}  right-8 sm:right-20 md:right-32 top-1/2   p-2 rounded-full hover:bg-gray-500 bg-gray-500  opacity-60  focus:outline-none z-50`}
+                            className={`absolute ${isActive ? 'block' : 'hidden'}  right-8 sm:right-16  top-1/2   p-2 rounded-full hover:bg-gray-500 bg-gray-500  opacity-60  focus:outline-none z-50`}
                     >
                         <ChevronRight className="text-white h-8 w-8 rounded-full"/>
                     </button>}
@@ -88,7 +118,7 @@ const MediaViewer = ({
                     (selectedFileType === 'video' && <VideoPlayer id={selectedid} slug={slug}/>) ||
                     (selectedFileType === 'image' && <ImageViewer id={selectedid} slug={slug}/>) ||
                     (selectedFileType === 'pdf' && <PdfViewer id={selectedid} slug={slug}/>) ||
-                    (selectedFileType === 'text' && <TxtViewer id={selectedid} slug={slug}/>))
+                    (selectedFileType === 'text' && <TxtViewer id={selectedid} slug={slug} isEditingRef={isEditingRef} isInEditMode={isInEditMode} setIsInEditMode={setIsInEditMode} />))
                 }
             </div>
         </Modal>);

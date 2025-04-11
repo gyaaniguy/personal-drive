@@ -31,6 +31,8 @@ Route::middleware(['auth', CheckAdmin::class])->group(callback: function () {
     Route::get('/search-files', fn () => redirect('/drive'));
     Route::post('/rename-file', [DriveControllers\FileRenameController::class, 'index']);
     Route::post('/abort-replace', [DriveControllers\UploadController::class, 'abortReplace']);
+    Route::post('/save-file', [DriveControllers\FileSaveController::class, 'update']);
+
 
     // Share control Routes
     Route::post('/share-pause', [ShareControllers\ShareFilesModController::class, 'pause']);
