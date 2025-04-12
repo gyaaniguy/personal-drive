@@ -3,7 +3,7 @@
 import {useEffect, useRef, useState} from 'react'
 import {router, usePage} from '@inertiajs/react'
 import useClickOutside from "../Hooks/useClickOutside.jsx";
-import CreateFolderModal from './CreateFolderModal.jsx'
+import CreateItemModal from './CreateFolderModal.jsx'
 import useThumbnailGenerator from "@/Pages/Drive/Hooks/useThumbnailGenerator.jsx";
 import {UploadCloudIcon} from "lucide-react";
 import FileDropzone from "@/Pages/Drive/Components/DropZone.jsx";
@@ -31,6 +31,7 @@ const UploadMenu = ({path, setStatusMessage, files}) => {
     const menuRef = useRef(null);
     useClickOutside(menuRef, () => setIsMenuOpen(false));
     const [isModalOpen, setIsModalOpen] = useState(false);
+    const isFile = useRef(false);
 
     function uploadFiles(selectedFileForUpload) {
         setStatusMessage('Uploading...');
@@ -101,6 +102,17 @@ const UploadMenu = ({path, setStatusMessage, files}) => {
                         <div className="py-1" role="menu" aria-orientation="vertical" aria-labelledby="options-menu">
                             <button
                                 onClick={() => {
+                                    isFile.current = true;
+                                    setIsModalOpen(true);
+                                }}
+                                className="text-left block w-full px-4 py-2 text-sm bg-gray-700 hover:bg-gray-600 active:bg-gray-800 "
+                                role="menuitem"
+                            >
+                                Create File
+                            </button>
+                            <button
+                                onClick={() => {
+                                    isFile.current = false;
                                     setIsModalOpen(true);
                                 }}
                                 className="text-left block w-full px-4 py-2 text-sm bg-gray-700 hover:bg-gray-600 active:bg-gray-800 "
@@ -125,7 +137,7 @@ const UploadMenu = ({path, setStatusMessage, files}) => {
                         </div>
                     </div>
                 )}
-                <CreateFolderModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} path={path}/>
+                <CreateItemModal isModalOpen={isModalOpen} setIsModalOpen={setIsModalOpen} path={path} isFile={isFile} />
 
                 <div className="relative inline-block">
                     <input

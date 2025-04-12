@@ -20,11 +20,9 @@ Route::middleware(['auth', CheckAdmin::class])->group(callback: function () {
     Route::get('/drive/{path?}', [DriveControllers\FileManagerController::class, 'index'])
         ->where('path', '.*')
         ->name('drive');
-    Route::post('/upload', [DriveControllers\UploadController::class, 'store'])->name('s3.upload') ->middleware(CleanupTempFiles::class);
-    Route::post('/create-folder', [DriveControllers\UploadController::class, 'createFolder'])->middleware(CleanupTempFiles::class);
-    ;
+    Route::post('/upload', [DriveControllers\UploadController::class, 'store'])->middleware(CleanupTempFiles::class);
+    Route::post('/create-item', [DriveControllers\UploadController::class, 'createItem'])->middleware(CleanupTempFiles::class);
     Route::post('/delete-files', [DriveControllers\FileDeleteController::class, 'deleteFiles'])->middleware(CleanupTempFiles::class);
-    ;
     Route::post('/resync', [DriveControllers\ReSyncController::class, 'index']);
     Route::post('/gen-thumbs', [DriveControllers\ThumbnailController::class, 'update']);
     Route::post('/search-files', [DriveControllers\SearchFilesController::class, 'index']);
@@ -32,7 +30,6 @@ Route::middleware(['auth', CheckAdmin::class])->group(callback: function () {
     Route::post('/rename-file', [DriveControllers\FileRenameController::class, 'index']);
     Route::post('/abort-replace', [DriveControllers\UploadController::class, 'abortReplace']);
     Route::post('/save-file', [DriveControllers\FileSaveController::class, 'update']);
-
 
     // Share control Routes
     Route::post('/share-pause', [ShareControllers\ShareFilesModController::class, 'pause']);

@@ -5,7 +5,7 @@ namespace App\Http\Controllers\DriveControllers;
 use App\Exceptions\PersonalDriveExceptions\UploadFileException;
 use App\Helpers\UploadFileHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\DriveRequests\CreateFolderRequest;
+use App\Http\Requests\DriveRequests\CreateItemRequest;
 use App\Http\Requests\DriveRequests\ReplaceAbortRequest;
 use App\Http\Requests\DriveRequests\UploadRequest;
 use App\Services\LocalFileStatsService;
@@ -56,7 +56,7 @@ class UploadController extends Controller
 
         if ($successfulUploads > 0) {
             $this->localFileStatsService->generateStats($publicPath);
-            return $this->success('Files uploaded: '.$successfulUploads.' out of '.count($files));
+            return $this->success('Files uploaded: ' . $successfulUploads . ' out of ' . count($files));
         }
 
         return $this->error('Some/All Files upload failed');
@@ -71,10 +71,10 @@ class UploadController extends Controller
         $duplicatesDetected = 0;
         foreach ($files as $index => $file) {
             $fileNameWithDir = UploadFileHelper::getUploadedFileFullPath($index);
-            $destinationFullPath = $privatePath.$fileNameWithDir;
+            $destinationFullPath = $privatePath . $fileNameWithDir;
             if (file_exists($destinationFullPath) && $tempStorageDirFull) {
                 $duplicatesDetected++;
-                $this->uploadToDir($tempStorageDirFull.($publicPath ? '/'.$publicPath : '').$fileNameWithDir, $file);
+                $this->uploadToDir($tempStorageDirFull . ($publicPath ? '/' . $publicPath : '') . $fileNameWithDir, $file);
             } else {
                 $successfulUploads += $this->uploadToDir($destinationFullPath, $file);
             }
@@ -92,7 +92,7 @@ class UploadController extends Controller
         }
         try {
             if ($file->move($filesDirectory, $file->getClientOriginalName())) {
-                chmod($filesDirectory.'/'.$file->getClientOriginalName(), 0640);
+                chmod($filesDirectory . '/' . $file->getClientOriginalName(), 0640);
                 $successfulUploads++;
             }
         } catch (Error $e) {
@@ -101,19 +101,25 @@ class UploadController extends Controller
         return $successfulUploads;
     }
 
-    public function createFolder(CreateFolderRequest $request): RedirectResponse
+    public function createItem(CreateItemRequest $request): RedirectResponse
     {
         $publicPath = $request->validated('path') ?? '';
-        $folderName = $request->validated('folderName');
+        $itemName = $request->validated('itemName');
+        $isFile = $request->validated('isFile');
         $publicPath = $this->lPathService->cleanDrivePublicPath($publicPath);
         $privatePath = $this->lPathService->genPrivatePathFromPublic($publicPath);
-        $makeFolderRes = UploadFileHelper::makeFolder($privatePath.$folderName);
-        if (!$makeFolderRes) {
+
+        if ($isFile && !UploadFileHelper::makeFile($privatePath . $itemName)) {
+            return $this->error('Create file failed');
+        }
+        if (!$isFile && !UploadFileHelper::makeFolder($privatePath . $itemName)) {
             return $this->error('Create folder failed');
         }
-        $this->localFileStatsService->addFolderPathStat($folderName, $publicPath);
-        return $this->success('Created folder successfully');
+
+        $this->localFileStatsService->addItemPathStat($itemName, $privatePath, $publicPath, !$isFile);
+        return $this->success('Created '. ($isFile ? 'file' : 'folder') . ' successfully');
     }
+
 
     public function abortReplace(ReplaceAbortRequest $request): RedirectResponse
     {

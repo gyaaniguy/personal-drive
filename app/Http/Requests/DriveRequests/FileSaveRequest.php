@@ -4,7 +4,7 @@ namespace App\Http\Requests\DriveRequests;
 
 use Illuminate\Foundation\Http\FormRequest;
 
-class SaveFileRequest extends FormRequest
+class FileSaveRequest extends FormRequest
 {
     public function rules(): array
     {

@@ -14,7 +14,8 @@ const MediaViewer = ({
                          selectFileForPreview,
                          previewAbleFiles,
                          slug,
-                         isAdmin
+                         isAdmin,
+                         textFileTypes
                      }) => {
     const [isActive, setIsActive] = useState(false);
     const isEditingRef = useRef(false);
@@ -123,7 +124,7 @@ const MediaViewer = ({
                     (selectedFileType === 'video' && <VideoPlayer id={selectedid} slug={slug}/>) ||
                     (selectedFileType === 'image' && <ImageViewer id={selectedid} slug={slug}/>) ||
                     (selectedFileType === 'pdf' && <PdfViewer id={selectedid} slug={slug}/>) ||
-                    (selectedFileType === 'text' && <TxtViewer id={selectedid} slug={slug} isEditingRef={isEditingRef} isFocusedRef={isFocusedRef} isInEditMode={isInEditMode} setIsInEditMode={setIsInEditMode} isAdmin={isAdmin} />))
+                    (selectedFileType  && <TxtViewer id={selectedid} slug={slug} isEditingRef={isEditingRef} isFocusedRef={isFocusedRef} isInEditMode={isInEditMode} setIsInEditMode={setIsInEditMode} isAdmin={isAdmin} />))
                 }
             </div>
         </Modal>);

@@ -2,15 +2,14 @@
 
 namespace App\Http\Controllers\DriveControllers;
 
-use App\Exceptions\PersonalDriveExceptions\FetchFileException;
+use App\Services\LocalFileStatsService;
 use App\Helpers\ResponseHelper;
-use App\Http\Requests\DriveRequests\SaveFileRequest;
+use App\Http\Requests\DriveRequests\FileSaveRequest;
 use App\Models\LocalFile;
 use App\Services\DownloadService;
 use App\Services\LPathService;
 use Exception;
 use Illuminate\Http\JsonResponse;
-use Illuminate\Support\Facades\Response;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class FileSaveController
@@ -18,33 +17,39 @@ class FileSaveController
     protected LPathService $pathService;
 
     protected DownloadService $downloadService;
+    protected LocalFileStatsService $localFileStatsService;
 
     public function __construct(
         LPathService $pathService,
-        DownloadService $downloadService
+        DownloadService $downloadService,
+        LocalFileStatsService $localFileStatsService
     ) {
         $this->pathService = $pathService;
         $this->downloadService = $downloadService;
+        $this->localFileStatsService = $localFileStatsService;
     }
 
-    public function update(SaveFileRequest $request): BinaryFileResponse|JsonResponse
+    public function update(FileSaveRequest $request): BinaryFileResponse|JsonResponse
     {
         $id = $request->validated('id');
         $content = $request->validated('content');
-        $file = LocalFile::getById($id);
-        if (!$file) {
-            return ResponseHelper::json( 'Could not find file ', false);
+        $localFile = LocalFile::getById($id);
+        if (!$localFile) {
+            return ResponseHelper::json('Could not find file ', false);
         }
-        if ($file->file_type !== 'text') {
-            return ResponseHelper::json( 'File is not a text file', false);
+        if ($localFile->file_type !== 'text') {
+            return ResponseHelper::json('File is not a text file', false);
         }
 
-        $privatePathFile = $file->getPrivatePathNameForFile();
+        $privatePathFile = $localFile->getPrivatePathNameForFile();
         if (!$privatePathFile) {
-            return ResponseHelper::json( 'Could not find file', false);
+            return ResponseHelper::json('Could not find file', false);
         }
         try {
             file_put_contents($privatePathFile, $content);
+            $file = new \SplFileInfo($privatePathFile);
+            $this->localFileStatsService->updateFileStats($localFile, $file);
+
             return ResponseHelper::json('File saved successfully', true);
         } catch (Exception $e) {
             return ResponseHelper::json($e->getMessage(), false);

@@ -21,17 +21,19 @@ class LocalFileStatsService
         $this->pathService = $pathService;
     }
 
-    public function addFolderPathStat(string $folderName, string $publicPath): void
+    public function addItemPathStat(string $itemName, string $privatePath, string $publicPath, bool $isDir): void
     {
-        $itemPrivatePathname = $this->pathService->genPrivatePathFromPublic($publicPath);
+        $file = new SplFileInfo($privatePath.$itemName);
+
         try {
             LocalFile::create([
-                'filename' => $folderName,
-                'is_dir' => 1,
+                'filename' => $itemName,
+                'is_dir' => $isDir ? 1 : 0,
                 'public_path' => $publicPath,
-                'private_path' => $itemPrivatePathname,
+                'private_path' => $privatePath,
                 'size' => '',
                 'user_id' => Auth::user()?->id ?? 1,
+                'file_type' => $this->getFileType($file)
             ]);
         } catch (Exception $e) {
             Log::error($e->getMessage());
@@ -97,7 +99,7 @@ class LocalFileStatsService
             $fileType = 'video';
         } elseif ($mimeType === 'application/pdf') {
             $fileType = 'pdf';
-        } elseif (str_starts_with($mimeType, 'text/')) {
+        } elseif (str_starts_with($mimeType, 'text/') || str_contains($mimeType, 'empty')) {
             $fileType = 'text';
         } else {
             $fileType = $item->getExtension();

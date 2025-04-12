@@ -40,7 +40,8 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
     const navigate = useNavigate();
 
     // Preview
-    let previewAbleTypes = useRef(['image', 'video', 'pdf', 'text']);
+    let textFileTypes = ['text','txt','csv','ini'];
+    let previewAbleTypes = useRef(['image', 'video', 'pdf', ...textFileTypes]);
     let previewAbleFiles = useRef([]);
     const [previewFileIndex, setPreviewFileIndex] = useState(null);
     const [previewFileType, setPreviewFileType] = useState(null);
@@ -192,7 +193,7 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
             <MediaViewer selectedid={previewFileIndex} selectedFileType={previewFileType}
                          isModalOpen={isPreviewModalOpen}
                          setIsModalOpen={setPreviewIsModalOpen} selectFileForPreview={selectFileForPreview}
-                         previewAbleFiles={previewAbleFiles} slug={slug} isAdmin={isAdmin} />
+                         previewAbleFiles={previewAbleFiles} slug={slug} isAdmin={isAdmin} textFileTypes={textFileTypes}/>
             {/*Files viewer*/}
 
             <div className="my-3 md:my-8">
