@@ -42,7 +42,7 @@ https://demo.personaldrive.xyz/
 - Drag and Drop to Upload files and folders
 - Duplicate detection and overwriting/abort option
 - Edit Text Files
-
+- Create new files
 
 ## Requirements:
 - A server running PHP with sqlite, PHP composer, nodejs, npm.
@@ -180,7 +180,7 @@ max_file_uploads = 10000
 
 
 ## Todo:
-- feature: Create new file feature
+- bug: rename folders is broken. removed
 - feature: Improve PDF preview. Currently only shows one page
 - feature: markdown support
 - feature: More preview-able files - doc, docx, ppt. Unsure if this will be feasible.

@@ -57,16 +57,12 @@ const FolderItem = React.memo(function FolderItem({
                                 setIsShareModalOpen={setIsShareModalOpen}
                                 setFilesToShare={setFilesToShare}
                                 filesToShare={new Set([file.id])}/>
-                            <RenameModalButton
-                                classes="hidden group-hover:block mr-2  z-10"
-                                setIsRenameModalOpen={setIsRenameModalOpen}
-                                setFileToRename={setFileToRename}
-                                fileToRename={file}/>
+                       
                         </>
                     )
 
                 }
-            < /div>
+            </div>
         </div>
     );
 })
