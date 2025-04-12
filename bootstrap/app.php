@@ -2,6 +2,7 @@
 
 use App\Exceptions\PersonalDriveExceptions\FetchFileException;
 use App\Exceptions\PersonalDriveExceptions\PersonalDriveException;
+use App\Exceptions\PersonalDriveExceptions\ThrottleException;
 use App\Exceptions\PersonalDriveExceptions\ThumbnailException;
 use App\Http\Middleware\CheckSetup;
 use App\Http\Middleware\HandleInertiaMiddlware;
@@ -32,6 +33,9 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($e instanceof FetchFileException) {
                 return redirect()->route('rejected', ['message' => $e->getMessage()]);
             }
+            if ($e instanceof ThrottleException) {
+                return redirect()->route('rejected', ['message' => $e->getMessage()]);
+            }
             if ($e instanceof ThumbnailException) {
                 session()->flash('message', $e->getMessage());
                 session()->flash('status', false);
@@ -51,7 +55,6 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($e instanceof Exception && ! $e instanceof AuthenticationException) {
                 session()->flash('message', 'Something went wrong!'.$e->getMessage());
                 session()->flash('status', false);
-                return redirect()->back();
 
             }
             if (str_contains($e->getMessage(), 'readonly database') || str_contains($e->getMessage(), 'open database')) {

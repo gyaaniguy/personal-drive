@@ -2,6 +2,7 @@
 
 namespace App\Providers;
 
+use App\Exceptions\PersonalDriveExceptions\ThrottleException;
 use App\Models\Setting;
 use App\Services\UUIDService;
 use Illuminate\Cache\RateLimiting\Limit;
@@ -50,20 +51,19 @@ class AppServiceProvider extends ServiceProvider
                 exit;
             }
         }
-        
-
         RateLimiter::for('login', function (Request $request) {
-            return [
-                Limit::perMinute(9)->response(function () {
-                    return redirect()->route('rejected', ['message' => 'Too many requests too fast! Wait at least a minute before trying again']);
-                }),
-            ];
+            return Limit::perMinute(7)
+                ->by($request->ip())
+                ->response(function () {
+                    throw ThrottleException::toomany();
+                });
         });
 
         RateLimiter::for('shared', function (Request $request) {
             return Limit::perMinute(20)
+                ->by($request->ip())
                 ->response(function (Request $request, array $headers) {
-                    return response('Too Many requests..', 429, $headers);
+                    throw ThrottleException::toomany();
                 });
         });
     }
