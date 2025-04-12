@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import axios from 'axios';
 
-const TxtViewer = ({ id, slug, isEditingRef, isFocusedRef, isInEditMode, setIsInEditMode}) => {
+const TxtViewer = ({ id, slug, isEditingRef, isFocusedRef, isInEditMode, setIsInEditMode, isAdmin}) => {
     const [content, setContent] = useState('');
     const [editedContent, setEditedContent] = useState('');
     const [isSaving, setIsSaving] = useState(false);
@@ -49,6 +49,9 @@ const TxtViewer = ({ id, slug, isEditingRef, isFocusedRef, isInEditMode, setIsIn
     };
 
     const startEditing = () => {
+        if (!isAdmin){
+            return;
+        }
         setIsInEditMode(true);
     };
 

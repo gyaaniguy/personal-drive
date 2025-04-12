@@ -192,7 +192,7 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
             <MediaViewer selectedid={previewFileIndex} selectedFileType={previewFileType}
                          isModalOpen={isPreviewModalOpen}
                          setIsModalOpen={setPreviewIsModalOpen} selectFileForPreview={selectFileForPreview}
-                         previewAbleFiles={previewAbleFiles} slug={slug}/>
+                         previewAbleFiles={previewAbleFiles} slug={slug} isAdmin={isAdmin} />
             {/*Files viewer*/}
 
             <div className="my-3 md:my-8">
