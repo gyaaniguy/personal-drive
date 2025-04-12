@@ -104,6 +104,7 @@ const UploadMenu = ({path, setStatusMessage, files}) => {
                                 onClick={() => {
                                     isFile.current = true;
                                     setIsModalOpen(true);
+                                    setIsMenuOpen(false);
                                 }}
                                 className="text-left block w-full px-4 py-2 text-sm bg-gray-700 hover:bg-gray-600 active:bg-gray-800 "
                                 role="menuitem"
@@ -114,6 +115,7 @@ const UploadMenu = ({path, setStatusMessage, files}) => {
                                 onClick={() => {
                                     isFile.current = false;
                                     setIsModalOpen(true);
+                                    setIsMenuOpen(false);
                                 }}
                                 className="text-left block w-full px-4 py-2 text-sm bg-gray-700 hover:bg-gray-600 active:bg-gray-800 "
                                 role="menuitem"
