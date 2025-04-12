@@ -6,7 +6,9 @@ const ShowShareModalButton = ({setIsShareModalOpen, classes = '', setFilesToShar
     function handleShareButton(e) {
         e.stopPropagation();
         setIsShareModalOpen(true);
-        setFilesToShare(filesToShare);
+        if (setFilesToShare){
+            setFilesToShare(filesToShare);
+        }
     }
 
     return (
