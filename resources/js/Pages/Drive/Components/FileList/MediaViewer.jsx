@@ -7,27 +7,25 @@ import PdfViewer from "@/Pages/Drive/Components/FileList/PdfViewer.jsx";
 import TxtViewer from "@/Pages/Drive/Components/FileList/TxtViewer.jsx";
 
 const MediaViewer = ({
-                         selectedid,
-                         selectedFileType,
+                         previewFile,
                          isModalOpen,
                          setIsModalOpen,
                          selectFileForPreview,
                          previewAbleFiles,
                          slug,
-                         isAdmin,
-                         textFileTypes
-                     }) => {
+                         isAdmin
+}) => {
     const [isActive, setIsActive] = useState(false);
     const isEditingRef = useRef(false);
     const [isInEditMode, setIsInEditMode] = useState(false);
-    const isFocusedRef = useRef(false);
-
-    
+    const isFocusedRef = useRef(false);    
     const timeoutRef = useRef(null);
+    let selectedFileType = previewFile.file_type;
+    let selectedid = previewFile.id;
     let currentFileIndex = previewAbleFiles.current.findIndex(file => file.id === selectedid);
 
     function keepEditing(){
-        console.log('isEditing ', isEditingRef.val);
+        console.log(isFocusedRef.current, isEditingRef.current);
         if (isFocusedRef.current) {
             return true;
         }
@@ -103,7 +101,6 @@ const MediaViewer = ({
         setIsModalOpen(false);
     }
 
-
     return (
         <Modal isOpen={isModalOpen} onClose={onCloseModal} classes={` mx-auto`}>
             <div className=" mx-auto ">
@@ -124,7 +121,7 @@ const MediaViewer = ({
                     (selectedFileType === 'video' && <VideoPlayer id={selectedid} slug={slug}/>) ||
                     (selectedFileType === 'image' && <ImageViewer id={selectedid} slug={slug}/>) ||
                     (selectedFileType === 'pdf' && <PdfViewer id={selectedid} slug={slug}/>) ||
-                    (selectedFileType  && <TxtViewer id={selectedid} slug={slug} isEditingRef={isEditingRef} isFocusedRef={isFocusedRef} isInEditMode={isInEditMode} setIsInEditMode={setIsInEditMode} isAdmin={isAdmin} />))
+                    ((selectedFileType === 'text' || selectedFileType === 'empty') && <TxtViewer previewFile={previewFile} slug={slug} isEditingRef={isEditingRef} isFocusedRef={isFocusedRef} isInEditMode={isInEditMode} setIsInEditMode={setIsInEditMode} isAdmin={isAdmin} />))
                 }
             </div>
         </Modal>);

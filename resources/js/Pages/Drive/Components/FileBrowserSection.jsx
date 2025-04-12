@@ -41,15 +41,14 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
 
     // Preview
     let textFileTypes = ['text','txt','csv','ini'];
-    let previewAbleTypes = useRef(['image', 'video', 'pdf', ...textFileTypes]);
+    let previewAbleTypes = useRef(['empty','image', 'video', 'pdf', ...textFileTypes]);
     let previewAbleFiles = useRef([]);
-    const [previewFileIndex, setPreviewFileIndex] = useState(null);
-    const [previewFileType, setPreviewFileType] = useState(null);
+    const [previewFile, setPreviewFile] = useState(null);
     const [isPreviewModalOpen, setPreviewIsModalOpen] = useState(false);
 
     function selectFileForPreview(file) {
-        setPreviewFileIndex(file.id);
-        setPreviewFileType(file.file_type);
+        console.log('selectFileForPreview', file);
+        setPreviewFile(file);
     }
 
     function handleFileClick(file) {
@@ -189,12 +188,11 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
                     </div>
                 </div>
             </div>
-            {/*media viewer*/}
-            <MediaViewer selectedid={previewFileIndex} selectedFileType={previewFileType}
+            
+            { previewFile && <MediaViewer previewFile={previewFile}
                          isModalOpen={isPreviewModalOpen}
                          setIsModalOpen={setPreviewIsModalOpen} selectFileForPreview={selectFileForPreview}
-                         previewAbleFiles={previewAbleFiles} slug={slug} isAdmin={isAdmin} textFileTypes={textFileTypes}/>
-            {/*Files viewer*/}
+                         previewAbleFiles={previewAbleFiles} slug={slug} isAdmin={isAdmin} /> }
 
             <div className="my-3 md:my-8">
                 {filesCopy.length > 0 && (

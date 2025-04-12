@@ -34,7 +34,17 @@ class FetchFileController extends Controller
     {
         $file = $this->handleHashRequest($request);
         $filePrivatePathName = $file->getPrivatePathNameForFile();
-        VideoStreamer::streamFile($filePrivatePathName);
+        if ($file->file_type === 'text') {
+            response()->stream(function () use ($filePrivatePathName) {
+                readfile($filePrivatePathName);
+            }, 200, [
+                'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
+                'Pragma' => 'no-cache',
+                'Content-Type' => 'text/plain',
+            ])->send();
+        } else {
+            VideoStreamer::streamFile($filePrivatePathName);
+        }
     }
 
     /**

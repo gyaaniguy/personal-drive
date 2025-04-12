@@ -1,7 +1,7 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import axios from 'axios';
 
-const TxtViewer = ({ id, slug, isEditingRef, isFocusedRef, isInEditMode, setIsInEditMode, isAdmin}) => {
+const TxtViewer = ({ previewFile, slug, isEditingRef, isFocusedRef, isInEditMode, setIsInEditMode, isAdmin}) => {
     const [content, setContent] = useState('');
     const [editedContent, setEditedContent] = useState('');
     const [isSaving, setIsSaving] = useState(false);
@@ -31,15 +31,20 @@ const TxtViewer = ({ id, slug, isEditingRef, isFocusedRef, isInEditMode, setIsIn
     const saveChanges = async (contentToSave = editedContent) => {
         setIsSaving(true);
         try {
-            const response = await axios.post(`/save-file`, { id, content: contentToSave });
-           // setIsInEditMode(false);
+            const response = await axios.post(`/save-file`, { id: previewFile.id, content: contentToSave });
             setContent(contentToSave);
-            setSavedMessage('Changes saved successfully!');
             setTimeout(() => setSavedMessage(''), 3000);
             isEditingRef.current = false;
             isFocusedRef.current = false;
             if (textareaRef.current) {
                 textareaRef.current.blur();
+            }
+            if ( response.data?.message.includes('success') ) {
+                setSavedMessage('Changes saved successfully!');
+                let src = '/fetch-file/' + previewFile.id + `?t=${Date.now()}`;
+                fetchTextFile(src);
+            } else {
+                setSavedMessage('Error: ' + response.data?.message);
             }
         } catch (err) {
             console.error('Error saving file:', err);
@@ -62,22 +67,27 @@ const TxtViewer = ({ id, slug, isEditingRef, isFocusedRef, isInEditMode, setIsIn
         setSavedMessage('');
     };
 
-    useEffect(() => {
-        let src = '/fetch-file/' + id;
+    const fetchSrcFile = (src) => {
         src += slug ? '/' + slug : '';
         fetchTextFile(src);
-    }, [id, slug]);
+    }
+    
+
+    
+    useEffect(() => {
+        let src = '/fetch-file/' + previewFile.id + `?t=${Date.now()}`;
+        fetchSrcFile(src);
+    }, [previewFile, slug]);
 
     useEffect(() => {
         editedContentRef.current = editedContent;
-    }, [editedContent]);
+    }, [ editedContent]);
 
     const handleKeyDown = useCallback((e) => {
         if (e.ctrlKey && e.key === 'Enter' && isInEditMode) {
-            console.log('ctrl+enter ' + editedContentRef.current);
             saveChanges(editedContentRef.current);
         }
-    }, [isInEditMode]);
+    }, [isInEditMode, previewFile]);
 
     useEffect(() => {
         window.addEventListener('keydown', handleKeyDown);
@@ -119,7 +129,7 @@ const TxtViewer = ({ id, slug, isEditingRef, isFocusedRef, isInEditMode, setIsIn
                         </button>
                     </div>
                     <div className="text-gray-200 p-2 col-span-1 justify-self-center">
-                        {savedMessage || "In Edit Mode"}
+                    {previewFile.filename}  <span className="ml-2 text-gray-400 text-sm">{savedMessage || "in edit mode"}</span>
                     </div>
                     <button
                         className="px-2 py-1 bg-blue-500 rounded disabled:opacity-50 col-span-1 justify-self-end text-gray-900"

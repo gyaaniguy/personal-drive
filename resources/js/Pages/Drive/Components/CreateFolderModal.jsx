@@ -16,6 +16,7 @@ const CreateItemModal = ({isModalOpen, setIsModalOpen, path, isFile}) => {
         router.post('/create-item', formData, {
             only: ['files', 'flash'],
         });
+        setItemName('');
     }
 
     return (

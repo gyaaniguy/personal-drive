@@ -37,7 +37,7 @@ class LocalFileStatsService
             ]);
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            throw UploadFileException::nonewdir();
+            throw UploadFileException::nonewdir($isDir ? 'folder':'file');
         }
     }
 
@@ -92,6 +92,7 @@ class LocalFileStatsService
             return 'folder';
         }
         $mimeType = mime_content_type($item->getPathname());
+        // dd($mimeType);
 
         if (str_starts_with($mimeType, 'image/')) {
             $fileType = 'image';
@@ -99,8 +100,10 @@ class LocalFileStatsService
             $fileType = 'video';
         } elseif ($mimeType === 'application/pdf') {
             $fileType = 'pdf';
-        } elseif (str_starts_with($mimeType, 'text/') || str_contains($mimeType, 'empty')) {
+        } elseif (str_starts_with($mimeType, 'text/')) {
             $fileType = 'text';
+        } elseif (str_contains($mimeType, 'x-empty')) {
+            $fileType = 'empty';
         } else {
             $fileType = $item->getExtension();
         }

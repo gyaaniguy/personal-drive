@@ -24,10 +24,10 @@ class UploadFileHelper
 
     public static function makeFolder(string $path, int $permission = 0750): bool
     {
-        if (is_dir($path)) {
-            return true;
+        if (file_exists($path) ) {
+            throw UploadFileException::nonewdir('folder');
         }
-        if (! mkdir($path, $permission, true) && ! is_dir($path)) {
+        if (! mkdir($path, $permission, true) && !is_dir($path)) {
             return false;
         }
 
