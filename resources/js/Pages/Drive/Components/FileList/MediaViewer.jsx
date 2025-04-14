@@ -25,7 +25,6 @@ const MediaViewer = ({
     let currentFileIndex = previewAbleFiles.current.findIndex(file => file.id === selectedid);
 
     function keepEditing(){
-        console.log(isFocusedRef.current, isEditingRef.current);
         if (isFocusedRef.current) {
             return true;
         }

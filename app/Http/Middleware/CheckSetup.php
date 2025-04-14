@@ -5,15 +5,16 @@ namespace App\Http\Middleware;
 use Closure;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Schema;
+use Illuminate\Support\Facades\DB;
 use Symfony\Component\HttpFoundation\Response;
 
 class CheckSetup
 {
     public function handle(Request $request, Closure $next): Response
     {
-        if (! Schema::hasTable('migrations') && ! $request->is('setup*', 'error')) {
-            config(['session.driver' => 'array']); // Use a non-persistent session driver
-
+        if ((!Schema::hasTable('users') || DB::table('users')->count() === 0) && ! $request->is('setup*', 'error')
+        ) {
+            config(['session.driver' => 'array']);
             return redirect('/setup/account');
         }
 

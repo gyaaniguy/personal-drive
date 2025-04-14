@@ -47,7 +47,6 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
     const [isPreviewModalOpen, setPreviewIsModalOpen] = useState(false);
 
     function selectFileForPreview(file) {
-        console.log('selectFileForPreview', file);
         setPreviewFile(file);
     }
 
