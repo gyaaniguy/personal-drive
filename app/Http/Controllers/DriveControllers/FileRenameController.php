@@ -34,7 +34,7 @@ class FileRenameController
         try {
             $this->fileRenameService->renameFile($file, $filename);
         } catch (\Exception $e) {
-            return $this->error('Could not rename file. File with same name exists? Also Check permissions. ' );
+            return $this->error('Could not rename file. File with same name exists? Also Check permissions. ');
         }
 
         return $this->success('Renamed to '. $filename);

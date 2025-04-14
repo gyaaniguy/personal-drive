@@ -37,7 +37,7 @@ class LocalFileStatsService
             ]);
         } catch (Exception $e) {
             Log::error($e->getMessage());
-            throw UploadFileException::nonewdir($isDir ? 'folder':'file');
+            throw UploadFileException::nonewdir($isDir ? 'folder' : 'file');
         }
     }
 

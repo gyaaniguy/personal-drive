@@ -52,6 +52,7 @@ class LPathService
     public function genPrivatePathFromPublic(string $publicPath = ''): string
     {
         $privateRoot = $this->getStorageDirPath();
+
         if (! $privateRoot) {
             return '';
         }
@@ -62,10 +63,7 @@ class LPathService
         $publicPath = $this->cleanDrivePublicPath($publicPath);
         $privatePath = $privateRoot.DIRECTORY_SEPARATOR.$publicPath.DIRECTORY_SEPARATOR;
 
-        if (file_exists($privatePath)) {
-            return $privatePath;
-        }
+        return $privatePath;
 
-        return '';
     }
 }

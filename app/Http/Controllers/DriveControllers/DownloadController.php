@@ -37,7 +37,7 @@ class DownloadController
         try {
             $downloadFilePath = $this->downloadService->generateDownloadPath($localFiles);
             if (! file_exists($downloadFilePath)) {
-                return ResponseHelper::json( 'Perhaps trying to download empty dir ? ', false);
+                return ResponseHelper::json('Perhaps trying to download empty dir ? ', false);
             }
 
             return $this->getDownloadResponse($downloadFilePath);
