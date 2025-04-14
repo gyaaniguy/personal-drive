@@ -155,11 +155,19 @@ Admin Password cannot be changed. This is done to reduce attack surface. If you 
 ## Development:
 Built with Laravel 11 and React. Inertia.js connects React components to the Laravel backend. Uses SQLite as the database.
 PHP code follows psr-12 standard
-For local dev Please check the following env vars
+
+For local dev, you may want to disable https. Change to these in .env
 ```
 DISABLE_HTTPS=true
 APP_ENV=development
+
 ```
+Then run:
+```bash
+php artisan cache:clear ; php artisan config:clear ; 
+```
+
+
 To build frontend components run `npm run build ; npm run dev`
 
 ## Troubleshooting
