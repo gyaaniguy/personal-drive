@@ -35,7 +35,7 @@ WEB_GROUP=$(ask_for_value "Enter the web server group" "$WEB_GROUP")
 echo "Setting up environment file..."
 cp .env.example .env
 
-# Ask for APP_URL
+# Ask for APP_URL   
 APP_URL=$(ask_for_value "Enter the application URL (leave empty to skip)" "")
 if [ -n "$APP_URL" ]; then
     sed -i "s|^APP_URL=.*|APP_URL=$APP_URL|" .env
@@ -62,7 +62,7 @@ else
 fi
 
 echo "Setting directory permissions..."
-if sudo chmod -R 770 storage bootstrap/cache database 2>/dev/null; then
+if sudo chmod -R 775 storage bootstrap/cache database 2>/dev/null; then
     echo "Permissions updated successfully."
 else
     echo "Could not change permissions. Please update manually."
