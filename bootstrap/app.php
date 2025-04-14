@@ -58,7 +58,7 @@ return Application::configure(basePath: dirname(__DIR__))
 
             }
             if (str_contains($e->getMessage(), 'readonly database') || str_contains($e->getMessage(), 'open database')) {
-                return redirect()->route('rejected', 'database is readonly ! Make sure database/database.sqlite file has write permissions');
+                return redirect()->route('rejected', 'database is readonly ! Make sure database/db/database.sqlite file has write permissions');
             }
         });
     })->create();

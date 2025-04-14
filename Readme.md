@@ -75,7 +75,7 @@ services:
       - "127.0.0.1:8080:80"
     volumes:
       - /absolute/path/to/store/data/on/host:/var/www/html/personal-drive-storage-folder
-      - personal-drive-data:/var/www/html/personal-drive/database
+      - personal-drive-data:/var/www/html/personal-drive/database/db
     environment:
       DISABLE_HTTPS: true
 volumes:
@@ -96,7 +96,7 @@ services:
       - "8080:80"
     volumes:
       - /absolute/path/to/store/data/on/host:/var/www/html/personal-drive-storage-folder
-      - personal-drive-data:/var/www/html/personal-drive/database
+      - personal-drive-data:/var/www/html/personal-drive/database/db
     environment:
       APP_URL: https://sub.yoursite.com
 volumes:
@@ -148,7 +148,7 @@ The setup script adjusts permissions and ownership if provided with root access
 
 ## Forgot password: 
 Admin Password cannot be changed. This is done to reduce attack surface. If you forget your password: 
-- reinstall the app OR delete the `database/database.sqlite` file -> This will remove all 'shares'
+- reinstall the app OR delete the `database/db/database.sqlite` file -> This will remove all 'shares'
 - Manually edit the password in the above database file
 
 
@@ -165,7 +165,7 @@ To build frontend components run `npm run build ; npm run dev`
 ## Troubleshooting
 - Permissions are important ! I have improved error handling, so the app informs the user. But if getting unexpected errors. Please ensure important directories have write permissions.
   - data storage folder -> as set in settings. 
-  - ./database folder | ./database/database.sqlite file
+  - ./database folder | ./database/db/database.sqlite file
   - ./bootstrap/cache 
   - ./storage 
 - Large Uploads failing: PHP upload limits are annoyingly low.  
