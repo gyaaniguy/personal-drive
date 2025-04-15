@@ -10,6 +10,7 @@ export default {
         './resources/js/**/*.jsx',
         'node_modules/daisyui/dist/**/*.js',
         'node_modules/react-daisyui/dist/**/*.js',
+        './resources/**/*.jsx',
     ],
 
     theme: {
@@ -20,5 +21,9 @@ export default {
         },
     },
 
-    plugins: [forms, require('daisyui')],
+    plugins: [
+        forms,
+        require('daisyui'),
+        require('@tailwindcss/typography'),
+    ],
 };

@@ -1,5 +1,10 @@
 import React, { useEffect, useRef, useState, useCallback } from 'react';
 import axios from 'axios';
+import { Marked } from "marked";
+import { markedHighlight } from "marked-highlight";
+import hljs from 'highlight.js';
+import 'highlight.js/styles/github-dark.css'; // Or any other theme you prefer
+
 
 const TxtViewer = ({ previewFile, slug, isEditingRef, isFocusedRef, isInEditMode, setIsInEditMode, isAdmin}) => {
     const [content, setContent] = useState('');
@@ -7,8 +12,19 @@ const TxtViewer = ({ previewFile, slug, isEditingRef, isFocusedRef, isInEditMode
     const [isSaving, setIsSaving] = useState(false);
     const [savedMessage, setSavedMessage] = useState('');
     const textareaRef = useRef(null);
-
     const editedContentRef = useRef('');
+
+    const marked = new Marked(
+        markedHighlight({
+            emptyLangClass: 'hljs',
+            langPrefix: 'hljs language-',
+            highlight(code, lang, info) {
+                const language = hljs.getLanguage(lang) ? lang : 'plaintext';
+                return hljs.highlight(code, { language }).value;
+            }
+        })
+    );
+    
 
     const handleFocus = () => {
         isFocusedRef.current = true;
@@ -73,7 +89,7 @@ const TxtViewer = ({ previewFile, slug, isEditingRef, isFocusedRef, isInEditMode
     }
     
 
-    
+    console.log(previewFile);
     useEffect(() => {
         let src = '/fetch-file/' + previewFile.id + `?t=${Date.now()}`;
         fetchSrcFile(src);
@@ -110,14 +126,18 @@ const TxtViewer = ({ previewFile, slug, isEditingRef, isFocusedRef, isInEditMode
                     onFocus={handleFocus}
                     onBlur={handleBlur}
                 />
-            ) : (
-                <pre
-                    className="w-[70vw] cursor-pointer"
-                    onClick={startEditing}
-                >
-                    {content || 'Click to edit...'}
-                </pre>
-            )}
+            ) : previewFile.filename.endsWith('.md') ? (
+                    <div
+                        className="prose prose-invert w-[90vw] md:w-[70vw]  "
+                        dangerouslySetInnerHTML={{ __html: marked.parse(content) }}
+                        onClick={startEditing}
+                    />
+                ) : (
+                    <pre className="w-[70vw] cursor-pointer" onClick={startEditing}>
+                        {content || 'Click to edit...'}
+                    </pre>
+                )
+            }
             {isInEditMode && (
                 <div className="grid grid-cols-3 mt-2 w-full items-center text-sm md:text-base">
                     <div className="col-span-1">
