@@ -105,7 +105,7 @@ const MediaViewer = ({
             <div className=" mx-auto ">
                 {previewAbleFiles && previewAbleFiles.current[currentFileIndex] && previewAbleFiles.current[currentFileIndex].prev &&
                     <button onClick={prevClick}
-                            className={`absolute ${isActive ? 'block' : 'hidden'} left-8 sm:left-16  top-1/2   p-2 rounded-full hover:bg-gray-500 bg-gray-500  opacity-60  focus:outline-none z-90`}
+                            className={`absolute ${isActive ? 'block' : 'hidden'} left-8 sm:left-16  top-1/2   p-2 rounded-full hover:bg-gray-500 bg-gray-500  opacity-60  focus:outline-none z-50`}
                     >
                         <ChevronLeft className="text-white h-8 w-8 rounded-full"/>
                     </button>}
