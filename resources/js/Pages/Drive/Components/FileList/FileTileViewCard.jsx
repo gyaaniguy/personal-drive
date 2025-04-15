@@ -102,11 +102,11 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
                         </div>
                     }
                     <div className="flex-1 flex ">
-                        {isAdmin && (<><ShowShareModalButton classes="hidden group-hover:block mr-2 z-10"
+                        {isAdmin && (<><ShowShareModalButton classes="hidden group-hover:flex mr-2 z-10"
                                                              setIsShareModalOpen={setIsShareModalOpen}
                                                              setFilesToShare={setFilesToShare}
                                                              filesToShare={new Set([file.id])}/>
-                            <RenameModalButton classes="hidden group-hover:block mr-2 z-10"
+                            <RenameModalButton classes="hidden group-hover:flex mr-2 z-10"
                                                setIsRenameModalOpen={setIsRenameModalOpen}
                                                setFileToRename={setFileToRename}
                                                fileToRename={file}/> </>)

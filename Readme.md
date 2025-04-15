@@ -44,6 +44,7 @@ https://demo.personaldrive.xyz/
 - Edit text files
 - Create new files
 - Markdown supported
+- PDF viewer improvements
 
 ## Requirements:
 - A server running PHP with sqlite, PHP composer, nodejs, npm.
@@ -189,7 +190,6 @@ max_file_uploads = 10000
 
 
 ## Todo:
-- feature: Improve PDF preview. Currently only shows one page
 - feature: Move items between folders
 - feature: More preview-able files - doc, docx, ppt. Unsure if this will be feasible.
 
