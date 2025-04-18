@@ -109,7 +109,6 @@ const TxtViewer = ({ previewFile, slug, isEditingRef, isFocusedRef, isInEditMode
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [handleKeyDown]);
-    console.log('content',content);
 
     return (
         <div className="relative overflow-auto">
