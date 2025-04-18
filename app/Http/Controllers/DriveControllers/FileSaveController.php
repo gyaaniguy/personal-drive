@@ -11,8 +11,10 @@ use App\Services\LPathService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
+use App\Http\Controllers\Controller;
 
-class FileSaveController
+
+class FileSaveController extends Controller
 {
     protected LPathService $pathService;
 

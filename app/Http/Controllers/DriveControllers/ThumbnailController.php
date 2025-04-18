@@ -7,8 +7,9 @@ use App\Models\LocalFile;
 use App\Services\ThumbnailService;
 use App\Traits\FlashMessages;
 use Illuminate\Http\RedirectResponse;
+use App\Http\Controllers\Controller;
 
-class ThumbnailController
+class ThumbnailController extends Controller
 {
     use FlashMessages;
 
