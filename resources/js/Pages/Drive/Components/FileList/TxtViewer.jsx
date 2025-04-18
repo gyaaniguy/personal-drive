@@ -88,8 +88,6 @@ const TxtViewer = ({ previewFile, slug, isEditingRef, isFocusedRef, isInEditMode
         fetchTextFile(src);
     }
     
-
-    console.log(previewFile);
     useEffect(() => {
         let src = '/fetch-file/' + previewFile.id + `?t=${Date.now()}`;
         fetchSrcFile(src);
@@ -111,6 +109,7 @@ const TxtViewer = ({ previewFile, slug, isEditingRef, isFocusedRef, isInEditMode
             window.removeEventListener('keydown', handleKeyDown);
         };
     }, [handleKeyDown]);
+    console.log('content',content);
 
     return (
         <div className="relative overflow-auto">
@@ -128,8 +127,8 @@ const TxtViewer = ({ previewFile, slug, isEditingRef, isFocusedRef, isInEditMode
                 />
             ) : previewFile.filename.endsWith('.md') ? (
                     <div
-                        className="prose prose-invert w-[90vw] md:w-[70vw]  "
-                        dangerouslySetInnerHTML={{ __html: marked.parse(content) }}
+                        className="prose prose-invert w-[90vw] md:w-[70vw] cursor-pointer "
+                        dangerouslySetInnerHTML={{ __html: marked.parse(content || 'Click to edit..') }}
                         onClick={startEditing}
                     />
                 ) : (
