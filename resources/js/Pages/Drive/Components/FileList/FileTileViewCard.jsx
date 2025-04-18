@@ -41,7 +41,7 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
                             {(isSearch ? file.public_path + '/' : '') + file.filename}
                         </h3>
                         <div
-                            className="hover:bg-gray-600 p-2 pb-4 pl-4 cursor-pointer absolute -right-2 -top-2"
+                            className="hover:bg-gray-600 p-2 pb-3 pl-3 cursor-pointer absolute -right-2 -top-2"
                             onClick={() => handlerSelectFile(file)}
                         >
                             <input
