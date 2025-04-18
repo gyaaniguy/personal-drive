@@ -44,7 +44,7 @@ https://demo.personaldrive.xyz/
 - Edit text files
 - Create new files
 - Markdown supported
-- PDF viewer improvements
+- Move Files
 
 ## Requirements:
 - A server running PHP with sqlite, PHP composer, nodejs, npm.
@@ -190,7 +190,13 @@ max_file_uploads = 10000
 
 
 ## Todo:
-- feature: Move items between folders
+As of 18 April 2025 I have added several 'intermediate' level features. Next order of business is ensure the app is bug free and secure. Once I am satisfied about it, I'll have a v1 release.
+
+#### Future plans
+These are just thoughts. Can't make any promises.
+- feature: Encryption. Vital, so the host can't read our files
+- feature: improve search. Maybe in content search, folder specific. Maybe a special 'Notes' mode
+- feature: collaboration. Perhaps a checkbox that allows guests to upload ? 
 - feature: More preview-able files - doc, docx, ppt. Unsure if this will be feasible.
 
 
