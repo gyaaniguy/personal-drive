@@ -14,11 +14,11 @@ class FileRenameService
     {
         $this->pathService = $pathService;
     }
-    public function renameFile(LocalFile $file, string $filename): void
+    public function renameFile(LocalFile $file, string $newFilename): void
     {
         if ($file->is_dir) {
             $dirPublicPathname = ltrim($file->getPublicPathname(), '/');
-            $newFolderPublicPath = ltrim($file->public_path. DIRECTORY_SEPARATOR . $filename, '/');
+            $newFolderPublicPath = ltrim($file->public_path. DIRECTORY_SEPARATOR . $newFilename, '/');
 
             LocalFile::where("public_path", "like", $dirPublicPathname."%")
                 ->chunk(
@@ -44,11 +44,11 @@ class FileRenameService
                     }
                 );
         }
-        if (!rename($file->getPrivatePathNameForFile(), $file->private_path . DIRECTORY_SEPARATOR . $filename)) {
+        if (!rename($file->getPrivatePathNameForFile(), $file->private_path . DIRECTORY_SEPARATOR . $newFilename)) {
             throw FileRenameException::couldNotRename();
         }
 
-        $updated = $file->update(['filename' => $filename]);
+        $updated = $file->update(['filename' => $newFilename]);
 
         if (!$updated) {
             throw FileRenameException::couldNotUpdateIndex();

@@ -1,4 +1,4 @@
-import {memo, useCallback, useEffect, useRef, useState} from 'react';
+import {memo, useCallback, useEffect, useRef, useState, useContext} from 'react';
 import {useNavigate} from 'react-router-dom';
 import {Grid, List, StepBackIcon} from "lucide-react";
 import MediaViewer from "./FileList/MediaViewer.jsx";
@@ -12,11 +12,15 @@ import DownloadButton from "@/Pages/Drive/Components/DownloadButton.jsx";
 import ShowShareModalButton from "@/Pages/Drive/Components/Shares/ShowShareModalButton.jsx";
 import DeleteButton from "@/Pages/Drive/Components/DeleteButton.jsx";
 import UploadMenu from "@/Pages/Drive/Components/UploadMenu.jsx";
-import {usePage} from '@inertiajs/react';
+import {usePage, router} from '@inertiajs/react';
 import RenameModal from "@/Pages/Drive/Components/FileList/RenameModal.jsx";
+import CutButton from './CutButton.jsx';
+import PasteButton from './PasteButton.jsx';
+import { CutFilesContext } from "../Contexts/CutFilesContext.jsx";
 
 
 const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
+
 
     const {
         selectAllToggle,
@@ -36,6 +40,35 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
     const [isShareModalOpen, setIsShareModalOpen] = useState(false);
     const [fileToRename, setFileToRename] = useState(new Set());
     const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
+
+    const { cutFiles, setCutFiles, cutPath, setCutPath } = useContext(CutFilesContext); 
+
+    const handleCut = (e) => {
+        setCutFiles?.(new Set(selectedFiles));
+        setSelectedFiles?.(new Set());
+        setSelectAllToggle?.(false);
+        setCutPath(path);
+    };
+    const handlePasteFiles = () => {
+        console.log("Pasting files:", cutFiles, cutPath, path);
+
+        if (cutPath === path) {
+            alert("Files already in the same path");
+            return;
+        }
+        router.post('/move-files', {
+            fileList: Array.from(cutFiles),
+            path: path,
+        }, {
+            preserveState: false,
+            preserveScroll: true,
+            only: ['files', 'flash'],
+            onFinish: () => {
+                setCutFiles(new Set());
+            }
+        });
+    };
+    console.log('filebrowsersection', 'cutFiles', cutFiles);
 
     const navigate = useNavigate();
 
@@ -132,6 +165,7 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
         setFilesToShare(selectedFiles);
     }, [selectedFiles]);
 
+
     return (
         <div className=" min-h-screen rounded-md overflow-hidden px-1 sm:px-2 ">
 
@@ -149,20 +183,29 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
             <div className="rounded-md gap-x-2 flex sm:flex-row flex-col items-start md:mt-5  justify-between ">
 
                 <Breadcrumb path={path} isAdmin={isAdmin}/>
-                <div className="flex w-full justify-between sm:justify-end items-stretch ">
+                <div className="flex w-full justify-between sm:justify-end items-center ">
                     {selectedFiles.size > 0 &&
-                        <div className='flex gap-x-1 h-10'>
+                        <div className='flex gap-x-1 h-8 md:h-10 '>
                             <DownloadButton setSelectedFiles={setSelectedFiles} selectedFiles={selectedFiles}
                                             setStatusMessage={setStatusMessage} statusMessage={statusMessage}
                                             setSelectAllToggle={setSelectAllToggle} slug={slug}
                                             setAlertStatus={setAlertStatus}/>
                             {isAdmin &&
-                                <>
+                                <>                                
                                     <ShowShareModalButton setIsShareModalOpen={setIsShareModalOpen}/>
+                                    {cutFiles.size === 0 && (
+                                        <CutButton onCut={handleCut} />
+                                    ) }                                           
                                     <DeleteButton setSelectedFiles={setSelectedFiles} selectedFiles={selectedFiles}
-                                                  setSelectAllToggle={setSelectAllToggle}/></>
+                                                  setSelectAllToggle={setSelectAllToggle}/>
+                                </>
                             }
                         </div>
+                    }
+                    {cutFiles.size > 0 && 
+                        <PasteButton 
+                            onPaste={handlePasteFiles} // Example paste handler
+                        /> 
                     }
                     <div className=" w-full sm:w-auto sm:ml-1 justify-end items-center flex h-10">
 

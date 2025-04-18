@@ -13,7 +13,6 @@ use Illuminate\Http\JsonResponse;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Http\Controllers\Controller;
 
-
 class FileSaveController extends Controller
 {
     protected LPathService $pathService;

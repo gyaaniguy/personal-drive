@@ -12,7 +12,7 @@ const RenameModalButton = ({classes = '', setIsRenameModalOpen, setFileToRename,
     return (
         <Button classes={`border border-blue-700 text-blue-200 hover:bg-cyan-950 active:bg-gray-900 ${classes}`}
                 onClick={(e) => handleShareButton(e)}>
-            <TextCursorIcon className={`text-lime-500  hidden sm:inline  h-4 w-4`}/>
+            <TextCursorIcon className={`text-lime-500  h-4 w-4`}/>
             {!classes && <span className={`mx-1`}>Share</span>}
         </Button>
     );

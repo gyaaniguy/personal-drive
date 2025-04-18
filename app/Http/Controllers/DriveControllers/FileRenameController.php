@@ -8,7 +8,7 @@ use App\Services\FileRenameService;
 use App\Traits\FlashMessages;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
- 
+
 class FileRenameController extends Controller
 {
     use FlashMessages;

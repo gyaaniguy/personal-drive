@@ -30,7 +30,7 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
 
         return (
             <div
-                className={`group relative overflow-hidden rounded-lg border border-gray-800 bg-gray-900/50 p-3 transition-all duration-200 hover:border-gray-700 hover:shadow-lg w-[180px]  sm:w-[210px] md:w-[270px] lg:w-[250px] flex flex-col justify-between  ${isSelected ? 'bg-gray-950' : ''} `}
+                className={`group relative overflow-hidden rounded-lg border border-gray-800 bg-gray-900/50 p-1 md:p-3 transition-all duration-200 hover:border-gray-700 hover:shadow-lg w-[180px]  sm:w-[210px] md:w-[270px] lg:w-[250px] flex flex-col justify-between  ${isSelected ? 'bg-gray-950' : ''} `}
             >
 
                 <div className="">
@@ -93,26 +93,26 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
 
                 {/* Action Buttons */}
                 <div
-                    className="justify-between absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full px-3 mb-2 opacity-70 group-hover:flex hidden ">
+                    className="justify-between absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full px-1 md:px-3 mb-1 md:mb-2 opacity-70 group-hover:flex hidden ">
                     {isAdmin &&
                         <div className="flex-1">
                             <DeleteButton
-                                classes=" bg-red-500/10 hover:bg-red-500/20 text-red-500 py-2 px-4 rounded-md transition-colors duration-200  "
+                                classes=" bg-red-500/10 hover:bg-red-500/20 text-red-500 py-2 rounded-md transition-colors duration-200  "
                                 selectedFiles={selectedFileSet} setSelectedFiles={setSelectedFiles}/>
                         </div>
                     }
                     <div className="flex-1 flex ">
-                        {isAdmin && (<><ShowShareModalButton classes="hidden group-hover:flex mr-2 z-10"
+                        {isAdmin && (<><ShowShareModalButton classes="hidden group-hover:flex ml-1 md:ml-2  z-10"
                                                              setIsShareModalOpen={setIsShareModalOpen}
                                                              setFilesToShare={setFilesToShare}
                                                              filesToShare={new Set([file.id])}/>
-                            <RenameModalButton classes="hidden group-hover:flex mr-2 z-10"
+                            <RenameModalButton classes="hidden group-hover:flex ml-1 md:ml-2 z-10"
                                                setIsRenameModalOpen={setIsRenameModalOpen}
                                                setFileToRename={setFileToRename}
                                                fileToRename={file}/> </>)
                         }
                         <DownloadButton
-                            classes="w-full  justify-center hover:bg-green-950 text-center   py-2 rounded-md "
+                            classes="w-full ml-1 md:ml-2  justify-center hover:bg-green-950 text-center py-2 rounded-md "
                             selectedFiles={selectedFileSet}
                             token={token}
                             setStatusMessage={setStatusMessage}

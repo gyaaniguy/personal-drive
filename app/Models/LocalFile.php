@@ -102,6 +102,11 @@ class LocalFile extends Model
         return $this->where('public_path', 'like', $this->getPublicPathname().'%')->delete();
     }
 
+    public static function getIdsByLikePublicPath(string $search): array
+    {
+        return self::where("public_path", "like", $search . "%")->pluck('id')->toArray();
+    }
+
 
     public static function getItemSizeText($item): string
     {
@@ -114,5 +119,18 @@ class LocalFile extends Model
             ->where('public_path', $file->getRelativePath())
             ->first();
 
+    }
+
+    public function isValidFile(): bool
+    {
+        return is_file($this->getPrivatePathNameForFile()) && $this->is_dir === 0;
+    }
+    public function isValidDir(): bool
+    {
+        return is_dir($this->getPrivatePathNameForFile()) && $this->is_dir === 1;
+    }
+    public function fileExists(): bool
+    {
+        return file_exists($this->getPrivatePathNameForFile());
     }
 }

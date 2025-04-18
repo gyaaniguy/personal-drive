@@ -49,38 +49,36 @@ class UploadService
 
     public function replaceFromTemp(): bool
     {
-
         $tempDirFullPath = $this->getTempStorageDirFull();
-
-        if ($tempDirFullPath && file_exists($tempDirFullPath) && is_dir($tempDirFullPath)) {
-            $storageDirPathRoot = $this->pathService->getStorageDirPath();
-            if ($storageDirPathRoot && file_exists($storageDirPathRoot) && is_dir($storageDirPathRoot)) {
-                foreach (File::allFiles($tempDirFullPath) as $file) {
-                    $target = str_replace($tempDirFullPath, $storageDirPathRoot, $file->getPathname());
-
-                    if (file_exists($target) &&  $this->isFileFolderMisMatch($file, $target)) {
-                        continue;
-                    }
-
-                    File::ensureDirectoryExists(dirname($target));
-                    $localFile = LocalFile::getForFileObj($file);
-                    File::move($file, $target);
-                    $file = new SplFileInfo($target);
-                    if (!$localFile) {
-                        $dirSize = [];
-                        $itemDetails = $this->localFileStatsService->getFileItemDetails($file, $dirSize);
-                        $localFile = LocalFile::updateOrCreate($itemDetails, ['filename', 'public_path']);
-                    } else {
-                        $this->localFileStatsService->updateFileStats($localFile, $file);
-                    }
-
-                    $this->thumbnailService->genThumbnailsForFileIds([$localFile->id]);
-                }
-                return $this->cleanOldTempFiles();
-
-            }
+        $storageDirPathRoot = $this->pathService->getStorageDirPath();
+        if (!$storageDirPathRoot || !file_exists($storageDirPathRoot) || !is_dir($storageDirPathRoot)) {
+            return false;
         }
-        return false;
+        if (!$tempDirFullPath || !file_exists($tempDirFullPath) || !is_dir($tempDirFullPath)) {
+            return false;
+        }
+        foreach (File::allFiles($tempDirFullPath) as $file) {
+            $targetPathName = str_replace($tempDirFullPath, $storageDirPathRoot, $file->getPathname());
+
+            if (file_exists($targetPathName) && $this->isFileFolderMisMatch($file, $targetPathName)) {
+                continue;
+            }
+
+            File::ensureDirectoryExists(dirname($targetPathName));
+            $localFile = LocalFile::getForFileObj($file);
+            File::move($file, $targetPathName);
+            $file = new SplFileInfo($targetPathName);
+            if (!$localFile) {
+                $dirSize = [];
+                $itemDetails = $this->localFileStatsService->getFileItemDetails($file, $dirSize);
+                $localFile = LocalFile::updateOrCreate($itemDetails, ['filename', 'public_path']);
+            } else {
+                $this->localFileStatsService->updateFileStats($localFile, $file);
+            }
+
+            $this->thumbnailService->genThumbnailsForFileIds([$localFile->id]);
+        }
+        return $this->cleanOldTempFiles();
     }
 
     public function isFileFolderMisMatch(\Symfony\Component\Finder\SplFileInfo $file, array|string $target): bool
