@@ -3,14 +3,12 @@
 namespace App\Http\Requests\DriveRequests;
 
 use Illuminate\Foundation\Http\FormRequest;
+use App\Http\Requests\CommonRequest;
 
 class DownloadRequest extends FormRequest
 {
     public function rules(): array
     {
-        return [
-            'fileList' => 'required|array',
-            'fileList.*' => 'ulid',
-        ];
+        return CommonRequest::fileListRules();
     }
 }
