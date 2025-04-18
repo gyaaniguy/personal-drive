@@ -9,7 +9,7 @@ class SearchRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'query' => 'required|string|alpha_num',
+            'query' => 'required|string|alpha_num|max:20',
         ];
     }
 }
