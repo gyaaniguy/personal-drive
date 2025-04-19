@@ -2,6 +2,7 @@
 
 namespace App\Http\Requests;
 
+use App\Rules\ValidPath;
 use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Validation\Rules\Password;
 
@@ -14,7 +15,7 @@ class CommonRequest extends FormRequest
 
     public static function pathRules(): array
     {
-        return ['nullable', 'string', 'regex:/^[\. a-zA-Z0-9_\-\/\\\]+$/', 'max:100'];
+        return ['nullable', 'string', new ValidPath(), 'max:100'];
     }
 
     public static function passwordRules(): array
