@@ -8,7 +8,7 @@ use Illuminate\Support\Facades\File;
 
 class FileDeleteService
 {
-    public function deleteFiles(Builder $filesInDB, string $rootPath): int
+    public function deleteFiles(Builder $filesInDB, string $rootStoragePath): int
     {
         $filesDeleted = 0;
 
@@ -18,7 +18,7 @@ class FileDeleteService
                 continue;
             }
 
-            if ($this->handleDirectoryDeletion($file, $privateFilePathName, $rootPath)) {
+            if ($this->handleDirectoryDeletion($file, $privateFilePathName, $rootStoragePath)) {
                 $filesDeleted++;
             }
 
@@ -31,10 +31,10 @@ class FileDeleteService
         return $filesDeleted;
     }
 
-    protected function handleDirectoryDeletion(LocalFile $file, string $privateFilePathName, string $rootPath): bool
+    protected function handleDirectoryDeletion(LocalFile $file, string $privateFilePathName, string $rootStoragePath): bool
     {
         if ($this->isDeletableDirectory($file, $privateFilePathName) &&
-            $this->isDirSubDirOfStorage($privateFilePathName, $rootPath)) {
+            $this->isDirSubDirOfStorage($privateFilePathName, $rootStoragePath)) {
             File::deleteDirectory($privateFilePathName);
             $file->deleteUsingPublicPath();
             return true;
@@ -47,9 +47,9 @@ class FileDeleteService
         return $file->is_dir === 1 && file_exists($privateFilePathName) && is_dir($privateFilePathName);
     }
 
-    public function isDirSubDirOfStorage(string $privateFilePathName, string $rootPath): string|false
+    public function isDirSubDirOfStorage(string $privateFilePathName, string $rootStoragePath): string|false
     {
-        return strstr($privateFilePathName, $rootPath);
+        return strstr($privateFilePathName, $rootStoragePath);
     }
 
     public function isDeletableFile(LocalFile $file): bool

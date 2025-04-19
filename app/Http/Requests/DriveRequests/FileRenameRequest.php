@@ -11,11 +11,7 @@ class FileRenameRequest extends FormRequest
     {
         return [
             'id' => CommonRequest::localFileIdRules(),
-            'filename' => [
-                'required',
-                'string',
-                'not_regex:/[<>:;,?"*|\/]/',
-            ],
+            'filename' => CommonRequest::itemNameRule()
         ];
     }
 }

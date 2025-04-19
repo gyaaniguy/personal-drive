@@ -102,9 +102,14 @@ class LocalFile extends Model
         return $this->where('public_path', 'like', $this->getPublicPathname().'%')->delete();
     }
 
+    public static function getByPublicPathLikeSearch(string $search): Builder
+    {
+        return self::where('public_path', 'like', $search.'%');
+    }
+
     public static function getIdsByLikePublicPath(string $search): array
     {
-        return self::where("public_path", "like", $search . "%")->pluck('id')->toArray();
+        return self::getByPublicPathLikeSearch($search)->pluck('id')->toArray();
     }
 
 
