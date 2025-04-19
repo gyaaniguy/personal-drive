@@ -51,6 +51,7 @@ class UploadService
     {
         $tempDirFullPath = $this->getTempStorageDirFull();
         $storageDirPathRoot = $this->pathService->getStorageDirPath();
+
         if (!$storageDirPathRoot || !file_exists($storageDirPathRoot) || !is_dir($storageDirPathRoot)) {
             return false;
         }

@@ -92,7 +92,6 @@ class LocalFileStatsService
             return 'folder';
         }
         $mimeType = mime_content_type($item->getPathname());
-        // dd($mimeType);
 
         if (str_starts_with($mimeType, 'image/')) {
             $fileType = 'image';

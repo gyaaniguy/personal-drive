@@ -74,7 +74,7 @@ class UploadController extends Controller
             $destinationFullPath = $privatePath . $fileNameWithDir;
             if (file_exists($destinationFullPath) && $tempStorageDirFull) {
                 $duplicatesDetected++;
-                $this->uploadToDir($tempStorageDirFull . ($publicPath ? '/' . $publicPath : '') . $fileNameWithDir, $file);
+                $this->uploadToDir($tempStorageDirFull . ($publicPath ? '/' . $publicPath : '') . '/' . $fileNameWithDir, $file);
             } else {
                 $successfulUploads += $this->uploadToDir($destinationFullPath, $file);
             }

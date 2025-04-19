@@ -13,7 +13,6 @@ class HandleGuestShareMiddleware
     public function handle(Request $request, Closure $next): Response
     {
         $slug = $request->route('slug') ?? $request->input('slug');
-
         if (!$slug) {
             return redirect()->route('rejected');
         }
