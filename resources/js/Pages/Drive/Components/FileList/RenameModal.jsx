@@ -1,11 +1,10 @@
-import React, {useEffect, useState} from 'react';
+import {useEffect, useState} from 'react';
 import Modal from '../Modal.jsx'
 import {router} from "@inertiajs/react";
 
 const RenameModal = ({
                          isRenameModalOpen, setIsRenameModalOpen,
                          setFileToRename, fileToRename,
-                         path,
                      }) => {
 
     const [formData, setFormData] = useState(() => ({
@@ -39,7 +38,7 @@ const RenameModal = ({
             preserveState: true,
             preserveScroll: true,
             only: ['files', 'flash', 'errors'],
-            onSuccess: (response) => {
+            onSuccess: () => {
                 handleCloseRenameModal(false);
             },
             onFinish: () => {

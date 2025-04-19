@@ -43,7 +43,7 @@ const UploadMenu = ({path, setStatusMessage, files}) => {
         formData.append('path', path);
         router.post('/upload', formData, {
             only: ['files', 'flash'],
-            onSuccess: (response) => {
+            onSuccess: () => {
                 setUploadedFiles(selectedFileForUpload);
             },
             onError: (error) => {
@@ -51,7 +51,7 @@ const UploadMenu = ({path, setStatusMessage, files}) => {
                     setStatusMessage('File too large for server to handle. Please upload a smaller file.');
                 }
             },
-            onFinish: (response) => {
+            onFinish: () => {
                 setStatusMessage('');
                 setIsMenuOpen(false);
                 resetFileFolderInput();

@@ -1,4 +1,4 @@
-import {ClipboardCopyIcon, ScissorsIcon, Trash2Icon} from "lucide-react";
+import {ClipboardCopyIcon} from "lucide-react";
 import Button from "./Generic/Button.jsx"
 
 const PasteButton = ({classes, onPaste}) => {

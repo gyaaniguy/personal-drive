@@ -1,4 +1,4 @@
-import React, {useEffect} from 'react';
+import {useEffect} from 'react';
 import SortIcon from "../../Svgs/SortIcon.jsx";
 import FileTileViewCard from "@/Pages/Drive/Components/FileList/FileTileViewCard.jsx";
 import useThumbnailGenerator from "@/Pages/Drive/Hooks/useThumbnailGenerator.jsx";

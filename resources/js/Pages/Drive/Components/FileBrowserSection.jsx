@@ -43,7 +43,7 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
 
     const { cutFiles, setCutFiles, cutPath, setCutPath } = useContext(CutFilesContext); 
 
-    const handleCut = (e) => {
+    const handleCut = () => {
         setCutFiles?.(new Set(selectedFiles));
         setSelectedFiles?.(new Set());
         setSelectAllToggle?.(false);

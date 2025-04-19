@@ -1,5 +1,3 @@
-import React from 'react';
-
 import FileListRow from "./FileListRow.jsx";
 import {Link} from '@inertiajs/react';
 import SortIcon from "../../Svgs/SortIcon.jsx";

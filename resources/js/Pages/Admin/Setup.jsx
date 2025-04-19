@@ -3,7 +3,7 @@ import {useState} from "react";
 import SetupRaw from "./Layouts/SetupRaw.jsx";
 
 
-export default function Setup({}) {
+export default function Setup() {
 
     const [formData, setFormData] = useState({
         username: '',

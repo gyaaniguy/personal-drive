@@ -1,4 +1,4 @@
-import React, { useEffect, useRef, useState, useCallback } from 'react';
+import { useEffect, useRef, useState, useCallback } from 'react';
 import axios from 'axios';
 import { Marked } from "marked";
 import { markedHighlight } from "marked-highlight";
@@ -18,7 +18,7 @@ const TxtViewer = ({ previewFile, slug, isEditingRef, isFocusedRef, isInEditMode
         markedHighlight({
             emptyLangClass: 'hljs',
             langPrefix: 'hljs language-',
-            highlight(code, lang, info) {
+            highlight(code, lang) {
                 const language = hljs.getLanguage(lang) ? lang : 'plaintext';
                 return hljs.highlight(code, { language }).value;
             }

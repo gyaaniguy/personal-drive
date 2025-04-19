@@ -1,5 +1,5 @@
 // src/App.js
-import React from 'react';
+
 import {FiArrowUp, FiCheckSquare, FiGithub, FiLayout, FiLock, FiServer, FiStar, FiVideo, FiZap} from 'react-icons/fi';
 import {DiLaravel, DiReact} from 'react-icons/di';
 

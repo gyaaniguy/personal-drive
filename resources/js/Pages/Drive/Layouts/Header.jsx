@@ -3,7 +3,7 @@ import {Link} from "@inertiajs/react";
 import SearchBar from "@/Pages/Drive/Components/SearchBar.jsx";
 import useSearchUtil from '@/Pages/Drive/Hooks/useSearchUtil.jsx';
 
-export default function Header({}) {
+export default function Header() {
     const {handleSearch} = useSearchUtil();
     return (
         <div className="bg-gray-900">

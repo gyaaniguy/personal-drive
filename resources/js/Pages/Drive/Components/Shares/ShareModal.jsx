@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import Modal from '../Modal.jsx'
 import {Link, router} from "@inertiajs/react";
 import {CopyIcon} from "lucide-react";

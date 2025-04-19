@@ -23,7 +23,7 @@ const AlertBox = React.memo(function AlertBox({message, alertStatus = true}) {
             flash.message = '';
             flash.status = true;
         }
-        const timer = setTimeout(() => {
+        setTimeout(() => {
             setAlertBoxData({message: '', status: true});
         }, 10000);
 

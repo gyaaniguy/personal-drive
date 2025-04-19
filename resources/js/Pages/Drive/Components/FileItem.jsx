@@ -23,7 +23,7 @@ const FileItem = React.memo(function FileItem({
                                               }) {
     return (
         <div
-            className={` flex items-center  hover:bg-gray-900 justify-between`} onClick={(e) => handleFileClick(file)}
+            className={` flex items-center  hover:bg-gray-900 justify-between`} onClick={() => handleFileClick(file)}
         >
             <div className="flex p-4 ">
                 <File className={`mr-2 text-gray-300 `} size={20}/>

@@ -1,4 +1,4 @@
-import React, {useState} from 'react';
+import {useState} from 'react';
 import {router} from "@inertiajs/react";
 import AlertBox from "@/Pages/Drive/Components/AlertBox.jsx";
 

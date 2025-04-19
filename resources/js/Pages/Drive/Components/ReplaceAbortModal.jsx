@@ -1,4 +1,3 @@
-import React from 'react';
 import Modal from './Modal.jsx';
 import {useForm} from '@inertiajs/react';
 
@@ -23,7 +22,7 @@ const ReplaceAbort = ({isReplaceAbortModalOpen, setIsReplaceAbortModalOpen}) => 
             preserveState: true,
             preserveScroll: true,
             only: ['files', 'flash', 'errors'],
-            onSuccess: (response) => {
+            onSuccess: () => {
                 handleCloseModal(false);
                 setTimeout(forceReloadImages, 500);
             },

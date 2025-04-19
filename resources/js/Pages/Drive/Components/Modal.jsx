@@ -1,5 +1,3 @@
-import React from 'react';
-
 const Modal = ({isOpen, onClose, title, children, classes, shouldCloseOnOverlayClick = true}) => {
     return (
         isOpen && (

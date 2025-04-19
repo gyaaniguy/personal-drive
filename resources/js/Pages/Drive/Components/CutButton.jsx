@@ -1,4 +1,4 @@
-import {ScissorsIcon, Trash2Icon} from "lucide-react";
+import {ScissorsIcon} from "lucide-react";
 import Button from "./Generic/Button.jsx"
 
 const CutButton = ({classes, onCut}) => {
