@@ -1,56 +1,70 @@
-import {useEffect, useState} from 'react';
-import Modal from '../Modal.jsx'
-import {router} from "@inertiajs/react";
+import { useEffect, useState } from "react";
+import Modal from "../Modal.jsx";
+import { router } from "@inertiajs/react";
 
 const RenameModal = ({
-                         isRenameModalOpen, setIsRenameModalOpen,
-                         setFileToRename, fileToRename,
-                     }) => {
-
+    isRenameModalOpen,
+    setIsRenameModalOpen,
+    setFileToRename,
+    fileToRename,
+}) => {
     const [formData, setFormData] = useState(() => ({
         id: fileToRename?.id || "",
-        filename: fileToRename?.filename || ""
+        filename: fileToRename?.filename || "",
     }));
 
     useEffect(() => {
         if (fileToRename) {
-            setFormData({id: fileToRename.id, filename: fileToRename.filename});
+            setFormData({
+                id: fileToRename.id,
+                filename: fileToRename.filename,
+            });
         }
     }, [fileToRename]);
     const handleChange = (e) => {
-        const {id, value} = e.target;
-        setFormData(prevState => ({
+        const { id, value } = e.target;
+        setFormData((prevState) => ({
             ...prevState,
-            [id]: value
+            [id]: value,
         }));
     };
 
     function handleCloseRenameModal(status) {
-        setIsRenameModalOpen(status)
+        setIsRenameModalOpen(status);
         setFileToRename?.(new Set());
     }
 
     const handleSubmit = async (e) => {
         e.preventDefault();
-        router.post('/rename-file', {
-            ...formData,
-        }, {
-            preserveState: true,
-            preserveScroll: true,
-            only: ['files', 'flash', 'errors'],
-            onSuccess: () => {
-                handleCloseRenameModal(false);
+        router.post(
+            "/rename-file",
+            {
+                ...formData,
             },
-            onFinish: () => {
-
-            }
-        });
-    }
+            {
+                preserveState: true,
+                preserveScroll: true,
+                only: ["files", "flash", "errors"],
+                onSuccess: () => {
+                    handleCloseRenameModal(false);
+                },
+                onFinish: () => {},
+            },
+        );
+    };
 
     return (
-        <Modal isOpen={isRenameModalOpen} onClose={handleCloseRenameModal} title="Rename file" classes=" ">
+        <Modal
+            isOpen={isRenameModalOpen}
+            onClose={handleCloseRenameModal}
+            title="Rename file"
+            classes=" "
+        >
             <div className="space-y-4">
-                <form onSubmit={handleSubmit} className="space-y-4 text-gray-300 max:w-[90vw] w-[50vw]">
+                <form
+                    onSubmit={handleSubmit}
+                    className="space-y-4 text-gray-300 max:w-[90vw] w-[50vw]"
+                >
                     <div>
                         <input
                             type="text"
@@ -74,4 +88,3 @@ const RenameModal = ({
 };
 
 export default RenameModal;
-

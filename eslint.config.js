@@ -1,6 +1,8 @@
 import js from '@eslint/js';
 import react from 'eslint-plugin-react';
 import globals from 'globals';
+import prettier from 'eslint-plugin-prettier';
+import prettierConfig from 'eslint-config-prettier';
 
 export default [
     js.configs.recommended,
@@ -29,6 +31,13 @@ export default [
             react: {
                 version: 'detect',
             },
+        },
+    },
+    {
+        files: ['resources/js/**/*.js', 'resources/js/**/*.jsx'],
+        plugins: { prettier },
+        rules: {
+            'prettier/prettier': 'error',
         },
     },
 ];

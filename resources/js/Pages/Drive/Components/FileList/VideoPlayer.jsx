@@ -1,11 +1,11 @@
-import {useEffect, useRef, useState} from 'react';
+import { useEffect, useRef, useState } from "react";
 
-const VideoPlayer = ({id, slug}) => {
-    let src = '/fetch-file/' + id;
+const VideoPlayer = ({ id, slug }) => {
+    let src = "/fetch-file/" + id;
 
-    src += slug ? '/' + slug : ''
+    src += slug ? "/" + slug : "";
     const [autoplay, setAutoplay] = useState(() => {
-        const savedAutoplay = localStorage.getItem('videoAutoplay');
+        const savedAutoplay = localStorage.getItem("videoAutoplay");
         return savedAutoplay !== null ? JSON.parse(savedAutoplay) : false;
     });
     const videoRef = useRef(null);
@@ -17,7 +17,7 @@ const VideoPlayer = ({id, slug}) => {
     }, [autoplay]);
 
     const handleAutoplayToggle = () => {
-        localStorage.setItem('videoAutoplay', JSON.stringify(!autoplay));
+        localStorage.setItem("videoAutoplay", JSON.stringify(!autoplay));
         setAutoplay(!autoplay);
     };
 
@@ -30,10 +30,7 @@ const VideoPlayer = ({id, slug}) => {
                 autoPlay={autoplay}
                 className="max-w-2xl rounded-lg shadow-lg max-h-[90vh]"
             >
-                <source
-                    src={src}
-                    type="video/mp4"
-                />
+                <source src={src} type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
             <div className="flex items-center space-x-2">
@@ -51,8 +48,8 @@ const VideoPlayer = ({id, slug}) => {
                     Autoplay
                 </label>
             </div>
-        </div>);
+        </div>
+    );
 };
 
 export default VideoPlayer;
-

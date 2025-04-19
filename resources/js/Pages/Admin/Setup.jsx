@@ -1,30 +1,36 @@
-import {router} from "@inertiajs/react";
-import {useState} from "react";
+import { router } from "@inertiajs/react";
+import { useState } from "react";
 import SetupRaw from "./Layouts/SetupRaw.jsx";
 
-
 export default function Setup() {
-
     const [formData, setFormData] = useState({
-        username: '',
-        password: '',
-    })
+        username: "",
+        password: "",
+    });
 
     function handleChange(e) {
-        setFormData(oldValues => ({...oldValues, [e.target.id]: e.target.value}))
+        setFormData((oldValues) => ({
+            ...oldValues,
+            [e.target.id]: e.target.value,
+        }));
     }
 
     function handleSubmit(e) {
-        e.preventDefault()
-        router.post('/setup/account', formData,)
+        e.preventDefault();
+        router.post("/setup/account", formData);
     }
 
     return (
         <SetupRaw>
-            <p className="text-3xl font-semibold text-center uppercase ">Create the admin account</p>
+            <p className="text-3xl font-semibold text-center uppercase ">
+                Create the admin account
+            </p>
             <form onSubmit={handleSubmit} className="space-y-4">
                 <div>
-                    <label htmlFor="username" className="block text-sm font-medium  mb-1">
+                    <label
+                        htmlFor="username"
+                        className="block text-sm font-medium  mb-1"
+                    >
                         Username
                     </label>
                     <input
@@ -39,7 +45,10 @@ export default function Setup() {
                     />
                 </div>
                 <div>
-                    <label htmlFor="password" className="block text-sm font-medium  mb-1">
+                    <label
+                        htmlFor="password"
+                        className="block text-sm font-medium  mb-1"
+                    >
                         Password
                     </label>
                     <input

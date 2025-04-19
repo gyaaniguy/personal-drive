@@ -1,12 +1,12 @@
-import ApplicationLogo from '@/Components/ApplicationLogo.jsx';
-import {Link} from '@inertiajs/react';
+import ApplicationLogo from "@/Components/ApplicationLogo.jsx";
+import { Link } from "@inertiajs/react";
 
-export default function GuestLayout({children}) {
+export default function GuestLayout({ children }) {
     return (
         <div className="flex min-h-screen flex-col items-center  pt-6 sm:justify-center sm:pt-0 bg-gray-900">
             <div>
                 <Link href="/public">
-                    <ApplicationLogo className="h-20 w-20 fill-current text-gray-500"/>
+                    <ApplicationLogo className="h-20 w-20 fill-current text-gray-500" />
                 </Link>
             </div>
 

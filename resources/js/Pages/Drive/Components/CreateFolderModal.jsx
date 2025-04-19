@@ -1,34 +1,43 @@
-import {useState} from 'react';
-import Modal from './Modal.jsx'
-import {router} from "@inertiajs/react";
+import { useState } from "react";
+import Modal from "./Modal.jsx";
+import { router } from "@inertiajs/react";
 
-
-const CreateItemModal = ({isModalOpen, setIsModalOpen, path, isFile}) => {
-    const [itemName, setItemName] = useState('');
+const CreateItemModal = ({ isModalOpen, setIsModalOpen, path, isFile }) => {
+    const [itemName, setItemName] = useState("");
 
     const handleSubmit = async (e) => {
         e.preventDefault();
         const formData = {};
-        formData['path'] = path;
-        formData['itemName'] = itemName;
-        formData['isFile'] = isFile.current;
+        formData["path"] = path;
+        formData["itemName"] = itemName;
+        formData["isFile"] = isFile.current;
         setIsModalOpen(false);
-        router.post('/create-item', formData, {
-            only: ['files', 'flash'],
+        router.post("/create-item", formData, {
+            only: ["files", "flash"],
         });
-        setItemName('');
-    }
+        setItemName("");
+    };
 
     return (
-        <Modal isOpen={isModalOpen} onClose={setIsModalOpen} title={`Create ${isFile.current ? "File" : "Folder"}`} 
-        classes="max-w-md ">
+        <Modal
+            isOpen={isModalOpen}
+            onClose={setIsModalOpen}
+            title={`Create ${isFile.current ? "File" : "Folder"}`}
+            classes="max-w-md "
+        >
             <div className="space-y-4">
-                <form onSubmit={handleSubmit} className="space-y-4 text-gray-300">
+                <form
+                    onSubmit={handleSubmit}
+                    className="space-y-4 text-gray-300"
+                >
                     <div>
-                        <label htmlFor="itemName" className="block text-sm font-medium ">
+                        <label
+                            htmlFor="itemName"
+                            className="block text-sm font-medium "
+                        >
                             {isFile.current && "File "}
                             {!isFile.current && "Folder "}
-                             Name
+                            Name
                         </label>
                         <input
                             type="text"
@@ -52,4 +61,3 @@ const CreateItemModal = ({isModalOpen, setIsModalOpen, path, isFile}) => {
 };
 
 export default CreateItemModal;
-

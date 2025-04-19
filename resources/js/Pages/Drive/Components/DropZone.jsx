@@ -1,7 +1,7 @@
-import {useCallback, useEffect, useState} from "react";
-import {useDropzone} from "react-dropzone";
+import { useCallback, useEffect, useState } from "react";
+import { useDropzone } from "react-dropzone";
 
-function FileDropzone({onFilesAccepted}) {
+function FileDropzone({ onFilesAccepted }) {
     const [isDragActive, setIsDragActive] = useState(false);
 
     useEffect(() => {
@@ -28,12 +28,15 @@ function FileDropzone({onFilesAccepted}) {
         };
     }, []);
 
-    const onDrop = useCallback((acceptedFiles) => {
-        setIsDragActive(false);
-        onFilesAccepted(acceptedFiles);
-    }, [onFilesAccepted]);
+    const onDrop = useCallback(
+        (acceptedFiles) => {
+            setIsDragActive(false);
+            onFilesAccepted(acceptedFiles);
+        },
+        [onFilesAccepted],
+    );
 
-    const {getRootProps, getInputProps, isDragAccept} = useDropzone({
+    const { getRootProps, getInputProps, isDragAccept } = useDropzone({
         onDrop,
         noClick: true,
         noKeyboard: true,
@@ -64,7 +67,9 @@ function FileDropzone({onFilesAccepted}) {
             }}
         >
             <input {...getInputProps()} />
-            {isDragAccept ? "Drop files here to upload" : "Drag files here to upload"}
+            {isDragAccept
+                ? "Drop files here to upload"
+                : "Drag files here to upload"}
         </div>
     );
 }

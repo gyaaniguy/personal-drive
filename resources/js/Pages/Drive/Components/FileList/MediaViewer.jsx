@@ -1,34 +1,39 @@
 import Modal from "@/Pages/Drive/Components/Modal.jsx";
 import VideoPlayer from "./VideoPlayer.jsx";
 import ImageViewer from "./ImageViewer.jsx";
-import {ChevronLeft, ChevronRight} from 'lucide-react';
-import {useCallback, useEffect, useRef, useState} from "react";
+import { ChevronLeft, ChevronRight } from "lucide-react";
+import { useCallback, useEffect, useRef, useState } from "react";
 import PdfViewer from "@/Pages/Drive/Components/FileList/PdfViewer.jsx";
 import TxtViewer from "@/Pages/Drive/Components/FileList/TxtViewer.jsx";
 
 const MediaViewer = ({
-                         previewFile,
-                         isModalOpen,
-                         setIsModalOpen,
-                         selectFileForPreview,
-                         previewAbleFiles,
-                         slug,
-                         isAdmin
+    previewFile,
+    isModalOpen,
+    setIsModalOpen,
+    selectFileForPreview,
+    previewAbleFiles,
+    slug,
+    isAdmin,
 }) => {
     const [isActive, setIsActive] = useState(false);
     const isEditingRef = useRef(false);
     const [isInEditMode, setIsInEditMode] = useState(false);
-    const isFocusedRef = useRef(false);    
+    const isFocusedRef = useRef(false);
     const timeoutRef = useRef(null);
     let selectedFileType = previewFile.file_type;
     let selectedid = previewFile.id;
-    let currentFileIndex = previewAbleFiles.current.findIndex(file => file.id === selectedid);
+    let currentFileIndex = previewAbleFiles.current.findIndex(
+        (file) => file.id === selectedid,
+    );
 
-    function keepEditing(){
+    function keepEditing() {
         if (isFocusedRef.current) {
             return true;
         }
-        if (isEditingRef.current && !confirm('Discard changes? File has been edited.')) {
+        if (
+            isEditingRef.current &&
+            !confirm("Discard changes? File has been edited.")
+        ) {
             return true;
         }
         isEditingRef.current = false;
@@ -36,9 +41,9 @@ const MediaViewer = ({
     }
     function prevClick() {
         if (keepEditing()) {
-            return ;
+            return;
         }
-        if (previewAbleFiles.current[currentFileIndex]['prev']) {
+        if (previewAbleFiles.current[currentFileIndex]["prev"]) {
             let file = previewAbleFiles.current[--currentFileIndex];
             selectFileForPreview(file);
         }
@@ -46,38 +51,40 @@ const MediaViewer = ({
 
     function nextClick() {
         if (keepEditing()) {
-            return ;
+            return;
         }
-        if (previewAbleFiles.current[currentFileIndex]['next']) {
+        if (previewAbleFiles.current[currentFileIndex]["next"]) {
             let file = previewAbleFiles.current[++currentFileIndex];
             selectFileForPreview(file);
         }
     }
 
-    const handleKeyDown = useCallback((event) => {
-        if (event.key === 'ArrowLeft') {
-            prevClick();
-        }
-        if (event.key === 'ArrowRight') {
-            nextClick();
-        }
-        if (event.key === 'Escape') {
-            setIsModalOpen(false);
-        }
-    }, [prevClick, nextClick, isEditingRef, isFocusedRef]);
+    const handleKeyDown = useCallback(
+        (event) => {
+            if (event.key === "ArrowLeft") {
+                prevClick();
+            }
+            if (event.key === "ArrowRight") {
+                nextClick();
+            }
+            if (event.key === "Escape") {
+                setIsModalOpen(false);
+            }
+        },
+        [prevClick, nextClick, isEditingRef, isFocusedRef],
+    );
 
     useEffect(() => {
-        if ('ontouchstart' in window || navigator.maxTouchPoints > 0) {
+        if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
             setIsActive(true);
             return;
-        } 
-        window.addEventListener('keydown', handleKeyDown);
-        window.addEventListener('mousemove', handleMouseMove);
+        }
+        window.addEventListener("keydown", handleKeyDown);
+        window.addEventListener("mousemove", handleMouseMove);
         return () => {
-            window.removeEventListener('keydown', handleKeyDown);
-            window.removeEventListener('mousemove', handleMouseMove);
+            window.removeEventListener("keydown", handleKeyDown);
+            window.removeEventListener("mousemove", handleMouseMove);
         };
-        
     }, [isModalOpen]);
 
     function handleMouseMove() {
@@ -95,7 +102,7 @@ const MediaViewer = ({
 
     function onCloseModal() {
         if (keepEditing()) {
-            return ;
+            return;
         }
         setIsModalOpen(false);
     }
@@ -103,27 +110,52 @@ const MediaViewer = ({
     return (
         <Modal isOpen={isModalOpen} onClose={onCloseModal} classes={` mx-auto`}>
             <div className=" mx-auto ">
-                {previewAbleFiles && previewAbleFiles.current[currentFileIndex] && previewAbleFiles.current[currentFileIndex].prev &&
-                    <button onClick={prevClick}
-                            className={`absolute ${isActive ? 'block' : 'hidden'} left-8 sm:left-16  top-1/2   p-2 rounded-full hover:bg-gray-500 bg-gray-500  opacity-60  focus:outline-none z-50`}
-                    >
-                        <ChevronLeft className="text-white h-8 w-8 rounded-full"/>
-                    </button>}
+                {previewAbleFiles &&
+                    previewAbleFiles.current[currentFileIndex] &&
+                    previewAbleFiles.current[currentFileIndex].prev && (
+                        <button
+                            onClick={prevClick}
+                            className={`absolute ${isActive ? "block" : "hidden"} left-8 sm:left-16  top-1/2   p-2 rounded-full hover:bg-gray-500 bg-gray-500  opacity-60  focus:outline-none z-50`}
+                        >
+                            <ChevronLeft className="text-white h-8 w-8 rounded-full" />
+                        </button>
+                    )}
 
-                {previewAbleFiles && previewAbleFiles.current[currentFileIndex] && previewAbleFiles.current[currentFileIndex].next &&
-                    <button onClick={nextClick}
-                            className={`absolute ${isActive ? 'block' : 'hidden'}  right-8 sm:right-16  top-1/2   p-2 rounded-full hover:bg-gray-500 bg-gray-500  opacity-60  focus:outline-none z-50`}
-                    >
-                        <ChevronRight className="text-white h-8 w-8 rounded-full"/>
-                    </button>}
-                {selectedid && (
-                    (selectedFileType === 'video' && <VideoPlayer id={selectedid} slug={slug}/>) ||
-                    (selectedFileType === 'image' && <ImageViewer id={selectedid} slug={slug}/>) ||
-                    (selectedFileType === 'pdf' && <PdfViewer id={selectedid} slug={slug}/>) ||
-                    ((selectedFileType === 'text' || selectedFileType === 'empty') && <TxtViewer previewFile={previewFile} slug={slug} isEditingRef={isEditingRef} isFocusedRef={isFocusedRef} isInEditMode={isInEditMode} setIsInEditMode={setIsInEditMode} isAdmin={isAdmin} />))
-                }
+                {previewAbleFiles &&
+                    previewAbleFiles.current[currentFileIndex] &&
+                    previewAbleFiles.current[currentFileIndex].next && (
+                        <button
+                            onClick={nextClick}
+                            className={`absolute ${isActive ? "block" : "hidden"}  right-8 sm:right-16  top-1/2   p-2 rounded-full hover:bg-gray-500 bg-gray-500  opacity-60  focus:outline-none z-50`}
+                        >
+                            <ChevronRight className="text-white h-8 w-8 rounded-full" />
+                        </button>
+                    )}
+                {selectedid &&
+                    ((selectedFileType === "video" && (
+                        <VideoPlayer id={selectedid} slug={slug} />
+                    )) ||
+                        (selectedFileType === "image" && (
+                            <ImageViewer id={selectedid} slug={slug} />
+                        )) ||
+                        (selectedFileType === "pdf" && (
+                            <PdfViewer id={selectedid} slug={slug} />
+                        )) ||
+                        ((selectedFileType === "text" ||
+                            selectedFileType === "empty") && (
+                            <TxtViewer
+                                previewFile={previewFile}
+                                slug={slug}
+                                isEditingRef={isEditingRef}
+                                isFocusedRef={isFocusedRef}
+                                isInEditMode={isInEditMode}
+                                setIsInEditMode={setIsInEditMode}
+                                isAdmin={isAdmin}
+                            />
+                        )))}
             </div>
-        </Modal>);
+        </Modal>
+    );
 };
 
 export default MediaViewer;

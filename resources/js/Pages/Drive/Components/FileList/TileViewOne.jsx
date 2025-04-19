@@ -1,33 +1,31 @@
-import {useEffect} from 'react';
+import { useEffect } from "react";
 import SortIcon from "../../Svgs/SortIcon.jsx";
 import FileTileViewCard from "@/Pages/Drive/Components/FileList/FileTileViewCard.jsx";
 import useThumbnailGenerator from "@/Pages/Drive/Hooks/useThumbnailGenerator.jsx";
 
-
 const TileViewOne = ({
-                         filesCopy,
-                         token,
-                         setStatusMessage,
-                         setAlertStatus,
-                         handleFileClick,
-                         isSearch,
-                         sortCol,
-                         sortDetails,
-                         setFilesCopy,
-                         path,
-                         selectedFiles,
-                         handlerSelectFile,
-                         selectAllToggle,
-                         handleSelectAllToggle,
-                         setIsShareModalOpen,
-                         setFilesToShare,
-                         isAdmin,
-                         slug,
-                         setSelectedFiles,
-                         setIsRenameModalOpen,
-                         setFileToRename
-                     }) => {
-
+    filesCopy,
+    token,
+    setStatusMessage,
+    setAlertStatus,
+    handleFileClick,
+    isSearch,
+    sortCol,
+    sortDetails,
+    setFilesCopy,
+    path,
+    selectedFiles,
+    handlerSelectFile,
+    selectAllToggle,
+    handleSelectAllToggle,
+    setIsShareModalOpen,
+    setFilesToShare,
+    isAdmin,
+    slug,
+    setSelectedFiles,
+    setIsRenameModalOpen,
+    setFileToRename,
+}) => {
     useEffect(() => {
         useThumbnailGenerator(filesCopy, path);
     }, []);
@@ -42,29 +40,44 @@ const TileViewOne = ({
             <div className=" text-center flex items-center gap-x-2 justify-between mb-6 text-sm text-gray-400 ">
                 <div
                     className="text-center bg-gray-900/50 hover:bg-gray-700 hover:cursor-pointer flex items-center gap-x-2 p-1 md:p-3 "
-                    onClick={(e) => handleSelectAllToggle(filesCopy)}>
-                    <input className=" hover:cursor-pointer" type="checkbox" checked={selectAllToggle} readOnly/>
+                    onClick={(e) => handleSelectAllToggle(filesCopy)}
+                >
+                    <input
+                        className=" hover:cursor-pointer"
+                        type="checkbox"
+                        checked={selectAllToggle}
+                        readOnly
+                    />
                     <label className=" hover:cursor-pointer">Select All</label>
                 </div>
                 <div className="hover:cursor-pointer flex items-center gap-x-2">
                     <label></label>
                     <button
-                        className={`p-1 rounded-md bg-gray-700 hover:bg-gray-600  ${sortDetails.key === 'filename' ? 'bg-gray-900 border border-gray-500/80 text-blue-400' : ''}`}
-                        onClick={(e) => handleSortClick(e, 'filename')}
+                        className={`p-1 rounded-md bg-gray-700 hover:bg-gray-600  ${sortDetails.key === "filename" ? "bg-gray-900 border border-gray-500/80 text-blue-400" : ""}`}
+                        onClick={(e) => handleSortClick(e, "filename")}
                     >
-                        Name <SortIcon classes={`${sortDetails.key === 'filename' ? 'text-blue-500' : 'gray'} `}/>
+                        Name{" "}
+                        <SortIcon
+                            classes={`${sortDetails.key === "filename" ? "text-blue-500" : "gray"} `}
+                        />
                     </button>
                     <button
-                        className={`p-1 rounded-md bg-gray-700 hover:bg-gray-600  ${sortDetails.key === 'file_type' ? 'bg-gray-900 border border-gray-500/80  text-blue-400' : ''}`}
-                        onClick={(e) => handleSortClick(e, 'file_type')}
+                        className={`p-1 rounded-md bg-gray-700 hover:bg-gray-600  ${sortDetails.key === "file_type" ? "bg-gray-900 border border-gray-500/80  text-blue-400" : ""}`}
+                        onClick={(e) => handleSortClick(e, "file_type")}
                     >
-                        Type <SortIcon classes={`${sortDetails.key === 'file_type' ? 'text-blue-500' : 'gray'} `}/>
+                        Type{" "}
+                        <SortIcon
+                            classes={`${sortDetails.key === "file_type" ? "text-blue-500" : "gray"} `}
+                        />
                     </button>
                     <button
-                        className={`p-1 rounded-md bg-gray-700 hover:bg-gray-600  ${sortDetails.key === 'size' ? 'bg-gray-900 border border-gray-500/80 text-blue-400' : ''}`}
-                        onClick={(e) => handleSortClick(e, 'size')}
+                        className={`p-1 rounded-md bg-gray-700 hover:bg-gray-600  ${sortDetails.key === "size" ? "bg-gray-900 border border-gray-500/80 text-blue-400" : ""}`}
+                        onClick={(e) => handleSortClick(e, "size")}
                     >
-                        Size <SortIcon classes={`${sortDetails.key === 'size' ? 'text-blue-500' : 'gray'} `}/>
+                        Size{" "}
+                        <SortIcon
+                            classes={`${sortDetails.key === "size" ? "text-blue-500" : "gray"} `}
+                        />
                     </button>
                 </div>
             </div>

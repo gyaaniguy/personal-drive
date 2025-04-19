@@ -1,13 +1,11 @@
-import {useCallback, useState} from "react";
+import { useCallback, useState } from "react";
 
 function useSelectionUtil() {
-
     const [selectedFiles, setSelectedFiles] = useState(new Set());
     const [selectAllToggle, setSelectAllToggle] = useState(false);
 
-
     function handlerSelectFile(file) {
-        setSelectedFiles(prevSelectedFiles => {
+        setSelectedFiles((prevSelectedFiles) => {
             const newSelectedFiles = new Set(prevSelectedFiles);
             newSelectedFiles.has(file.id)
                 ? newSelectedFiles.delete(file.id) // Toggle off
@@ -16,7 +14,7 @@ function useSelectionUtil() {
         });
     }
 
-    const handlerSelectFileMemo = useCallback(handlerSelectFile, [])
+    const handlerSelectFileMemo = useCallback(handlerSelectFile, []);
 
     function handleSelectAllToggle(files) {
         // if false -> select all files | else ->   deselect all files
@@ -24,7 +22,7 @@ function useSelectionUtil() {
             setSelectedFiles(new Set());
             setSelectAllToggle(false);
         } else {
-            setSelectedFiles(new Set(files.map(file => file.id)));
+            setSelectedFiles(new Set(files.map((file) => file.id)));
             setSelectAllToggle(true);
         }
     }
@@ -35,9 +33,8 @@ function useSelectionUtil() {
         selectedFiles,
         setSelectedFiles,
         setSelectAllToggle,
-        handlerSelectFileMemo
-    }
-
+        handlerSelectFileMemo,
+    };
 }
 
 export default useSelectionUtil;
