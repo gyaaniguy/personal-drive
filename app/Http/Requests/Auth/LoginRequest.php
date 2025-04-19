@@ -29,7 +29,7 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => CommonRequest::usernameRules(),,
+            'username' => CommonRequest::usernameRules(),
             'password' => CommonRequest::passwordRules(),
         ];
     }
