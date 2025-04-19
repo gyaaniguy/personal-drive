@@ -4,7 +4,6 @@ namespace App\Http\Requests\DriveRequests;
 
 use App\Http\Requests\CommonRequest;
 use Illuminate\Foundation\Http\FormRequest;
-use Illuminate\Validation\Rules\Password;
 
 class ShareFilesGenRequest extends FormRequest
 {
@@ -12,7 +11,7 @@ class ShareFilesGenRequest extends FormRequest
     {
         return array_merge(CommonRequest::fileListRules(), [
             'slug' =>  ['nullable', 'unique:shares', 'string', CommonRequest::slugRegex()],
-            'password' => ['nullable', Password::min(6)],
+            'password' => CommonRequest::sharePasswordRules(),
             'expiry' => 'nullable|integer',
         ]);
     }

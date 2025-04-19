@@ -8,8 +8,8 @@ use Illuminate\Foundation\Http\FormRequest;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Str;
-use Illuminate\Validation\Rules\Password;
 use Illuminate\Validation\ValidationException;
+use App\Http\Requests\CommonRequest;
 
 class LoginRequest extends FormRequest
 {
@@ -29,8 +29,8 @@ class LoginRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'username' => ['required', 'string'],
-            'password' => ['required', Password::min(8)],
+            'username' => CommonRequest::usernameRules(),,
+            'password' => CommonRequest::passwordRules(),
         ];
     }
 

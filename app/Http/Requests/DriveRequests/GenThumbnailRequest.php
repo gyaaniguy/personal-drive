@@ -11,7 +11,7 @@ class GenThumbnailRequest extends FormRequest
     {
         return [
             'ids' => 'required|array|min:1',
-            'ids.*' => 'required|string|ulid',
+            'ids.*' => CommonRequest::localFileIdRules(),
             'path' => CommonRequest::pathRules()
         ];
     }

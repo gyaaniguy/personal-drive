@@ -35,4 +35,25 @@ class CommonRequest extends FormRequest
             'fileList.*' => 'ulid',
         ];
     }
+
+    public static function usernameRules(): array
+    {
+        return ['required', 'string', 'regex:/^[0-9a-z\_]+$/'];
+    }
+
+    public static function itemNameRule(): array
+    {
+        return ['required', 'string','max:255','regex:/^[a-zA-Z0-9_\- \.]+$/'];
+    }
+
+    public static function localFileIdRules(): array
+    {
+        return ['required', 'string', 'ulid'];
+    }
+
+    public static function sharePasswordRules(): array
+    {
+        return ['nullable', 'string', Password::min(6)];
+    }
+
 }
