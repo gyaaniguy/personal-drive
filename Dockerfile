@@ -1,68 +1,113 @@
-FROM php:8.2-apache
+#--------------------------------------------------------------------------
+# Stage 1: Build Stage (Builder)
+#--------------------------------------------------------------------------
+    FROM php:8.2-apache AS builder
 
-# Set working directory
-WORKDIR /var/www/html/personal-drive
+    # Set working directory
+    WORKDIR /var/www/html/personal-drive
+    
+    # Install build-time system dependencies, PHP extensions, Node.js, and Composer
+    RUN apt-get update && apt-get install -y --no-install-recommends \
+        # System deps for PHP extensions & Composer/Node install
+        git unzip curl wget \
+        # --- DEV LIBRARIES ---
+        libsqlite3-dev libjpeg-dev libpng-dev libwebp-dev libfreetype6-dev zlib1g-dev libzip-dev \
+        # FFmpeg (needed at runtime, but install here if build steps depend on it)
+        ffmpeg \
+        # Node.js (using NodeSource script)
+        ca-certificates gnupg \
+        && mkdir -p /etc/apt/keyrings \
+        && curl -fsSL https://deb.nodesource.com/gpgkey/nodesource-repo.gpg.key | gpg --dearmor -o /etc/apt/keyrings/nodesource.gpg \
+        && NODE_MAJOR=20 \
+        && echo "deb [signed-by=/etc/apt/keyrings/nodesource.gpg] https://deb.nodesource.com/node_$NODE_MAJOR.x nodistro main" | tee /etc/apt/sources.list.d/nodesource.list \
+        && apt-get update && apt-get install -y --no-install-recommends nodejs \
+        # --- CONFIGURE AND INSTALL PHP EXTENSIONS HERE ---
+        && docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype \
+        && docker-php-ext-install pdo pdo_sqlite gd zip exif \
+        # Install Composer
+        && curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer \
+        # Clean up apt caches
+        && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    
+    # Copy application files
+    COPY . .
 
-# Install system dependencies
-RUN apt-get update && apt-get install -y \
-    unzip curl sudo sqlite3 libsqlite3-dev ffmpeg \
-    libjpeg-dev libpng-dev libwebp-dev libfreetype6-dev zlib1g-dev libzip-dev \
-    && docker-php-ext-configure gd --with-jpeg --with-webp --with-freetype \
-    && docker-php-ext-install pdo pdo_sqlite gd zip exif \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Install Node.js & clean up
-RUN curl -fsSL https://deb.nodesource.com/setup_20.x | bash - \
-    && apt-get install -y nodejs \
-    && apt-get clean && rm -rf /var/lib/apt/lists/*
-
-# Copy app files
-COPY . .
-
-# Set up environment file
-RUN cp .env.example .env
-
-# Install Composer
-RUN curl -sS https://getcomposer.org/installer | php -- --install-dir=/usr/local/bin --filename=composer
-
-
-
-
-# Create new directory and set permissions
-RUN mkdir /var/www/html/personal-drive-storage-folder \
-&& chown -R www-data:www-data storage bootstrap/cache database /var/www/html/personal-drive-storage-folder \
-&& chmod -R 770 storage bootstrap/cache database
-
-
-
-# Install PHP dependencies
-RUN composer install --no-interaction --prefer-dist --no-dev && rm -rf /root/.composer
-
-# Install npm dependencies
-RUN npm ci && npm run build
-
-# Clear & cache config
-RUN php artisan config:clear && php artisan config:cache
-
-# Copy Apache config
-COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
-
-# remove vite dev file, just in case.
-RUN rm -f public/hot
-
-# Enable Apache modules
-RUN a2enmod rewrite
-
-# Expose ports
-EXPOSE 80
-
-# Upload limits
-RUN echo "upload_max_filesize=1000M\npost_max_size=1000M\nmax_file_uploads=100" > /usr/local/etc/php/conf.d/uploads.ini
-
-# Entrypoint script will handle first-run setup
-COPY docker/entrypoint.sh /usr/local/bin/
-RUN chmod +x /usr/local/bin/entrypoint.sh
-ENTRYPOINT ["entrypoint.sh"]
-
-# Default command
-CMD ["apache2-foreground"]
+    # Set up environment file
+    RUN cp .env.example .env
+    
+    # Install PHP dependencies
+    RUN composer install --no-interaction --prefer-dist --no-dev --optimize-autoloader \
+        && rm -rf /root/.composer
+    
+    # Install npm dependencies and build assets
+    RUN npm ci && npm run build \
+        && rm -rf node_modules # Remove node_modules after build
+    
+    # Optimize Laravel
+    RUN php artisan config:clear && php artisan config:cache \
+        && php artisan route:cache \
+        && php artisan view:cache
+    
+    # remove vite dev file, just in case.
+    RUN rm -f public/hot
+    
+    # --- Find the extension dir (optional, for verification) ---
+    # RUN find /usr/local/lib/php/extensions -name '*.so'
+    
+    #--------------------------------------------------------------------------
+    # Stage 2: Final Stage
+    #--------------------------------------------------------------------------
+    FROM php:8.2-apache
+    
+    # Set working directory
+    WORKDIR /var/www/html/personal-drive
+    
+    # Install only *runtime* system dependencies
+    RUN apt-get update && apt-get install -y --no-install-recommends \
+        # --- RUNTIME LIBRARIES ONLY ---
+        sqlite3 libsqlite3-0 libjpeg62-turbo libpng16-16 libwebp7 libfreetype6 zlib1g libzip4 \
+        # Runtime deps for the application
+        ffmpeg \
+        # --- DO NOT RUN docker-php-ext-configure/install HERE ---
+        # Clean up apt caches
+        && apt-get clean && rm -rf /var/lib/apt/lists/* /tmp/* /var/tmp/*
+    
+    # --- COPY COMPILED EXTENSIONS FROM BUILDER ---
+    # Determine the correct extension directory path if needed, but this often works
+    COPY --from=builder /usr/local/lib/php/extensions/ /usr/local/lib/php/extensions/
+    
+    # --- COPY PHP EXTENSION CONFIGURATION FILES ---
+    # These files tell PHP to load the extensions. They are generated by docker-php-ext-install/enable in the builder.
+    COPY --from=builder /usr/local/etc/php/conf.d/ /usr/local/etc/php/conf.d/
+    
+    # Copy application code (excluding vendor) from builder stage
+    COPY --from=builder /var/www/html/personal-drive /var/www/html/personal-drive
+    
+    # Copy Composer vendor directory separately
+    COPY --from=builder /var/www/html/personal-drive/vendor /var/www/html/personal-drive/vendor
+    
+    # Copy Apache config
+    COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
+    
+    # Create external storage directory link target and set permissions
+    RUN mkdir -p storage/framework/{sessions,views,cache} storage/logs bootstrap/cache \
+        && mkdir /var/www/html/personal-drive-storage-folder \
+        && chown -R www-data:www-data storage bootstrap/cache database /var/www/html/personal-drive-storage-folder \
+        && chmod -R 770 storage bootstrap/cache database
+    
+    # Enable Apache modules
+    RUN a2enmod rewrite
+    
+    # Expose ports
+    EXPOSE 80
+    
+    # Upload limits
+    RUN echo "upload_max_filesize=1000M\npost_max_size=1000M\nmax_file_uploads=100" > /usr/local/etc/php/conf.d/uploads.ini
+    
+    # Entrypoint script
+    COPY docker/entrypoint.sh /usr/local/bin/
+    RUN chmod +x /usr/local/bin/entrypoint.sh
+    ENTRYPOINT ["entrypoint.sh"]
+    
+    # Default command
+    CMD ["apache2-foreground"]
