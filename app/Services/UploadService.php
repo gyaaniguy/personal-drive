@@ -65,18 +65,18 @@ class UploadService
             }
 
             File::ensureDirectoryExists(dirname($targetPathName));
-            $localFile = LocalFile::getForFileObj($file);
+            $existingFile = LocalFile::getForFileObj($file);
             File::move($file, $targetPathName);
             $file = new SplFileInfo($targetPathName);
-            if (!$localFile) {
+            if (!$existingFile) {
                 $dirSize = [];
                 $itemDetails = $this->localFileStatsService->getFileItemDetails($file, $dirSize);
-                $localFile = LocalFile::updateOrCreate($itemDetails, ['filename', 'public_path']);
+                $existingFile = LocalFile::updateOrCreate($itemDetails, ['filename', 'public_path']);
             } else {
-                $this->localFileStatsService->updateFileStats($localFile, $file);
+                $this->localFileStatsService->updateFileStats($existingFile, $file);
             }
 
-            $this->thumbnailService->genThumbnailsForFileIds([$localFile->id]);
+            $this->thumbnailService->genThumbnailsForFileIds([$existingFile->id]);
         }
         return $this->cleanOldTempFiles();
     }

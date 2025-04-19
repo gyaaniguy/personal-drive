@@ -50,8 +50,6 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
         setCutPath(path);
     };
     const handlePasteFiles = () => {
-        console.log("Pasting files:", cutFiles, cutPath, path);
-
         if (cutPath === path) {
             alert("Files already in the same path");
             return;
@@ -68,7 +66,6 @@ const FileBrowserSection = memo(({files, path, token, isAdmin, slug}) => {
             }
         });
     };
-    console.log('filebrowsersection', 'cutFiles', cutFiles);
 
     const navigate = useNavigate();
 

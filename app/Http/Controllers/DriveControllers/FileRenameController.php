@@ -13,8 +13,6 @@ class FileRenameController extends Controller
 {
     use FlashMessages;
 
-
-
     protected FileRenameService $fileRenameService;
 
     public function __construct(
