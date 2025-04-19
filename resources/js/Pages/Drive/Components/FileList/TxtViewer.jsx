@@ -66,8 +66,8 @@ const TxtViewer = ({
             }
             if (response.data?.message.includes("success")) {
                 setSavedMessage("Changes saved successfully!");
-                let src = "/fetch-file/" + previewFile.id + `?t=${Date.now()}`;
-                fetchTextFile(src);
+                let src = "/fetch-file/" + previewFile.id ;
+                appendParamsToTxtFileUrl(src);
             } else {
                 setSavedMessage("Error: " + response.data?.message);
             }
@@ -92,14 +92,15 @@ const TxtViewer = ({
         setSavedMessage("");
     };
 
-    const fetchSrcFile = (src) => {
+    const appendParamsToTxtFileUrl = (src) => {
         src += slug ? "/" + slug : "";
+        src += `?t=${Date.now()}`;
         fetchTextFile(src);
     };
 
     useEffect(() => {
-        let src = "/fetch-file/" + previewFile.id + `?t=${Date.now()}`;
-        fetchSrcFile(src);
+        let src = "/fetch-file/" + previewFile.id ;
+        appendParamsToTxtFileUrl(src);
     }, [previewFile, slug]);
 
     useEffect(() => {

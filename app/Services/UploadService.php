@@ -89,11 +89,11 @@ class UploadService
 
     public function cleanOldTempFiles(): bool
     {
-        $tempDirFull = $this->getTempStorageDirFull();
-        if ($tempDirFull && file_exists($tempDirFull) && is_dir($tempDirFull)) {
+        $tempDirFullPath = $this->getTempStorageDirFull();
+        if ($tempDirFullPath && file_exists($tempDirFullPath) && is_dir($tempDirFullPath)) {
             Session::forget($this->tempUuid);
             Session::forget($this->tempUuidTime);
-            return UploadFileHelper::deleteFolder($tempDirFull);
+            return UploadFileHelper::deleteFolder($tempDirFullPath);
         }
         return false;
     }
