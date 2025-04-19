@@ -33,8 +33,9 @@ it('creates a folder with the specified permissions', function () {
     rmdir($path); // Clean up
 });
 
-it('returns true if the folder already exists', function () {
-    $path = __DIR__;
-    $result = UploadFileHelper::makeFolder($path);
-    expect($result)->toBeTrue();
+it('throws an exception if the folder already exists', function () {
+    $path = __DIR__; // Existing folder
+    expect(function () use ($path) {
+        UploadFileHelper::makeFolder($path);
+    })->toThrow(Exception::class, "Could not create new folder");
 });

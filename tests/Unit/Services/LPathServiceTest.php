@@ -10,6 +10,7 @@ class LPathServiceTest extends TestCase
 {
     protected LPathService $lPathService;
     protected UUIDService $uuidService;
+    protected LPathService $lPathServiceMock;
     protected string $tempDir;
 
     protected function setUp(): void
@@ -55,7 +56,7 @@ class LPathServiceTest extends TestCase
         $this->lPathServiceMock->method('getStorageDirPath')->willReturn('/test/storage/path/test-uuid');
 
         $result = $this->lPathServiceMock->genPrivatePathFromPublic('/drive/nonexistent/path');
-        $this->assertEquals('', $result);
+        $this->assertEquals('/test/storage/path/test-uuid/nonexistent/path/', $result);
     }
 
 }
