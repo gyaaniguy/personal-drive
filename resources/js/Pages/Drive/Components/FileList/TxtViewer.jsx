@@ -139,14 +139,14 @@ const TxtViewer = ({
                 />
             ) : previewFile.filename.endsWith(".md") ? (
                 <div
-                    className="prose prose-invert w-[90vw] md:w-[70vw] cursor-pointer "
+                    className={`prose prose-invert w-[90vw] md:w-[70vw] ${isAdmin ? "cursor-pointer" : ""}`}
                     dangerouslySetInnerHTML={{
                         __html: marked.parse(content || "Click to edit.."),
                     }}
                     onClick={startEditing}
                 />
             ) : (
-                <pre className="w-[70vw] cursor-pointer" onClick={startEditing}>
+                <pre className={`w-[70vw]  ${isAdmin ? "cursor-pointer" : ""}`} onClick={startEditing}>
                     {content || "Click to edit..."}
                 </pre>
             )}
