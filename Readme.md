@@ -214,10 +214,12 @@ As of 18 April 2025, I have added several 'intermediate' level features. The nex
 
 #### Future Plans
 These are just thoughts. Can't make any promises.
-- 🔒 Feature: Encryption. Vital, so the host can't read our files
-- 🔍 Feature: Improve search. Maybe in-content search, folder-specific. Maybe a special 'Notes' mode
-- 🤝 Feature: Collaboration. Perhaps a checkbox that allows guests to upload? 
-- 📄 Feature: More previewable files - doc, docx, ppt. Unsure if this will be feasible.
+- Feature: Encryption. Vital, so the host can't read our files
+- Feature: Improve search. Maybe in-content search, folder-specific. Maybe a special 'Notes' mode
+- Feature: Collaboration. Perhaps a checkbox that allows guests to upload? 
+- Feature: Save playback position checkbox 
+- Feature: mp3/audio playback
+- Feature: More previewable files - doc, docx, ppt. Unsure if this will be feasible.
 
 ---
 
