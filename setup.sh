@@ -41,8 +41,10 @@ if [ -n "$APP_URL" ]; then
     sed -i "s|^APP_URL=.*|APP_URL=$APP_URL|" .env
 fi
 
-mkdir database/db 
-
+# Check if the directory exists before creating it
+if [ ! -d "database/db" ]; then
+    mkdir database/db
+fi
 echo "Installing composer dependencies..."
 composer install --no-interaction --prefer-dist
 
