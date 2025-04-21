@@ -8,8 +8,6 @@ export default {
         './storage/framework/views/*.php',
         './resources/views/**/*.blade.php',
         './resources/js/**/*.jsx',
-        'node_modules/daisyui/dist/**/*.js',
-        'node_modules/react-daisyui/dist/**/*.js',
         './resources/**/*.jsx',
     ],
 
@@ -23,7 +21,6 @@ export default {
 
     plugins: [
         forms,
-        require('daisyui'),
         require('@tailwindcss/typography'),
     ],
 };

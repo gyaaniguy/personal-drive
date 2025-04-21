@@ -45,8 +45,7 @@ const FileBrowserSection = memo(({ files, path, token, isAdmin, slug }) => {
     const [fileToRename, setFileToRename] = useState(new Set());
     const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
 
-    const { cutFiles, setCutFiles, cutPath, setCutPath } =
-        useContext(CutFilesContext);
+    const { cutFiles, setCutFiles, cutPath, setCutPath } = useContext(CutFilesContext);
 
     const handleCut = () => {
         setCutFiles?.(new Set(selectedFiles));

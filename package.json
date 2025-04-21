@@ -28,13 +28,11 @@
     },
     "dependencies": {
         "@tailwindcss/typography": "^0.5.16",
-        "daisyui": "^4.12.22",
         "highlight.js": "^11.11.1",
         "js-cookie": "^3.0.5",
         "lucide-react": "^0.462.0",
         "marked": "^15.0.8",
         "marked-highlight": "^2.2.1",
-        "react-daisyui": "^5.0.5",
         "react-dropzone": "^14.3.8",
         "react-icons": "^5.5.0",
         "react-onclickoutside": "^6.13.1",

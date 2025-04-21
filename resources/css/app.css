@@ -1,3 +1,23 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.bg-success {
+    background-color: #22c55e; 
+    color: #636363;
+}
+
+.bg-error {
+    background-color: #ef4444; 
+    color: #1c1c1c;
+}
+
+.bg-warning {
+    background-color: #f59e0b; 
+    color: #636363;
+}
+
+.bg-info {
+    background-color: #3b82f6; 
+    color: #636363;
+}
