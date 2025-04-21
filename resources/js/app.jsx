@@ -5,7 +5,7 @@ import { createInertiaApp } from '@inertiajs/react';
 import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
 import { createRoot } from 'react-dom/client';
 import { BrowserRouter } from 'react-router-dom'
-import { CutFilesProvider } from './Pages/Drive/Contexts/CutFilesContext';
+import { CutFilesProvider } from './Contexts/CutFilesContext';
 
 
 const appName = import.meta.env.VITE_APP_NAME || 'Laravel';

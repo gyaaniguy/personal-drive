@@ -23,7 +23,7 @@ import { usePage, router } from "@inertiajs/react";
 import RenameModal from "@/Pages/Drive/Components/FileList/RenameModal.jsx";
 import CutButton from "./CutButton.jsx";
 import PasteButton from "./PasteButton.jsx";
-import { CutFilesContext } from "../Contexts/CutFilesContext.jsx";
+import { CutFilesContext } from "../../../Contexts/CutFilesContext.jsx";
 
 const FileBrowserSection = memo(({ files, path, token, isAdmin, slug }) => {
     const {
