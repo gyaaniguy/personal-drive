@@ -2,6 +2,12 @@
 
 ini_set('upload_max_filesize', '200M');
 
+if (!file_exists(__DIR__ . '/../vendor/autoload.php')) {
+    http_response_code(500);
+    echo "Application needs to be installed. Please run included setup script. Refer to Github";
+    exit;
+}
+
 use Illuminate\Http\Request;
 
 define('LARAVEL_START', microtime(true));
