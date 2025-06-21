@@ -62,7 +62,7 @@ class LocalFile extends Model
     public static function getFilesForPublicPath(string $publicPath): Collection
     {
         $fileItems = self::where('public_path', $publicPath)
-            ->orderBy('created_at', 'desc')
+            ->orderBy('filename', 'desc')
             ->get();
 
         return self::modifyFileCollectionForDrive($fileItems);
