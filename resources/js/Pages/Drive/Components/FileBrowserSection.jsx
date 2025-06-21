@@ -116,7 +116,7 @@ const FileBrowserSection = memo(({ files, path, token, isAdmin, slug }) => {
 
     // Sorting
     const [filesCopy, setFilesCopy] = useState([...files]);
-    let sortDetails = useRef({ key: "", order: "desc" });
+    let sortDetails = useRef({ key: "filename", order: "desc" });
 
     function sortArrayByKey(arr, key, direction) {
         return [...arr].sort((a, b) => {
