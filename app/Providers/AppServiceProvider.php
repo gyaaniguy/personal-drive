@@ -34,7 +34,7 @@ class AppServiceProvider extends ServiceProvider
     {
         URL::forceScheme('http');
 
-        if (config('app.env') === 'production' && !env('DISABLE_HTTPS')) {
+        if (config('app.env') === 'production' && !config('app.disable_https')) {
             URL::forceScheme('https');
         }
         try {

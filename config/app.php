@@ -2,6 +2,8 @@
 
 return [
 
+    'disable_https' => env('DISABLE_HTTPS', false),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name
