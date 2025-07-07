@@ -2,6 +2,9 @@
 
 return [
 
+    'DISABLE_HTTPS' => env('DISABLE_HTTPS', false),
+    'ENABLE_TRUSTED_PROXIES' => env('ENABLE_TRUSTED_PROXIES', false),
+
     /*
     |--------------------------------------------------------------------------
     | Application Name

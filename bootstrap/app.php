@@ -6,29 +6,42 @@ use App\Exceptions\PersonalDriveExceptions\ThrottleException;
 use App\Exceptions\PersonalDriveExceptions\ThumbnailException;
 use App\Http\Middleware\CheckSetup;
 use App\Http\Middleware\HandleInertiaMiddlware;
+use App\Http\Middleware\TrustProxiesConditional;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Validation\ValidationException;
+use Symfony\Component\HttpFoundation\Request;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
-        web: __DIR__.'/../routes/web.php',
-        commands: __DIR__.'/../routes/console.php',
+        web: __DIR__ . '/../routes/web.php',
+        commands: __DIR__ . '/../routes/console.php',
         health: '/up',
     )
+
     ->withMiddleware(function (Middleware $middleware) {
+        $middleware->trustProxies(
+            at: '*',
+            headers: Request::HEADER_X_FORWARDED_FOR
+            | Request::HEADER_X_FORWARDED_HOST
+            | Request::HEADER_X_FORWARDED_PORT
+            | Request::HEADER_X_FORWARDED_PROTO
+            | Request::HEADER_X_FORWARDED_AWS_ELB
+        );
         $middleware->redirectGuestsTo('login');
         $middleware->web(append: [
             HandleInertiaMiddlware::class,
             AddLinkHeadersForPreloadedAssets::class,
         ], prepend: [
+//            TrustProxiesConditional::class,
             CheckSetup::class,
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
+
         $exceptions->render(function (Throwable $e) {
             if ($e instanceof FetchFileException) {
                 return redirect()->route('rejected', ['message' => $e->getMessage()]);
