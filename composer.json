@@ -30,7 +30,7 @@
         "imanghafoori/laravel-video": "*",
         "inertiajs/inertia-laravel": "^1.0",
         "kayandra/hashidable": "^1.6",
-        "laravel/framework": "^11.31",
+        "laravel/framework": "^12.0",
         "laravel/sanctum": "^4.0",
         "laravel/tinker": "^2.9",
         "maennchen/zipstream-php": "^3.1",
@@ -49,10 +49,11 @@
         "laravel/sail": "^1.26",
         "mockery/mockery": "^1.6",
         "nunomaduro/collision": "^8.1",
-        "pestphp/pest": "^3.5",
+        "pestphp/pest": "^3",
         "pestphp/pest-plugin-laravel": "^3.0",
         "phpstan/phpstan": "^2.1",
-        "squizlabs/php_codesniffer": "^3.11"
+        "squizlabs/php_codesniffer": "^3.11",
+        "phpunit/phpunit": "^11.0"
     },
     "autoload": {
         "psr-4": {
