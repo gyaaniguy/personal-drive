@@ -8,6 +8,7 @@ use Illuminate\Database\Eloquent\Model;
 class Setting extends Model
 {
     use HasFactory;
+
     public static string $storagePath = 'storage_path';
 
     protected $fillable = ['key', 'value'];

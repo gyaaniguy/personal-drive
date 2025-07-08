@@ -31,10 +31,15 @@ class FileDeleteService
         return $filesDeleted;
     }
 
-    protected function handleDirectoryDeletion(LocalFile $file, string $privateFilePathName, string $rootStoragePath): bool
-    {
-        if ($this->isDeletableDirectory($file, $privateFilePathName) &&
-            $this->isDirSubDirOfStorage($privateFilePathName, $rootStoragePath)) {
+    protected function handleDirectoryDeletion(
+        LocalFile $file,
+        string $privateFilePathName,
+        string $rootStoragePath
+    ): bool {
+        if (
+            $this->isDeletableDirectory($file, $privateFilePathName) &&
+            $this->isDirSubDirOfStorage($privateFilePathName, $rootStoragePath)
+        ) {
             File::deleteDirectory($privateFilePathName);
             $file->deleteUsingPublicPath();
             return true;

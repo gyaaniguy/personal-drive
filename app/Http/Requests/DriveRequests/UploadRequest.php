@@ -23,5 +23,4 @@ class UploadRequest extends FormRequest
             'files.*.uploaded' => 'The :attribute failed to upload. Check settings. Configure upload limits',
         ];
     }
-
 }

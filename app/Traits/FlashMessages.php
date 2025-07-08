@@ -16,6 +16,7 @@ trait FlashMessages
 
         return redirect()->back();
     }
+
     public function warn(string $message): RedirectResponse
     {
         session()->flash('message', $message);

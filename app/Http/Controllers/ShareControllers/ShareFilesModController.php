@@ -26,11 +26,11 @@ class ShareFilesModController
         $shareId = $request->validated('id');
         $share = Share::whereById($shareId)->first();
 
-        if (! $share) {
+        if (!$share) {
             return $this->error('Error! could not find share');
         }
 
-        $update = Share::whereById($shareId)->update(['enabled' => ! $share->enabled]);
+        $update = Share::whereById($shareId)->update(['enabled' => !$share->enabled]);
         if ($update) {
             return $this->success('Paused');
         }

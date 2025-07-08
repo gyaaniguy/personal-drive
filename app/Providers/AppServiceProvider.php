@@ -13,6 +13,7 @@ use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\URL;
 use Illuminate\Support\ServiceProvider;
+use PDOException;
 
 class AppServiceProvider extends ServiceProvider
 {
@@ -42,10 +43,18 @@ class AppServiceProvider extends ServiceProvider
                 config(['session.driver' => 'file']);
             }
         } catch (SQLiteDatabaseDoesNotExistException $e) {
-            header('Location: /error?message=' . urlencode('Frontend not built. Ensure node, npm are installed Run "npm install && npm run build"'));
+            header(
+                'Location: /error?message=' .
+                urlencode('Frontend not built. Ensure node, npm are installed Run "npm install && npm run build"')
+            );
             exit;
-        } catch (QueryException | \PDOException $e) {
-            if (str_contains($e->getMessage(), 'readonly database') || str_contains($e->getMessage(), 'open database')) {
+        } catch (QueryException | PDOException $e) {
+            if (
+                str_contains($e->getMessage(), 'readonly database') || str_contains(
+                    $e->getMessage(),
+                    'open database'
+                )
+            ) {
                 http_response_code(500);
                 echo 'Database error: check permissions on database.sqlite';
                 exit;

@@ -23,11 +23,12 @@ class SetupController extends Controller
         Artisan::call('migrate:fresh', ['--force' => true]);
         $status = false;
         $message = 'Error. could not create user. Try re-installing, checking permissions for storage folder';
-        if ($user = User::create([
-            'username' => $request->username,
-            'is_admin' => 1,
-            'password' => bcrypt($request->password),
-        ])
+        if (
+            $user = User::create([
+                'username' => $request->username,
+                'is_admin' => 1,
+                'password' => bcrypt($request->password),
+            ])
         ) {
             $message = 'Created User successfully';
             $status = true;

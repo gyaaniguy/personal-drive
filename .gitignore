@@ -23,3 +23,5 @@ yarn-error.log
 /.zed
 database/db/database.sqlite
 ./database/db/database.sqlite
+GEMINI.md
+CLAUDE.md

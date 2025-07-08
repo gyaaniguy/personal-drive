@@ -10,6 +10,7 @@ use App\Services\DownloadService;
 use App\Services\LPathService;
 use Exception;
 use Illuminate\Http\JsonResponse;
+use SplFileInfo;
 use Symfony\Component\HttpFoundation\BinaryFileResponse;
 use App\Http\Controllers\Controller;
 
@@ -48,7 +49,7 @@ class FileSaveController extends Controller
         }
         try {
             file_put_contents($privatePathFile, $content);
-            $file = new \SplFileInfo($privatePathFile);
+            $file = new SplFileInfo($privatePathFile);
             $this->localFileStatsService->updateFileStats($localFile, $file);
 
             return ResponseHelper::json('File saved successfully', true);

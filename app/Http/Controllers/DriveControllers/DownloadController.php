@@ -31,12 +31,12 @@ class DownloadController
     {
         $fileKeyArray = $request->validated('fileList');
         $localFiles = LocalFile::getByIds($fileKeyArray)->get();
-        if (! $localFiles || count($localFiles) === 0) {
+        if (!$localFiles || count($localFiles) === 0) {
             throw FetchFileException::notFoundDownload();
         }
         try {
             $downloadFilePath = $this->downloadService->generateDownloadPath($localFiles);
-            if (! file_exists($downloadFilePath)) {
+            if (!file_exists($downloadFilePath)) {
                 return ResponseHelper::json('Perhaps trying to download empty dir ? ', false);
             }
 
@@ -51,7 +51,7 @@ class DownloadController
         return Response::download(
             $downloadFilePath,
             basename($downloadFilePath),
-            ['Content-Disposition' => 'attachment; filename="'.basename($downloadFilePath).'"']
+            ['Content-Disposition' => 'attachment; filename="' . basename($downloadFilePath) . '"']
         );
     }
 }

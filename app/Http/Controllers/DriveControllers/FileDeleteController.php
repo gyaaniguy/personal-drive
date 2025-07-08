@@ -35,7 +35,7 @@ class FileDeleteController
         $fileKeyArray = $request->validated('fileList');
         $rootPath = $this->pathService->getStorageDirPath();
         $localFiles = LocalFile::getByIds($fileKeyArray);
-        if (! $localFiles->count()) {
+        if (!$localFiles->count()) {
             return $this->error('No valid files in database. Try a ReSync first');
         }
 
@@ -44,10 +44,10 @@ class FileDeleteController
         // delete files from database
         $response = $localFiles->delete();
 
-        if (! $response || ! $filesDeleted) {
+        if (!$response || !$filesDeleted) {
             return $this->error('Could not delete files');
         }
 
-        return $this->success('Deleted '.$filesDeleted.' files');
+        return $this->success('Deleted ' . $filesDeleted . ' files');
     }
 }

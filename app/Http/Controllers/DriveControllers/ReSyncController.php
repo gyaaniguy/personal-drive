@@ -25,7 +25,7 @@ class ReSyncController extends Controller
         LocalFile::clearTable();
         $filesUpdated = $this->localFileStatsService->generateStats();
         if ($filesUpdated > 0) {
-            return $this->success('Sync successful. Found : '.$filesUpdated.' files');
+            return $this->success('Sync successful. Found : ' . $filesUpdated . ' files');
         }
 
         return $this->error('No files found !');

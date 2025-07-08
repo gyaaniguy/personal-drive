@@ -18,8 +18,7 @@ class HandleGuestShareMiddleware
         }
         $share = Share::whereBySlug($slug)->first();
 
-        if (! $share || ! $share->enabled || ($share->expiry && $share->created_at->addDays($share->expiry)->lt(now()))) {
-
+        if (!$share || !$share->enabled || ($share->expiry && $share->created_at->addDays($share->expiry)->lt(now()))) {
             return redirect()->route('login', ['slug' => $slug]);
         }
         if ($this->isNeedsPassword($share, $slug)) {
@@ -31,6 +30,6 @@ class HandleGuestShareMiddleware
 
     public function isNeedsPassword($share, mixed $slug): bool
     {
-        return $share->password && ! Session::get("shared_{$slug}_authenticated");
+        return $share->password && !Session::get("shared_{$slug}_authenticated");
     }
 }

@@ -74,7 +74,10 @@ class UploadController extends Controller
             $destinationFullPath = $privatePath . $fileNameWithDir;
             if (file_exists($destinationFullPath) && $tempStorageDirFull) {
                 $duplicatesDetected++;
-                $this->uploadToDir($tempStorageDirFull . ($publicPath ? '/' . $publicPath : '') . '/' . $fileNameWithDir, $file);
+                $this->uploadToDir(
+                    $tempStorageDirFull . ($publicPath ? '/' . $publicPath : '') . '/' . $fileNameWithDir,
+                    $file
+                );
             } else {
                 $successfulUploads += $this->uploadToDir($destinationFullPath, $file);
             }
@@ -117,7 +120,7 @@ class UploadController extends Controller
         }
 
         $this->localFileStatsService->addItemPathStat($itemName, $privatePath, $publicPath, !$isFile);
-        return $this->success('Created '. ($isFile ? 'file' : 'folder') . ' successfully');
+        return $this->success('Created ' . ($isFile ? 'file' : 'folder') . ' successfully');
     }
 
 
@@ -137,6 +140,4 @@ class UploadController extends Controller
         }
         return Redirect::back();
     }
-
-
 }

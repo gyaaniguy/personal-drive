@@ -15,6 +15,6 @@ class FileSizeFormatter
             $bytes /= 1024;
         }
 
-        return round($bytes, ($i < 2 ? 0 : 2)).' '.$units[$i];
+        return round($bytes, ($i < 2 ? 0 : 2)) . ' ' . $units[$i];
     }
 }

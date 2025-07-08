@@ -6,6 +6,7 @@ use App\Http\Requests\DriveRequests\MoveFilesRequest;
 use App\Services\FileMoveService;
 use App\Traits\FlashMessages;
 use App\Http\Controllers\Controller;
+use Exception;
 
 class MoveFilesController extends Controller
 {
@@ -20,16 +21,14 @@ class MoveFilesController extends Controller
 
     public function update(MoveFilesRequest $request)
     {
-
         $fileKeyArray = $request->validated('fileList');
         $destinationPath = $request->validated('path');
         try {
             $res = $this->fileMoveService->moveFiles($fileKeyArray, $destinationPath);
-        } catch (\Exception $e) {
+        } catch (Exception $e) {
             return $this->error('Error: Could not move files');
         }
 
         return $res ? $this->success('Files moved successfully.') : $this->error('Error: Could not move files');
-
     }
 }

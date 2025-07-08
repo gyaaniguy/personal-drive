@@ -18,9 +18,8 @@ class FileManagerController extends Controller
 
         return Inertia::render('Drive/DriveHome', [
             'files' => $files,
-            'path' => '/drive'.($path ? '/'.$path : ''),
+            'path' => '/drive' . ($path ? '/' . $path : ''),
             'token' => csrf_token(),
         ]);
     }
-
 }

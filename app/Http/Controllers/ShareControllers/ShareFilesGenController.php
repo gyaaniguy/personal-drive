@@ -40,25 +40,24 @@ class ShareFilesGenController
 
         $slug = $slug ?: Str::random(10);
 
-        if (! $localFiles->count()) {
+        if (!$localFiles->count()) {
             throw ShareFileException::couldNotShare();
         }
         $hashedPassword = $password ? Hash::make($password) : null;
 
         $share = Share::add($slug, $hashedPassword, $expiry, $localFiles[0]->public_path);
 
-        if (! $share) {
+        if (!$share) {
             throw ShareFileException::couldNotShare();
         }
 
         $sharedFiles = SharedFile::addArray($localFiles, $share->id);
-        if (! $sharedFiles) {
+        if (!$sharedFiles) {
             throw ShareFileException::couldNotShare();
         }
 
-        $sharedLink = url('/').'/shared/'.$slug;
+        $sharedLink = url('/') . '/shared/' . $slug;
 
         return redirect()->back()->with('shared_link', $sharedLink);
-
     }
 }

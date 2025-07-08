@@ -23,7 +23,7 @@ class LocalFileStatsService
 
     public function addItemPathStat(string $itemName, string $privatePath, string $publicPath, bool $isDir): void
     {
-        $file = new SplFileInfo($privatePath.$itemName);
+        $file = new SplFileInfo($privatePath . $itemName);
 
         try {
             LocalFile::create([
@@ -39,6 +39,30 @@ class LocalFileStatsService
             Log::error($e->getMessage());
             throw UploadFileException::nonewdir($isDir ? 'folder' : 'file');
         }
+    }
+
+    private function getFileType(SplFileInfo $item): string
+    {
+        if ($item->isDir()) {
+            return 'folder';
+        }
+        $mimeType = mime_content_type($item->getPathname());
+
+        if (str_starts_with($mimeType, 'image/')) {
+            $fileType = 'image';
+        } elseif (str_starts_with($mimeType, 'video/')) {
+            $fileType = 'video';
+        } elseif ($mimeType === 'application/pdf') {
+            $fileType = 'pdf';
+        } elseif (str_starts_with($mimeType, 'text/')) {
+            $fileType = 'text';
+        } elseif (str_contains($mimeType, 'x-empty')) {
+            $fileType = 'empty';
+        } else {
+            $fileType = $item->getExtension();
+        }
+
+        return $fileType;
     }
 
     public function generateStats(string $path = ''): int
@@ -86,40 +110,6 @@ class LocalFileStatsService
         );
     }
 
-    private function getFileType(SplFileInfo $item): string
-    {
-        if ($item->isDir()) {
-            return 'folder';
-        }
-        $mimeType = mime_content_type($item->getPathname());
-
-        if (str_starts_with($mimeType, 'image/')) {
-            $fileType = 'image';
-        } elseif (str_starts_with($mimeType, 'video/')) {
-            $fileType = 'video';
-        } elseif ($mimeType === 'application/pdf') {
-            $fileType = 'pdf';
-        } elseif (str_starts_with($mimeType, 'text/')) {
-            $fileType = 'text';
-        } elseif (str_contains($mimeType, 'x-empty')) {
-            $fileType = 'empty';
-        } else {
-            $fileType = $item->getExtension();
-        }
-
-        return $fileType;
-    }
-
-
-    public function updateFileStats(LocalFile $localFile, SplFileInfo $file)
-    {
-        $localFile?->update([
-            'size' => $file->getSize(),
-            'is_dir' => $file->isDir(),
-            'file_type' => $this->getFileType($file),
-        ]);
-    }
-
     public function getFileItemDetails(mixed $item, array &$dirSizes): array
     {
         $rootPathLen = strlen($this->pathService->getStorageDirPath()) + 1;
@@ -149,4 +139,12 @@ class LocalFileStatsService
         ];
     }
 
+    public function updateFileStats(LocalFile $localFile, SplFileInfo $file)
+    {
+        $localFile?->update([
+            'size' => $file->getSize(),
+            'is_dir' => $file->isDir(),
+            'file_type' => $this->getFileType($file),
+        ]);
+    }
 }

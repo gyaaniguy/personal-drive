@@ -41,9 +41,15 @@ class FileMoveService
 
         foreach ($localFiles as $localFile) {
             $itemPublicDestPathName = $destinationPublicPath . DIRECTORY_SEPARATOR . $localFile->filename;
-            $itemPrivateDestPathName = $this->pathService->getStorageDirPath() . DIRECTORY_SEPARATOR . $itemPublicDestPathName;
+            $itemPrivateDestPathName = $this->pathService->getStorageDirPath() .
+                DIRECTORY_SEPARATOR . $itemPublicDestPathName;
 
-            $this->moveSingleFileOrDirectory($localFile, $itemPublicDestPathName, $itemPrivateDestPathName, $successfulUploads);
+            $this->moveSingleFileOrDirectory(
+                $localFile,
+                $itemPublicDestPathName,
+                $itemPrivateDestPathName,
+                $successfulUploads
+            );
         }
 
         if ($successfulUploads) {
@@ -54,8 +60,12 @@ class FileMoveService
         return false;
     }
 
-    private function moveSingleFileOrDirectory(LocalFile $localFile, string $itemPublicDestPathName, string $itemPrivateDestPathName, array &$successfulUploads): void
-    {
+    private function moveSingleFileOrDirectory(
+        LocalFile $localFile,
+        string $itemPublicDestPathName,
+        string $itemPrivateDestPathName,
+        array &$successfulUploads
+    ): void {
         $itemPathName = $localFile->getPublicPathname();
 
         if (!$localFile->fileExists()) {
@@ -70,12 +80,23 @@ class FileMoveService
         }
 
         if ($localFile->isValidDir()) {
-            $this->moveDirectory($localFile, $itemPathName, $itemPublicDestPathName, $itemPrivateDestPathName, $successfulUploads);
+            $this->moveDirectory(
+                $localFile,
+                $itemPathName,
+                $itemPublicDestPathName,
+                $itemPrivateDestPathName,
+                $successfulUploads
+            );
         }
     }
 
-    private function moveDirectory(LocalFile $localFile, string $itemPathName, string $itemPublicDestPathName, string $itemPrivateDestPathName, array &$successfulUploads): void
-    {
+    private function moveDirectory(
+        LocalFile $localFile,
+        string $itemPathName,
+        string $itemPublicDestPathName,
+        string $itemPrivateDestPathName,
+        array &$successfulUploads
+    ): void {
         $dirPublicPathname = ltrim($localFile->getPublicPathname(), '/');
         $dirSubFilesIds = LocalFile::getIdsByLikePublicPath($dirPublicPathname);
 

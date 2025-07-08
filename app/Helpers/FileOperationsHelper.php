@@ -24,5 +24,4 @@ class FileOperationsHelper
     {
         return $this->filesystem->move($src, $dest);
     }
-
 }

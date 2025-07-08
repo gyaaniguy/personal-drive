@@ -38,13 +38,12 @@ class UploadService
 
     public function getTempStorageDirFull(): string
     {
-
         $tempUuid = Session::get($this->tempUuid);
         if (!$tempUuid) {
             return '';
         }
         $tempStorageParentPath = $this->pathService->getTempStorageDirPath();
-        return $tempStorageParentPath.DIRECTORY_SEPARATOR.$tempUuid;
+        return $tempStorageParentPath . DIRECTORY_SEPARATOR . $tempUuid;
     }
 
     public function replaceFromTemp(): bool
@@ -97,6 +96,4 @@ class UploadService
         }
         return false;
     }
-
-
 }

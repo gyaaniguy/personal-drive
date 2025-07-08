@@ -14,24 +14,13 @@ class LocalFile extends Model
 {
     use HasUlids;
 
-    protected $hidden = ['private_path', 'user_id'];
-
-    protected $fillable = ['filename', 'is_dir', 'public_path', 'private_path', 'size', 'user_id', 'file_type'];
-
     public $timestamps = true;
-
-    public function sharedFiles(): HasMany
-    {
-        return $this->hasMany(SharedFile::class, 'file_id');
-    }
+    protected $hidden = ['private_path', 'user_id'];
+    protected $fillable = ['filename', 'is_dir', 'public_path', 'private_path', 'size', 'user_id', 'file_type'];
 
     public static function getById(string $id): ?self
     {
         return self::where('id', $id)->first();
-    }
-    public static function getByIds(array $fileIds): Builder
-    {
-        return self::whereIn('id', $fileIds);
     }
 
     public static function setHasThumbnail(array $fileIds): int
@@ -39,14 +28,9 @@ class LocalFile extends Model
         return self::getByIds($fileIds)->update(['has_thumbnail' => 1]);
     }
 
-    public function getPublicPathname(): string
+    public static function getByIds(array $fileIds): Builder
     {
-        return $this->public_path.DIRECTORY_SEPARATOR.$this->filename;
-    }
-
-    public function getPrivatePathNameForFile(): string
-    {
-        return $this->private_path.DIRECTORY_SEPARATOR.$this->filename;
+        return self::whereIn('id', $fileIds);
     }
 
     public static function insertRows(array $insertArr): int
@@ -68,6 +52,19 @@ class LocalFile extends Model
         return self::modifyFileCollectionForDrive($fileItems);
     }
 
+    public static function modifyFileCollectionForDrive(Collection $fileItems): Collection
+    {
+        return $fileItems->map(function ($item) {
+            $item->sizeText = self::getItemSizeText($item);
+            return $item;
+        });
+    }
+
+    public static function getItemSizeText($item): string
+    {
+        return $item->size || $item->is_dir ? FileSizeFormatter::format((int) $item->size) : '0 KB';
+    }
+
     public static function modifyFileCollectionForGuest(Collection $fileItems, string $publicPath = ''): Collection
     {
         return $fileItems->map(function ($item) use ($publicPath) {
@@ -80,31 +77,13 @@ class LocalFile extends Model
         });
     }
 
-    public static function modifyFileCollectionForDrive(Collection $fileItems): Collection
-    {
-        return $fileItems->map(function ($item) {
-            $item->sizeText = self::getItemSizeText($item);
-            return $item;
-        });
-    }
-
     public static function searchFiles(string $searchQuery): Collection
     {
-        $fileItems = static::where('filename', 'like', $searchQuery.'%')
-            ->orWhere('filename', 'like', '%'.$searchQuery)
+        $fileItems = static::where('filename', 'like', $searchQuery . '%')
+            ->orWhere('filename', 'like', '%' . $searchQuery)
             ->get();
 
         return self::modifyFileCollectionForDrive($fileItems);
-    }
-
-    public function deleteUsingPublicPath()
-    {
-        return $this->where('public_path', 'like', $this->getPublicPathname().'%')->delete();
-    }
-
-    public static function getByPublicPathLikeSearch(string $search): Builder
-    {
-        return self::where('public_path', 'like', $search.'%');
     }
 
     public static function getIdsByLikePublicPath(string $search): array
@@ -112,10 +91,9 @@ class LocalFile extends Model
         return self::getByPublicPathLikeSearch($search)->pluck('id')->toArray();
     }
 
-
-    public static function getItemSizeText($item): string
+    public static function getByPublicPathLikeSearch(string $search): Builder
     {
-        return $item->size || $item->is_dir ? FileSizeFormatter::format((int) $item->size) : '0 KB' ;
+        return self::where('public_path', 'like', $search . '%');
     }
 
     public static function getForFileObj(SplFileInfo $file)
@@ -123,17 +101,38 @@ class LocalFile extends Model
         return self::where('filename', $file->getFilename())
             ->where('public_path', $file->getRelativePath())
             ->first();
+    }
 
+    public function sharedFiles(): HasMany
+    {
+        return $this->hasMany(SharedFile::class, 'file_id');
+    }
+
+    public function deleteUsingPublicPath()
+    {
+        return $this->where('public_path', 'like', $this->getPublicPathname() . '%')->delete();
+    }
+
+    public function getPublicPathname(): string
+    {
+        return $this->public_path . DIRECTORY_SEPARATOR . $this->filename;
     }
 
     public function isValidFile(): bool
     {
         return is_file($this->getPrivatePathNameForFile()) && $this->is_dir === 0;
     }
+
+    public function getPrivatePathNameForFile(): string
+    {
+        return $this->private_path . DIRECTORY_SEPARATOR . $this->filename;
+    }
+
     public function isValidDir(): bool
     {
         return is_dir($this->getPrivatePathNameForFile()) && $this->is_dir === 1;
     }
+
     public function fileExists(): bool
     {
         return file_exists($this->getPrivatePathNameForFile());

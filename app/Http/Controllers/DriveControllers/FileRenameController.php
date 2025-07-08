@@ -6,6 +6,7 @@ use App\Http\Requests\DriveRequests\FileRenameRequest;
 use App\Models\LocalFile;
 use App\Services\FileRenameService;
 use App\Traits\FlashMessages;
+use Exception;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 
@@ -32,11 +33,12 @@ class FileRenameController extends Controller
         }
         try {
             $this->fileRenameService->renameFile($file, $filename);
-        } catch (\Exception $e) {
-            return $this->error('Could not rename file. File with same name exists? Also Check permissions. '. $e->getMessage());
+        } catch (Exception $e) {
+            return $this->error(
+                'Could not rename file. File with same name exists? Also Check permissions. ' . $e->getMessage()
+            );
         }
 
-        return $this->success('Renamed to '. $filename);
+        return $this->success('Renamed to ' . $filename);
     }
-
 }

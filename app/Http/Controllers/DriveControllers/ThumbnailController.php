@@ -34,6 +34,5 @@ class ThumbnailController extends Controller
             session()->flash('message', 'No thumbnails generated. No valid files found');
         }
         return redirect()->route('drive', ['path' => $publicPath]);
-
     }
 }

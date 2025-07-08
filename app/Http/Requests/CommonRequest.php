@@ -13,6 +13,11 @@ class CommonRequest extends FormRequest
         return ['required', 'string', self::slugRegex(), 'max:20'];
     }
 
+    public static function slugRegex(): string
+    {
+        return 'regex:/^[a-zA-Z0-9\-\_]{1,20}$/';
+    }
+
     public static function pathRules(): array
     {
         return ['nullable', 'string', new ValidPath(), 'max:100'];
@@ -21,11 +26,6 @@ class CommonRequest extends FormRequest
     public static function passwordRules(): array
     {
         return ['required', 'string', Password::defaults()];
-    }
-
-    public static function slugRegex(): string
-    {
-        return 'regex:/^[a-zA-Z0-9\-\_]{1,20}$/';
     }
 
     public static function fileListRules(): array
@@ -43,7 +43,7 @@ class CommonRequest extends FormRequest
 
     public static function itemNameRule(): array
     {
-        return ['required', 'string','max:255','regex:/^[a-zA-Z0-9_\- \.]+$/'];
+        return ['required', 'string', 'max:255', 'regex:/^[a-zA-Z0-9_\- \.]+$/'];
     }
 
     public static function localFileIdRules(): array
@@ -55,5 +55,4 @@ class CommonRequest extends FormRequest
     {
         return ['nullable', 'string', Password::min(6)];
     }
-
 }
