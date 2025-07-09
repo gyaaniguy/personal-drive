@@ -13,7 +13,8 @@ use SplFileInfo;
 
 class LocalFile extends Model
 {
-    use HasFactory, HasUlids;
+    use HasFactory;
+    use HasUlids;
 
     public $timestamps = true;
     protected $hidden = ['private_path', 'user_id'];
