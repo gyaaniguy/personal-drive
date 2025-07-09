@@ -157,7 +157,7 @@ const TxtViewer = ({
                             className="px-2 py-1 bg-gray-500 rounded text-gray-950"
                             onClick={discardChanges}
                         >
-                            Discard
+                            Discard Changes
                         </button>
                     </div>
                     <div className="text-gray-200 p-2 col-span-1 justify-self-center">
