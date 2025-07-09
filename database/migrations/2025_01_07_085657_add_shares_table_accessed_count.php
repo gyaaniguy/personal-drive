@@ -11,7 +11,7 @@ return new class () extends Migration {
     public function up(): void
     {
         Schema::table('shares', function (Blueprint $table) {
-            $table->integer('accessed_number')->default(0);
+            $table->integer('accessed_count')->default(0);
         });
     }
 

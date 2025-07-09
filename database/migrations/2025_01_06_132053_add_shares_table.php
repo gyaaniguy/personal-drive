@@ -21,6 +21,7 @@ return new class () extends Migration {
             $table->foreignId('share_id')->constrained('shares')->onDelete('cascade');
             $table->foreignId('file_id')->constrained('local_files')->onDelete('cascade');
             $table->primary(['share_id', 'file_id']);
+            $table->timestamps();
         });
     }
 
