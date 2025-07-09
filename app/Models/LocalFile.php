@@ -6,13 +6,14 @@ use App\Helpers\FileSizeFormatter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
+use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use SplFileInfo;
 
 class LocalFile extends Model
 {
-    use HasUlids;
+    use HasFactory, HasUlids;
 
     public $timestamps = true;
     protected $hidden = ['private_path', 'user_id'];
@@ -79,8 +80,7 @@ class LocalFile extends Model
 
     public static function searchFiles(string $searchQuery): Collection
     {
-        $fileItems = static::where('filename', 'like', $searchQuery . '%')
-            ->orWhere('filename', 'like', '%' . $searchQuery)
+        $fileItems = static::where('filename', 'like', '%' . $searchQuery . '%')
             ->get();
 
         return self::modifyFileCollectionForDrive($fileItems);
