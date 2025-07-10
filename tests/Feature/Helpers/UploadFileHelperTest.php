@@ -1,41 +1,54 @@
 <?php
 
+
 use App\Helpers\UploadFileHelper;
+use Exception;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
-beforeEach(function () {
-    // Setup code if needed
-});
+class UploadFileHelperTest extends TestCase
+{
+    use RefreshDatabase;
 
-it('returns the full path of the uploaded file', function () {
-    $_FILES['files']['full_path'][0] = '/path/to/file.txt';
-    $fullPath = UploadFileHelper::getUploadedFileFullPath(0);
-    expect($fullPath)->toBe('/path/to/file.txt');
-});
+    public function test_returns_full_path_of_uploaded_file()
+    {
+        $_FILES['files']['full_path'][0] = '/path/to/file.txt';
+        $fullPath = UploadFileHelper::getUploadedFileFullPath(0);
+        $this->assertEquals('/path/to/file.txt', $fullPath);
+    }
 
-it('returns the realtive path', function () {
-    $_FILES['files']['full_path'][0] = './file.txt';
-    $fullPath = UploadFileHelper::getUploadedFileFullPath(0);
-    expect($fullPath)->toBe('/file.txt');
-});
+    public function test_returns_normalized_relative_path_from_dot_slash()
+    {
+        $_FILES['files']['full_path'][0] = './file.txt';
+        $fullPath = UploadFileHelper::getUploadedFileFullPath(0);
+        $this->assertEquals('/file.txt', $fullPath);
+    }
 
-it('returns the realtive path 2', function () {
-    $_FILES['files']['full_path'][0] = '/file.txt';
-    $fullPath = UploadFileHelper::getUploadedFileFullPath(0);
-    expect($fullPath)->toBe('/file.txt');
-});
+    public function test_returns_relative_path_starting_with_slash()
+    {
+        $_FILES['files']['full_path'][0] = '/file.txt';
+        $fullPath = UploadFileHelper::getUploadedFileFullPath(0);
+        $this->assertEquals('/file.txt', $fullPath);
+    }
 
-it('creates a folder with the specified permissions', function () {
-    $path = __DIR__ . '/test_folder';
-    $result = UploadFileHelper::makeFolder($path, 0750);
-    expect($result)->toBeTrue()
-        ->and(is_dir($path))->toBeTrue()
-        ->and(decoct(fileperms($path) & 0777))->toBe('750');
-    rmdir($path); // Clean up
-});
+    public function test_creates_folder_with_specified_permissions()
+    {
+        $path = __DIR__ . '/test_folder';
+        $result = UploadFileHelper::makeFolder($path, 0750);
 
-it('throws an exception if the folder already exists', function () {
-    $path = __DIR__; // Existing folder
-    expect(function () use ($path) {
-        UploadFileHelper::makeFolder($path);
-    })->toThrow(Exception::class, "Could not create new folder");
-});
+        $this->assertTrue($result);
+        $this->assertTrue(is_dir($path));
+        $this->assertEquals('750', decoct(fileperms($path) & 0777));
+
+        rmdir($path); // Cleanup
+    }
+
+    public function test_throws_exception_if_folder_already_exists()
+    {
+        $this->expectException(Exception::class);
+        $this->expectExceptionMessage('Could not create new folder');
+
+        $existingPath = __DIR__;
+        UploadFileHelper::makeFolder($existingPath);
+    }
+}

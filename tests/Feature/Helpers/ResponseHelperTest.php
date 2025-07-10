@@ -2,25 +2,29 @@
 
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\JsonResponse;
+use Tests\TestCase;
 
-it('returns a successful JSON response', function () {
-    $response = ResponseHelper::json('Success message');
+class ResponseHelperTest extends TestCase
+{
+    public function test_returns_successful_json_response()
+    {
+        $response = ResponseHelper::json('Success message');
 
-    expect($response)->toBeInstanceOf(JsonResponse::class)
-        ->and($response->getData(true))
-        ->toMatchArray([
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertSame([
             'status' => true,
             'message' => 'Success message',
-        ]);
-});
+        ], $response->getData(true));
+    }
 
-it('returns a failed JSON response', function () {
-    $response = ResponseHelper::json('Error message', false);
+    public function test_returns_failed_json_response()
+    {
+        $response = ResponseHelper::json('Error message', false);
 
-    expect($response)->toBeInstanceOf(JsonResponse::class)
-        ->and($response->getData(true))
-        ->toMatchArray([
+        $this->assertInstanceOf(JsonResponse::class, $response);
+        $this->assertSame([
             'status' => false,
             'message' => 'Error message',
-        ]);
-});
+        ], $response->getData(true));
+    }
+}

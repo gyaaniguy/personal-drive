@@ -13,13 +13,6 @@ class DownloadServiceTest extends TestCase
     protected $downloadService;
     protected $downloadHelperMock;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->downloadHelperMock = $this->createMock(DownloadHelper::class);
-        $this->downloadService = new DownloadService($this->downloadHelperMock);
-    }
-
     public function testGenerateDownloadPathSingleFile()
     {
         $file = $this->createMock(LocalFile::class);
@@ -95,5 +88,12 @@ class DownloadServiceTest extends TestCase
         $result = $this->downloadService->isSingleFile($localFiles);
 
         $this->assertFalse($result);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->downloadHelperMock = $this->createMock(DownloadHelper::class);
+        $this->downloadService = new DownloadService($this->downloadHelperMock);
     }
 }

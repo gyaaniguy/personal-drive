@@ -3,6 +3,7 @@
 namespace Tests\Unit\Helpers;
 
 use App\Helpers\EncryptHelper;
+use Illuminate\Contracts\Encryption\DecryptException;
 use Illuminate\Support\Facades\Crypt;
 use Tests\TestCase;
 
@@ -25,7 +26,7 @@ class EncryptHelperTest extends TestCase
 
     public function test_decrypt_throws_exception_for_invalid_string()
     {
-        $this->expectException(\Illuminate\Contracts\Encryption\DecryptException::class);
+        $this->expectException(DecryptException::class);
         EncryptHelper::decrypt('invalid-encrypted-string');
     }
 }

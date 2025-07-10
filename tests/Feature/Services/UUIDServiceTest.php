@@ -1,27 +1,39 @@
 <?php
 
-use App\Services\UUIDService;
 use App\Models\Setting;
+use App\Services\UUIDService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Mockery;
+use Tests\TestCase;
 
-beforeEach(function () {
-    $this->settingMock = mock(Setting::class);
+class UUIDServiceTest extends TestCase
+{
+    use RefreshDatabase;
 
-    // Set up the mock expectations
-    $this->settingMock->shouldReceive('getSettingByKeyName')
-        ->with('uuidForStorageFiles')
-        ->andReturn('storage-123');
+    protected $settingMock;
 
-    $this->settingMock->shouldReceive('getSettingByKeyName')
-        ->with('uuidForThumbnails')
-        ->andReturn('thumb-456');
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-    $this->app->instance(Setting::class, $this->settingMock);
-});
+        $this->settingMock = Mockery::mock(Setting::class);
 
+        $this->settingMock->shouldReceive('getSettingByKeyName')
+            ->with('uuidForStorageFiles')
+            ->andReturn('storage-123');
 
-it('successfully initializes with valid UUIDs', function () {
-    $service = new UUIDService($this->settingMock);
+        $this->settingMock->shouldReceive('getSettingByKeyName')
+            ->with('uuidForThumbnails')
+            ->andReturn('thumb-456');
 
-    expect($service->getStorageFilesUUID())->toBe('storage-123')
-        ->and($service->getThumbnailsUUID())->toBe('thumb-456');
-});
+        $this->app->instance(Setting::class, $this->settingMock);
+    }
+
+    public function test_initializes_with_valid_uuids()
+    {
+        $service = new UUIDService(app(Setting::class));
+
+        $this->assertEquals('storage-123', $service->getStorageFilesUUID());
+        $this->assertEquals('thumb-456', $service->getThumbnailsUUID());
+    }
+}

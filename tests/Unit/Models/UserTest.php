@@ -46,5 +46,4 @@ class UserTest extends TestCase
         $this->assertArrayNotHasKey('password', $userArray);
         $this->assertArrayNotHasKey('remember_token', $userArray);
     }
-
 }

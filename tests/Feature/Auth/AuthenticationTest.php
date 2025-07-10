@@ -1,8 +1,19 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\TestCase;
 
-test('login screen can be rendered', function () {
-    $response = $this->get('/login');
+class AuthenticationTest extends TestCase
+{
+    use RefreshDatabase;
 
-    $response->assertStatus(302);
-});
+    public function test_login_screen_can_be_rendered()
+    {
+        auth()->logout();
+        $this->flushSession();
+
+        $response = $this->get('/login');
+
+        $response->assertStatus(302);
+    }
+}

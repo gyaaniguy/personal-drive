@@ -60,7 +60,7 @@ class ShareTest extends TestCase
         $this->assertEquals($share->id, $foundShare->id);
     }
 
-     public function test_get_expiry_time_attribute_formats_correctly()
+    public function test_get_expiry_time_attribute_formats_correctly()
     {
         $share = Share::add('expiry-test', null, 5);
         // Mock Carbon to control the created_at time for consistent testing

@@ -11,24 +11,6 @@ class FileDeleteServiceTest extends TestCase
     protected FileDeleteService $fileDeleteService;
     protected string $tempDir;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->fileDeleteService = new FileDeleteService();
-        $this->tempDir = sys_get_temp_dir() . '/testDir';
-        mkdir($this->tempDir);
-    }
-
-
-    protected function tearDown(): void
-    {
-        if (is_dir($this->tempDir)) {
-            rmdir($this->tempDir);
-        }
-
-        parent::tearDown();
-    }
-
     public function testIsDeletableDirectory()
     {
         $file = $this->createMock(LocalFile::class);
@@ -38,8 +20,6 @@ class FileDeleteServiceTest extends TestCase
 
         $this->assertTrue($result);
     }
-
-
 
     public function testIsDirSubDirOfStorage()
     {
@@ -55,6 +35,23 @@ class FileDeleteServiceTest extends TestCase
         $result = $this->fileDeleteService->isDeletableFile($file);
 
         $this->assertTrue($result);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->fileDeleteService = new FileDeleteService();
+        $this->tempDir = sys_get_temp_dir().'/testDir';
+        mkdir($this->tempDir);
+    }
+
+    protected function tearDown(): void
+    {
+        if (is_dir($this->tempDir)) {
+            rmdir($this->tempDir);
+        }
+
+        parent::tearDown();
     }
 
 

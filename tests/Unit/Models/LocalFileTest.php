@@ -2,6 +2,10 @@
 
 namespace Tests\Unit\Models;
 
+use App\Models\Share;
+use Illuminate\Database\Eloquent\Builder;
+use Illuminate\Database\Eloquent\Collection;
+use SplFileInfo;
 use function is_file;
 use function is_dir;
 use function file_exists;
@@ -21,12 +25,6 @@ use Tests\TestCase;
 class LocalFileTest extends TestCase
 {
     use RefreshDatabase;
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        parent::tearDown();
-    }
 
     public function test_local_file_can_be_created_using_factory()
     {
@@ -107,6 +105,8 @@ class LocalFileTest extends TestCase
 
     public function test_insert_rows_upserts_data()
     {
+        LocalFile::clearTable();
+
         $user = User::factory()->create();
         $insertArr = [
             [
@@ -140,6 +140,8 @@ class LocalFileTest extends TestCase
 
     public function test_clear_table_truncates_table()
     {
+        LocalFile::clearTable();
+
         LocalFile::factory()->count(5)->create();
         $this->assertCount(5, LocalFile::all());
 
@@ -151,7 +153,9 @@ class LocalFileTest extends TestCase
     {
         $user = User::factory()->create();
         LocalFile::factory()->create(['public_path' => '/root', 'filename' => 'z_file.txt', 'user_id' => $user->id]);
-        $file2 = LocalFile::factory()->create(['public_path' => '/root', 'filename' => 'a_file.txt', 'user_id' => $user->id]);
+        $file2 = LocalFile::factory()->create([
+            'public_path' => '/root', 'filename' => 'a_file.txt', 'user_id' => $user->id
+        ]);
         LocalFile::factory()->create(['public_path' => '/other', 'user_id' => $user->id]);
 
         $files = LocalFile::getFilesForPublicPath('/root');
@@ -164,7 +168,7 @@ class LocalFileTest extends TestCase
     public function test_modify_file_collection_for_drive_adds_size_text()
     {
         $file = LocalFile::factory()->create(['size' => 1024]);
-        $collection = new \Illuminate\Database\Eloquent\Collection([$file]);
+        $collection = new Collection([$file]);
 
         $modifiedCollection = LocalFile::modifyFileCollectionForDrive($collection);
         $this->assertEquals('1 KB', $modifiedCollection->first()->sizeText);
@@ -182,7 +186,7 @@ class LocalFileTest extends TestCase
     public function test_modify_file_collection_for_guest_modifies_public_path()
     {
         $file = LocalFile::factory()->create(['public_path' => '/shared/folder/file.txt']);
-        $collection = new \Illuminate\Database\Eloquent\Collection([$file]);
+        $collection = new Collection([$file]);
 
         $modifiedCollection = LocalFile::modifyFileCollectionForGuest($collection, '/shared');
         $this->assertEquals('folder/file.txt', $modifiedCollection->first()->public_path);
@@ -221,7 +225,7 @@ class LocalFileTest extends TestCase
         $file2 = LocalFile::factory()->create(['public_path' => '/folder/another', 'user_id' => $user->id]);
 
         $builder = LocalFile::getByPublicPathLikeSearch('/folder');
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Builder::class, $builder);
+        $this->assertInstanceOf(Builder::class, $builder);
         $this->assertCount(2, $builder->get());
     }
 
@@ -234,7 +238,7 @@ class LocalFileTest extends TestCase
             'user_id' => $user->id
         ]);
 
-        $mockSplFileInfo = Mockery::mock(\SplFileInfo::class);
+        $mockSplFileInfo = Mockery::mock(SplFileInfo::class);
         $mockSplFileInfo->shouldReceive('getFilename')->andReturn('test.txt');
         $mockSplFileInfo->shouldReceive('getRelativePath')->andReturn('/test/path');
 
@@ -245,11 +249,12 @@ class LocalFileTest extends TestCase
     public function test_shared_files_relationship()
     {
         $localFile = LocalFile::factory()->create();
-        $share = \App\Models\Share::factory()->create();
+        $share = Share::factory()->create();
         $sharedFile = SharedFile::factory()->create(['file_id' => $localFile->id, 'share_id' => $share->id]);
 
-        $this->assertInstanceOf(\Illuminate\Database\Eloquent\Collection::class, $localFile->fresh()->sharedFiles);
-        $this->assertTrue($localFile->fresh()->sharedFiles->where('share_id', $sharedFile->share_id)->where('file_id', $sharedFile->file_id)->isNotEmpty());
+        $this->assertInstanceOf(Collection::class, $localFile->fresh()->sharedFiles);
+        $this->assertTrue($localFile->fresh()->sharedFiles->where('share_id', $sharedFile->share_id)->where('file_id',
+            $sharedFile->file_id)->isNotEmpty());
     }
 
     public function test_delete_using_public_path_deletes_correct_files()
@@ -286,10 +291,8 @@ class LocalFileTest extends TestCase
             'public_path' => '/my/folder',
             'filename' => 'my_file.doc',
         ]);
-        $this->assertEquals('/my/folder' . DIRECTORY_SEPARATOR . 'my_file.doc', $localFile->getPublicPathname());
+        $this->assertEquals('/my/folder'.DIRECTORY_SEPARATOR.'my_file.doc', $localFile->getPublicPathname());
     }
-
-
 
     public function test_is_valid_file_returns_false_for_directory()
     {
@@ -302,7 +305,7 @@ class LocalFileTest extends TestCase
         // Mock global functions
         $mockIsFile = Mockery::mock('alias:is_file');
         $mockIsFile->shouldReceive('is_file')
-            ->with('/tmp' . DIRECTORY_SEPARATOR . 'valid_dir')
+            ->with('/tmp'.DIRECTORY_SEPARATOR.'valid_dir')
             ->andReturn(false);
 
         $this->assertFalse($localFile->isValidFile());
@@ -314,10 +317,9 @@ class LocalFileTest extends TestCase
             'private_path' => '/private/folder',
             'filename' => 'secret.txt',
         ]);
-        $this->assertEquals('/private/folder' . DIRECTORY_SEPARATOR . 'secret.txt', $localFile->getPrivatePathNameForFile());
+        $this->assertEquals('/private/folder'.DIRECTORY_SEPARATOR.'secret.txt',
+            $localFile->getPrivatePathNameForFile());
     }
-
-
 
     public function test_is_valid_dir_returns_false_for_file()
     {
@@ -330,7 +332,7 @@ class LocalFileTest extends TestCase
         // Mock global functions
         Mockery::mock('alias:is_dir')
             ->shouldReceive('is_dir')
-            ->with('/tmp' . DIRECTORY_SEPARATOR . 'valid_file.txt')
+            ->with('/tmp'.DIRECTORY_SEPARATOR.'valid_file.txt')
             ->andReturn(false);
 
         $this->assertFalse($localFile->isValidDir());
@@ -345,9 +347,15 @@ class LocalFileTest extends TestCase
 
         $mockFileExists = Mockery::mock('alias:file_exists');
         $mockFileExists->shouldReceive('file_exists')
-            ->with('/tmp' . DIRECTORY_SEPARATOR . 'non_existing_file.txt')
+            ->with('/tmp'.DIRECTORY_SEPARATOR.'non_existing_file.txt')
             ->andReturn(false);
 
         $this->assertFalse($localFile->fileExists());
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+        parent::tearDown();
     }
 }

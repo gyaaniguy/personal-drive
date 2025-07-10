@@ -10,12 +10,6 @@ use Tests\TestCase;
 
 class UUIDServiceTest extends TestCase
 {
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        parent::tearDown();
-    }
-
     public function test_constructor_throws_exception_if_storage_uuid_is_missing()
     {
         $mockSetting = Mockery::mock(Setting::class);
@@ -72,5 +66,11 @@ class UUIDServiceTest extends TestCase
 
         $service = new UUIDService($mockSetting);
         $this->assertEquals($expectedUuid, $service->getThumbnailsUUID());
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+        parent::tearDown();
     }
 }

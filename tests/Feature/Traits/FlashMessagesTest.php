@@ -1,43 +1,60 @@
 <?php
 
-use Illuminate\Http\RedirectResponse;
+
 use App\Traits\FlashMessages;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Session;
+use Tests\TestCase;
 
-beforeEach(function () {
-    Session::flush();
-    $this->flashMessages = new class () {
-        use FlashMessages;
-    };
-});
+class FlashMessagesTest extends TestCase
+{
+    use RefreshDatabase;
 
-it('sets success message and redirects back', function () {
-    $response = $this->flashMessages->success('Operation successful');
+    protected $flashMessages;
 
-    expect(session()->get('message'))->toBe('Operation successful')
-        ->and(session()->get('status'))->toBe(true)
-        ->and($response)->toBeInstanceOf(RedirectResponse::class);
-});
+    protected function setUp(): void
+    {
+        parent::setUp();
 
-it('sets error message and redirects back', function () {
-    $response = $this->flashMessages->error('Operation failed');
+        Session::flush();
 
-    expect(session()->get('message'))->toBe('Operation failed')
-        ->and(session()->get('status'))->toBe(false)
-        ->and($response)->toBeInstanceOf(RedirectResponse::class);
-});
+        $this->flashMessages = new class {
+            use FlashMessages;
+        };
+    }
 
-it('verifies flash messages are actually flashed', function () {
-    $this->flashMessages->success('Operation failed');
+    public function test_sets_success_message_and_redirects_back()
+    {
+        $response = $this->flashMessages->success('Operation successful');
 
-    expect(session()->has('message'))->toBeTrue()
-        ->and(session()->has('status'))->toBeTrue();
+        $this->assertEquals('Operation successful', session()->get('message'));
+        $this->assertTrue(session()->get('status'));
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+    }
 
-    session()->driver()->save(); // Persist the data
-    // Clear the session data
-    session()->flush();
-    session()->regenerate(); // Regenerate the session ID
-    session()->start();  // Start a new session
-    expect(session()->has('message'))->toBeFalse()
-        ->and(session()->has('status'))->toBeFalse();
-});
+    public function test_sets_error_message_and_redirects_back()
+    {
+        $response = $this->flashMessages->error('Operation failed');
+
+        $this->assertEquals('Operation failed', session()->get('message'));
+        $this->assertFalse(session()->get('status'));
+        $this->assertInstanceOf(RedirectResponse::class, $response);
+    }
+
+    public function test_flash_messages_are_temporarily_stored()
+    {
+        $this->flashMessages->success('Temporary');
+
+        $this->assertTrue(session()->has('message'));
+        $this->assertTrue(session()->has('status'));
+
+        session()->driver()->save();
+        session()->flush();
+        session()->regenerate();
+        session()->start();
+
+        $this->assertFalse(session()->has('message'));
+        $this->assertFalse(session()->has('status'));
+    }
+}

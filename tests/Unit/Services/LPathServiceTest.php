@@ -13,17 +13,6 @@ class LPathServiceTest extends TestCase
     protected LPathService $lPathServiceMock;
     protected string $tempDir;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->uuidService = $this->createMock(UUIDService::class);
-        $this->lPathService = new LPathService($this->uuidService);
-        $this->lPathServiceMock = $this->getMockBuilder(LPathService::class)
-            ->setConstructorArgs([$this->uuidService])
-            ->onlyMethods(['getStorageDirPath'])
-            ->getMock();
-    }
-
     public function testCleanDrivePublicPath()
     {
         $result = $this->lPathService->cleanDrivePublicPath('this/folder/drive');
@@ -52,11 +41,21 @@ class LPathServiceTest extends TestCase
 
     public function testGenPrivatePathFromPublicWithNonExistentPath()
     {
-
         $this->lPathServiceMock->method('getStorageDirPath')->willReturn('/test/storage/path/test-uuid');
 
         $result = $this->lPathServiceMock->genPrivatePathFromPublic('/drive/nonexistent/path');
         $this->assertEquals('/test/storage/path/test-uuid/nonexistent/path/', $result);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->uuidService = $this->createMock(UUIDService::class);
+        $this->lPathService = new LPathService($this->uuidService);
+        $this->lPathServiceMock = $this->getMockBuilder(LPathService::class)
+            ->setConstructorArgs([$this->uuidService])
+            ->onlyMethods(['getStorageDirPath'])
+            ->getMock();
     }
 
 }
