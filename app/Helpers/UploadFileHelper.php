@@ -17,7 +17,7 @@ class UploadFileHelper
     private static function sanitizePath(string $path): string
     {
         if (str_contains($path, '..')) {
-            UploadFileException::invalidPath();
+            throw UploadFileException::invalidPath();
         }
         return $path;
     }

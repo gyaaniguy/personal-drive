@@ -43,10 +43,48 @@ class UploadFileHelperTest extends TestCase
 
     public function test_throws_exception_if_folder_already_exists()
     {
-        $this->expectException(Exception::class);
+        $this->expectException(\App\Exceptions\PersonalDriveExceptions\UploadFileException::class);
         $this->expectExceptionMessage('Could not create new folder');
 
-        $existingPath = __DIR__;
+        $existingPath = __DIR__ . '/existing_test_folder';
+        // First call to create the folder
         UploadFileHelper::makeFolder($existingPath);
+        // Second call should throw the exception
+        UploadFileHelper::makeFolder($existingPath);
+        rmdir($existingPath); // Cleanup
+    }
+
+    public function test_sanitize_path_throws_exception_for_directory_traversal()
+    {
+        $this->expectException(\App\Exceptions\PersonalDriveExceptions\UploadFileException::class);
+        $this->expectExceptionMessage('The upload path or dir contains invalid characters');
+
+        // Use reflection to call the private static method
+        $method = new \ReflectionMethod(UploadFileHelper::class, 'sanitizePath');
+        $method->setAccessible(true);
+        $method->invoke(null, '../invalid/path');
+    }
+
+    public function test_make_file_creates_file_successfully()
+    {
+        $filePath = __DIR__ . '/test_file.txt';
+        $result = UploadFileHelper::makeFile($filePath);
+
+        $this->assertTrue($result);
+        $this->assertFileExists($filePath);
+
+        unlink($filePath); // Cleanup
+    }
+
+    public function test_delete_folder_deletes_folder_successfully()
+    {
+        $dirPath = __DIR__ . '/folder_to_delete';
+        mkdir($dirPath, 0750, true);
+        file_put_contents($dirPath . '/file.txt', 'test');
+
+        $result = UploadFileHelper::deleteFolder($dirPath);
+
+        $this->assertTrue($result);
+        $this->assertDirectoryDoesNotExist($dirPath);
     }
 }
