@@ -1,8 +1,6 @@
 <?php
 
-
 use App\Helpers\UploadFileHelper;
-use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 

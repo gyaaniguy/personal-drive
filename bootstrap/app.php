@@ -55,7 +55,6 @@ return Application::configure(basePath: dirname(__DIR__))
             if ($e instanceof Exception && ! $e instanceof AuthenticationException) {
                 session()->flash('message', 'Something went wrong!'.$e->getMessage());
                 session()->flash('status', false);
-
             }
             if (str_contains($e->getMessage(), 'readonly database') || str_contains($e->getMessage(), 'open database')) {
                 return redirect()->route('rejected', 'database is readonly ! Make sure database/db/database.sqlite file has write permissions');

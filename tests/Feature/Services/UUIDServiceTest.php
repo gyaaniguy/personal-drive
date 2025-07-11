@@ -3,7 +3,6 @@
 use App\Models\Setting;
 use App\Services\UUIDService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Mockery;
 use Tests\TestCase;
 
 class UUIDServiceTest extends TestCase
@@ -11,6 +10,14 @@ class UUIDServiceTest extends TestCase
     use RefreshDatabase;
 
     protected $settingMock;
+
+    public function test_initializes_with_valid_uuids()
+    {
+        $service = new UUIDService(app(Setting::class));
+
+        $this->assertEquals('storage-123', $service->getStorageFilesUUID());
+        $this->assertEquals('thumb-456', $service->getThumbnailsUUID());
+    }
 
     protected function setUp(): void
     {
@@ -27,13 +34,5 @@ class UUIDServiceTest extends TestCase
             ->andReturn('thumb-456');
 
         $this->app->instance(Setting::class, $this->settingMock);
-    }
-
-    public function test_initializes_with_valid_uuids()
-    {
-        $service = new UUIDService(app(Setting::class));
-
-        $this->assertEquals('storage-123', $service->getStorageFilesUUID());
-        $this->assertEquals('thumb-456', $service->getThumbnailsUUID());
     }
 }

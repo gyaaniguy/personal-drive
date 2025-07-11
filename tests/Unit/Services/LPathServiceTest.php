@@ -57,5 +57,4 @@ class LPathServiceTest extends TestCase
             ->onlyMethods(['getStorageDirPath'])
             ->getMock();
     }
-
 }

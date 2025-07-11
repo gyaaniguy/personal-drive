@@ -41,7 +41,7 @@ class FileDeleteServiceTest extends TestCase
     {
         parent::setUp();
         $this->fileDeleteService = new FileDeleteService();
-        $this->tempDir = sys_get_temp_dir().'/testDir';
+        $this->tempDir = sys_get_temp_dir() . '/testDir';
         mkdir($this->tempDir);
     }
 
@@ -53,6 +53,4 @@ class FileDeleteServiceTest extends TestCase
 
         parent::tearDown();
     }
-
-
 }

@@ -14,7 +14,7 @@ class ValidPath implements ValidationRule
             return;
         }
 
-        if (!preg_match('/^[:\. a-zA-Z0-9_\-\/\\\]+$/', $value)) {
+        if (!preg_match('/^[:\. a-zA-Z0-9_\-\/\\\\]+$/', $value)) {
             $fail('The :attribute contains invalid characters.');
         }
     }

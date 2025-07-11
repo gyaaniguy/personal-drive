@@ -6,6 +6,7 @@ use App\Models\Share;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use SplFileInfo;
+
 use function is_file;
 use function is_dir;
 use function file_exists;
@@ -253,8 +254,10 @@ class LocalFileTest extends TestCase
         $sharedFile = SharedFile::factory()->create(['file_id' => $localFile->id, 'share_id' => $share->id]);
 
         $this->assertInstanceOf(Collection::class, $localFile->fresh()->sharedFiles);
-        $this->assertTrue($localFile->fresh()->sharedFiles->where('share_id', $sharedFile->share_id)->where('file_id',
-            $sharedFile->file_id)->isNotEmpty());
+        $this->assertTrue($localFile->fresh()->sharedFiles->where('share_id', $sharedFile->share_id)->where(
+            'file_id',
+            $sharedFile->file_id
+        )->isNotEmpty());
     }
 
     public function test_delete_using_public_path_deletes_correct_files()
@@ -291,7 +294,7 @@ class LocalFileTest extends TestCase
             'public_path' => '/my/folder',
             'filename' => 'my_file.doc',
         ]);
-        $this->assertEquals('/my/folder'.DIRECTORY_SEPARATOR.'my_file.doc', $localFile->getPublicPathname());
+        $this->assertEquals('/my/folder' . DIRECTORY_SEPARATOR . 'my_file.doc', $localFile->getPublicPathname());
     }
 
     public function test_is_valid_file_returns_false_for_directory()
@@ -305,7 +308,7 @@ class LocalFileTest extends TestCase
         // Mock global functions
         $mockIsFile = Mockery::mock('alias:is_file');
         $mockIsFile->shouldReceive('is_file')
-            ->with('/tmp'.DIRECTORY_SEPARATOR.'valid_dir')
+            ->with('/tmp' . DIRECTORY_SEPARATOR . 'valid_dir')
             ->andReturn(false);
 
         $this->assertFalse($localFile->isValidFile());
@@ -317,8 +320,10 @@ class LocalFileTest extends TestCase
             'private_path' => '/private/folder',
             'filename' => 'secret.txt',
         ]);
-        $this->assertEquals('/private/folder'.DIRECTORY_SEPARATOR.'secret.txt',
-            $localFile->getPrivatePathNameForFile());
+        $this->assertEquals(
+            '/private/folder' . DIRECTORY_SEPARATOR . 'secret.txt',
+            $localFile->getPrivatePathNameForFile()
+        );
     }
 
     public function test_is_valid_dir_returns_false_for_file()
@@ -332,7 +337,7 @@ class LocalFileTest extends TestCase
         // Mock global functions
         Mockery::mock('alias:is_dir')
             ->shouldReceive('is_dir')
-            ->with('/tmp'.DIRECTORY_SEPARATOR.'valid_file.txt')
+            ->with('/tmp' . DIRECTORY_SEPARATOR . 'valid_file.txt')
             ->andReturn(false);
 
         $this->assertFalse($localFile->isValidDir());
@@ -347,7 +352,7 @@ class LocalFileTest extends TestCase
 
         $mockFileExists = Mockery::mock('alias:file_exists');
         $mockFileExists->shouldReceive('file_exists')
-            ->with('/tmp'.DIRECTORY_SEPARATOR.'non_existing_file.txt')
+            ->with('/tmp' . DIRECTORY_SEPARATOR . 'non_existing_file.txt')
             ->andReturn(false);
 
         $this->assertFalse($localFile->fileExists());

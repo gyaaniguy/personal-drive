@@ -81,8 +81,10 @@ class CommonRequestTest extends TestCase
         $validator = Validator::make(['fileList' => null], $rules);
         $this->assertFalse($validator->passes(), 'A null file list should fail validation.');
 
-        $validator = Validator::make(['fileList' => ['01F8MECHZX3TBDSZ7XRADM79XE', '01F8MECHZX3TBDSZ7XRADM79XF']],
-            $rules);
+        $validator = Validator::make(
+            ['fileList' => ['01F8MECHZX3TBDSZ7XRADM79XE', '01F8MECHZX3TBDSZ7XRADM79XF']],
+            $rules
+        );
         $this->assertTrue($validator->passes(), 'A valid file list with multiple ULIDs should pass validation.');
     }
 

@@ -75,7 +75,7 @@ Route::get(
 
 // Setup
 Route::middleware([PreventSetupAccess::class])->group(function () {
-    Route::get('/setup/account', [AdminControllers\SetupController::class, 'show'])->middleware(EnsureFrontendBuilt::class);
+    Route::get('/setup/account', [AdminControllers\SetupController::class, 'show'])->middleware(EnsureFrontendBuilt::class)->name('setup.account');
     Route::post('/setup/account', [AdminControllers\SetupController::class, 'update']);
     Route::post('/setup/storage', [AdminControllers\AdminConfigController::class, 'update']);
 });

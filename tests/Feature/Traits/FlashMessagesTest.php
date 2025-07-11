@@ -13,17 +13,6 @@ class FlashMessagesTest extends TestCase
 
     protected $flashMessages;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        Session::flush();
-
-        $this->flashMessages = new class {
-            use FlashMessages;
-        };
-    }
-
     public function test_sets_success_message_and_redirects_back()
     {
         $response = $this->flashMessages->success('Operation successful');
@@ -56,5 +45,16 @@ class FlashMessagesTest extends TestCase
 
         $this->assertFalse(session()->has('message'));
         $this->assertFalse(session()->has('status'));
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        Session::flush();
+
+        $this->flashMessages = new class {
+            use FlashMessages;
+        };
     }
 }
