@@ -1,5 +1,6 @@
 <?php
 
+use App\Exceptions\PersonalDriveExceptions\UploadFileException;
 use App\Helpers\UploadFileHelper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
@@ -43,7 +44,7 @@ class UploadFileHelperTest extends TestCase
 
     public function test_throws_exception_if_folder_already_exists()
     {
-        $this->expectException(\App\Exceptions\PersonalDriveExceptions\UploadFileException::class);
+        $this->expectException(UploadFileException::class);
         $this->expectExceptionMessage('Could not create new folder');
 
         $existingPath = __DIR__ . '/existing_test_folder';
@@ -56,11 +57,11 @@ class UploadFileHelperTest extends TestCase
 
     public function test_sanitize_path_throws_exception_for_directory_traversal()
     {
-        $this->expectException(\App\Exceptions\PersonalDriveExceptions\UploadFileException::class);
+        $this->expectException(UploadFileException::class);
         $this->expectExceptionMessage('The upload path or dir contains invalid characters');
 
         // Use reflection to call the private static method
-        $method = new \ReflectionMethod(UploadFileHelper::class, 'sanitizePath');
+        $method = new ReflectionMethod(UploadFileHelper::class, 'sanitizePath');
         $method->setAccessible(true);
         $method->invoke(null, '../invalid/path');
     }

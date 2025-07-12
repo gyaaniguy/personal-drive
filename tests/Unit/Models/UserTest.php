@@ -46,4 +46,13 @@ class UserTest extends TestCase
         $this->assertArrayNotHasKey('password', $userArray);
         $this->assertArrayNotHasKey('remember_token', $userArray);
     }
+
+    public function test_is_admin_attribute_can_be_set_and_retrieved()
+    {
+        $user = User::factory()->create(['is_admin' => true]);
+        $this->assertTrue($user->is_admin);
+
+        $user = User::factory()->create(['is_admin' => false]);
+        $this->assertFalse($user->is_admin);
+    }
 }

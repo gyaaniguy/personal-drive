@@ -23,6 +23,7 @@ class HandleGuestShareMiddlewareTest extends TestCase
     {
         $response = $this->get(route('shared', ['slug' => 'nonexistent-slug']));
 
+        $response->assertStatus(302);
         $response->assertRedirect(route('login', ['slug' => 'nonexistent-slug']));
     }
 
@@ -31,6 +32,7 @@ class HandleGuestShareMiddlewareTest extends TestCase
         $share = Share::factory()->create(['enabled' => false, 'slug' => 'disabled-slug']);
 
         $response = $this->get(route('shared', ['slug' => 'disabled-slug']));
+        $response->assertStatus(302);
         $response->assertRedirect(route('login', ['slug' => 'disabled-slug']));
     }
 
@@ -44,6 +46,7 @@ class HandleGuestShareMiddlewareTest extends TestCase
         ]);
 
         $response = $this->get(route('shared', ['slug' => 'expired-slug']));
+        $response->assertStatus(302);
         $response->assertRedirect(route('login', ['slug' => 'expired-slug']));
     }
 
@@ -58,6 +61,7 @@ class HandleGuestShareMiddlewareTest extends TestCase
 
         $response = $this->get(route('shared', ['slug' => 'test-slug']));
 
+        $response->assertStatus(302);
         $response->assertRedirect(route('shared.password', ['slug' => 'test-slug']));
     }
 
@@ -99,17 +103,10 @@ class HandleGuestShareMiddlewareTest extends TestCase
             mkdir(public_path('build'), 0777, true);
         }
         // Ensure manifest.json exists so EnsureFrontendBuilt middleware passes
-        file_put_contents(public_path('build/manifest.json'), '{}');
+        if (!file_exists(public_path('build/manifest.json'))) {
+            file_put_contents(public_path('build/manifest.json'), '{}');
+        }
         // Create a user to bypass PreventSetupAccess middleware
         User::factory()->create();
-    }
-
-    protected function tearDown(): void
-    {
-        // Clean up the manifest file after each test
-        if (file_exists(public_path('build/manifest.json'))) {
-            unlink(public_path('build/manifest.json'));
-        }
-        parent::tearDown();
     }
 }

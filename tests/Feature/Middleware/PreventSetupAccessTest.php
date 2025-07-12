@@ -19,6 +19,7 @@ class PreventSetupAccessTest extends TestCase
 
         $response = $this->get(route('setup.account'));
 
+        $response->assertStatus(302);
         $response->assertRedirect('/');
         $response->assertSessionHas('message', 'Setup already completed.');
     }
@@ -41,15 +42,8 @@ class PreventSetupAccessTest extends TestCase
             mkdir(public_path('build'), 0777, true);
         }
         // Ensure manifest.json exists so EnsureFrontendBuilt middleware passes
-        file_put_contents(public_path('build/manifest.json'), '{}');
-    }
-
-    protected function tearDown(): void
-    {
-        // Clean up the manifest file after each test
-        if (file_exists(public_path('build/manifest.json'))) {
-            unlink(public_path('build/manifest.json'));
+        if (!file_exists(public_path('build/manifest.json'))) {
+            file_put_contents(public_path('build/manifest.json'), '{}');
         }
-        parent::tearDown();
     }
 }

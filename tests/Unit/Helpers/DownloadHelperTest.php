@@ -15,32 +15,6 @@ class DownloadHelperTest extends TestCase
     private DownloadHelper $downloadHelper;
     private string $tempDir;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->downloadHelper = new DownloadHelper();
-        $this->tempDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'download_test_' . uniqid();
-        mkdir($this->tempDir, 0777, true);
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        if (file_exists($this->tempDir)) {
-            $this->deleteDir($this->tempDir);
-        }
-        parent::tearDown();
-    }
-
-    private function deleteDir(string $dir): void
-    {
-        $files = array_diff(scandir($dir), array('.', '..'));
-        foreach ($files as $file) {
-            (is_dir("$dir/$file")) ? $this->deleteDir("$dir/$file") : unlink("$dir/$file");
-        }
-        rmdir($dir);
-    }
-
     public function test_create_zip_archive_with_single_file()
     {
         $filePath = $this->tempDir . DIRECTORY_SEPARATOR . 'test_file.txt';
@@ -146,5 +120,31 @@ class DownloadHelperTest extends TestCase
         $this->assertEquals(1, $zip->numFiles);
         $this->assertEquals('existing_file.txt', $zip->getNameIndex(0));
         $zip->close();
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->downloadHelper = new DownloadHelper();
+        $this->tempDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'download_test_' . uniqid();
+        mkdir($this->tempDir, 0777, true);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+        if (file_exists($this->tempDir)) {
+            $this->deleteDir($this->tempDir);
+        }
+        parent::tearDown();
+    }
+
+    private function deleteDir(string $dir): void
+    {
+        $files = array_diff(scandir($dir), array('.', '..'));
+        foreach ($files as $file) {
+            (is_dir("$dir/$file")) ? $this->deleteDir("$dir/$file") : unlink("$dir/$file");
+        }
+        rmdir($dir);
     }
 }

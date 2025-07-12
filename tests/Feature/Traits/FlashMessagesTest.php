@@ -1,6 +1,5 @@
 <?php
 
-
 use App\Traits\FlashMessages;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\RedirectResponse;

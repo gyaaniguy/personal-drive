@@ -27,6 +27,7 @@ class AdminAccessTest extends TestCase
 
         $response = $this->get('/admin-config');
 
+        $response->assertStatus(302);
         $response->assertRedirect(route('rejected', [
             'message' => 'You do not have admin access'
         ]));

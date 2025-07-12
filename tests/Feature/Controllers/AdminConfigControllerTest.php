@@ -57,5 +57,4 @@ class AdminConfigControllerTest extends TestCase
 
         $this->adminConfigService = new AdminConfigService(new UUIDService($mockSetting));
     }
-
 }
