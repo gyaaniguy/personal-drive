@@ -91,7 +91,7 @@ class UploadController extends Controller
         $successfulUploads = 0;
         $filesDirectory = dirname($destinationFullPath);
         if (!file_exists($filesDirectory)) {
-            UploadFileHelper::makeFolder($filesDirectory);
+            $this->uploadService->makeFolder($filesDirectory);
         }
         try {
             if ($file->move($filesDirectory, $file->getClientOriginalName())) {
@@ -115,7 +115,7 @@ class UploadController extends Controller
         if ($isFile && !UploadFileHelper::makeFile($privatePath . $itemName)) {
             return $this->error('Create file failed');
         }
-        if (!$isFile && !UploadFileHelper::makeFolder($privatePath . $itemName)) {
+        if (!$isFile && !$this->uploadService->makeFolder($privatePath . $itemName)) {
             return $this->error('Create folder failed');
         }
 

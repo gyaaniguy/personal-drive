@@ -1,0 +1,519 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /home/aa/work/itstime/personaldrive/personaldrivefirst/app</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="_css/bootstrap.min.css?v=11.0.10" rel="stylesheet" type="text/css">
+  <link href="_css/nv.d3.min.css?v=11.0.10" rel="stylesheet" type="text/css">
+  <link href="_css/style.css?v=11.0.10" rel="stylesheet" type="text/css">
+  <link href="_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="index.html">/home/aa/work/itstime/personaldrive/personaldrivefirst/app</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Helpers/FileOperationsHelper.php.html#9">App\Helpers\FileOperationsHelper</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/DownloadController.php.html#16">App\Http\Controllers\DriveControllers\DownloadController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FetchFileController.php.html#14">App\Http\Controllers\DriveControllers\FetchFileController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileDeleteController.php.html#13">App\Http\Controllers\DriveControllers\FileDeleteController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileManagerController.php.html#11">App\Http\Controllers\DriveControllers\FileManagerController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileRenameController.php.html#13">App\Http\Controllers\DriveControllers\FileRenameController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileSaveController.php.html#17">App\Http\Controllers\DriveControllers\FileSaveController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/MoveFilesController.php.html#11">App\Http\Controllers\DriveControllers\MoveFilesController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/ReSyncController.php.html#11">App\Http\Controllers\DriveControllers\ReSyncController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/SearchFilesController.php.html#11">App\Http\Controllers\DriveControllers\SearchFilesController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/ThumbnailController.php.html#12">App\Http\Controllers\DriveControllers\ThumbnailController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesGenController.php.html#17">App\Http\Controllers\ShareControllers\ShareFilesGenController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesModController.php.html#10">App\Http\Controllers\ShareControllers\ShareFilesModController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/SharedListController.php.html#12">App\Http\Controllers\ShareControllers\SharedListController</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/AdminRequests/AdminConfigRequest.php.html#8">App\Http\Requests\AdminRequests\AdminConfigRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#14">App\Http\Requests\Auth\LoginRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/CreateItemRequest.php.html#8">App\Http\Requests\DriveRequests\CreateItemRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/DownloadRequest.php.html#8">App\Http\Requests\DriveRequests\DownloadRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/FetchFileRequest.php.html#8">App\Http\Requests\DriveRequests\FetchFileRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/FileDeleteRequest.php.html#8">App\Http\Requests\DriveRequests\FileDeleteRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/FileManagerRequest.php.html#8">App\Http\Requests\DriveRequests\FileManagerRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/FileRenameRequest.php.html#8">App\Http\Requests\DriveRequests\FileRenameRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/FileSaveRequest.php.html#8">App\Http\Requests\DriveRequests\FileSaveRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/GenThumbnailRequest.php.html#8">App\Http\Requests\DriveRequests\GenThumbnailRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/MoveFilesRequest.php.html#8">App\Http\Requests\DriveRequests\MoveFilesRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/ReplaceAbortRequest.php.html#7">App\Http\Requests\DriveRequests\ReplaceAbortRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/SearchRequest.php.html#7">App\Http\Requests\DriveRequests\SearchRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/ShareFilesGenRequest.php.html#8">App\Http\Requests\DriveRequests\ShareFilesGenRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/ShareFilesGuestPasswordRequest.php.html#8">App\Http\Requests\DriveRequests\ShareFilesGuestPasswordRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/ShareFilesModRequest.php.html#7">App\Http\Requests\DriveRequests\ShareFilesModRequest</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/AdminConfig/AdminConfigResource.php.html#8">App\Http\Resources\AdminConfig\AdminConfigResource</a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/LocalFileStatsService.php.html#15">App\Services\LocalFileStatsService</a></td><td class="text-right">1%</td></tr>
+       <tr><td><a href="Services/ThumbnailService.php.html#18">App\Services\ThumbnailService</a></td><td class="text-right">2%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/UploadController.php.html#19">App\Http\Controllers\DriveControllers\UploadController</a></td><td class="text-right">4%</td></tr>
+       <tr><td><a href="Services/FileMoveService.php.html#9">App\Services\FileMoveService</a></td><td class="text-right">21%</td></tr>
+       <tr><td><a href="Services/FileRenameService.php.html#11">App\Services\FileRenameService</a></td><td class="text-right">29%</td></tr>
+       <tr><td><a href="Http/Middleware/EnsureFrontendBuilt.php.html#9">App\Http\Middleware\EnsureFrontendBuilt</a></td><td class="text-right">33%</td></tr>
+       <tr><td><a href="Services/LPathService.php.html#7">App\Services\LPathService</a></td><td class="text-right">37%</td></tr>
+       <tr><td><a href="Providers/AppServiceProvider.php.html#18">App\Providers\AppServiceProvider</a></td><td class="text-right">45%</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesGuestController.php.html#16">App\Http\Controllers\ShareControllers\ShareFilesGuestController</a></td><td class="text-right">46%</td></tr>
+       <tr><td><a href="Services/UploadService.php.html#12">App\Services\UploadService</a></td><td class="text-right">47%</td></tr>
+       <tr><td><a href="Http/Controllers/Auth/AuthenticatedSessionController.php.html#13">App\Http\Controllers\Auth\AuthenticatedSessionController</a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="Http/Middleware/CheckSetup.php.html#12">App\Http\Middleware\CheckSetup</a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="Http/Controllers/AdminControllers/AdminConfigController.php.html#16">App\Http\Controllers\AdminControllers\AdminConfigController</a></td><td class="text-right">52%</td></tr>
+       <tr><td><a href="Traits/FlashMessages.php.html#7">App\Traits\FlashMessages</a></td><td class="text-right">63%</td></tr>
+       <tr><td><a href="Models/Share.php.html#13">App\Models\Share</a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Services/AdminConfigService.php.html#9">App\Services\AdminConfigService</a></td><td class="text-right">67%</td></tr>
+       <tr><td><a href="Helpers/UploadFileHelper.php.html#8">App\Helpers\UploadFileHelper</a></td><td class="text-right">77%</td></tr>
+       <tr><td><a href="Http/Middleware/HandleInertiaMiddlware.php.html#8">App\Http\Middleware\HandleInertiaMiddlware</a></td><td class="text-right">86%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Services/LocalFileStatsService.php.html#15">App\Services\LocalFileStatsService</a></td><td class="text-right">677</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/UploadController.php.html#19">App\Http\Controllers\DriveControllers\UploadController</a></td><td class="text-right">564</td></tr>
+       <tr><td><a href="Services/ThumbnailService.php.html#18">App\Services\ThumbnailService</a></td><td class="text-right">519</td></tr>
+       <tr><td><a href="Services/FileMoveService.php.html#9">App\Services\FileMoveService</a></td><td class="text-right">124</td></tr>
+       <tr><td><a href="Services/UploadService.php.html#12">App\Services\UploadService</a></td><td class="text-right">101</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FetchFileController.php.html#14">App\Http\Controllers\DriveControllers\FetchFileController</a></td><td class="text-right">90</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/DownloadController.php.html#16">App\Http\Controllers\DriveControllers\DownloadController</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileSaveController.php.html#17">App\Http\Controllers\DriveControllers\FileSaveController</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesGenController.php.html#17">App\Http\Controllers\ShareControllers\ShareFilesGenController</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#14">App\Http\Requests\Auth\LoginRequest</a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Services/LPathService.php.html#7">App\Services\LPathService</a></td><td class="text-right">54</td></tr>
+       <tr><td><a href="Services/FileRenameService.php.html#11">App\Services\FileRenameService</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileDeleteController.php.html#13">App\Http\Controllers\DriveControllers\FileDeleteController</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileRenameController.php.html#13">App\Http\Controllers\DriveControllers\FileRenameController</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesModController.php.html#10">App\Http\Controllers\ShareControllers\ShareFilesModController</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Services/AdminConfigService.php.html#9">App\Services\AdminConfigService</a></td><td class="text-right">22</td></tr>
+       <tr><td><a href="Providers/AppServiceProvider.php.html#18">App\Providers\AppServiceProvider</a></td><td class="text-right">21</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesGuestController.php.html#16">App\Http\Controllers\ShareControllers\ShareFilesGuestController</a></td><td class="text-right">21</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/MoveFilesController.php.html#11">App\Http\Controllers\DriveControllers\MoveFilesController</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/ThumbnailController.php.html#12">App\Http\Controllers\DriveControllers\ThumbnailController</a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Helpers/UploadFileHelper.php.html#8">App\Helpers\UploadFileHelper</a></td><td class="text-right">16</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/ReSyncController.php.html#11">App\Http\Controllers\DriveControllers\ReSyncController</a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileManagerController.php.html#11">App\Http\Controllers\DriveControllers\FileManagerController</a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Middleware/CheckSetup.php.html#12">App\Http\Middleware\CheckSetup</a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/AdminControllers/AdminConfigController.php.html#16">App\Http\Controllers\AdminControllers\AdminConfigController</a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="Traits/FlashMessages.php.html#7">App\Traits\FlashMessages</a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Http/Middleware/HandleInertiaMiddlware.php.html#8">App\Http\Middleware\HandleInertiaMiddlware</a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Http/Middleware/EnsureFrontendBuilt.php.html#9">App\Http\Middleware\EnsureFrontendBuilt</a></td><td class="text-right">3</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Helpers/FileOperationsHelper.php.html#14"><abbr title="App\Helpers\FileOperationsHelper::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Helpers/FileOperationsHelper.php.html#23"><abbr title="App\Helpers\FileOperationsHelper::move">move</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/AdminControllers/AdminConfigController.php.html#42"><abbr title="App\Http\Controllers\AdminControllers\AdminConfigController::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Auth/AuthenticatedSessionController.php.html#18"><abbr title="App\Http\Controllers\Auth\AuthenticatedSessionController::create">create</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/Auth/AuthenticatedSessionController.php.html#26"><abbr title="App\Http\Controllers\Auth\AuthenticatedSessionController::store">store</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/DownloadController.php.html#22"><abbr title="App\Http\Controllers\DriveControllers\DownloadController::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/DownloadController.php.html#30"><abbr title="App\Http\Controllers\DriveControllers\DownloadController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/DownloadController.php.html#49"><abbr title="App\Http\Controllers\DriveControllers\DownloadController::getDownloadResponse">getDownloadResponse</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FetchFileController.php.html#22"><abbr title="App\Http\Controllers\DriveControllers\FetchFileController::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FetchFileController.php.html#33"><abbr title="App\Http\Controllers\DriveControllers\FetchFileController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FetchFileController.php.html#53"><abbr title="App\Http\Controllers\DriveControllers\FetchFileController::handleHashRequest">handleHashRequest</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FetchFileController.php.html#68"><abbr title="App\Http\Controllers\DriveControllers\FetchFileController::getThumb">getThumb</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileDeleteController.php.html#23"><abbr title="App\Http\Controllers\DriveControllers\FileDeleteController::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileDeleteController.php.html#33"><abbr title="App\Http\Controllers\DriveControllers\FileDeleteController::deleteFiles">deleteFiles</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileManagerController.php.html#13"><abbr title="App\Http\Controllers\DriveControllers\FileManagerController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileRenameController.php.html#19"><abbr title="App\Http\Controllers\DriveControllers\FileRenameController::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileRenameController.php.html#25"><abbr title="App\Http\Controllers\DriveControllers\FileRenameController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileSaveController.php.html#24"><abbr title="App\Http\Controllers\DriveControllers\FileSaveController::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileSaveController.php.html#34"><abbr title="App\Http\Controllers\DriveControllers\FileSaveController::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/MoveFilesController.php.html#17"><abbr title="App\Http\Controllers\DriveControllers\MoveFilesController::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/MoveFilesController.php.html#22"><abbr title="App\Http\Controllers\DriveControllers\MoveFilesController::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/ReSyncController.php.html#17"><abbr title="App\Http\Controllers\DriveControllers\ReSyncController::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/ReSyncController.php.html#23"><abbr title="App\Http\Controllers\DriveControllers\ReSyncController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/SearchFilesController.php.html#13"><abbr title="App\Http\Controllers\DriveControllers\SearchFilesController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/ThumbnailController.php.html#18"><abbr title="App\Http\Controllers\DriveControllers\ThumbnailController::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/ThumbnailController.php.html#23"><abbr title="App\Http\Controllers\DriveControllers\ThumbnailController::update">update</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/UploadController.php.html#37"><abbr title="App\Http\Controllers\DriveControllers\UploadController::store">store</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/UploadController.php.html#65"><abbr title="App\Http\Controllers\DriveControllers\UploadController::processFiles">processFiles</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/UploadController.php.html#89"><abbr title="App\Http\Controllers\DriveControllers\UploadController::uploadToDir">uploadToDir</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/UploadController.php.html#107"><abbr title="App\Http\Controllers\DriveControllers\UploadController::createItem">createItem</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/UploadController.php.html#127"><abbr title="App\Http\Controllers\DriveControllers\UploadController::abortReplace">abortReplace</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesGenController.php.html#25"><abbr title="App\Http\Controllers\ShareControllers\ShareFilesGenController::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesGenController.php.html#33"><abbr title="App\Http\Controllers\ShareControllers\ShareFilesGenController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesGuestController.php.html#47"><abbr title="App\Http\Controllers\ShareControllers\ShareFilesGuestController::passwordPage">passwordPage</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesGuestController.php.html#54"><abbr title="App\Http\Controllers\ShareControllers\ShareFilesGuestController::checkPassword">checkPassword</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesModController.php.html#14"><abbr title="App\Http\Controllers\ShareControllers\ShareFilesModController::delete">delete</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesModController.php.html#24"><abbr title="App\Http\Controllers\ShareControllers\ShareFilesModController::pause">pause</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/SharedListController.php.html#20"><abbr title="App\Http\Controllers\ShareControllers\SharedListController::__construct">__construct</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/SharedListController.php.html#28"><abbr title="App\Http\Controllers\ShareControllers\SharedListController::index">index</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/AdminRequests/AdminConfigRequest.php.html#10"><abbr title="App\Http\Requests\AdminRequests\AdminConfigRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#19"><abbr title="App\Http\Requests\Auth\LoginRequest::authorize">authorize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#29"><abbr title="App\Http\Requests\Auth\LoginRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#42"><abbr title="App\Http\Requests\Auth\LoginRequest::authenticate">authenticate</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#62"><abbr title="App\Http\Requests\Auth\LoginRequest::ensureIsNotRateLimited">ensureIsNotRateLimited</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#83"><abbr title="App\Http\Requests\Auth\LoginRequest::throttleKey">throttleKey</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/CreateItemRequest.php.html#10"><abbr title="App\Http\Requests\DriveRequests\CreateItemRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/DownloadRequest.php.html#10"><abbr title="App\Http\Requests\DriveRequests\DownloadRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/FetchFileRequest.php.html#10"><abbr title="App\Http\Requests\DriveRequests\FetchFileRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/FetchFileRequest.php.html#17"><abbr title="App\Http\Requests\DriveRequests\FetchFileRequest::prepareForValidation">prepareForValidation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/FileDeleteRequest.php.html#10"><abbr title="App\Http\Requests\DriveRequests\FileDeleteRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/FileManagerRequest.php.html#10"><abbr title="App\Http\Requests\DriveRequests\FileManagerRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/FileManagerRequest.php.html#15"><abbr title="App\Http\Requests\DriveRequests\FileManagerRequest::prepareForValidation">prepareForValidation</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/FileRenameRequest.php.html#10"><abbr title="App\Http\Requests\DriveRequests\FileRenameRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/FileSaveRequest.php.html#10"><abbr title="App\Http\Requests\DriveRequests\FileSaveRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/GenThumbnailRequest.php.html#10"><abbr title="App\Http\Requests\DriveRequests\GenThumbnailRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/MoveFilesRequest.php.html#10"><abbr title="App\Http\Requests\DriveRequests\MoveFilesRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/ReplaceAbortRequest.php.html#9"><abbr title="App\Http\Requests\DriveRequests\ReplaceAbortRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/SearchRequest.php.html#9"><abbr title="App\Http\Requests\DriveRequests\SearchRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/ShareFilesGenRequest.php.html#10"><abbr title="App\Http\Requests\DriveRequests\ShareFilesGenRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/ShareFilesGuestPasswordRequest.php.html#10"><abbr title="App\Http\Requests\DriveRequests\ShareFilesGuestPasswordRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Requests/DriveRequests/ShareFilesModRequest.php.html#9"><abbr title="App\Http\Requests\DriveRequests\ShareFilesModRequest::rules">rules</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Http/Resources/AdminConfig/AdminConfigResource.php.html#15"><abbr title="App\Http\Resources\AdminConfig\AdminConfigResource::toArray">toArray</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Models/Share.php.html#73"><abbr title="App\Models\Share::getFilenamesByPath">getFilenamesByPath</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/FileMoveService.php.html#63"><abbr title="App\Services\FileMoveService::moveSingleFileOrDirectory">moveSingleFileOrDirectory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/FileMoveService.php.html#93"><abbr title="App\Services\FileMoveService::moveDirectory">moveDirectory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/FileRenameService.php.html#47"><abbr title="App\Services\FileRenameService::updateDirChildrenRecursively">updateDirChildrenRecursively</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/LPathService.php.html#16"><abbr title="App\Services\LPathService::getTempStorageDirPath">getTempStorageDirPath</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/LPathService.php.html#26"><abbr title="App\Services\LPathService::getThumbnailDirPath">getThumbnailDirPath</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/LPathService.php.html#54"><abbr title="App\Services\LPathService::getStorageDirPath">getStorageDirPath</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/LocalFileStatsService.php.html#24"><abbr title="App\Services\LocalFileStatsService::addItemPathStat">addItemPathStat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/LocalFileStatsService.php.html#44"><abbr title="App\Services\LocalFileStatsService::getFileType">getFileType</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/LocalFileStatsService.php.html#68"><abbr title="App\Services\LocalFileStatsService::generateStats">generateStats</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/LocalFileStatsService.php.html#78"><abbr title="App\Services\LocalFileStatsService::populateLocalFileWithStats">populateLocalFileWithStats</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/LocalFileStatsService.php.html#100"><abbr title="App\Services\LocalFileStatsService::createFileIterator">createFileIterator</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/LocalFileStatsService.php.html#113"><abbr title="App\Services\LocalFileStatsService::getFileItemDetails">getFileItemDetails</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/LocalFileStatsService.php.html#142"><abbr title="App\Services\LocalFileStatsService::updateFileStats">updateFileStats</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/ThumbnailService.php.html#31"><abbr title="App\Services\ThumbnailService::genThumbnailsForFileIds">genThumbnailsForFileIds</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/ThumbnailService.php.html#37"><abbr title="App\Services\ThumbnailService::getGeneratableFiles">getGeneratableFiles</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/ThumbnailService.php.html#42"><abbr title="App\Services\ThumbnailService::generateThumbnailsForFiles">generateThumbnailsForFiles</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/ThumbnailService.php.html#65"><abbr title="App\Services\ThumbnailService::generateVideoThumbnail">generateVideoThumbnail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/ThumbnailService.php.html#85"><abbr title="App\Services\ThumbnailService::getFullFileThumbnailPath">getFullFileThumbnailPath</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/ThumbnailService.php.html#101"><abbr title="App\Services\ThumbnailService::imageResize">imageResize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/ThumbnailService.php.html#115"><abbr title="App\Services\ThumbnailService::generateImageThumbnail">generateImageThumbnail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/ThumbnailService.php.html#126"><abbr title="App\Services\ThumbnailService::setHasThumbnail">setHasThumbnail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/UploadService.php.html#34"><abbr title="App\Services\UploadService::setTempStorageDirFull">setTempStorageDirFull</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Traits/FlashMessages.php.html#20"><abbr title="App\Traits\FlashMessages::warn">warn</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="Services/UploadService.php.html#53"><abbr title="App\Services\UploadService::replaceFromTemp">replaceFromTemp</abbr></a></td><td class="text-right">23%</td></tr>
+       <tr><td><a href="Services/FileMoveService.php.html#25"><abbr title="App\Services\FileMoveService::moveFiles">moveFiles</abbr></a></td><td class="text-right">30%</td></tr>
+       <tr><td><a href="Http/Middleware/EnsureFrontendBuilt.php.html#11"><abbr title="App\Http\Middleware\EnsureFrontendBuilt::handle">handle</abbr></a></td><td class="text-right">33%</td></tr>
+       <tr><td><a href="Providers/AppServiceProvider.php.html#34"><abbr title="App\Providers\AppServiceProvider::boot">boot</abbr></a></td><td class="text-right">39%</td></tr>
+       <tr><td><a href="Http/Middleware/CheckSetup.php.html#14"><abbr title="App\Http\Middleware\CheckSetup::handle">handle</abbr></a></td><td class="text-right">50%</td></tr>
+       <tr><td><a href="Services/AdminConfigService.php.html#18"><abbr title="App\Services\AdminConfigService::updateStoragePath">updateStoragePath</abbr></a></td><td class="text-right">52%</td></tr>
+       <tr><td><a href="Helpers/UploadFileHelper.php.html#40"><abbr title="App\Helpers\UploadFileHelper::makeFile">makeFile</abbr></a></td><td class="text-right">60%</td></tr>
+       <tr><td><a href="Services/UploadService.php.html#112"><abbr title="App\Services\UploadService::cleanOldTempFiles">cleanOldTempFiles</abbr></a></td><td class="text-right">62%</td></tr>
+       <tr><td><a href="Helpers/UploadFileHelper.php.html#52"><abbr title="App\Helpers\UploadFileHelper::deleteFolder">deleteFolder</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Services/AdminConfigService.php.html#58"><abbr title="App\Services\AdminConfigService::ensureDirectoryExists">ensureDirectoryExists</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesGuestController.php.html#18"><abbr title="App\Http\Controllers\ShareControllers\ShareFilesGuestController::index">index</abbr></a></td><td class="text-right">73%</td></tr>
+       <tr><td><a href="Helpers/UploadFileHelper.php.html#28"><abbr title="App\Helpers\UploadFileHelper::makeFolder">makeFolder</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="Traits/FlashMessages.php.html#9"><abbr title="App\Traits\FlashMessages::success">success</abbr></a></td><td class="text-right">80%</td></tr>
+       <tr><td><a href="Services/FileRenameService.php.html#24"><abbr title="App\Services\FileRenameService::renameFile">renameFile</abbr></a></td><td class="text-right">83%</td></tr>
+       <tr><td><a href="Http/Middleware/HandleInertiaMiddlware.php.html#28"><abbr title="App\Http\Middleware\HandleInertiaMiddlware::share">share</abbr></a></td><td class="text-right">85%</td></tr>
+       <tr><td><a href="Services/LPathService.php.html#37"><abbr title="App\Services\LPathService::genPrivatePathFromPublic">genPrivatePathFromPublic</abbr></a></td><td class="text-right">87%</td></tr>
+       <tr><td><a href="Http/Middleware/HandleGuestShareMiddleware.php.html#13"><abbr title="App\Http\Middleware\HandleGuestShareMiddleware::handle">handle</abbr></a></td><td class="text-right">88%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="Services/UploadService.php.html#53"><abbr title="App\Services\UploadService::replaceFromTemp">replaceFromTemp</abbr></a></td><td class="text-right">66</td></tr>
+       <tr><td><a href="Services/LocalFileStatsService.php.html#44"><abbr title="App\Services\LocalFileStatsService::getFileType">getFileType</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Services/ThumbnailService.php.html#42"><abbr title="App\Services\ThumbnailService::generateThumbnailsForFiles">generateThumbnailsForFiles</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileSaveController.php.html#34"><abbr title="App\Http\Controllers\DriveControllers\FileSaveController::update">update</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/UploadController.php.html#107"><abbr title="App\Http\Controllers\DriveControllers\UploadController::createItem">createItem</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesGenController.php.html#33"><abbr title="App\Http\Controllers\ShareControllers\ShareFilesGenController::index">index</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Services/LocalFileStatsService.php.html#113"><abbr title="App\Services\LocalFileStatsService::getFileItemDetails">getFileItemDetails</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/DownloadController.php.html#30"><abbr title="App\Http\Controllers\DriveControllers\DownloadController::index">index</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/UploadController.php.html#37"><abbr title="App\Http\Controllers\DriveControllers\UploadController::store">store</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/UploadController.php.html#65"><abbr title="App\Http\Controllers\DriveControllers\UploadController::processFiles">processFiles</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Services/FileMoveService.php.html#63"><abbr title="App\Services\FileMoveService::moveSingleFileOrDirectory">moveSingleFileOrDirectory</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Services/ThumbnailService.php.html#85"><abbr title="App\Services\ThumbnailService::getFullFileThumbnailPath">getFullFileThumbnailPath</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="Services/FileMoveService.php.html#25"><abbr title="App\Services\FileMoveService::moveFiles">moveFiles</abbr></a></td><td class="text-right">23</td></tr>
+       <tr><td><a href="Providers/AppServiceProvider.php.html#34"><abbr title="App\Providers\AppServiceProvider::boot">boot</abbr></a></td><td class="text-right">22</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileDeleteController.php.html#33"><abbr title="App\Http\Controllers\DriveControllers\FileDeleteController::deleteFiles">deleteFiles</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileRenameController.php.html#25"><abbr title="App\Http\Controllers\DriveControllers\FileRenameController::index">index</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/UploadController.php.html#89"><abbr title="App\Http\Controllers\DriveControllers\UploadController::uploadToDir">uploadToDir</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/UploadController.php.html#127"><abbr title="App\Http\Controllers\DriveControllers\UploadController::abortReplace">abortReplace</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Services/LocalFileStatsService.php.html#24"><abbr title="App\Services\LocalFileStatsService::addItemPathStat">addItemPathStat</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Services/LocalFileStatsService.php.html#78"><abbr title="App\Services\LocalFileStatsService::populateLocalFileWithStats">populateLocalFileWithStats</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="Services/AdminConfigService.php.html#18"><abbr title="App\Services\AdminConfigService::updateStoragePath">updateStoragePath</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FetchFileController.php.html#53"><abbr title="App\Http\Controllers\DriveControllers\FetchFileController::handleHashRequest">handleHashRequest</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FetchFileController.php.html#68"><abbr title="App\Http\Controllers\DriveControllers\FetchFileController::getThumb">getThumb</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/MoveFilesController.php.html#22"><abbr title="App\Http\Controllers\DriveControllers\MoveFilesController::update">update</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/ThumbnailController.php.html#23"><abbr title="App\Http\Controllers\DriveControllers\ThumbnailController::update">update</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesGuestController.php.html#54"><abbr title="App\Http\Controllers\ShareControllers\ShareFilesGuestController::checkPassword">checkPassword</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesModController.php.html#24"><abbr title="App\Http\Controllers\ShareControllers\ShareFilesModController::pause">pause</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Services/FileRenameService.php.html#47"><abbr title="App\Services\FileRenameService::updateDirChildrenRecursively">updateDirChildrenRecursively</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Services/LPathService.php.html#26"><abbr title="App\Services\LPathService::getThumbnailDirPath">getThumbnailDirPath</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Services/LPathService.php.html#54"><abbr title="App\Services\LPathService::getStorageDirPath">getStorageDirPath</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Services/ThumbnailService.php.html#65"><abbr title="App\Services\ThumbnailService::generateVideoThumbnail">generateVideoThumbnail</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="Http/Middleware/HandleGuestShareMiddleware.php.html#13"><abbr title="App\Http\Middleware\HandleGuestShareMiddleware::handle">handle</abbr></a></td><td class="text-right">7</td></tr>
+       <tr><td><a href="Helpers/UploadFileHelper.php.html#40"><abbr title="App\Helpers\UploadFileHelper::makeFile">makeFile</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/AdminControllers/AdminConfigController.php.html#42"><abbr title="App\Http\Controllers\AdminControllers\AdminConfigController::update">update</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FetchFileController.php.html#33"><abbr title="App\Http\Controllers\DriveControllers\FetchFileController::index">index</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/FileManagerController.php.html#13"><abbr title="App\Http\Controllers\DriveControllers\FileManagerController::index">index</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/DriveControllers/ReSyncController.php.html#23"><abbr title="App\Http\Controllers\DriveControllers\ReSyncController::index">index</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesModController.php.html#14"><abbr title="App\Http\Controllers\ShareControllers\ShareFilesModController::delete">delete</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Middleware/CheckSetup.php.html#14"><abbr title="App\Http\Middleware\CheckSetup::handle">handle</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#42"><abbr title="App\Http\Requests\Auth\LoginRequest::authenticate">authenticate</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Requests/Auth/LoginRequest.php.html#62"><abbr title="App\Http\Requests\Auth\LoginRequest::ensureIsNotRateLimited">ensureIsNotRateLimited</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Services/FileMoveService.php.html#93"><abbr title="App\Services\FileMoveService::moveDirectory">moveDirectory</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Services/LPathService.php.html#16"><abbr title="App\Services\LPathService::getTempStorageDirPath">getTempStorageDirPath</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Services/LocalFileStatsService.php.html#68"><abbr title="App\Services\LocalFileStatsService::generateStats">generateStats</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Services/ThumbnailService.php.html#101"><abbr title="App\Services\ThumbnailService::imageResize">imageResize</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Services/ThumbnailService.php.html#115"><abbr title="App\Services\ThumbnailService::generateImageThumbnail">generateImageThumbnail</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="Http/Controllers/ShareControllers/ShareFilesGuestController.php.html#18"><abbr title="App\Http\Controllers\ShareControllers\ShareFilesGuestController::index">index</abbr></a></td><td class="text-right">5</td></tr>
+       <tr><td><a href="Services/UploadService.php.html#112"><abbr title="App\Services\UploadService::cleanOldTempFiles">cleanOldTempFiles</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Helpers/UploadFileHelper.php.html#28"><abbr title="App\Helpers\UploadFileHelper::makeFolder">makeFolder</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Services/FileRenameService.php.html#24"><abbr title="App\Services\FileRenameService::renameFile">renameFile</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="Services/AdminConfigService.php.html#58"><abbr title="App\Services\AdminConfigService::ensureDirectoryExists">ensureDirectoryExists</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Http/Middleware/EnsureFrontendBuilt.php.html#11"><abbr title="App\Http\Middleware\EnsureFrontendBuilt::handle">handle</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Http/Middleware/HandleInertiaMiddlware.php.html#28"><abbr title="App\Http\Middleware\HandleInertiaMiddlware::share">share</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Services/LPathService.php.html#37"><abbr title="App\Services\LPathService::genPrivatePathFromPublic">genPrivatePathFromPublic</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="Helpers/UploadFileHelper.php.html#52"><abbr title="App\Helpers\UploadFileHelper::deleteFolder">deleteFolder</abbr></a></td><td class="text-right">2</td></tr>
+       <tr><td><a href="Traits/FlashMessages.php.html#9"><abbr title="App\Traits\FlashMessages::success">success</abbr></a></td><td class="text-right">2</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 11.0.10</a> using <a href="https://www.php.net/" target="_top">PHP 8.4.8</a> and <a href="https://phpunit.de/">PHPUnit 11.5.15</a> at Sat Jul 12 21:59:57 UTC 2025.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="_js/jquery.min.js?v=11.0.10" type="text/javascript"></script>
+  <script src="_js/d3.min.js?v=11.0.10" type="text/javascript"></script>
+  <script src="_js/nv.d3.min.js?v=11.0.10" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([31,3,0,2,2,3,3,3,1,1,2,32], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([86,0,0,1,3,0,2,4,1,6,1,115], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[100,3,"<a href=\"Exceptions\/PersonalDriveExceptions\/FetchFileException.php.html#5\">App\\Exceptions\\PersonalDriveExceptions\\FetchFileException<\/a>"],[100,2,"<a href=\"Exceptions\/PersonalDriveExceptions\/FileRenameException.php.html#5\">App\\Exceptions\\PersonalDriveExceptions\\FileRenameException<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/ImageRelatedException.php.html#5\">App\\Exceptions\\PersonalDriveExceptions\\ImageRelatedException<\/a>"],[100,2,"<a href=\"Exceptions\/PersonalDriveExceptions\/MoveFileException.php.html#5\">App\\Exceptions\\PersonalDriveExceptions\\MoveFileException<\/a>"],[100,0,"<a href=\"Exceptions\/PersonalDriveExceptions\/PersonalDriveException.php.html#7\">App\\Exceptions\\PersonalDriveExceptions\\PersonalDriveException<\/a>"],[100,2,"<a href=\"Exceptions\/PersonalDriveExceptions\/ShareFileException.php.html#5\">App\\Exceptions\\PersonalDriveExceptions\\ShareFileException<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/ThrottleException.php.html#5\">App\\Exceptions\\PersonalDriveExceptions\\ThrottleException<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/ThumbnailException.php.html#5\">App\\Exceptions\\PersonalDriveExceptions\\ThumbnailException<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/UUIDException.php.html#5\">App\\Exceptions\\PersonalDriveExceptions\\UUIDException<\/a>"],[100,3,"<a href=\"Exceptions\/PersonalDriveExceptions\/UploadFileException.php.html#5\">App\\Exceptions\\PersonalDriveExceptions\\UploadFileException<\/a>"],[100,7,"<a href=\"Helpers\/DownloadHelper.php.html#11\">App\\Helpers\\DownloadHelper<\/a>"],[100,2,"<a href=\"Helpers\/EncryptHelper.php.html#7\">App\\Helpers\\EncryptHelper<\/a>"],[0,2,"<a href=\"Helpers\/FileOperationsHelper.php.html#9\">App\\Helpers\\FileOperationsHelper<\/a>"],[100,4,"<a href=\"Helpers\/FileSizeFormatter.php.html#5\">App\\Helpers\\FileSizeFormatter<\/a>"],[100,1,"<a href=\"Helpers\/ResponseHelper.php.html#7\">App\\Helpers\\ResponseHelper<\/a>"],[77.77777777777779,14,"<a href=\"Helpers\/UploadFileHelper.php.html#8\">App\\Helpers\\UploadFileHelper<\/a>"],[52.38095238095239,4,"<a href=\"Http\/Controllers\/AdminControllers\/AdminConfigController.php.html#16\">App\\Http\\Controllers\\AdminControllers\\AdminConfigController<\/a>"],[100,3,"<a href=\"Http\/Controllers\/AdminControllers\/SetupController.php.html#14\">App\\Http\\Controllers\\AdminControllers\\SetupController<\/a>"],[50,3,"<a href=\"Http\/Controllers\/Auth\/AuthenticatedSessionController.php.html#13\">App\\Http\\Controllers\\Auth\\AuthenticatedSessionController<\/a>"],[100,0,"<a href=\"Http\/Controllers\/Controller.php.html#5\">App\\Http\\Controllers\\Controller<\/a>"],[0,7,"<a href=\"Http\/Controllers\/DriveControllers\/DownloadController.php.html#16\">App\\Http\\Controllers\\DriveControllers\\DownloadController<\/a>"],[0,9,"<a href=\"Http\/Controllers\/DriveControllers\/FetchFileController.php.html#14\">App\\Http\\Controllers\\DriveControllers\\FetchFileController<\/a>"],[0,5,"<a href=\"Http\/Controllers\/DriveControllers\/FileDeleteController.php.html#13\">App\\Http\\Controllers\\DriveControllers\\FileDeleteController<\/a>"],[0,2,"<a href=\"Http\/Controllers\/DriveControllers\/FileManagerController.php.html#11\">App\\Http\\Controllers\\DriveControllers\\FileManagerController<\/a>"],[0,5,"<a href=\"Http\/Controllers\/DriveControllers\/FileRenameController.php.html#13\">App\\Http\\Controllers\\DriveControllers\\FileRenameController<\/a>"],[0,7,"<a href=\"Http\/Controllers\/DriveControllers\/FileSaveController.php.html#17\">App\\Http\\Controllers\\DriveControllers\\FileSaveController<\/a>"],[0,4,"<a href=\"Http\/Controllers\/DriveControllers\/MoveFilesController.php.html#11\">App\\Http\\Controllers\\DriveControllers\\MoveFilesController<\/a>"],[0,3,"<a href=\"Http\/Controllers\/DriveControllers\/ReSyncController.php.html#11\">App\\Http\\Controllers\\DriveControllers\\ReSyncController<\/a>"],[0,1,"<a href=\"Http\/Controllers\/DriveControllers\/SearchFilesController.php.html#11\">App\\Http\\Controllers\\DriveControllers\\SearchFilesController<\/a>"],[0,4,"<a href=\"Http\/Controllers\/DriveControllers\/ThumbnailController.php.html#12\">App\\Http\\Controllers\\DriveControllers\\ThumbnailController<\/a>"],[4.761904761904762,25,"<a href=\"Http\/Controllers\/DriveControllers\/UploadController.php.html#19\">App\\Http\\Controllers\\DriveControllers\\UploadController<\/a>"],[0,7,"<a href=\"Http\/Controllers\/ShareControllers\/ShareFilesGenController.php.html#17\">App\\Http\\Controllers\\ShareControllers\\ShareFilesGenController<\/a>"],[46.666666666666664,9,"<a href=\"Http\/Controllers\/ShareControllers\/ShareFilesGuestController.php.html#16\">App\\Http\\Controllers\\ShareControllers\\ShareFilesGuestController<\/a>"],[0,5,"<a href=\"Http\/Controllers\/ShareControllers\/ShareFilesModController.php.html#10\">App\\Http\\Controllers\\ShareControllers\\ShareFilesModController<\/a>"],[0,2,"<a href=\"Http\/Controllers\/ShareControllers\/SharedListController.php.html#12\">App\\Http\\Controllers\\ShareControllers\\SharedListController<\/a>"],[100,2,"<a href=\"Http\/Middleware\/CheckAdmin.php.html#9\">App\\Http\\Middleware\\CheckAdmin<\/a>"],[50,4,"<a href=\"Http\/Middleware\/CheckSetup.php.html#12\">App\\Http\\Middleware\\CheckSetup<\/a>"],[100,2,"<a href=\"Http\/Middleware\/CleanupTempFiles.php.html#10\">App\\Http\\Middleware\\CleanupTempFiles<\/a>"],[33.33333333333333,2,"<a href=\"Http\/Middleware\/EnsureFrontendBuilt.php.html#9\">App\\Http\\Middleware\\EnsureFrontendBuilt<\/a>"],[100,2,"<a href=\"Http\/Middleware\/HandleAuthOrGuestMiddleware.php.html#11\">App\\Http\\Middleware\\HandleAuthOrGuestMiddleware<\/a>"],[90,9,"<a href=\"Http\/Middleware\/HandleGuestShareMiddleware.php.html#11\">App\\Http\\Middleware\\HandleGuestShareMiddleware<\/a>"],[86.66666666666667,4,"<a href=\"Http\/Middleware\/HandleInertiaMiddlware.php.html#8\">App\\Http\\Middleware\\HandleInertiaMiddlware<\/a>"],[100,3,"<a href=\"Http\/Middleware\/PreventSetupAccess.php.html#11\">App\\Http\\Middleware\\PreventSetupAccess<\/a>"],[0,1,"<a href=\"Http\/Requests\/AdminRequests\/AdminConfigRequest.php.html#8\">App\\Http\\Requests\\AdminRequests\\AdminConfigRequest<\/a>"],[100,1,"<a href=\"Http\/Requests\/AdminRequests\/SetupAccountRequest.php.html#8\">App\\Http\\Requests\\AdminRequests\\SetupAccountRequest<\/a>"],[0,7,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#14\">App\\Http\\Requests\\Auth\\LoginRequest<\/a>"],[100,9,"<a href=\"Http\/Requests\/CommonRequest.php.html#9\">App\\Http\\Requests\\CommonRequest<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/CreateItemRequest.php.html#8\">App\\Http\\Requests\\DriveRequests\\CreateItemRequest<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/DownloadRequest.php.html#8\">App\\Http\\Requests\\DriveRequests\\DownloadRequest<\/a>"],[0,2,"<a href=\"Http\/Requests\/DriveRequests\/FetchFileRequest.php.html#8\">App\\Http\\Requests\\DriveRequests\\FetchFileRequest<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/FileDeleteRequest.php.html#8\">App\\Http\\Requests\\DriveRequests\\FileDeleteRequest<\/a>"],[0,2,"<a href=\"Http\/Requests\/DriveRequests\/FileManagerRequest.php.html#8\">App\\Http\\Requests\\DriveRequests\\FileManagerRequest<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/FileRenameRequest.php.html#8\">App\\Http\\Requests\\DriveRequests\\FileRenameRequest<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/FileSaveRequest.php.html#8\">App\\Http\\Requests\\DriveRequests\\FileSaveRequest<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/GenThumbnailRequest.php.html#8\">App\\Http\\Requests\\DriveRequests\\GenThumbnailRequest<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/MoveFilesRequest.php.html#8\">App\\Http\\Requests\\DriveRequests\\MoveFilesRequest<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/ReplaceAbortRequest.php.html#7\">App\\Http\\Requests\\DriveRequests\\ReplaceAbortRequest<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/SearchRequest.php.html#7\">App\\Http\\Requests\\DriveRequests\\SearchRequest<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/ShareFilesGenRequest.php.html#8\">App\\Http\\Requests\\DriveRequests\\ShareFilesGenRequest<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/ShareFilesGuestPasswordRequest.php.html#8\">App\\Http\\Requests\\DriveRequests\\ShareFilesGuestPasswordRequest<\/a>"],[100,4,"<a href=\"Http\/Requests\/DriveRequests\/ShareFilesGuestRequest.php.html#8\">App\\Http\\Requests\\DriveRequests\\ShareFilesGuestRequest<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/ShareFilesModRequest.php.html#7\">App\\Http\\Requests\\DriveRequests\\ShareFilesModRequest<\/a>"],[100,2,"<a href=\"Http\/Requests\/DriveRequests\/UploadRequest.php.html#8\">App\\Http\\Requests\\DriveRequests\\UploadRequest<\/a>"],[0,1,"<a href=\"Http\/Resources\/AdminConfig\/AdminConfigResource.php.html#8\">App\\Http\\Resources\\AdminConfig\\AdminConfigResource<\/a>"],[100,25,"<a href=\"Models\/LocalFile.php.html#14\">App\\Models\\LocalFile<\/a>"],[100,5,"<a href=\"Models\/Setting.php.html#8\">App\\Models\\Setting<\/a>"],[66.66666666666666,9,"<a href=\"Models\/Share.php.html#13\">App\\Models\\Share<\/a>"],[100,4,"<a href=\"Models\/SharedFile.php.html#10\">App\\Models\\SharedFile<\/a>"],[100,1,"<a href=\"Models\/User.php.html#11\">App\\Models\\User<\/a>"],[45.94594594594595,9,"<a href=\"Providers\/AppServiceProvider.php.html#18\">App\\Providers\\AppServiceProvider<\/a>"],[100,5,"<a href=\"Providers\/DatabaseFileServiceProvider.php.html#8\">App\\Providers\\DatabaseFileServiceProvider<\/a>"],[100,3,"<a href=\"Rules\/ValidPath.php.html#8\">App\\Rules\\ValidPath<\/a>"],[67.85714285714286,15,"<a href=\"Services\/AdminConfigService.php.html#9\">App\\Services\\AdminConfigService<\/a>"],[100,6,"<a href=\"Services\/DownloadService.php.html#10\">App\\Services\\DownloadService<\/a>"],[94.73684210526315,14,"<a href=\"Services\/FileDeleteService.php.html#9\">App\\Services\\FileDeleteService<\/a>"],[21.27659574468085,15,"<a href=\"Services\/FileMoveService.php.html#9\">App\\Services\\FileMoveService<\/a>"],[29.268292682926827,8,"<a href=\"Services\/FileRenameService.php.html#11\">App\\Services\\FileRenameService<\/a>"],[37.5,13,"<a href=\"Services\/LPathService.php.html#7\">App\\Services\\LPathService<\/a>"],[1.2345679012345678,26,"<a href=\"Services\/LocalFileStatsService.php.html#15\">App\\Services\\LocalFileStatsService<\/a>"],[2.083333333333333,23,"<a href=\"Services\/ThumbnailService.php.html#18\">App\\Services\\ThumbnailService<\/a>"],[100,7,"<a href=\"Services\/UUIDService.php.html#8\">App\\Services\\UUIDService<\/a>"],[47.05882352941176,23,"<a href=\"Services\/UploadService.php.html#12\">App\\Services\\UploadService<\/a>"],[63.63636363636363,4,"<a href=\"Traits\/FlashMessages.php.html#7\">App\\Traits\\FlashMessages<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/FetchFileException.php.html#7\">App\\Exceptions\\PersonalDriveExceptions\\FetchFileException::notFoundStream<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/FetchFileException.php.html#12\">App\\Exceptions\\PersonalDriveExceptions\\FetchFileException::notFoundDownload<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/FetchFileException.php.html#17\">App\\Exceptions\\PersonalDriveExceptions\\FetchFileException::couldNotZip<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/FileRenameException.php.html#7\">App\\Exceptions\\PersonalDriveExceptions\\FileRenameException::couldNotRename<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/FileRenameException.php.html#12\">App\\Exceptions\\PersonalDriveExceptions\\FileRenameException::couldNotUpdateIndex<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/ImageRelatedException.php.html#7\">App\\Exceptions\\PersonalDriveExceptions\\ImageRelatedException::invalidImageDriver<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/MoveFileException.php.html#7\">App\\Exceptions\\PersonalDriveExceptions\\MoveFileException::noValidFiles<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/MoveFileException.php.html#12\">App\\Exceptions\\PersonalDriveExceptions\\MoveFileException::invalidDestinationPath<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/ShareFileException.php.html#7\">App\\Exceptions\\PersonalDriveExceptions\\ShareFileException::couldNotShare<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/ShareFileException.php.html#12\">App\\Exceptions\\PersonalDriveExceptions\\ShareFileException::shareWrongPassword<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/ThrottleException.php.html#7\">App\\Exceptions\\PersonalDriveExceptions\\ThrottleException::toomany<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/ThumbnailException.php.html#7\">App\\Exceptions\\PersonalDriveExceptions\\ThumbnailException::noffmpeg<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/UUIDException.php.html#7\">App\\Exceptions\\PersonalDriveExceptions\\UUIDException::nouuid<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/UploadFileException.php.html#7\">App\\Exceptions\\PersonalDriveExceptions\\UploadFileException::outofmemory<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/UploadFileException.php.html#12\">App\\Exceptions\\PersonalDriveExceptions\\UploadFileException::nonewdir<\/a>"],[100,1,"<a href=\"Exceptions\/PersonalDriveExceptions\/UploadFileException.php.html#17\">App\\Exceptions\\PersonalDriveExceptions\\UploadFileException::invalidPath<\/a>"],[100,7,"<a href=\"Helpers\/DownloadHelper.php.html#16\">App\\Helpers\\DownloadHelper::createZipArchive<\/a>"],[100,1,"<a href=\"Helpers\/EncryptHelper.php.html#9\">App\\Helpers\\EncryptHelper::encrypt<\/a>"],[100,1,"<a href=\"Helpers\/EncryptHelper.php.html#14\">App\\Helpers\\EncryptHelper::decrypt<\/a>"],[0,1,"<a href=\"Helpers\/FileOperationsHelper.php.html#14\">App\\Helpers\\FileOperationsHelper::__construct<\/a>"],[0,1,"<a href=\"Helpers\/FileOperationsHelper.php.html#23\">App\\Helpers\\FileOperationsHelper::move<\/a>"],[100,4,"<a href=\"Helpers\/FileSizeFormatter.php.html#7\">App\\Helpers\\FileSizeFormatter::format<\/a>"],[100,1,"<a href=\"Helpers\/ResponseHelper.php.html#9\">App\\Helpers\\ResponseHelper::json<\/a>"],[100,1,"<a href=\"Helpers\/UploadFileHelper.php.html#13\">App\\Helpers\\UploadFileHelper::getUploadedFileFullPath<\/a>"],[100,2,"<a href=\"Helpers\/UploadFileHelper.php.html#20\">App\\Helpers\\UploadFileHelper::sanitizePath<\/a>"],[80,4,"<a href=\"Helpers\/UploadFileHelper.php.html#28\">App\\Helpers\\UploadFileHelper::makeFolder<\/a>"],[60,5,"<a href=\"Helpers\/UploadFileHelper.php.html#40\">App\\Helpers\\UploadFileHelper::makeFile<\/a>"],[66.66666666666666,2,"<a href=\"Helpers\/UploadFileHelper.php.html#52\">App\\Helpers\\UploadFileHelper::deleteFolder<\/a>"],[100,1,"<a href=\"Http\/Controllers\/AdminControllers\/AdminConfigController.php.html#22\">App\\Http\\Controllers\\AdminControllers\\AdminConfigController::__construct<\/a>"],[100,1,"<a href=\"Http\/Controllers\/AdminControllers\/AdminConfigController.php.html#28\">App\\Http\\Controllers\\AdminControllers\\AdminConfigController::index<\/a>"],[0,2,"<a href=\"Http\/Controllers\/AdminControllers\/AdminConfigController.php.html#42\">App\\Http\\Controllers\\AdminControllers\\AdminConfigController::update<\/a>"],[100,1,"<a href=\"Http\/Controllers\/AdminControllers\/SetupController.php.html#16\">App\\Http\\Controllers\\AdminControllers\\SetupController::show<\/a>"],[100,2,"<a href=\"Http\/Controllers\/AdminControllers\/SetupController.php.html#21\">App\\Http\\Controllers\\AdminControllers\\SetupController::update<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Auth\/AuthenticatedSessionController.php.html#18\">App\\Http\\Controllers\\Auth\\AuthenticatedSessionController::create<\/a>"],[0,1,"<a href=\"Http\/Controllers\/Auth\/AuthenticatedSessionController.php.html#26\">App\\Http\\Controllers\\Auth\\AuthenticatedSessionController::store<\/a>"],[100,1,"<a href=\"Http\/Controllers\/Auth\/AuthenticatedSessionController.php.html#38\">App\\Http\\Controllers\\Auth\\AuthenticatedSessionController::destroy<\/a>"],[0,1,"<a href=\"Http\/Controllers\/DriveControllers\/DownloadController.php.html#22\">App\\Http\\Controllers\\DriveControllers\\DownloadController::__construct<\/a>"],[0,5,"<a href=\"Http\/Controllers\/DriveControllers\/DownloadController.php.html#30\">App\\Http\\Controllers\\DriveControllers\\DownloadController::index<\/a>"],[0,1,"<a href=\"Http\/Controllers\/DriveControllers\/DownloadController.php.html#49\">App\\Http\\Controllers\\DriveControllers\\DownloadController::getDownloadResponse<\/a>"],[0,1,"<a href=\"Http\/Controllers\/DriveControllers\/FetchFileController.php.html#22\">App\\Http\\Controllers\\DriveControllers\\FetchFileController::__construct<\/a>"],[0,2,"<a href=\"Http\/Controllers\/DriveControllers\/FetchFileController.php.html#33\">App\\Http\\Controllers\\DriveControllers\\FetchFileController::index<\/a>"],[0,3,"<a href=\"Http\/Controllers\/DriveControllers\/FetchFileController.php.html#53\">App\\Http\\Controllers\\DriveControllers\\FetchFileController::handleHashRequest<\/a>"],[0,3,"<a href=\"Http\/Controllers\/DriveControllers\/FetchFileController.php.html#68\">App\\Http\\Controllers\\DriveControllers\\FetchFileController::getThumb<\/a>"],[0,1,"<a href=\"Http\/Controllers\/DriveControllers\/FileDeleteController.php.html#23\">App\\Http\\Controllers\\DriveControllers\\FileDeleteController::__construct<\/a>"],[0,4,"<a href=\"Http\/Controllers\/DriveControllers\/FileDeleteController.php.html#33\">App\\Http\\Controllers\\DriveControllers\\FileDeleteController::deleteFiles<\/a>"],[0,2,"<a href=\"Http\/Controllers\/DriveControllers\/FileManagerController.php.html#13\">App\\Http\\Controllers\\DriveControllers\\FileManagerController::index<\/a>"],[0,1,"<a href=\"Http\/Controllers\/DriveControllers\/FileRenameController.php.html#19\">App\\Http\\Controllers\\DriveControllers\\FileRenameController::__construct<\/a>"],[0,4,"<a href=\"Http\/Controllers\/DriveControllers\/FileRenameController.php.html#25\">App\\Http\\Controllers\\DriveControllers\\FileRenameController::index<\/a>"],[0,1,"<a href=\"Http\/Controllers\/DriveControllers\/FileSaveController.php.html#24\">App\\Http\\Controllers\\DriveControllers\\FileSaveController::__construct<\/a>"],[0,6,"<a href=\"Http\/Controllers\/DriveControllers\/FileSaveController.php.html#34\">App\\Http\\Controllers\\DriveControllers\\FileSaveController::update<\/a>"],[0,1,"<a href=\"Http\/Controllers\/DriveControllers\/MoveFilesController.php.html#17\">App\\Http\\Controllers\\DriveControllers\\MoveFilesController::__construct<\/a>"],[0,3,"<a href=\"Http\/Controllers\/DriveControllers\/MoveFilesController.php.html#22\">App\\Http\\Controllers\\DriveControllers\\MoveFilesController::update<\/a>"],[0,1,"<a href=\"Http\/Controllers\/DriveControllers\/ReSyncController.php.html#17\">App\\Http\\Controllers\\DriveControllers\\ReSyncController::__construct<\/a>"],[0,2,"<a href=\"Http\/Controllers\/DriveControllers\/ReSyncController.php.html#23\">App\\Http\\Controllers\\DriveControllers\\ReSyncController::index<\/a>"],[0,1,"<a href=\"Http\/Controllers\/DriveControllers\/SearchFilesController.php.html#13\">App\\Http\\Controllers\\DriveControllers\\SearchFilesController::index<\/a>"],[0,1,"<a href=\"Http\/Controllers\/DriveControllers\/ThumbnailController.php.html#18\">App\\Http\\Controllers\\DriveControllers\\ThumbnailController::__construct<\/a>"],[0,3,"<a href=\"Http\/Controllers\/DriveControllers\/ThumbnailController.php.html#23\">App\\Http\\Controllers\\DriveControllers\\ThumbnailController::update<\/a>"],[100,1,"<a href=\"Http\/Controllers\/DriveControllers\/UploadController.php.html#27\">App\\Http\\Controllers\\DriveControllers\\UploadController::__construct<\/a>"],[0,5,"<a href=\"Http\/Controllers\/DriveControllers\/UploadController.php.html#37\">App\\Http\\Controllers\\DriveControllers\\UploadController::store<\/a>"],[0,5,"<a href=\"Http\/Controllers\/DriveControllers\/UploadController.php.html#65\">App\\Http\\Controllers\\DriveControllers\\UploadController::processFiles<\/a>"],[0,4,"<a href=\"Http\/Controllers\/DriveControllers\/UploadController.php.html#89\">App\\Http\\Controllers\\DriveControllers\\UploadController::uploadToDir<\/a>"],[0,6,"<a href=\"Http\/Controllers\/DriveControllers\/UploadController.php.html#107\">App\\Http\\Controllers\\DriveControllers\\UploadController::createItem<\/a>"],[0,4,"<a href=\"Http\/Controllers\/DriveControllers\/UploadController.php.html#127\">App\\Http\\Controllers\\DriveControllers\\UploadController::abortReplace<\/a>"],[0,1,"<a href=\"Http\/Controllers\/ShareControllers\/ShareFilesGenController.php.html#25\">App\\Http\\Controllers\\ShareControllers\\ShareFilesGenController::__construct<\/a>"],[0,6,"<a href=\"Http\/Controllers\/ShareControllers\/ShareFilesGenController.php.html#33\">App\\Http\\Controllers\\ShareControllers\\ShareFilesGenController::index<\/a>"],[73.68421052631578,5,"<a href=\"Http\/Controllers\/ShareControllers\/ShareFilesGuestController.php.html#18\">App\\Http\\Controllers\\ShareControllers\\ShareFilesGuestController::index<\/a>"],[0,1,"<a href=\"Http\/Controllers\/ShareControllers\/ShareFilesGuestController.php.html#47\">App\\Http\\Controllers\\ShareControllers\\ShareFilesGuestController::passwordPage<\/a>"],[0,3,"<a href=\"Http\/Controllers\/ShareControllers\/ShareFilesGuestController.php.html#54\">App\\Http\\Controllers\\ShareControllers\\ShareFilesGuestController::checkPassword<\/a>"],[0,2,"<a href=\"Http\/Controllers\/ShareControllers\/ShareFilesModController.php.html#14\">App\\Http\\Controllers\\ShareControllers\\ShareFilesModController::delete<\/a>"],[0,3,"<a href=\"Http\/Controllers\/ShareControllers\/ShareFilesModController.php.html#24\">App\\Http\\Controllers\\ShareControllers\\ShareFilesModController::pause<\/a>"],[0,1,"<a href=\"Http\/Controllers\/ShareControllers\/SharedListController.php.html#20\">App\\Http\\Controllers\\ShareControllers\\SharedListController::__construct<\/a>"],[0,1,"<a href=\"Http\/Controllers\/ShareControllers\/SharedListController.php.html#28\">App\\Http\\Controllers\\ShareControllers\\SharedListController::index<\/a>"],[100,2,"<a href=\"Http\/Middleware\/CheckAdmin.php.html#11\">App\\Http\\Middleware\\CheckAdmin::handle<\/a>"],[50,4,"<a href=\"Http\/Middleware\/CheckSetup.php.html#14\">App\\Http\\Middleware\\CheckSetup::handle<\/a>"],[100,1,"<a href=\"Http\/Middleware\/CleanupTempFiles.php.html#14\">App\\Http\\Middleware\\CleanupTempFiles::__construct<\/a>"],[100,1,"<a href=\"Http\/Middleware\/CleanupTempFiles.php.html#19\">App\\Http\\Middleware\\CleanupTempFiles::handle<\/a>"],[33.33333333333333,2,"<a href=\"Http\/Middleware\/EnsureFrontendBuilt.php.html#11\">App\\Http\\Middleware\\EnsureFrontendBuilt::handle<\/a>"],[100,2,"<a href=\"Http\/Middleware\/HandleAuthOrGuestMiddleware.php.html#13\">App\\Http\\Middleware\\HandleAuthOrGuestMiddleware::handle<\/a>"],[88.88888888888889,7,"<a href=\"Http\/Middleware\/HandleGuestShareMiddleware.php.html#13\">App\\Http\\Middleware\\HandleGuestShareMiddleware::handle<\/a>"],[100,2,"<a href=\"Http\/Middleware\/HandleGuestShareMiddleware.php.html#31\">App\\Http\\Middleware\\HandleGuestShareMiddleware::isNeedsPassword<\/a>"],[100,1,"<a href=\"Http\/Middleware\/HandleInertiaMiddlware.php.html#20\">App\\Http\\Middleware\\HandleInertiaMiddlware::version<\/a>"],[85.71428571428571,3,"<a href=\"Http\/Middleware\/HandleInertiaMiddlware.php.html#28\">App\\Http\\Middleware\\HandleInertiaMiddlware::share<\/a>"],[100,3,"<a href=\"Http\/Middleware\/PreventSetupAccess.php.html#13\">App\\Http\\Middleware\\PreventSetupAccess::handle<\/a>"],[0,1,"<a href=\"Http\/Requests\/AdminRequests\/AdminConfigRequest.php.html#10\">App\\Http\\Requests\\AdminRequests\\AdminConfigRequest::rules<\/a>"],[100,1,"<a href=\"Http\/Requests\/AdminRequests\/SetupAccountRequest.php.html#10\">App\\Http\\Requests\\AdminRequests\\SetupAccountRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#19\">App\\Http\\Requests\\Auth\\LoginRequest::authorize<\/a>"],[0,1,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#29\">App\\Http\\Requests\\Auth\\LoginRequest::rules<\/a>"],[0,2,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#42\">App\\Http\\Requests\\Auth\\LoginRequest::authenticate<\/a>"],[0,2,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#62\">App\\Http\\Requests\\Auth\\LoginRequest::ensureIsNotRateLimited<\/a>"],[0,1,"<a href=\"Http\/Requests\/Auth\/LoginRequest.php.html#83\">App\\Http\\Requests\\Auth\\LoginRequest::throttleKey<\/a>"],[100,1,"<a href=\"Http\/Requests\/CommonRequest.php.html#11\">App\\Http\\Requests\\CommonRequest::slugRules<\/a>"],[100,1,"<a href=\"Http\/Requests\/CommonRequest.php.html#16\">App\\Http\\Requests\\CommonRequest::slugRegex<\/a>"],[100,1,"<a href=\"Http\/Requests\/CommonRequest.php.html#21\">App\\Http\\Requests\\CommonRequest::pathRules<\/a>"],[100,1,"<a href=\"Http\/Requests\/CommonRequest.php.html#26\">App\\Http\\Requests\\CommonRequest::passwordRules<\/a>"],[100,1,"<a href=\"Http\/Requests\/CommonRequest.php.html#31\">App\\Http\\Requests\\CommonRequest::fileListRules<\/a>"],[100,1,"<a href=\"Http\/Requests\/CommonRequest.php.html#39\">App\\Http\\Requests\\CommonRequest::usernameRules<\/a>"],[100,1,"<a href=\"Http\/Requests\/CommonRequest.php.html#44\">App\\Http\\Requests\\CommonRequest::itemNameRule<\/a>"],[100,1,"<a href=\"Http\/Requests\/CommonRequest.php.html#49\">App\\Http\\Requests\\CommonRequest::localFileIdRules<\/a>"],[100,1,"<a href=\"Http\/Requests\/CommonRequest.php.html#54\">App\\Http\\Requests\\CommonRequest::sharePasswordRules<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/CreateItemRequest.php.html#10\">App\\Http\\Requests\\DriveRequests\\CreateItemRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/DownloadRequest.php.html#10\">App\\Http\\Requests\\DriveRequests\\DownloadRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/FetchFileRequest.php.html#10\">App\\Http\\Requests\\DriveRequests\\FetchFileRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/FetchFileRequest.php.html#17\">App\\Http\\Requests\\DriveRequests\\FetchFileRequest::prepareForValidation<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/FileDeleteRequest.php.html#10\">App\\Http\\Requests\\DriveRequests\\FileDeleteRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/FileManagerRequest.php.html#10\">App\\Http\\Requests\\DriveRequests\\FileManagerRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/FileManagerRequest.php.html#15\">App\\Http\\Requests\\DriveRequests\\FileManagerRequest::prepareForValidation<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/FileRenameRequest.php.html#10\">App\\Http\\Requests\\DriveRequests\\FileRenameRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/FileSaveRequest.php.html#10\">App\\Http\\Requests\\DriveRequests\\FileSaveRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/GenThumbnailRequest.php.html#10\">App\\Http\\Requests\\DriveRequests\\GenThumbnailRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/MoveFilesRequest.php.html#10\">App\\Http\\Requests\\DriveRequests\\MoveFilesRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/ReplaceAbortRequest.php.html#9\">App\\Http\\Requests\\DriveRequests\\ReplaceAbortRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/SearchRequest.php.html#9\">App\\Http\\Requests\\DriveRequests\\SearchRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/ShareFilesGenRequest.php.html#10\">App\\Http\\Requests\\DriveRequests\\ShareFilesGenRequest::rules<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/ShareFilesGuestPasswordRequest.php.html#10\">App\\Http\\Requests\\DriveRequests\\ShareFilesGuestPasswordRequest::rules<\/a>"],[100,1,"<a href=\"Http\/Requests\/DriveRequests\/ShareFilesGuestRequest.php.html#10\">App\\Http\\Requests\\DriveRequests\\ShareFilesGuestRequest::rules<\/a>"],[100,3,"<a href=\"Http\/Requests\/DriveRequests\/ShareFilesGuestRequest.php.html#18\">App\\Http\\Requests\\DriveRequests\\ShareFilesGuestRequest::prepareForValidation<\/a>"],[0,1,"<a href=\"Http\/Requests\/DriveRequests\/ShareFilesModRequest.php.html#9\">App\\Http\\Requests\\DriveRequests\\ShareFilesModRequest::rules<\/a>"],[100,1,"<a href=\"Http\/Requests\/DriveRequests\/UploadRequest.php.html#10\">App\\Http\\Requests\\DriveRequests\\UploadRequest::rules<\/a>"],[100,1,"<a href=\"Http\/Requests\/DriveRequests\/UploadRequest.php.html#19\">App\\Http\\Requests\\DriveRequests\\UploadRequest::messages<\/a>"],[0,1,"<a href=\"Http\/Resources\/AdminConfig\/AdminConfigResource.php.html#15\">App\\Http\\Resources\\AdminConfig\\AdminConfigResource::toArray<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#23\">App\\Models\\LocalFile::getById<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#28\">App\\Models\\LocalFile::setHasThumbnail<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#33\">App\\Models\\LocalFile::getByIds<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#38\">App\\Models\\LocalFile::insertRows<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#43\">App\\Models\\LocalFile::clearTable<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#48\">App\\Models\\LocalFile::getFilesForPublicPath<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#57\">App\\Models\\LocalFile::modifyFileCollectionForDrive<\/a>"],[100,3,"<a href=\"Models\/LocalFile.php.html#65\">App\\Models\\LocalFile::getItemSizeText<\/a>"],[100,2,"<a href=\"Models\/LocalFile.php.html#70\">App\\Models\\LocalFile::modifyFileCollectionForGuest<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#82\">App\\Models\\LocalFile::searchFiles<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#90\">App\\Models\\LocalFile::getIdsByLikePublicPath<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#95\">App\\Models\\LocalFile::getByPublicPathLikeSearch<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#100\">App\\Models\\LocalFile::getForFileObj<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#107\">App\\Models\\LocalFile::sharedFiles<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#112\">App\\Models\\LocalFile::deleteUsingPublicPath<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#117\">App\\Models\\LocalFile::getPublicPathname<\/a>"],[100,2,"<a href=\"Models\/LocalFile.php.html#122\">App\\Models\\LocalFile::isValidFile<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#127\">App\\Models\\LocalFile::getPrivatePathNameForFile<\/a>"],[100,2,"<a href=\"Models\/LocalFile.php.html#132\">App\\Models\\LocalFile::isValidDir<\/a>"],[100,1,"<a href=\"Models\/LocalFile.php.html#137\">App\\Models\\LocalFile::fileExists<\/a>"],[100,3,"<a href=\"Models\/Setting.php.html#16\">App\\Models\\Setting::updateSetting<\/a>"],[100,2,"<a href=\"Models\/Setting.php.html#26\">App\\Models\\Setting::getSettingByKeyName<\/a>"],[100,1,"<a href=\"Models\/Share.php.html#25\">App\\Models\\Share::add<\/a>"],[100,1,"<a href=\"Models\/Share.php.html#39\">App\\Models\\Share::getAllUnExpired<\/a>"],[100,1,"<a href=\"Models\/Share.php.html#50\">App\\Models\\Share::whereBySlug<\/a>"],[100,1,"<a href=\"Models\/Share.php.html#55\">App\\Models\\Share::whereById<\/a>"],[100,1,"<a href=\"Models\/Share.php.html#60\">App\\Models\\Share::getFilenamesBySlug<\/a>"],[100,1,"<a href=\"Models\/Share.php.html#68\">App\\Models\\Share::localFiles<\/a>"],[0,1,"<a href=\"Models\/Share.php.html#73\">App\\Models\\Share::getFilenamesByPath<\/a>"],[100,1,"<a href=\"Models\/Share.php.html#88\">App\\Models\\Share::getExpiryTimeAttribute<\/a>"],[100,1,"<a href=\"Models\/Share.php.html#93\">App\\Models\\Share::sharedFiles<\/a>"],[100,1,"<a href=\"Models\/SharedFile.php.html#14\">App\\Models\\SharedFile::addArray<\/a>"],[100,1,"<a href=\"Models\/SharedFile.php.html#21\">App\\Models\\SharedFile::getFileIds<\/a>"],[100,1,"<a href=\"Models\/SharedFile.php.html#29\">App\\Models\\SharedFile::share<\/a>"],[100,1,"<a href=\"Models\/SharedFile.php.html#34\">App\\Models\\SharedFile::localFile<\/a>"],[100,1,"<a href=\"Models\/User.php.html#43\">App\\Models\\User::casts<\/a>"],[100,1,"<a href=\"Providers\/AppServiceProvider.php.html#23\">App\\Providers\\AppServiceProvider::register<\/a>"],[39.39393939393939,8,"<a href=\"Providers\/AppServiceProvider.php.html#34\">App\\Providers\\AppServiceProvider::boot<\/a>"],[100,1,"<a href=\"Providers\/DatabaseFileServiceProvider.php.html#10\">App\\Providers\\DatabaseFileServiceProvider::register<\/a>"],[100,4,"<a href=\"Providers\/DatabaseFileServiceProvider.php.html#15\">App\\Providers\\DatabaseFileServiceProvider::boot<\/a>"],[100,3,"<a href=\"Rules\/ValidPath.php.html#10\">App\\Rules\\ValidPath::validate<\/a>"],[100,1,"<a href=\"Services\/AdminConfigService.php.html#13\">App\\Services\\AdminConfigService::__construct<\/a>"],[52.94117647058824,7,"<a href=\"Services\/AdminConfigService.php.html#18\">App\\Services\\AdminConfigService::updateStoragePath<\/a>"],[100,1,"<a href=\"Services\/AdminConfigService.php.html#50\">App\\Services\\AdminConfigService::preparePaths<\/a>"],[66.66666666666666,3,"<a href=\"Services\/AdminConfigService.php.html#58\">App\\Services\\AdminConfigService::ensureDirectoryExists<\/a>"],[100,1,"<a href=\"Services\/AdminConfigService.php.html#67\">App\\Services\\AdminConfigService::getPhpUploadMaxFilesize<\/a>"],[100,1,"<a href=\"Services\/AdminConfigService.php.html#72\">App\\Services\\AdminConfigService::getPhpPostMaxSize<\/a>"],[100,1,"<a href=\"Services\/AdminConfigService.php.html#77\">App\\Services\\AdminConfigService::getPhpMaxFileUploads<\/a>"],[100,1,"<a href=\"Services\/DownloadService.php.html#14\">App\\Services\\DownloadService::__construct<\/a>"],[100,2,"<a href=\"Services\/DownloadService.php.html#22\">App\\Services\\DownloadService::generateDownloadPath<\/a>"],[100,2,"<a href=\"Services\/DownloadService.php.html#31\">App\\Services\\DownloadService::isSingleFile<\/a>"],[100,1,"<a href=\"Services\/DownloadService.php.html#39\">App\\Services\\DownloadService::createZipFile<\/a>"],[90,6,"<a href=\"Services\/FileDeleteService.php.html#11\">App\\Services\\FileDeleteService::deleteFiles<\/a>"],[100,3,"<a href=\"Services\/FileDeleteService.php.html#34\">App\\Services\\FileDeleteService::handleDirectoryDeletion<\/a>"],[100,3,"<a href=\"Services\/FileDeleteService.php.html#50\">App\\Services\\FileDeleteService::isDeletableDirectory<\/a>"],[100,1,"<a href=\"Services\/FileDeleteService.php.html#55\">App\\Services\\FileDeleteService::isDirSubDirOfStorage<\/a>"],[100,1,"<a href=\"Services\/FileDeleteService.php.html#60\">App\\Services\\FileDeleteService::isDeletableFile<\/a>"],[100,1,"<a href=\"Services\/FileMoveService.php.html#15\">App\\Services\\FileMoveService::__construct<\/a>"],[30.434782608695656,7,"<a href=\"Services\/FileMoveService.php.html#25\">App\\Services\\FileMoveService::moveFiles<\/a>"],[0,5,"<a href=\"Services\/FileMoveService.php.html#63\">App\\Services\\FileMoveService::moveSingleFileOrDirectory<\/a>"],[0,2,"<a href=\"Services\/FileMoveService.php.html#93\">App\\Services\\FileMoveService::moveDirectory<\/a>"],[100,1,"<a href=\"Services\/FileRenameService.php.html#16\">App\\Services\\FileRenameService::__construct<\/a>"],[83.33333333333334,4,"<a href=\"Services\/FileRenameService.php.html#24\">App\\Services\\FileRenameService::renameFile<\/a>"],[0,3,"<a href=\"Services\/FileRenameService.php.html#47\">App\\Services\\FileRenameService::updateDirChildrenRecursively<\/a>"],[100,1,"<a href=\"Services\/LPathService.php.html#11\">App\\Services\\LPathService::__construct<\/a>"],[0,2,"<a href=\"Services\/LPathService.php.html#16\">App\\Services\\LPathService::getTempStorageDirPath<\/a>"],[0,3,"<a href=\"Services\/LPathService.php.html#26\">App\\Services\\LPathService::getThumbnailDirPath<\/a>"],[87.5,3,"<a href=\"Services\/LPathService.php.html#37\">App\\Services\\LPathService::genPrivatePathFromPublic<\/a>"],[0,3,"<a href=\"Services\/LPathService.php.html#54\">App\\Services\\LPathService::getStorageDirPath<\/a>"],[100,1,"<a href=\"Services\/LPathService.php.html#65\">App\\Services\\LPathService::cleanDrivePublicPath<\/a>"],[100,1,"<a href=\"Services\/LocalFileStatsService.php.html#19\">App\\Services\\LocalFileStatsService::__construct<\/a>"],[0,4,"<a href=\"Services\/LocalFileStatsService.php.html#24\">App\\Services\\LocalFileStatsService::addItemPathStat<\/a>"],[0,7,"<a href=\"Services\/LocalFileStatsService.php.html#44\">App\\Services\\LocalFileStatsService::getFileType<\/a>"],[0,2,"<a href=\"Services\/LocalFileStatsService.php.html#68\">App\\Services\\LocalFileStatsService::generateStats<\/a>"],[0,4,"<a href=\"Services\/LocalFileStatsService.php.html#78\">App\\Services\\LocalFileStatsService::populateLocalFileWithStats<\/a>"],[0,1,"<a href=\"Services\/LocalFileStatsService.php.html#100\">App\\Services\\LocalFileStatsService::createFileIterator<\/a>"],[0,6,"<a href=\"Services\/LocalFileStatsService.php.html#113\">App\\Services\\LocalFileStatsService::getFileItemDetails<\/a>"],[0,1,"<a href=\"Services\/LocalFileStatsService.php.html#142\">App\\Services\\LocalFileStatsService::updateFileStats<\/a>"],[100,1,"<a href=\"Services\/ThumbnailService.php.html#26\">App\\Services\\ThumbnailService::__construct<\/a>"],[0,1,"<a href=\"Services\/ThumbnailService.php.html#31\">App\\Services\\ThumbnailService::genThumbnailsForFileIds<\/a>"],[0,1,"<a href=\"Services\/ThumbnailService.php.html#37\">App\\Services\\ThumbnailService::getGeneratableFiles<\/a>"],[0,7,"<a href=\"Services\/ThumbnailService.php.html#42\">App\\Services\\ThumbnailService::generateThumbnailsForFiles<\/a>"],[0,3,"<a href=\"Services\/ThumbnailService.php.html#65\">App\\Services\\ThumbnailService::generateVideoThumbnail<\/a>"],[0,5,"<a href=\"Services\/ThumbnailService.php.html#85\">App\\Services\\ThumbnailService::getFullFileThumbnailPath<\/a>"],[0,2,"<a href=\"Services\/ThumbnailService.php.html#101\">App\\Services\\ThumbnailService::imageResize<\/a>"],[0,2,"<a href=\"Services\/ThumbnailService.php.html#115\">App\\Services\\ThumbnailService::generateImageThumbnail<\/a>"],[0,1,"<a href=\"Services\/ThumbnailService.php.html#126\">App\\Services\\ThumbnailService::setHasThumbnail<\/a>"],[100,5,"<a href=\"Services\/UUIDService.php.html#17\">App\\Services\\UUIDService::__construct<\/a>"],[100,1,"<a href=\"Services\/UUIDService.php.html#27\">App\\Services\\UUIDService::getStorageFilesUUID<\/a>"],[100,1,"<a href=\"Services\/UUIDService.php.html#32\">App\\Services\\UUIDService::getThumbnailsUUID<\/a>"],[100,1,"<a href=\"Services\/UploadService.php.html#22\">App\\Services\\UploadService::__construct<\/a>"],[0,1,"<a href=\"Services\/UploadService.php.html#34\">App\\Services\\UploadService::setTempStorageDirFull<\/a>"],[100,2,"<a href=\"Services\/UploadService.php.html#43\">App\\Services\\UploadService::getTempStorageDirFull<\/a>"],[23.076923076923077,11,"<a href=\"Services\/UploadService.php.html#53\">App\\Services\\UploadService::replaceFromTemp<\/a>"],[100,4,"<a href=\"Services\/UploadService.php.html#104\">App\\Services\\UploadService::isFileFolderMisMatch<\/a>"],[62.5,4,"<a href=\"Services\/UploadService.php.html#112\">App\\Services\\UploadService::cleanOldTempFiles<\/a>"],[80,2,"<a href=\"Traits\/FlashMessages.php.html#9\">App\\Traits\\FlashMessages::success<\/a>"],[0,1,"<a href=\"Traits\/FlashMessages.php.html#20\">App\\Traits\\FlashMessages::warn<\/a>"],[100,1,"<a href=\"Traits\/FlashMessages.php.html#27\">App\\Traits\\FlashMessages::error<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

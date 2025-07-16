@@ -9,10 +9,11 @@ use Exception;
 class AdminConfigService
 {
     private UUIDService $uuidService;
-
-    public function __construct(UUIDService $uuidService)
+    protected UploadService $uploadService;
+    public function __construct(UUIDService $uuidService, UploadService $uploadService)
     {
         $this->uuidService = $uuidService;
+        $this->uploadService = $uploadService;
     }
 
     public function updateStoragePath(string $storagePath): array
@@ -55,13 +56,13 @@ class AdminConfigService
         ];
     }
 
-    private function ensureDirectoryExists(string $path): bool
+    protected function ensureDirectoryExists(string $path): bool
     {
         if (file_exists($path)) {
             return is_writable($path);
         }
 
-        return UploadFileHelper::makeFolder($path) && is_writable($path);
+        return $this->uploadService->makeFolder($path) && is_writable($path);
     }
 
     public function getPhpUploadMaxFilesize(): string

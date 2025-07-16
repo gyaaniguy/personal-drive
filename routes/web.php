@@ -20,7 +20,8 @@ Route::middleware(['auth', CheckAdmin::class])->group(callback: function () {
     Route::get('/drive/{path?}', [DriveControllers\FileManagerController::class, 'index'])
         ->where('path', '.*')
         ->name('drive');
-    Route::post('/upload', [DriveControllers\UploadController::class, 'store'])->middleware(CleanupTempFiles::class);
+    Route::post('/upload', [DriveControllers\UploadController::class, 'store'])
+        ->middleware(CleanupTempFiles::class)->name('drive.upload');
     Route::post('/create-item', [DriveControllers\UploadController::class, 'createItem'])->middleware(CleanupTempFiles::class);
     Route::post('/delete-files', [DriveControllers\FileDeleteController::class, 'deleteFiles'])->middleware(CleanupTempFiles::class);
     Route::post('/resync', [DriveControllers\ReSyncController::class, 'index']);

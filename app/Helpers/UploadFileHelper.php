@@ -7,6 +7,9 @@ use Illuminate\Support\Facades\File;
 
 class UploadFileHelper
 {
+    /**
+     * Get the full path of the uploaded file. Currently there was a bug in laravel, so the full path has to be fetched from $_FILES
+     */
     public static function getUploadedFileFullPath($fileIndex): string
     {
         //ltrim -> coz different environments
@@ -22,17 +25,6 @@ class UploadFileHelper
         return $path;
     }
 
-    public static function makeFolder(string $path, int $permission = 0750): bool
-    {
-        if (file_exists($path)) {
-            throw UploadFileException::nonewdir('folder');
-        }
-        if (!mkdir($path, $permission, true) && !is_dir($path)) {
-            return false;
-        }
-
-        return true;
-    }
 
     public static function makeFile(string $path, int $permission = 0750): bool
     {

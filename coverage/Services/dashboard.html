@@ -1,0 +1,350 @@
+<!DOCTYPE html>
+<html lang="en">
+ <head>
+  <meta charset="UTF-8">
+  <title>Dashboard for /home/aa/work/itstime/personaldrive/personaldrivefirst/app/Services</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <link href="../_css/bootstrap.min.css?v=11.0.10" rel="stylesheet" type="text/css">
+  <link href="../_css/nv.d3.min.css?v=11.0.10" rel="stylesheet" type="text/css">
+  <link href="../_css/style.css?v=11.0.10" rel="stylesheet" type="text/css">
+  <link href="../_css/custom.css" rel="stylesheet" type="text/css">
+ </head>
+ <body>
+  <header>
+   <div class="container-fluid">
+    <div class="row">
+     <div class="col-md-12">
+      <nav aria-label="breadcrumb">
+       <ol class="breadcrumb">
+         <li class="breadcrumb-item"><a href="../index.html">/home/aa/work/itstime/personaldrive/personaldrivefirst/app</a></li>
+         <li class="breadcrumb-item"><a href="index.html">Services</a></li>
+         <li class="breadcrumb-item active">(Dashboard)</li>
+
+       </ol>
+      </nav>
+     </div>
+    </div>
+   </div>
+  </header>
+  <div class="container-fluid">
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Classes</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="classCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="classComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="LocalFileStatsService.php.html#15">App\Services\LocalFileStatsService</a></td><td class="text-right">1%</td></tr>
+       <tr><td><a href="ThumbnailService.php.html#18">App\Services\ThumbnailService</a></td><td class="text-right">2%</td></tr>
+       <tr><td><a href="FileMoveService.php.html#9">App\Services\FileMoveService</a></td><td class="text-right">21%</td></tr>
+       <tr><td><a href="FileRenameService.php.html#11">App\Services\FileRenameService</a></td><td class="text-right">29%</td></tr>
+       <tr><td><a href="LPathService.php.html#7">App\Services\LPathService</a></td><td class="text-right">37%</td></tr>
+       <tr><td><a href="UploadService.php.html#12">App\Services\UploadService</a></td><td class="text-right">47%</td></tr>
+       <tr><td><a href="AdminConfigService.php.html#9">App\Services\AdminConfigService</a></td><td class="text-right">67%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Class</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="LocalFileStatsService.php.html#15">App\Services\LocalFileStatsService</a></td><td class="text-right">677</td></tr>
+       <tr><td><a href="ThumbnailService.php.html#18">App\Services\ThumbnailService</a></td><td class="text-right">519</td></tr>
+       <tr><td><a href="FileMoveService.php.html#9">App\Services\FileMoveService</a></td><td class="text-right">124</td></tr>
+       <tr><td><a href="UploadService.php.html#12">App\Services\UploadService</a></td><td class="text-right">101</td></tr>
+       <tr><td><a href="LPathService.php.html#7">App\Services\LPathService</a></td><td class="text-right">54</td></tr>
+       <tr><td><a href="FileRenameService.php.html#11">App\Services\FileRenameService</a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="AdminConfigService.php.html#9">App\Services\AdminConfigService</a></td><td class="text-right">22</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-12">
+     <h2>Methods</h2>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Coverage Distribution</h3>
+     <div id="methodCoverageDistribution" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Complexity</h3>
+     <div id="methodComplexity" style="height: 300px;">
+       <svg></svg>
+     </div>
+    </div>
+   </div>
+   <div class="row">
+    <div class="col-md-6">
+     <h3>Insufficient Coverage</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right">Coverage</th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="FileMoveService.php.html#63"><abbr title="App\Services\FileMoveService::moveSingleFileOrDirectory">moveSingleFileOrDirectory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FileMoveService.php.html#93"><abbr title="App\Services\FileMoveService::moveDirectory">moveDirectory</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="FileRenameService.php.html#47"><abbr title="App\Services\FileRenameService::updateDirChildrenRecursively">updateDirChildrenRecursively</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LPathService.php.html#16"><abbr title="App\Services\LPathService::getTempStorageDirPath">getTempStorageDirPath</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LPathService.php.html#26"><abbr title="App\Services\LPathService::getThumbnailDirPath">getThumbnailDirPath</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LPathService.php.html#54"><abbr title="App\Services\LPathService::getStorageDirPath">getStorageDirPath</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LocalFileStatsService.php.html#24"><abbr title="App\Services\LocalFileStatsService::addItemPathStat">addItemPathStat</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LocalFileStatsService.php.html#44"><abbr title="App\Services\LocalFileStatsService::getFileType">getFileType</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LocalFileStatsService.php.html#68"><abbr title="App\Services\LocalFileStatsService::generateStats">generateStats</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LocalFileStatsService.php.html#78"><abbr title="App\Services\LocalFileStatsService::populateLocalFileWithStats">populateLocalFileWithStats</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LocalFileStatsService.php.html#100"><abbr title="App\Services\LocalFileStatsService::createFileIterator">createFileIterator</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LocalFileStatsService.php.html#113"><abbr title="App\Services\LocalFileStatsService::getFileItemDetails">getFileItemDetails</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="LocalFileStatsService.php.html#142"><abbr title="App\Services\LocalFileStatsService::updateFileStats">updateFileStats</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ThumbnailService.php.html#31"><abbr title="App\Services\ThumbnailService::genThumbnailsForFileIds">genThumbnailsForFileIds</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ThumbnailService.php.html#37"><abbr title="App\Services\ThumbnailService::getGeneratableFiles">getGeneratableFiles</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ThumbnailService.php.html#42"><abbr title="App\Services\ThumbnailService::generateThumbnailsForFiles">generateThumbnailsForFiles</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ThumbnailService.php.html#65"><abbr title="App\Services\ThumbnailService::generateVideoThumbnail">generateVideoThumbnail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ThumbnailService.php.html#85"><abbr title="App\Services\ThumbnailService::getFullFileThumbnailPath">getFullFileThumbnailPath</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ThumbnailService.php.html#101"><abbr title="App\Services\ThumbnailService::imageResize">imageResize</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ThumbnailService.php.html#115"><abbr title="App\Services\ThumbnailService::generateImageThumbnail">generateImageThumbnail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="ThumbnailService.php.html#126"><abbr title="App\Services\ThumbnailService::setHasThumbnail">setHasThumbnail</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UploadService.php.html#34"><abbr title="App\Services\UploadService::setTempStorageDirFull">setTempStorageDirFull</abbr></a></td><td class="text-right">0%</td></tr>
+       <tr><td><a href="UploadService.php.html#53"><abbr title="App\Services\UploadService::replaceFromTemp">replaceFromTemp</abbr></a></td><td class="text-right">23%</td></tr>
+       <tr><td><a href="FileMoveService.php.html#25"><abbr title="App\Services\FileMoveService::moveFiles">moveFiles</abbr></a></td><td class="text-right">30%</td></tr>
+       <tr><td><a href="AdminConfigService.php.html#18"><abbr title="App\Services\AdminConfigService::updateStoragePath">updateStoragePath</abbr></a></td><td class="text-right">52%</td></tr>
+       <tr><td><a href="UploadService.php.html#112"><abbr title="App\Services\UploadService::cleanOldTempFiles">cleanOldTempFiles</abbr></a></td><td class="text-right">62%</td></tr>
+       <tr><td><a href="AdminConfigService.php.html#58"><abbr title="App\Services\AdminConfigService::ensureDirectoryExists">ensureDirectoryExists</abbr></a></td><td class="text-right">66%</td></tr>
+       <tr><td><a href="FileRenameService.php.html#24"><abbr title="App\Services\FileRenameService::renameFile">renameFile</abbr></a></td><td class="text-right">83%</td></tr>
+       <tr><td><a href="LPathService.php.html#37"><abbr title="App\Services\LPathService::genPrivatePathFromPublic">genPrivatePathFromPublic</abbr></a></td><td class="text-right">87%</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+    <div class="col-md-6">
+     <h3>Project Risks</h3>
+     <div class="scrollbox">
+      <table class="table">
+       <thead>
+        <tr>
+         <th>Method</th>
+         <th class="text-right"><abbr title="Change Risk Anti-Patterns (CRAP) Index">CRAP</abbr></th>
+        </tr>
+       </thead>
+       <tbody>
+       <tr><td><a href="UploadService.php.html#53"><abbr title="App\Services\UploadService::replaceFromTemp">replaceFromTemp</abbr></a></td><td class="text-right">66</td></tr>
+       <tr><td><a href="LocalFileStatsService.php.html#44"><abbr title="App\Services\LocalFileStatsService::getFileType">getFileType</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="ThumbnailService.php.html#42"><abbr title="App\Services\ThumbnailService::generateThumbnailsForFiles">generateThumbnailsForFiles</abbr></a></td><td class="text-right">56</td></tr>
+       <tr><td><a href="LocalFileStatsService.php.html#113"><abbr title="App\Services\LocalFileStatsService::getFileItemDetails">getFileItemDetails</abbr></a></td><td class="text-right">42</td></tr>
+       <tr><td><a href="FileMoveService.php.html#63"><abbr title="App\Services\FileMoveService::moveSingleFileOrDirectory">moveSingleFileOrDirectory</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="ThumbnailService.php.html#85"><abbr title="App\Services\ThumbnailService::getFullFileThumbnailPath">getFullFileThumbnailPath</abbr></a></td><td class="text-right">30</td></tr>
+       <tr><td><a href="FileMoveService.php.html#25"><abbr title="App\Services\FileMoveService::moveFiles">moveFiles</abbr></a></td><td class="text-right">23</td></tr>
+       <tr><td><a href="LocalFileStatsService.php.html#24"><abbr title="App\Services\LocalFileStatsService::addItemPathStat">addItemPathStat</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="LocalFileStatsService.php.html#78"><abbr title="App\Services\LocalFileStatsService::populateLocalFileWithStats">populateLocalFileWithStats</abbr></a></td><td class="text-right">20</td></tr>
+       <tr><td><a href="AdminConfigService.php.html#18"><abbr title="App\Services\AdminConfigService::updateStoragePath">updateStoragePath</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="FileRenameService.php.html#47"><abbr title="App\Services\FileRenameService::updateDirChildrenRecursively">updateDirChildrenRecursively</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="LPathService.php.html#26"><abbr title="App\Services\LPathService::getThumbnailDirPath">getThumbnailDirPath</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="LPathService.php.html#54"><abbr title="App\Services\LPathService::getStorageDirPath">getStorageDirPath</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="ThumbnailService.php.html#65"><abbr title="App\Services\ThumbnailService::generateVideoThumbnail">generateVideoThumbnail</abbr></a></td><td class="text-right">12</td></tr>
+       <tr><td><a href="FileMoveService.php.html#93"><abbr title="App\Services\FileMoveService::moveDirectory">moveDirectory</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="LPathService.php.html#16"><abbr title="App\Services\LPathService::getTempStorageDirPath">getTempStorageDirPath</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="LocalFileStatsService.php.html#68"><abbr title="App\Services\LocalFileStatsService::generateStats">generateStats</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ThumbnailService.php.html#101"><abbr title="App\Services\ThumbnailService::imageResize">imageResize</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="ThumbnailService.php.html#115"><abbr title="App\Services\ThumbnailService::generateImageThumbnail">generateImageThumbnail</abbr></a></td><td class="text-right">6</td></tr>
+       <tr><td><a href="UploadService.php.html#112"><abbr title="App\Services\UploadService::cleanOldTempFiles">cleanOldTempFiles</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="FileRenameService.php.html#24"><abbr title="App\Services\FileRenameService::renameFile">renameFile</abbr></a></td><td class="text-right">4</td></tr>
+       <tr><td><a href="AdminConfigService.php.html#58"><abbr title="App\Services\AdminConfigService::ensureDirectoryExists">ensureDirectoryExists</abbr></a></td><td class="text-right">3</td></tr>
+       <tr><td><a href="LPathService.php.html#37"><abbr title="App\Services\LPathService::genPrivatePathFromPublic">genPrivatePathFromPublic</abbr></a></td><td class="text-right">3</td></tr>
+
+       </tbody>
+      </table>
+     </div>
+    </div>
+   </div>
+   <footer>
+    <hr/>
+    <p>
+     <small>Generated by <a href="https://github.com/sebastianbergmann/php-code-coverage" target="_top">php-code-coverage 11.0.10</a> using <a href="https://www.php.net/" target="_top">PHP 8.4.8</a> and <a href="https://phpunit.de/">PHPUnit 11.5.15</a> at Sat Jul 12 21:59:57 UTC 2025.</small>
+    </p>
+   </footer>
+  </div>
+  <script src="../_js/jquery.min.js?v=11.0.10" type="text/javascript"></script>
+  <script src="../_js/d3.min.js?v=11.0.10" type="text/javascript"></script>
+  <script src="../_js/nv.d3.min.js?v=11.0.10" type="text/javascript"></script>
+  <script type="text/javascript">
+$(document).ready(function() {
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#classCoverageDistribution svg')
+      .datum(getCoverageDistributionData([0,2,0,2,1,1,0,1,0,0,1,2], "Class Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.multiBarChart();
+    chart.tooltips(false)
+      .showControls(false)
+      .showLegend(false)
+      .reduceXTicks(false)
+      .staggerLabels(true)
+      .yAxis.tickFormat(d3.format('d'));
+
+    d3.select('#methodCoverageDistribution svg')
+      .datum(getCoverageDistributionData([22,0,0,1,1,0,1,2,0,2,1,25], "Method Coverage"))
+      .transition().duration(500).call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getCoverageDistributionData(data, label) {
+    var labels = [
+      '0%',
+      '0-10%',
+      '10-20%',
+      '20-30%',
+      '30-40%',
+      '40-50%',
+      '50-60%',
+      '60-70%',
+      '70-80%',
+      '80-90%',
+      '90-100%',
+      '100%'
+    ];
+    var values = [];
+    $.each(labels, function(key) {
+      values.push({x: labels[key], y: data[key]});
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Cyclomatic Complexity');
+
+    d3.select('#classComplexity svg')
+      .datum(getComplexityData([[67.85714285714286,15,"<a href=\"AdminConfigService.php.html#9\">App\\Services\\AdminConfigService<\/a>"],[100,6,"<a href=\"DownloadService.php.html#10\">App\\Services\\DownloadService<\/a>"],[94.73684210526315,14,"<a href=\"FileDeleteService.php.html#9\">App\\Services\\FileDeleteService<\/a>"],[21.27659574468085,15,"<a href=\"FileMoveService.php.html#9\">App\\Services\\FileMoveService<\/a>"],[29.268292682926827,8,"<a href=\"FileRenameService.php.html#11\">App\\Services\\FileRenameService<\/a>"],[37.5,13,"<a href=\"LPathService.php.html#7\">App\\Services\\LPathService<\/a>"],[1.2345679012345678,26,"<a href=\"LocalFileStatsService.php.html#15\">App\\Services\\LocalFileStatsService<\/a>"],[2.083333333333333,23,"<a href=\"ThumbnailService.php.html#18\">App\\Services\\ThumbnailService<\/a>"],[100,7,"<a href=\"UUIDService.php.html#8\">App\\Services\\UUIDService<\/a>"],[47.05882352941176,23,"<a href=\"UploadService.php.html#12\">App\\Services\\UploadService<\/a>"]], 'Class Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  nv.addGraph(function() {
+    var chart = nv.models.scatterChart()
+      .showDistX(true)
+      .showDistY(true)
+      .showLegend(false)
+      .forceX([0, 100]);
+    chart.tooltipContent(function(graph) {
+      return '<p>' + graph.point.class + '</p>';
+    });
+
+    chart.xAxis.axisLabel('Code Coverage (in percent)');
+    chart.yAxis.axisLabel('Method Complexity');
+
+    d3.select('#methodComplexity svg')
+      .datum(getComplexityData([[100,1,"<a href=\"AdminConfigService.php.html#13\">App\\Services\\AdminConfigService::__construct<\/a>"],[52.94117647058824,7,"<a href=\"AdminConfigService.php.html#18\">App\\Services\\AdminConfigService::updateStoragePath<\/a>"],[100,1,"<a href=\"AdminConfigService.php.html#50\">App\\Services\\AdminConfigService::preparePaths<\/a>"],[66.66666666666666,3,"<a href=\"AdminConfigService.php.html#58\">App\\Services\\AdminConfigService::ensureDirectoryExists<\/a>"],[100,1,"<a href=\"AdminConfigService.php.html#67\">App\\Services\\AdminConfigService::getPhpUploadMaxFilesize<\/a>"],[100,1,"<a href=\"AdminConfigService.php.html#72\">App\\Services\\AdminConfigService::getPhpPostMaxSize<\/a>"],[100,1,"<a href=\"AdminConfigService.php.html#77\">App\\Services\\AdminConfigService::getPhpMaxFileUploads<\/a>"],[100,1,"<a href=\"DownloadService.php.html#14\">App\\Services\\DownloadService::__construct<\/a>"],[100,2,"<a href=\"DownloadService.php.html#22\">App\\Services\\DownloadService::generateDownloadPath<\/a>"],[100,2,"<a href=\"DownloadService.php.html#31\">App\\Services\\DownloadService::isSingleFile<\/a>"],[100,1,"<a href=\"DownloadService.php.html#39\">App\\Services\\DownloadService::createZipFile<\/a>"],[90,6,"<a href=\"FileDeleteService.php.html#11\">App\\Services\\FileDeleteService::deleteFiles<\/a>"],[100,3,"<a href=\"FileDeleteService.php.html#34\">App\\Services\\FileDeleteService::handleDirectoryDeletion<\/a>"],[100,3,"<a href=\"FileDeleteService.php.html#50\">App\\Services\\FileDeleteService::isDeletableDirectory<\/a>"],[100,1,"<a href=\"FileDeleteService.php.html#55\">App\\Services\\FileDeleteService::isDirSubDirOfStorage<\/a>"],[100,1,"<a href=\"FileDeleteService.php.html#60\">App\\Services\\FileDeleteService::isDeletableFile<\/a>"],[100,1,"<a href=\"FileMoveService.php.html#15\">App\\Services\\FileMoveService::__construct<\/a>"],[30.434782608695656,7,"<a href=\"FileMoveService.php.html#25\">App\\Services\\FileMoveService::moveFiles<\/a>"],[0,5,"<a href=\"FileMoveService.php.html#63\">App\\Services\\FileMoveService::moveSingleFileOrDirectory<\/a>"],[0,2,"<a href=\"FileMoveService.php.html#93\">App\\Services\\FileMoveService::moveDirectory<\/a>"],[100,1,"<a href=\"FileRenameService.php.html#16\">App\\Services\\FileRenameService::__construct<\/a>"],[83.33333333333334,4,"<a href=\"FileRenameService.php.html#24\">App\\Services\\FileRenameService::renameFile<\/a>"],[0,3,"<a href=\"FileRenameService.php.html#47\">App\\Services\\FileRenameService::updateDirChildrenRecursively<\/a>"],[100,1,"<a href=\"LPathService.php.html#11\">App\\Services\\LPathService::__construct<\/a>"],[0,2,"<a href=\"LPathService.php.html#16\">App\\Services\\LPathService::getTempStorageDirPath<\/a>"],[0,3,"<a href=\"LPathService.php.html#26\">App\\Services\\LPathService::getThumbnailDirPath<\/a>"],[87.5,3,"<a href=\"LPathService.php.html#37\">App\\Services\\LPathService::genPrivatePathFromPublic<\/a>"],[0,3,"<a href=\"LPathService.php.html#54\">App\\Services\\LPathService::getStorageDirPath<\/a>"],[100,1,"<a href=\"LPathService.php.html#65\">App\\Services\\LPathService::cleanDrivePublicPath<\/a>"],[100,1,"<a href=\"LocalFileStatsService.php.html#19\">App\\Services\\LocalFileStatsService::__construct<\/a>"],[0,4,"<a href=\"LocalFileStatsService.php.html#24\">App\\Services\\LocalFileStatsService::addItemPathStat<\/a>"],[0,7,"<a href=\"LocalFileStatsService.php.html#44\">App\\Services\\LocalFileStatsService::getFileType<\/a>"],[0,2,"<a href=\"LocalFileStatsService.php.html#68\">App\\Services\\LocalFileStatsService::generateStats<\/a>"],[0,4,"<a href=\"LocalFileStatsService.php.html#78\">App\\Services\\LocalFileStatsService::populateLocalFileWithStats<\/a>"],[0,1,"<a href=\"LocalFileStatsService.php.html#100\">App\\Services\\LocalFileStatsService::createFileIterator<\/a>"],[0,6,"<a href=\"LocalFileStatsService.php.html#113\">App\\Services\\LocalFileStatsService::getFileItemDetails<\/a>"],[0,1,"<a href=\"LocalFileStatsService.php.html#142\">App\\Services\\LocalFileStatsService::updateFileStats<\/a>"],[100,1,"<a href=\"ThumbnailService.php.html#26\">App\\Services\\ThumbnailService::__construct<\/a>"],[0,1,"<a href=\"ThumbnailService.php.html#31\">App\\Services\\ThumbnailService::genThumbnailsForFileIds<\/a>"],[0,1,"<a href=\"ThumbnailService.php.html#37\">App\\Services\\ThumbnailService::getGeneratableFiles<\/a>"],[0,7,"<a href=\"ThumbnailService.php.html#42\">App\\Services\\ThumbnailService::generateThumbnailsForFiles<\/a>"],[0,3,"<a href=\"ThumbnailService.php.html#65\">App\\Services\\ThumbnailService::generateVideoThumbnail<\/a>"],[0,5,"<a href=\"ThumbnailService.php.html#85\">App\\Services\\ThumbnailService::getFullFileThumbnailPath<\/a>"],[0,2,"<a href=\"ThumbnailService.php.html#101\">App\\Services\\ThumbnailService::imageResize<\/a>"],[0,2,"<a href=\"ThumbnailService.php.html#115\">App\\Services\\ThumbnailService::generateImageThumbnail<\/a>"],[0,1,"<a href=\"ThumbnailService.php.html#126\">App\\Services\\ThumbnailService::setHasThumbnail<\/a>"],[100,5,"<a href=\"UUIDService.php.html#17\">App\\Services\\UUIDService::__construct<\/a>"],[100,1,"<a href=\"UUIDService.php.html#27\">App\\Services\\UUIDService::getStorageFilesUUID<\/a>"],[100,1,"<a href=\"UUIDService.php.html#32\">App\\Services\\UUIDService::getThumbnailsUUID<\/a>"],[100,1,"<a href=\"UploadService.php.html#22\">App\\Services\\UploadService::__construct<\/a>"],[0,1,"<a href=\"UploadService.php.html#34\">App\\Services\\UploadService::setTempStorageDirFull<\/a>"],[100,2,"<a href=\"UploadService.php.html#43\">App\\Services\\UploadService::getTempStorageDirFull<\/a>"],[23.076923076923077,11,"<a href=\"UploadService.php.html#53\">App\\Services\\UploadService::replaceFromTemp<\/a>"],[100,4,"<a href=\"UploadService.php.html#104\">App\\Services\\UploadService::isFileFolderMisMatch<\/a>"],[62.5,4,"<a href=\"UploadService.php.html#112\">App\\Services\\UploadService::cleanOldTempFiles<\/a>"]], 'Method Complexity'))
+      .transition()
+      .duration(500)
+      .call(chart);
+
+    nv.utils.windowResize(chart.update);
+
+    return chart;
+  });
+
+  function getComplexityData(data, label) {
+    var values = [];
+    $.each(data, function(key) {
+      var value = Math.round(data[key][0]*100) / 100;
+      values.push({
+        x: value,
+        y: data[key][1],
+        class: data[key][2],
+        size: 0.05,
+        shape: 'diamond'
+      });
+    });
+
+    return [
+      {
+        key: label,
+        values: values,
+        color: "#4572A7"
+      }
+    ];
+  }
+});
+  </script>
+ </body>
+</html>

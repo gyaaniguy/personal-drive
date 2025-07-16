@@ -20,12 +20,14 @@ class ThumbnailService
     private const IMAGESIZE = 210;
 
     private LPathService $pathService;
+    protected UploadService $uploadService;
 
     private string $imageExt = '.jpeg';
 
-    public function __construct(LPathService $pathService)
+    public function __construct(LPathService $pathService, UploadService $uploadService)
     {
         $this->pathService = $pathService;
+        $this->uploadService = $uploadService;
     }
 
     public function genThumbnailsForFileIds(array $fileIds): int
@@ -89,7 +91,7 @@ class ThumbnailService
             ($file->public_path ? DIRECTORY_SEPARATOR . $file->public_path : '');
 
         if (!file_exists($fileThumbnailDirPath)) {
-            UploadFileHelper::makeFolder($fileThumbnailDirPath);
+            $this->uploadService->makeFolder($fileThumbnailDirPath);
         }
         $imageExt = $file->file_type === 'video' ? $this->imageExt : '';
 
@@ -112,7 +114,7 @@ class ThumbnailService
         return true;
     }
 
-    private function generateImageThumbnail(LocalFile $file): bool
+    protected function generateImageThumbnail(LocalFile $file): bool
     {
         $privateFilePath = $file->getPrivatePathNameForFile();
         if (!file_exists($privateFilePath)) {

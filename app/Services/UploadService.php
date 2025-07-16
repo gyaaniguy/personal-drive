@@ -2,9 +2,10 @@
 
 namespace App\Services;
 
+use App\Exceptions\PersonalDriveExceptions\UploadFileException;
 use App\Helpers\UploadFileHelper;
 use App\Models\LocalFile;
-use Illuminate\Support\Facades\File;
+use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
 use SplFileInfo;
@@ -13,18 +14,22 @@ class UploadService
 {
     protected LocalFileStatsService $localFileStatsService;
     private LPathService $pathService;
+    private ThumbnailService $thumbnailService;
+    private Filesystem $filesystem;
+
     private string $tempUuid = 'temp_replace_dir_uuid';
     private string $tempUuidTime = 'temp_replace_dir_uuid_time';
-    private ThumbnailService $thumbnailService;
 
     public function __construct(
         LPathService $pathService,
         LocalFileStatsService $localFileStatsService,
-        ThumbnailService $thumbnailService
+        ThumbnailService $thumbnailService,
+        Filesystem $filesystem
     ) {
         $this->pathService = $pathService;
         $this->localFileStatsService = $localFileStatsService;
         $this->thumbnailService = $thumbnailService;
+        $this->filesystem = $filesystem;
     }
 
     public function setTempStorageDirFull(): string
@@ -51,23 +56,38 @@ class UploadService
         $tempDirFullPath = $this->getTempStorageDirFull();
         $storageDirPathRoot = $this->pathService->getStorageDirPath();
 
-        if (!$storageDirPathRoot || !file_exists($storageDirPathRoot) || !is_dir($storageDirPathRoot)) {
+        if (
+            !$storageDirPathRoot ||
+            !$this->filesystem->exists($storageDirPathRoot) ||
+            !$this->filesystem->isDirectory($storageDirPathRoot)
+        ) {
             return false;
         }
-        if (!$tempDirFullPath || !file_exists($tempDirFullPath) || !is_dir($tempDirFullPath)) {
+
+        if (
+            !$tempDirFullPath ||
+            !$this->filesystem->exists($tempDirFullPath) ||
+            !$this->filesystem->isDirectory($tempDirFullPath)
+        ) {
             return false;
         }
-        foreach (File::allFiles($tempDirFullPath) as $file) {
+
+        foreach ($this->filesystem->allFiles($tempDirFullPath) as $file) {
             $targetPathName = str_replace($tempDirFullPath, $storageDirPathRoot, $file->getPathname());
 
-            if (file_exists($targetPathName) && $this->isFileFolderMisMatch($file, $targetPathName)) {
+            if (
+                $this->filesystem->exists($targetPathName) &&
+                $this->isFileFolderMisMatch($file, $targetPathName)
+            ) {
                 continue;
             }
 
-            File::ensureDirectoryExists(dirname($targetPathName));
+            $this->filesystem->ensureDirectoryExists(dirname($targetPathName));
+
             $existingFile = LocalFile::getForFileObj($file);
-            File::move($file, $targetPathName);
+            $this->filesystem->move($file->getPathname(), $targetPathName);
             $file = new SplFileInfo($targetPathName);
+
             if (!$existingFile) {
                 $dirSize = [];
                 $itemDetails = $this->localFileStatsService->getFileItemDetails($file, $dirSize);
@@ -78,22 +98,43 @@ class UploadService
 
             $this->thumbnailService->genThumbnailsForFileIds([$existingFile->id]);
         }
+
         return $this->cleanOldTempFiles();
     }
 
     public function isFileFolderMisMatch(\Symfony\Component\Finder\SplFileInfo $file, array|string $target): bool
     {
-        return ((is_file($file) && is_dir($target)) || (is_dir($file) && is_file($target)));
+        return (
+            ($this->filesystem->isFile($file) && $this->filesystem->isDirectory($target)) ||
+            ($this->filesystem->isDirectory($file) && $this->filesystem->isFile($target))
+        );
     }
 
     public function cleanOldTempFiles(): bool
     {
         $tempDirFullPath = $this->getTempStorageDirFull();
-        if ($tempDirFullPath && file_exists($tempDirFullPath) && is_dir($tempDirFullPath)) {
+        if (
+            $tempDirFullPath &&
+            $this->filesystem->exists($tempDirFullPath) &&
+            $this->filesystem->isDirectory($tempDirFullPath)
+        ) {
             Session::forget($this->tempUuid);
             Session::forget($this->tempUuidTime);
             return UploadFileHelper::deleteFolder($tempDirFullPath);
         }
         return false;
     }
+
+    public function makeFolder(string $path, int $permission = 0750): bool
+    {
+        if (file_exists($path)) {
+            throw UploadFileException::nonewdir('folder');
+        }
+        if (!mkdir($path, $permission, true) && !is_dir($path)) {
+            return false;
+        }
+
+        return true;
+    }
+
 }

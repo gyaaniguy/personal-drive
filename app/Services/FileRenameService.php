@@ -6,6 +6,7 @@ use App\Exceptions\PersonalDriveExceptions\FileRenameException;
 use App\Models\LocalFile;
 use Illuminate\Support\Facades\DB;
 use App\Helpers\FileOperationsHelper;
+use Illuminate\Support\Facades\File;
 
 class FileRenameService
 {
@@ -28,10 +29,9 @@ class FileRenameService
         $itemPrivateDestPathName = $this->pathService->getStorageDirPath() .
             DIRECTORY_SEPARATOR . $itemPublicDestPathName;
 
-        if (!file_exists($itemPrivateDestPathName)) {
+        if (!File::exists($itemPrivateDestPathName)) {
             throw FileRenameException::couldNotRename();
         }
-
 
         if ($file->is_dir) {
             $this->updateDirChildrenRecursively($file, $newFilename);
