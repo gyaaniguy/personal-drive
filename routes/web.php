@@ -15,7 +15,7 @@ use Inertia\Inertia;
 
 Route::middleware(['web', 'auth', CheckAdmin::class])->group(callback: function () {
     Route::get('/admin-config', [AdminControllers\AdminConfigController::class, 'index'])->name('admin-config');
-    Route::post('/admin-config/update', [AdminControllers\AdminConfigController::class, 'update']);
+    Route::post('/admin-config/update', [AdminControllers\AdminConfigController::class, 'update'])->name('admin-config.update');
     // Drive routes
     Route::get('/drive/{path?}', [DriveControllers\FileManagerController::class, 'index'])
         ->where('path', '.*')

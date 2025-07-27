@@ -26,8 +26,6 @@ class UploadFileHelper
     }
 
 
-
-
     public static function deleteFolder(string $dir): bool
     {
         if (File::exists($dir)) {

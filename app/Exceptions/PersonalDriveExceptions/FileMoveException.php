@@ -13,6 +13,7 @@ class FileMoveException extends PersonalDriveException
     {
         return new self('Destination path is invalid');
     }
+
     public static function couldNotMove(): self
     {
         return new self('Could not move files');

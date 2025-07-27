@@ -28,39 +28,14 @@ class FileOperationsService
 
     public function move(string $src, string $dest): void
     {
-        if (!$this->makeFileSystem()){
-            return ;
+        if (!$this->makeFileSystem()) {
+            return;
         }
         try {
             $this->filesystem->move($src, $dest);
         } catch (FilesystemException $e) {
             throw FileMoveException::couldNotMove();
         }
-    }
-
-    public function makeFile(string $path, int $permission = 0750): bool
-    {
-        if (!$this->makeFileSystem()){
-            return false;
-        }
-        if ($this->directoryExists($this->basePath) && $this->filesystem->fileExists($path)) {
-            return true;
-        }
-        if (
-            file_put_contents(
-                $this->basePath . DIRECTORY_SEPARATOR . $path,
-                ''
-            ) === false && $this->filesystem->fileExists($path) === false
-        ) {
-            return false;
-        }
-
-        return true;
-    }
-
-    public function directoryExists(string $path): bool
-    {
-        return $this->makeFileSystem() && $this->filesystem->directoryExists($path);
     }
 
     private function makeFileSystem(): bool
@@ -79,9 +54,34 @@ class FileOperationsService
         return true;
     }
 
+    public function makeFile(string $path, int $permission = 0750): bool
+    {
+        if (!$this->makeFileSystem()) {
+            return false;
+        }
+        if ($this->directoryExists($this->basePath) && $this->filesystem->fileExists($path)) {
+            return true;
+        }
+        if (
+            file_put_contents(
+                $this->basePath.DIRECTORY_SEPARATOR.$path,
+                ''
+            ) === false && $this->filesystem->fileExists($path) === false
+        ) {
+            return false;
+        }
+
+        return true;
+    }
+
+    public function directoryExists(string $path): bool
+    {
+        return $this->makeFileSystem() && $this->filesystem->directoryExists($path);
+    }
+
     public function makeFolder(string $path, int $permission = 0750): bool
     {
-        if (!$this->makeFileSystem()){
+        if (!$this->makeFileSystem()) {
             return false;
         }
         if ($this->directoryExists($path)) {
@@ -99,6 +99,6 @@ class FileOperationsService
 
     public function isWritable(string $path): bool
     {
-        return is_writable($this->basePath . DIRECTORY_SEPARATOR . $path);
+        return is_writable($this->basePath.DIRECTORY_SEPARATOR.$path);
     }
 }

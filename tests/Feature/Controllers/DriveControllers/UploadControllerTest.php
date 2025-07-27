@@ -2,12 +2,8 @@
 
 namespace Tests\Feature\Controllers\DriveControllers;
 
-use App\Services\AdminConfigService;
 use App\Services\UUIDService;
-use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Facades\Storage;
 use Tests\Helpers\SetupSite;
 use Tests\TestCase;
@@ -19,7 +15,6 @@ class UploadControllerTest extends TestCase
 
     protected UUIDService $uuidService;
     protected string $storageFilesDirPath;
-    private string $baseStoragePath = 'app/private/';
     private string $testPath = '';
     private string $testFileName = 'dummy.txt';
 
@@ -27,6 +22,7 @@ class UploadControllerTest extends TestCase
     {
         $this->assertAuthenticated();
         $response = $this->post(route('drive.upload'), [
+            '_token' => csrf_token(),
             'path' => '/some/path',
         ]);
         $response->assertSessionHasErrors(['files' => 'The files field is required.']);
@@ -35,6 +31,7 @@ class UploadControllerTest extends TestCase
     public function test_create_item_creates_file_successfully()
     {
         $response = $this->postCreateItem([
+            '_token' => csrf_token(),
             'itemName' => $this->testFileName,
             'path' => $this->testPath,
             'isFile' => true,
@@ -54,19 +51,12 @@ class UploadControllerTest extends TestCase
     {
         parent::setUp();
 
-        $this->withoutMiddleware(ValidateCsrfToken::class);
-
-        $this->makeUser();
-        Storage::fake('local');
-        $this->adminConfigService = app(AdminConfigService::class);
-        $this->baseStoragePath = Storage::disk('local')->path('');
-        $this->baseStoragePath = substr($this->baseStoragePath, 0, strlen($this->baseStoragePath) - 1);
-        $result = $this->adminConfigService->updateStoragePath($this->baseStoragePath);
-
+        $this->makeUserUsingSetup();
+        $response = $this->setupStoragePathPost();
         $this->uuidService = app(UUIDService::class);
         $this->storageFilesDirPath = $this->uuidService->getStorageFilesUUID();
 
-        $this->assertTrue($result['status']);
-        $this->assertEquals('Storage path updated successfully', $result['message']);
+        $response->assertSessionHas('status', true);
+        $response->assertSessionHas('message', 'Storage path updated successfully');
     }
 }

@@ -7,13 +7,17 @@ use App\Http\Middleware\PreventSetupAccess;
 use App\Models\User;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Session\Middleware\StartSession;
 use Illuminate\Support\Facades\Artisan;
+use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia;
+use Tests\Helpers\SetupSite;
 use Tests\TestCase;
 
 class SetupControllerTest extends TestCase
 {
     use RefreshDatabase;
+    use SetupSite;
 
     public function test_show_renders_setup_inertia_component()
     {
@@ -23,32 +27,29 @@ class SetupControllerTest extends TestCase
         $response->assertInertia(fn(AssertableInertia $page) => $page->component('Admin/Setup'));
     }
 
+    public function test_update_storage_path_success()
+    {
+        $this->makeUserUsingSetup();
+        $response = $this->setupStoragePathPost('/tmp/path');
+        $response->assertSessionHas('status', true);
+        $response->assertSessionHas('message', 'Storage path updated successfully');
+        $response->assertRedirect(route('drive'));
+    }
+
+    public function test_update_storage_path_fail()
+    {
+        $this->makeUserUsingSetup();
+        $response = $this->setupStoragePathPost('/asdf/tmp/sdf');
+        $response->assertSessionHas('status', false);
+        $response->assertSessionHas('message', fn($value) => str_contains($value, 'Unable to create a directory'));
+        $response->assertRedirect(route('admin-config', ['setupMode' => true]));
+    }
+
     public function test_update_creates_user_and_redirects_on_success()
     {
-        Artisan::shouldReceive('call')
-            ->once()
-            ->with('migrate:fresh', ['--force' => true]);
+        $this->makeUserUsingSetup();
 
-        $this->withMiddleware(\Illuminate\Session\Middleware\StartSession::class);
-        $response = $this->get('/setup.account');
-
-        $response = $this->post(route('setup.account'), [
-            '_token' => csrf_token(),
-            'username' => 'testuser',
-            'password' => 'password',
-        ]);
-
-        $this->assertDatabaseHas('users', [
-            'username' => 'testuser',
-            'is_admin' => 1,
-        ]);
-
-
-        $response->assertRedirect(route('admin-config', ['setupMode' => true]));
-        $response->assertSessionHas('status', true);
-        $response->assertSessionHas('message', 'Created User successfully');
-
-        $this->post(route('logout'),[
+        $this->post(route('logout'), [
             '_token' => csrf_token(),
         ]);
 
@@ -82,7 +83,6 @@ class SetupControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->withSession([]);
         // Ensure no user exists before each test that creates a user
         User::query()->delete();
     }

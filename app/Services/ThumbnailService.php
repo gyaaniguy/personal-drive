@@ -18,10 +18,8 @@ use Spatie\Image\Image;
 class ThumbnailService
 {
     private const IMAGESIZE = 210;
-
-    private LPathService $pathService;
     protected FileOperationsService $fileOperationsService;
-
+    private LPathService $pathService;
     private string $imageExt = '.jpeg';
 
     public function __construct(LPathService $pathService, FileOperationsService $fileOperationsService)
@@ -87,16 +85,16 @@ class ThumbnailService
     public function getFullFileThumbnailPath(LocalFile $file): string
     {
         $thumbnailPathDir = $this->pathService->getThumbnailDirPath();
-        $fileThumbnailDirPath = $thumbnailPathDir .
-            ($file->public_path ? DIRECTORY_SEPARATOR . $file->public_path : '');
+        $fileThumbnailDirPath = $thumbnailPathDir.
+            ($file->public_path ? DIRECTORY_SEPARATOR.$file->public_path : '');
 
         if (!file_exists($fileThumbnailDirPath)) {
             $this->fileOperationsService->makeFolder($fileThumbnailDirPath);
         }
         $imageExt = $file->file_type === 'video' ? $this->imageExt : '';
 
-        return $thumbnailPathDir .
-            ($file->public_path ? DIRECTORY_SEPARATOR : '') . $file->getPublicPathname() . $imageExt;
+        return $thumbnailPathDir.
+            ($file->public_path ? DIRECTORY_SEPARATOR : '').$file->getPublicPathname().$imageExt;
     }
 
 

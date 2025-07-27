@@ -33,5 +33,4 @@ class UUIDService
     {
         return $this->thumbnailsUUID;
     }
-
 }
