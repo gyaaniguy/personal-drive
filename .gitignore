@@ -26,3 +26,4 @@ database/db/database.sqlite
 GEMINI.md
 CLAUDE.md
 /coverage
+coverage/
