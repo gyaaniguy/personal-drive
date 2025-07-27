@@ -10,7 +10,9 @@ use App\Http\Requests\DriveRequests\ReplaceAbortRequest;
 use App\Http\Requests\DriveRequests\UploadRequest;
 use App\Services\LocalFileStatsService;
 use App\Services\LPathService;
+use App\Services\FileOperationsService;
 use App\Services\UploadService;
+use App\Services\UUIDService;
 use App\Traits\FlashMessages;
 use Error;
 use Illuminate\Http\RedirectResponse;
@@ -21,17 +23,23 @@ class UploadController extends Controller
     use FlashMessages;
 
     protected LPathService $lPathService;
+    protected FileOperationsService $fileOperationsService;
     protected UploadService $uploadService;
     protected LocalFileStatsService $localFileStatsService;
+    protected UUIDService $uuidService;
 
     public function __construct(
         LPathService $lPathService,
         LocalFileStatsService $localFileStatsService,
-        UploadService $uploadService
+        FileOperationsService $fileOperationsService,
+        UploadService $uploadService,
+        UUIDService $uuidService,
     ) {
         $this->localFileStatsService = $localFileStatsService;
         $this->lPathService = $lPathService;
+        $this->fileOperationsService = $fileOperationsService;
         $this->uploadService = $uploadService;
+        $this->uuidService = $uuidService;
     }
 
     public function store(UploadRequest $request): RedirectResponse
@@ -91,7 +99,7 @@ class UploadController extends Controller
         $successfulUploads = 0;
         $filesDirectory = dirname($destinationFullPath);
         if (!file_exists($filesDirectory)) {
-            $this->uploadService->makeFolder($filesDirectory);
+            $this->fileOperationsService->makeFolder($filesDirectory);
         }
         try {
             if ($file->move($filesDirectory, $file->getClientOriginalName())) {
@@ -111,11 +119,11 @@ class UploadController extends Controller
         $isFile = $request->validated('isFile');
         $publicPath = $this->lPathService->cleanDrivePublicPath($publicPath);
         $privatePath = $this->lPathService->genPrivatePathFromPublic($publicPath);
-
-        if ($isFile && !UploadFileHelper::makeFile($privatePath . $itemName)) {
+        $storageFilesUUID = $this->uuidService->getStorageFilesUUID();
+        if ($isFile && !$this->fileOperationsService->makeFile($storageFilesUUID . DIRECTORY_SEPARATOR . $itemName)) {
             return $this->error('Create file failed');
         }
-        if (!$isFile && !$this->uploadService->makeFolder($privatePath . $itemName)) {
+        if (!$isFile && !$this->fileOperationsService->makeFolder($storageFilesUUID . DIRECTORY_SEPARATOR . $itemName)) {
             return $this->error('Create folder failed');
         }
 
@@ -127,11 +135,11 @@ class UploadController extends Controller
     public function abortReplace(ReplaceAbortRequest $request): RedirectResponse
     {
         if ($request->action === 'abort') {
-            $this->uploadService->cleanOldTempFiles();
+            $this->fileOperationsService->cleanOldTempFiles();
             return $this->success('Aborted Overwrite');
         }
         if ($request->action === 'overwrite') {
-            $res = $this->uploadService->replaceFromTemp();
+            $res = $this->fileOperationsService->syncTempToStorage();
             if (!$res) {
                 return $this->error('overwriting failed !');
             }

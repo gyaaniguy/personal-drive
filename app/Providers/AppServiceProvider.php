@@ -8,6 +8,8 @@ use App\Services\UUIDService;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\QueryException;
 use Illuminate\Database\SQLiteDatabaseDoesNotExistException;
+use Illuminate\Foundation\ViteException;
+use Illuminate\Foundation\ViteManifestNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Schema;
@@ -42,12 +44,6 @@ class AppServiceProvider extends ServiceProvider
             if (!Schema::hasTable('sessions')) {
                 config(['session.driver' => 'file']);
             }
-        } catch (SQLiteDatabaseDoesNotExistException $e) {
-            header(
-                'Location: /error?message=' .
-                urlencode('Frontend not built. Ensure node, npm are installed Run "npm install && npm run build"')
-            );
-            exit;
         } catch (QueryException | PDOException $e) {
             if (
                 str_contains($e->getMessage(), 'readonly database') || str_contains(

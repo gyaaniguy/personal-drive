@@ -2,11 +2,12 @@
 
 namespace Tests\Unit\Services;
 
-use App\Exceptions\PersonalDriveExceptions\MoveFileException;
+use App\Exceptions\PersonalDriveExceptions\FileMoveException;
 use App\Helpers\FileOperationsHelper;
 use App\Models\LocalFile;
 use App\Models\User;
 use App\Services\FileMoveService;
+use App\Services\FileOperationsService;
 use App\Services\LocalFileStatsService;
 use App\Services\LPathService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -19,7 +20,7 @@ class FileMoveServiceTest extends TestCase
 
     protected $lPathService;
     protected $localFileStatsService;
-    protected $fileOperationsHelper;
+    protected $fileOperationsService;
     protected $fileMoveService;
 
     protected function setUp(): void
@@ -27,11 +28,11 @@ class FileMoveServiceTest extends TestCase
         parent::setUp();
         $this->lPathService = Mockery::mock(LPathService::class);
         $this->localFileStatsService = Mockery::mock(LocalFileStatsService::class);
-        $this->fileOperationsHelper = Mockery::mock(FileOperationsHelper::class);
+        $this->fileOperationsService = Mockery::mock(FileOperationsService::class);
         $this->fileMoveService = new FileMoveService(
             $this->lPathService,
             $this->localFileStatsService,
-            $this->fileOperationsHelper
+            $this->fileOperationsService
         );
     }
 
@@ -43,7 +44,7 @@ class FileMoveServiceTest extends TestCase
 
     public function test_move_files_throws_exception_if_no_valid_files()
     {
-        $this->expectException(MoveFileException::class);
+        $this->expectException(FileMoveException::class);
         $this->expectExceptionMessage('Could not find any valid files to move');
 
         $this->fileMoveService->moveFiles(['non-existent-id'], '/some/path');
@@ -51,7 +52,7 @@ class FileMoveServiceTest extends TestCase
 
     public function test_move_files_throws_exception_if_invalid_destination_path()
     {
-        $this->expectException(MoveFileException::class);
+        $this->expectException(FileMoveException::class);
         $this->expectExceptionMessage('Destination path is invalid');
 
         $user = User::factory()->create();

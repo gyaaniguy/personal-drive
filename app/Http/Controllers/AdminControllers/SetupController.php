@@ -32,13 +32,13 @@ class SetupController extends Controller
         ) {
             $message = 'Created User successfully';
             $status = true;
-            $request->session()->invalidate();
-            config(['session.driver' => 'database']);
+//            $request->session()->invalidate();
+//            config(['session.driver' => 'database']);
             Auth::login($user, true);
-            $request->session()->regenerate();
+//            $request->session()->regenerate();
         }
-        session()->flash('status', $status);
-        session()->flash('message', $message);
+        $request->session()->flash('status', $status);
+        $request->session()->flash('message', $message);
 
         return redirect()->route('admin-config', ['setupMode' => true]);
     }

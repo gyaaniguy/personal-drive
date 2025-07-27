@@ -112,7 +112,7 @@ class LocalFileStatsService
 
     public function getFileItemDetails(mixed $item, array &$dirSizes): array
     {
-        $rootPathLen = strlen($this->pathService->getStorageDirPath()) + 1;
+        $rootPathLen = strlen($this->pathService->getStorageFolderPath()) + 1;
 
         $itemPrivatePathname = $item->getPath();
         $currentDir = dirname($item->getPathname());

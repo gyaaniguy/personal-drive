@@ -26,17 +26,7 @@ class UploadFileHelper
     }
 
 
-    public static function makeFile(string $path, int $permission = 0750): bool
-    {
-        if (file_exists($path) && is_file($path)) {
-            return true;
-        }
-        if (file_put_contents($path, '') === false && is_file($path) === false) {
-            return false;
-        }
 
-        return true;
-    }
 
     public static function deleteFolder(string $dir): bool
     {

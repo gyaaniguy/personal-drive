@@ -2,13 +2,12 @@
 
 namespace App\Services;
 
-use App\Exceptions\PersonalDriveExceptions\UploadFileException;
 use App\Helpers\UploadFileHelper;
 use App\Models\LocalFile;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
-use SplFileInfo;
+use Symfony\Component\Finder\SplFileInfo;
 
 class UploadService
 {
@@ -51,70 +50,82 @@ class UploadService
         return $tempStorageParentPath . DIRECTORY_SEPARATOR . $tempUuid;
     }
 
-    public function replaceFromTemp(): bool
+    public function syncTempToStorage(): bool
     {
-        $tempDirFullPath = $this->getTempStorageDirFull();
-        $storageDirPathRoot = $this->pathService->getStorageDirPath();
+        $tempDir = $this->getTempStorageDirFull();
+        $storageDir = $this->pathService->getStorageFolderPath();
 
-        if (
-            !$storageDirPathRoot ||
-            !$this->filesystem->exists($storageDirPathRoot) ||
-            !$this->filesystem->isDirectory($storageDirPathRoot)
-        ) {
+        if (!$this->isValidDirectory($storageDir) || !$this->isValidDirectory($tempDir)) {
             return false;
         }
 
-        if (
-            !$tempDirFullPath ||
-            !$this->filesystem->exists($tempDirFullPath) ||
-            !$this->filesystem->isDirectory($tempDirFullPath)
-        ) {
-            return false;
+        foreach ($this->filesystem->allFiles($tempDir) as $file) {
+            $this->syncFileToStorage($file, $tempDir, $storageDir);
         }
 
-        foreach ($this->filesystem->allFiles($tempDirFullPath) as $file) {
-            $targetPathName = str_replace($tempDirFullPath, $storageDirPathRoot, $file->getPathname());
-
-            if (
-                $this->filesystem->exists($targetPathName) &&
-                $this->isFileFolderMisMatch($file, $targetPathName)
-            ) {
-                continue;
-            }
-
-            $this->filesystem->ensureDirectoryExists(dirname($targetPathName));
-
-            $existingFile = LocalFile::getForFileObj($file);
-            $this->filesystem->move($file->getPathname(), $targetPathName);
-            $file = new SplFileInfo($targetPathName);
-
-            if (!$existingFile) {
-                $dirSize = [];
-                $itemDetails = $this->localFileStatsService->getFileItemDetails($file, $dirSize);
-                $existingFile = LocalFile::updateOrCreate($itemDetails, ['filename', 'public_path']);
-            } else {
-                $this->localFileStatsService->updateFileStats($existingFile, $file);
-            }
-
-            $this->thumbnailService->genThumbnailsForFileIds([$existingFile->id]);
-        }
-
-        return $this->cleanOldTempFiles();
+        return true;
     }
 
-    public function isFileFolderMisMatch(\Symfony\Component\Finder\SplFileInfo $file, array|string $target): bool
+    private function isValidDirectory(string $path = ''): bool
+    {
+        return $path &&
+            $this->filesystem->exists($path) &&
+            $this->filesystem->isDirectory($path);
+    }
+
+    public function syncFileToStorage(SplFileInfo $file, string $sourceRoot, string $targetRoot): void
+    {
+        $targetPath = str_replace($sourceRoot, $targetRoot, $file->getPathname());
+
+        if (
+            $this->filesystem->exists($targetPath) &&
+            $this->isFileFolderMisMatch($file->getPathname(), $targetPath)
+        ) {
+            return;
+        }
+
+        $this->filesystem->ensureDirectoryExists(dirname($targetPath));
+        $existingFile = $this->getForFileObjLocalFile($file);
+
+        $this->filesystem->move($file->getPathname(), $targetPath);
+        $newFile = new SplFileInfo($targetPath, dirname($targetPath), basename($targetPath));
+
+        if (!$existingFile) {
+            $dirSize = [];
+            $itemDetails = $this->localFileStatsService->getFileItemDetails($newFile, $dirSize);
+            $existingFile = $this->updateOrCreateLocalFile($itemDetails, ['filename', 'public_path']);
+        } else {
+            $this->localFileStatsService->updateFileStats($existingFile, $newFile);
+        }
+
+        $this->thumbnailService->genThumbnailsForFileIds([$existingFile->id]);
+    }
+
+    public function isFileFolderMisMatch(string $file, string $directory): bool
     {
         return (
-            ($this->filesystem->isFile($file) && $this->filesystem->isDirectory($target)) ||
-            ($this->filesystem->isDirectory($file) && $this->filesystem->isFile($target))
+            ($this->filesystem->isFile($file) && $this->filesystem->isDirectory($directory)) ||
+            ($this->filesystem->isDirectory($file) && $this->filesystem->isFile($directory))
         );
+    }
+
+    public function getForFileObjLocalFile(SplFileInfo $file): LocalFile|null
+    {
+        return LocalFile::getForFileObj($file);
+    }
+
+    public function updateOrCreateLocalFile(array $attributes, array $values): LocalFile
+    {
+        return LocalFile::updateOrCreate($attributes, $values);
     }
 
     public function cleanOldTempFiles(): bool
     {
         $tempDirFullPath = $this->getTempStorageDirFull();
+        if (!$tempDirFullPath) {
+            return true;
+        }
         if (
-            $tempDirFullPath &&
             $this->filesystem->exists($tempDirFullPath) &&
             $this->filesystem->isDirectory($tempDirFullPath)
         ) {
@@ -124,17 +135,4 @@ class UploadService
         }
         return false;
     }
-
-    public function makeFolder(string $path, int $permission = 0750): bool
-    {
-        if (file_exists($path)) {
-            throw UploadFileException::nonewdir('folder');
-        }
-        if (!mkdir($path, $permission, true) && !is_dir($path)) {
-            return false;
-        }
-
-        return true;
-    }
-
 }

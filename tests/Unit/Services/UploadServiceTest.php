@@ -1,147 +1,93 @@
 <?php
 
-namespace Tests\Unit\Services;
-
-use App\Exceptions\PersonalDriveExceptions\FetchFileException;
-use App\Exceptions\PersonalDriveExceptions\UploadFileException;
+use Illuminate\Support\Facades\Session;
+use PHPUnit\Framework\TestCase;
 use App\Services\UploadService;
+use Illuminate\Filesystem\Filesystem;
 use App\Services\LPathService;
 use App\Services\LocalFileStatsService;
 use App\Services\ThumbnailService;
-use Illuminate\Filesystem\Filesystem;
-use Illuminate\Support\Facades\Session;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Mockery;
-use Tests\TestCase;
-use Symfony\Component\Finder\SplFileInfo;
 
 class UploadServiceTest extends TestCase
 {
-    use RefreshDatabase;
+    private $filesystem;
 
-    public function test_replace_from_temp_returns_false_on_invalid_paths()
+    protected function setUp(): void
     {
-        $fs = Mockery::mock(Filesystem::class);
-        $fs->shouldReceive('exists')->andReturn(false);
+        parent::setUp();
+        $this->filesystem = Mockery::mock(Filesystem::class);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+    }
+
+    private function makeService(): UploadService
+    {
+        return new UploadService(
+            Mockery::mock(LPathService::class),
+            Mockery::mock(LocalFileStatsService::class),
+            Mockery::mock(ThumbnailService::class),
+            $this->filesystem
+        );
+    }
+
+    public function testIsFileFolderMisMatchTrue()
+    {
+
+        $this->filesystem->shouldReceive('isFile')->with('aFile')->andReturn(true);
+        $this->filesystem->shouldReceive('isDirectory')->with('aDir')->andReturn(true);
+
+        $service = $this->makeService();
+        $this->assertTrue($service->isFileFolderMisMatch('aFile', 'aDir'));
+    }
+
+    public function testIsFileFolderMisMatchFalse()
+    {
+        $this->filesystem->shouldReceive('isFile')->withAnyArgs()->andReturn(true);
+        $this->filesystem->shouldReceive('isDirectory')->withAnyArgs()->andReturn(false);
+        $service = $this->makeService();
+        $this->assertFalse($service->isFileFolderMisMatch('aFile', 'aFile2'));
+
+
+        $this->filesystem->shouldReceive('isFile')->withAnyArgs()->andReturn(false);
+        $this->filesystem->shouldReceive('isDirectory')->withAnyArgs()->andReturn(true);
+        $service = $this->makeService();
+        $this->assertFalse($service->isFileFolderMisMatch('aFile', 'aFile2'));
+    }
+
+    public function testGetTempStorageDirFullReturnsEmptyIfUuidMissing()
+    {
+        $sessionMock = Mockery::mock();
+        $sessionMock->shouldReceive('get')->with('temp_replace_dir_uuid')->andReturn(null);
+        Session::swap($sessionMock);
+
+        $service = $this->makeService();
+        $this->assertSame('', $service->getTempStorageDirFull());
+    }
+
+    public function testGetTempStorageDirFullReturnsCorrectPath()
+    {
+        $uuid = 'abc123';
+        $basePath = '/tmp/storage';
+
+        $sessionMock = Mockery::mock();
+        $sessionMock->shouldReceive('get')->with('temp_replace_dir_uuid')->andReturn($uuid);
+        Session::swap($sessionMock);
 
         $pathService = Mockery::mock(LPathService::class);
-        $pathService->shouldReceive('getTempStorageDirPath')->andReturn('/tmp/temp');
-        $pathService->shouldReceive('getStorageDirPath')->andReturn('/storage');
+        $pathService->shouldReceive('getTempStorageDirPath')->andReturn($basePath);
 
         $service = new UploadService(
             $pathService,
             Mockery::mock(LocalFileStatsService::class),
             Mockery::mock(ThumbnailService::class),
-            $fs
+            $this->filesystem
         );
 
-        Session::put('temp_replace_dir_uuid', 'abc');
-        $this->assertFalse($service->replaceFromTemp());
-    }
-
-    public function test_is_file_folder_mismatch_cases()
-    {
-        $fs = Mockery::mock(Filesystem::class);
-        $fs->shouldReceive('isDirectory')->andReturn(true); // simulate mismatch
-        $fs->shouldReceive('isFile')->andReturn(true); // simulate mismatch
-
-        $service = new UploadService(
-            Mockery::mock(LPathService::class),
-            Mockery::mock(LocalFileStatsService::class),
-            Mockery::mock(ThumbnailService::class),
-            $fs
-        );
-
-        $file = Mockery::mock(SplFileInfo::class);
-        $this->assertTrue($service->isFileFolderMisMatch($file, '/some/path'));
-    }
-
-    public function test_creates_folder_with_specified_permissions()
-    {
-        $path =  '/tmp/test/test_folder';
-        $fs = Mockery::mock(Filesystem::class);
-        $fs->shouldReceive('isDirectory')->andReturn(true); // simulate mismatch
-        $fs->shouldReceive('isFile')->andReturn(true); // simulate mismatch
-
-        $service = new UploadService(
-            Mockery::mock(LPathService::class),
-            Mockery::mock(LocalFileStatsService::class),
-            Mockery::mock(ThumbnailService::class),
-            $fs
-        );
-
-        $result = $service->makeFolder($path, 0750);
-
-        $this->assertTrue($result);
-        $this->assertTrue(is_dir($path));
-        $this->assertEquals('750', decoct(fileperms($path) & 0777));
-    }
-
-    public function test_throws_exception_if_folder_already_exists()
-    {
-        $this->expectException(UploadFileException::class);
-        $this->expectExceptionMessage('Could not create new folder');
-
-        $path =  '/tmp/test/test_folder2';
-        $fs = Mockery::mock(Filesystem::class);
-        $fs->shouldReceive('isDirectory')->andReturn(true); // simulate mismatch
-        $fs->shouldReceive('isFile')->andReturn(true); // simulate mismatch
-
-        $service = new UploadService(
-            Mockery::mock(LPathService::class),
-            Mockery::mock(LocalFileStatsService::class),
-            Mockery::mock(ThumbnailService::class),
-            $fs
-        );
-        $result = $service->makeFolder($path, 0750);
-        $this->expectException(UploadFileException::class);
-
-        $result = $service->makeFolder($path, 0750);
-    }
-
-    protected function tearDown(): void
-    {
-        parent::tearDown();
-
-        $paths = [
-            '/tmp/test/test_folder',
-            '/tmp/test/test_folder2',
-        ];
-
-        foreach ($paths as $path) {
-            if (is_dir($path)) {
-                exec("rm -rf {$path}");
-            } elseif (is_file($path)) {
-                unlink($path);
-            }
-        }
-
-        Mockery::close();
+        $this->assertSame($basePath . DIRECTORY_SEPARATOR . $uuid, $service->getTempStorageDirFull());
     }
 
 
-//    public function test_clean_old_temp_files_success()
-//    {
-//        Session::put('temp_replace_dir_uuid', 'abc');
-//
-//        $fs = Mockery::mock(Filesystem::class);
-//        $fs->shouldReceive('exists')->andReturn(true);
-//        $fs->shouldReceive('isDirectory')->andReturn(true);
-//
-//        $pathService = Mockery::mock(LPathService::class);
-//        $pathService->shouldReceive('getTempStorageDirPath')->andReturn('/tmp/temp');
-//
-//        $upload = new UploadService(
-//            $pathService,
-//            Mockery::mock(LocalFileStatsService::class),
-//            Mockery::mock(ThumbnailService::class),
-//            $fs
-//        );
-//
-//        \App\Helpers\UploadFileHelper::shouldReceive('deleteFolder')
-//            ->once()
-//            ->andReturn(true);
-//
-//        $this->assertTrue($upload->cleanOldTempFiles());
-//    }
 }

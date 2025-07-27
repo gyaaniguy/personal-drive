@@ -2,13 +2,13 @@
 
 namespace Tests\Feature\Controllers\AdminControllers;
 
+use App\Http\Middleware\CheckSetup;
 use App\Http\Middleware\PreventSetupAccess;
 use App\Models\User;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
 use Inertia\Testing\AssertableInertia;
-use Mockery;
 use Tests\TestCase;
 
 class SetupControllerTest extends TestCase
@@ -29,21 +29,37 @@ class SetupControllerTest extends TestCase
             ->once()
             ->with('migrate:fresh', ['--force' => true]);
 
-        $this->withoutMiddleware(ValidateCsrfToken::class);
+        $this->withMiddleware(\Illuminate\Session\Middleware\StartSession::class);
+        $response = $this->get('/setup.account');
 
         $response = $this->post(route('setup.account'), [
+            '_token' => csrf_token(),
             'username' => 'testuser',
-            'password' => '$2y$12$DLhiW11mI9/afaOrf5tYROW2YG6VOP4F4THjoPQD8kTCzW9aelKMK',
+            'password' => 'password',
         ]);
 
         $this->assertDatabaseHas('users', [
             'username' => 'testuser',
             'is_admin' => 1,
         ]);
-        $this->assertAuthenticated();
+
+
         $response->assertRedirect(route('admin-config', ['setupMode' => true]));
         $response->assertSessionHas('status', true);
         $response->assertSessionHas('message', 'Created User successfully');
+
+        $this->post(route('logout'),[
+            '_token' => csrf_token(),
+        ]);
+
+        $response = $this->post(route('login'), [
+            '_token' => csrf_token(),
+            'username' => 'testuser',
+            'password' => 'password',
+        ]);
+
+        $this->assertAuthenticated();
+        $response->assertRedirect(route('drive'));
     }
 
     public function test_update_fails_if_user_creation_fails()
@@ -66,6 +82,7 @@ class SetupControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+        $this->withSession([]);
         // Ensure no user exists before each test that creates a user
         User::query()->delete();
     }

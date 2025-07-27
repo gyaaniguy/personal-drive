@@ -36,7 +36,7 @@ class LPathService
 
     public function genPrivatePathFromPublic(string $publicPath = ''): string
     {
-        $privateRoot = $this->getStorageDirPath();
+        $privateRoot = $this->getStorageFolderPath();
 
         if (!$privateRoot) {
             return '';
@@ -51,7 +51,7 @@ class LPathService
         return $privatePath;
     }
 
-    public function getStorageDirPath(): string
+    public function getStorageFolderPath(): string
     {
         $storagePath = Setting::getSettingByKeyName(Setting::$storagePath);
         $uuid = $this->uuidService->getStorageFilesUUID();

@@ -3,9 +3,9 @@
 namespace Tests\Unit\Services;
 
 use App\Models\LocalFile;
+use App\Services\FileOperationsService;
 use App\Services\FileRenameService;
 use App\Services\LPathService;
-use App\Helpers\FileOperationsHelper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
 use Tests\TestCase;
@@ -34,10 +34,10 @@ class FileRenameServiceTest extends TestCase
         $expectedDest = '/storage/dir/new.txt';
 
         $pathService = Mockery::mock(LPathService::class);
-        $pathService->shouldReceive('getStorageDirPath')
+        $pathService->shouldReceive('getStorageFolderPath')
             ->andReturn('/storage');
 
-        $fileOps = Mockery::mock(FileOperationsHelper::class);
+        $fileOps = Mockery::mock(FileOperationsService::class);
         $fileOps->shouldReceive('move')
             ->once()
             ->with($expectedSrc, $expectedDest);
@@ -66,10 +66,10 @@ class FileRenameServiceTest extends TestCase
         $expectedDest = '/storage/dir/old/new';
 
         $pathService = Mockery::mock(LPathService::class);
-        $pathService->shouldReceive('getStorageDirPath')
+        $pathService->shouldReceive('getStorageFolderPath')
             ->andReturn('/storage');
 
-        $fileOps = Mockery::mock(FileOperationsHelper::class);
+        $fileOps = Mockery::mock(FileOperationsService::class);
         $fileOps->shouldReceive('move')
             ->once()
             ->with($expectedSrc, $expectedDest);

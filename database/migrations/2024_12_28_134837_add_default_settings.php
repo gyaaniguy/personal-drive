@@ -20,7 +20,7 @@ return new class () extends Migration {
                 'updated_at' => now(),
             ],
             [
-                'key' => 'uuidForThumbnails', 'value' => 'thumbnail_personaldrive', 'created_at' => now(),
+                'key' => 'uuidForThumbnails', 'value' => 'thumbnail_pe', 'created_at' => now(),
                 'updated_at' => now(),
             ],
         ]);

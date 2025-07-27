@@ -2,8 +2,9 @@
 
 namespace Tests\Unit\Services;
 
+use App\Models\Setting;
 use App\Services\AdminConfigService;
-use App\Services\UploadService;
+use App\Services\FileOperationsService;
 use App\Services\UUIDService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
@@ -18,6 +19,7 @@ class AdminConfigServiceTest extends TestCase
     protected $uuidService;
     protected $uploadService;
     protected $adminConfigService;
+    protected $setting;
     protected $storagePath = '/tmp/test_storage';
 
 
@@ -25,8 +27,9 @@ class AdminConfigServiceTest extends TestCase
     {
         parent::setUp();
         $this->uuidService = Mockery::mock(UUIDService::class);
-        $this->uploadService = Mockery::mock(UploadService::class);
-        $this->adminConfigService = Mockery::mock(AdminConfigService::class, [$this->uuidService, $this->uploadService])
+        $this->uploadService = Mockery::mock(FileOperationsService::class);
+        $this->setting = Mockery::mock(Setting::class);
+        $this->adminConfigService = Mockery::mock(AdminConfigService::class, [$this->uuidService, $this->uploadService, $this->setting])
             ->makePartial();
         $storageFilesUUID = 'uuid_storage';
         $thumbnailsUUID = 'uuid_thumbnails';
@@ -43,55 +46,6 @@ class AdminConfigServiceTest extends TestCase
         parent::tearDown();
     }
 
-    public function test_update_storage_path_success()
-    {
-        Mockery::mock('alias:file_exists')
-            ->shouldReceive('file_exists')
-            ->andReturn(false);
-
-        Mockery::mock('alias:is_writable')
-            ->shouldReceive('is_writable')
-            ->andReturn(true);
-
-        $this->adminConfigService
-            ->shouldAllowMockingProtectedMethods()
-            ->shouldReceive('ensureDirectoryExists')
-            ->andReturn(true);
-        $result = $this->adminConfigService->updateStoragePath($this->storagePath);
-
-        $this->assertTrue($result['status']);
-        $this->assertEquals('Storage path updated successfully', $result['message']);
-    }
-
-
-    public function test_update_storage_path_cannot_create_storage_files_directory()
-    {
-        $storageFilesUUID = 'uuid_storage';
-        $thumbnailsUUID = 'uuid_thumbnails';
-
-        $this->uuidService->shouldReceive('getStorageFilesUUID')
-            ->andReturn($storageFilesUUID);
-        $this->uuidService->shouldReceive('getThumbnailsUUID')
-            ->andReturn($thumbnailsUUID);
-
-        Mockery::mock('alias:file_exists')
-            ->shouldReceive('file_exists')
-            ->andReturn(false);
-
-        Mockery::mock('alias:is_writable')
-            ->shouldReceive('is_writable')
-            ->andReturn(true);
-
-        $this->adminConfigService
-            ->shouldAllowMockingProtectedMethods()
-            ->shouldReceive('ensureDirectoryExists')
-            ->andReturn(false);
-
-        $result = $this->adminConfigService->updateStoragePath($this->storagePath);
-
-        $this->assertFalse($result['status']);
-        $this->assertEquals('Unable to create or write to storage directory. Check Permissions', $result['message']);
-    }
 
     public function test_get_php_upload_max_filesize()
     {

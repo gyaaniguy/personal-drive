@@ -16,7 +16,7 @@ class CheckSetup
         if (
             (!Schema::hasTable('users') || DB::table('users')->count() === 0) && !$request->is('setup*', 'error')
         ) {
-            config(['session.driver' => 'array']);
+//            config(['session.driver' => 'array']);
             return redirect('/setup/account');
         }
 

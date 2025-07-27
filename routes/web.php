@@ -13,7 +13,7 @@ use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::middleware(['auth', CheckAdmin::class])->group(callback: function () {
+Route::middleware(['web', 'auth', CheckAdmin::class])->group(callback: function () {
     Route::get('/admin-config', [AdminControllers\AdminConfigController::class, 'index'])->name('admin-config');
     Route::post('/admin-config/update', [AdminControllers\AdminConfigController::class, 'update']);
     // Drive routes
@@ -22,12 +22,18 @@ Route::middleware(['auth', CheckAdmin::class])->group(callback: function () {
         ->name('drive');
     Route::post('/upload', [DriveControllers\UploadController::class, 'store'])
         ->middleware(CleanupTempFiles::class)->name('drive.upload');
-    Route::post('/create-item', [DriveControllers\UploadController::class, 'createItem'])->middleware(CleanupTempFiles::class);
-    Route::post('/delete-files', [DriveControllers\FileDeleteController::class, 'deleteFiles'])->middleware(CleanupTempFiles::class);
+    Route::post(
+        '/create-item',
+        [DriveControllers\UploadController::class, 'createItem']
+    )->middleware(CleanupTempFiles::class)->name('drive.create-item');
+    Route::post(
+        '/delete-files',
+        [DriveControllers\FileDeleteController::class, 'deleteFiles']
+    )->middleware(CleanupTempFiles::class);
     Route::post('/resync', [DriveControllers\ReSyncController::class, 'index']);
     Route::post('/gen-thumbs', [DriveControllers\ThumbnailController::class, 'update']);
     Route::post('/search-files', [DriveControllers\SearchFilesController::class, 'index']);
-    Route::get('/search-files', fn () => redirect('/drive'));
+    Route::get('/search-files', fn() => redirect('/drive'));
     Route::post('/rename-file', [DriveControllers\FileRenameController::class, 'index']);
     Route::post('/abort-replace', [DriveControllers\UploadController::class, 'abortReplace']);
     Route::post('/save-file', [DriveControllers\FileSaveController::class, 'update']);
@@ -65,18 +71,20 @@ Route::get('/shared/{slug}/{path?}', [ShareControllers\ShareFilesGuestController
 Route::get('/error', function (Request $request) {
     return '<h1>Error</h1><p>' . htmlspecialchars($request->query('message', 'An error occurred.')) . '</p>';
 })->name('error');
-Route::get('/', fn () => redirect('/drive'));
-Route::fallback(fn () => redirect('/rejected'));
+Route::get('/', fn() => redirect('/drive'));
+Route::fallback(fn() => redirect('/rejected'));
 Route::get(
     '/rejected',
-    fn (Request $request) => Inertia::render('Rejected', [
+    fn(Request $request) => Inertia::render('Rejected', [
         'message' => $request->query('message', 'No Permission or error'),
     ])
 )->name('rejected');
 
 // Setup
-Route::middleware([PreventSetupAccess::class])->group(function () {
-    Route::get('/setup/account', [AdminControllers\SetupController::class, 'show'])->middleware(EnsureFrontendBuilt::class)->name('setup.account');
+Route::middleware([PreventSetupAccess::class, 'web'])->group(function () {
+    Route::get('/setup/account', [
+        AdminControllers\SetupController::class, 'show'
+    ])->middleware(EnsureFrontendBuilt::class)->name('setup.account');
     Route::post('/setup/account', [AdminControllers\SetupController::class, 'update']);
     Route::post('/setup/storage', [AdminControllers\AdminConfigController::class, 'update']);
 });

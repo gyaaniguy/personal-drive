@@ -33,7 +33,7 @@ class FileDeleteController
     public function deleteFiles(FileDeleteRequest $request): RedirectResponse
     {
         $fileKeyArray = $request->validated('fileList');
-        $rootPath = $this->pathService->getStorageDirPath();
+        $rootPath = $this->pathService->getStorageFolderPath();
         $localFiles = LocalFile::getByIds($fileKeyArray);
         if (!$localFiles->count()) {
             return $this->error('No valid files in database. Try a ReSync first');

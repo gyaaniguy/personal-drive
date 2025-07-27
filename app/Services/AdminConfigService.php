@@ -2,18 +2,23 @@
 
 namespace App\Services;
 
-use App\Helpers\UploadFileHelper;
 use App\Models\Setting;
 use Exception;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AdminConfigService
 {
+    use RefreshDatabase;
+    protected FileOperationsService $fileOperationsService;
+
     private UUIDService $uuidService;
-    protected UploadService $uploadService;
-    public function __construct(UUIDService $uuidService, UploadService $uploadService)
+    private Setting $setting;
+
+    public function __construct(UUIDService $uuidService, FileOperationsService $fileOperationsService, Setting $setting)
     {
         $this->uuidService = $uuidService;
-        $this->uploadService = $uploadService;
+        $this->fileOperationsService = $fileOperationsService;
+        $this->setting = $setting;
     }
 
     public function updateStoragePath(string $storagePath): array
@@ -21,15 +26,17 @@ class AdminConfigService
         try {
             $paths = $this->preparePaths($storagePath);
 
-            if (file_exists($storagePath) && !is_writable($storagePath)) {
+            if (
+                $this->fileOperationsService->directoryExists($storagePath) &&
+                !$this->fileOperationsService->isWritable($storagePath)
+            ) {
                 return ['status' => false, 'message' => 'Storage directory exists but is not writable'];
             }
 
-            if (!$this->ensureDirectoryExists($paths['storageFiles'])) {
-                return [
-                    'status' => false, 'message' => 'Unable to create or write to storage directory. Check Permissions'
-                ];
+            if (!$this->setting->updateSetting('storage_path', $storagePath)) {
+                return ['status' => false, 'message' => 'Failed to save storage path setting'];
             }
+
 
             if (!$this->ensureDirectoryExists($paths['thumbnails'])) {
                 return [
@@ -38,9 +45,12 @@ class AdminConfigService
                 ];
             }
 
-            if (!Setting::updateSetting('storage_path', $storagePath)) {
-                return ['status' => false, 'message' => 'Failed to save storage path setting'];
+            if (!$this->ensureDirectoryExists($paths['storageFiles'])) {
+                return [
+                    'status' => false, 'message' => 'Unable to create or write to storage directory. Check Permissions'
+                ];
             }
+
 
             return ['status' => true, 'message' => 'Storage path updated successfully'];
         } catch (Exception $e) {
@@ -51,6 +61,10 @@ class AdminConfigService
     private function preparePaths(string $storagePath): array
     {
         return [
+            'storageFiles' =>  $this->uuidService->getStorageFilesUUID(),
+            'thumbnails' =>  $this->uuidService->getThumbnailsUUID(),
+        ];
+        return [
             'storageFiles' => $storagePath . DIRECTORY_SEPARATOR . $this->uuidService->getStorageFilesUUID(),
             'thumbnails' => $storagePath . DIRECTORY_SEPARATOR . $this->uuidService->getThumbnailsUUID(),
         ];
@@ -58,11 +72,11 @@ class AdminConfigService
 
     protected function ensureDirectoryExists(string $path): bool
     {
-        if (file_exists($path)) {
-            return is_writable($path);
+        if ($this->fileOperationsService->directoryExists($path)) {
+            return $this->fileOperationsService->isWritable($path);
         }
 
-        return $this->uploadService->makeFolder($path) && is_writable($path);
+        return $this->fileOperationsService->makeFolder($path) && $this->fileOperationsService->isWritable($path);
     }
 
     public function getPhpUploadMaxFilesize(): string

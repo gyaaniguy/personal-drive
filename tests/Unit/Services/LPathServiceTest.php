@@ -33,7 +33,7 @@ class LPathServiceTest extends TestCase
 
     public function testGenPrivatePathFromPublicWithEmptyPublicPath()
     {
-        $this->lPathServiceMock->method('getStorageDirPath')->willReturn('test/storage/path/test-uuid');
+        $this->lPathServiceMock->method('getStorageFolderPath')->willReturn('test/storage/path/test-uuid');
 
         $result = $this->lPathServiceMock->genPrivatePathFromPublic('');
         $this->assertEquals('test/storage/path/test-uuid/', $result);
@@ -41,7 +41,7 @@ class LPathServiceTest extends TestCase
 
     public function testGenPrivatePathFromPublicWithNonExistentPath()
     {
-        $this->lPathServiceMock->method('getStorageDirPath')->willReturn('/test/storage/path/test-uuid');
+        $this->lPathServiceMock->method('getStorageFolderPath')->willReturn('/test/storage/path/test-uuid');
 
         $result = $this->lPathServiceMock->genPrivatePathFromPublic('/drive/nonexistent/path');
         $this->assertEquals('/test/storage/path/test-uuid/nonexistent/path/', $result);
@@ -54,7 +54,7 @@ class LPathServiceTest extends TestCase
         $this->lPathService = new LPathService($this->uuidService);
         $this->lPathServiceMock = $this->getMockBuilder(LPathService::class)
             ->setConstructorArgs([$this->uuidService])
-            ->onlyMethods(['getStorageDirPath'])
+            ->onlyMethods(['getStorageFolderPath'])
             ->getMock();
     }
 }

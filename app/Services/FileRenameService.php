@@ -5,28 +5,27 @@ namespace App\Services;
 use App\Exceptions\PersonalDriveExceptions\FileRenameException;
 use App\Models\LocalFile;
 use Illuminate\Support\Facades\DB;
-use App\Helpers\FileOperationsHelper;
 use Illuminate\Support\Facades\File;
 
 class FileRenameService
 {
-    protected FileOperationsHelper $fileOperationsHelper;
+    protected FileOperationsService $fileOperationsService;
     private LPathService $pathService;
 
     public function __construct(
         LPathService $pathService,
-        FileOperationsHelper $fileOperationsHelper
+        FileOperationsService $fileOperationsService
     ) {
         $this->pathService = $pathService;
-        $this->fileOperationsHelper = $fileOperationsHelper;
+        $this->fileOperationsService = $fileOperationsService;
     }
 
     public function renameFile(LocalFile $file, string $newFilename): void
     {
         $itemPathName = $file->getPublicPathname();
         $itemPublicDestPathName = $file->public_path . DIRECTORY_SEPARATOR . $newFilename;
-        $this->fileOperationsHelper->move($itemPathName, $itemPublicDestPathName);
-        $itemPrivateDestPathName = $this->pathService->getStorageDirPath() .
+        $this->fileOperationsService->move($itemPathName, $itemPublicDestPathName);
+        $itemPrivateDestPathName = $this->pathService->getStorageFolderPath() .
             DIRECTORY_SEPARATOR . $itemPublicDestPathName;
 
         if (!File::exists($itemPrivateDestPathName)) {

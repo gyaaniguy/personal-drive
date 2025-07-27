@@ -5,22 +5,14 @@ namespace Tests\Unit\Models;
 use App\Models\Share;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-use SplFileInfo;
 
-use function is_file;
-use function is_dir;
-use function file_exists;
-
-use App\Helpers\FileSizeFormatter;
 use App\Models\LocalFile;
 use App\Models\SharedFile;
 use App\Models\User;
-use Database\Factories\LocalFileFactory;
-use Database\Factories\SharedFileFactory;
-use Database\Factories\UserFactory;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Str;
 use Mockery;
+use Symfony\Component\Finder\SplFileInfo;
 use Tests\TestCase;
 
 class LocalFileTest extends TestCase

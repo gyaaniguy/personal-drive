@@ -10,8 +10,10 @@ use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
+use Illuminate\Foundation\ViteException;
 use Illuminate\Http\Middleware\AddLinkHeadersForPreloadedAssets;
 use Illuminate\Validation\ValidationException;
+use Illuminate\View\ViewException;
 
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
@@ -30,6 +32,13 @@ return Application::configure(basePath: dirname(__DIR__))
     })
     ->withExceptions(function (Exceptions $exceptions) {
         $exceptions->render(function (Throwable $e) {
+            if (($e instanceof ViewException) && str_contains($e->getMessage(), 'Vite manifest not found')) {
+                header(
+                    'Location: /error?message=' .
+                    urlencode('Frontend not built. Ensure node, npm are installed Run "npm install && npm run build"')
+                );
+                exit;
+            }
             if ($e instanceof FetchFileException) {
                 return redirect()->route('rejected', ['message' => $e->getMessage()]);
             }

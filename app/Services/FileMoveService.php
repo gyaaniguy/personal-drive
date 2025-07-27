@@ -2,24 +2,23 @@
 
 namespace App\Services;
 
-use App\Exceptions\PersonalDriveExceptions\MoveFileException;
-use App\Helpers\FileOperationsHelper;
+use App\Exceptions\PersonalDriveExceptions\FileMoveException;
 use App\Models\LocalFile;
 
 class FileMoveService
 {
     protected LPathService $pathService;
     protected LocalFileStatsService $localFileStatsService;
-    protected FileOperationsHelper $fileOperationsHelper;
+    protected FileOperationsService $fileOperationsService;
 
     public function __construct(
         LPathService $pathService,
         LocalFileStatsService $localFileStatsService,
-        FileOperationsHelper $fileOperationsHelper
+        FileOperationsService $fileOperationsService
     ) {
         $this->pathService = $pathService;
         $this->localFileStatsService = $localFileStatsService;
-        $this->fileOperationsHelper = $fileOperationsHelper;
+        $this->fileOperationsService = $fileOperationsService;
     }
 
     public function moveFiles(array $fileKeyArray, string $destinationInputPath): bool
@@ -27,21 +26,21 @@ class FileMoveService
         $localFiles = LocalFile::getByIds($fileKeyArray)->get();
 
         if (!$localFiles->count()) {
-            throw MoveFileException::noValidFiles();
+            throw FileMoveException::noValidFiles();
         }
 
         $destinationPublicPath = $this->pathService->cleanDrivePublicPath($destinationInputPath);
         $destinationPrivatePath = $this->pathService->genPrivatePathFromPublic($destinationPublicPath);
 
         if (!$destinationPrivatePath || !file_exists($destinationPrivatePath) || !is_dir($destinationPrivatePath)) {
-            throw MoveFileException::invalidDestinationPath();
+            throw FileMoveException::invalidDestinationPath();
         }
 
         $successfulUploads = [];
 
         foreach ($localFiles as $localFile) {
             $itemPublicDestPathName = $destinationPublicPath . DIRECTORY_SEPARATOR . $localFile->filename;
-            $itemPrivateDestPathName = $this->pathService->getStorageDirPath() .
+            $itemPrivateDestPathName = $this->pathService->getStorageFolderPath() .
                 DIRECTORY_SEPARATOR . $itemPublicDestPathName;
 
             $this->moveSingleFileOrDirectory(
@@ -73,7 +72,7 @@ class FileMoveService
         }
 
         if ($localFile->isValidFile()) {
-            $this->fileOperationsHelper->move($itemPathName, $itemPublicDestPathName);
+            $this->fileOperationsService->move($itemPathName, $itemPublicDestPathName);
             if (file_exists($itemPrivateDestPathName)) {
                 $successfulUploads[] = $localFile->id;
             }
@@ -100,7 +99,7 @@ class FileMoveService
         $dirPublicPathname = ltrim($localFile->getPublicPathname(), '/');
         $dirSubFilesIds = LocalFile::getIdsByLikePublicPath($dirPublicPathname);
 
-        $this->fileOperationsHelper->move($itemPathName, $itemPublicDestPathName);
+        $this->fileOperationsService->move($itemPathName, $itemPublicDestPathName);
         if (file_exists($itemPrivateDestPathName)) {
             $successfulUploads[] = $localFile->id;
             $successfulUploads = array_merge($dirSubFilesIds, $successfulUploads);
