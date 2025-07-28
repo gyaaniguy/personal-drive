@@ -36,7 +36,6 @@ class LocalFileStatsService
                 'file_type' => $this->getFileType($file)
             ]);
         } catch (Exception $e) {
-            Log::error($e->getMessage());
             throw UploadFileException::nonewdir($isDir ? 'folder' : 'file');
         }
     }

@@ -4,15 +4,36 @@ namespace Tests\Helpers;
 
 use App\Models\User;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
+use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\TestResponse;
 
 trait SetupSite
 {
+
+    public function postUpload(array $filesArray, string $testPath): TestResponse
+    {
+        return $this->post(route('drive.upload'), [
+            '_token' => csrf_token(),
+            'files' => $filesArray,
+            'path' => $testPath
+        ]);
+    }
+
+    public function create_upload_file_success($testPath = '/foo/bar', $fileName = 'dummy.txt')
+    {
+        $file = UploadedFile::fake()->create($fileName, 100);
+
+        $response = $this->postUpload([$file], $testPath);
+
+        $response->assertSessionHas('status', true);
+        $response->assertSessionHas('message', fn($value) => str_contains($value, 'Files uploaded'));
+        Storage::disk('local')->assertExists($this->storageFilesUUID . DIRECTORY_SEPARATOR . $testPath . DIRECTORY_SEPARATOR . $fileName);
+    }
+
     public function setupStoragePathPost(string $storagePath = ''): TestResponse
     {
-
         Storage::fake('local');
         if (!$storagePath) {
             $storagePath = Storage::disk('local')->path('');

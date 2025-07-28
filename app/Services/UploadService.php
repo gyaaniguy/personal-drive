@@ -4,6 +4,7 @@ namespace App\Services;
 
 use App\Helpers\UploadFileHelper;
 use App\Models\LocalFile;
+use App\Models\Setting;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Support\Facades\Session;
 use Illuminate\Support\Str;
@@ -42,12 +43,23 @@ class UploadService
 
     public function getTempStorageDirFull(): string
     {
+        $storagePath = Setting::getSettingByKeyName(Setting::$storagePath);
+
+        $tempStorageDir = $this->getTempStorageDir();
+        if (!$tempStorageDir) {
+            return '';
+        }
+        return $storagePath . DIRECTORY_SEPARATOR . $tempStorageDir;
+    }
+
+    public function getTempStorageDir(): string
+    {
         $tempUuid = Session::get($this->tempUuid);
         if (!$tempUuid) {
             return '';
         }
-        $tempStorageParentPath = $this->pathService->getTempStorageDirPath();
-        return $tempStorageParentPath . DIRECTORY_SEPARATOR . $tempUuid;
+
+        return "temp_storage" . DIRECTORY_SEPARATOR . $tempUuid;
     }
 
     public function syncTempToStorage(): bool
@@ -134,5 +146,10 @@ class UploadService
             return UploadFileHelper::deleteFolder($tempDirFullPath);
         }
         return false;
+    }
+
+    public function getTempUuid(): string
+    {
+        return $this->tempUuid;
     }
 }

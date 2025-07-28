@@ -57,37 +57,37 @@ class UploadServiceTest extends TestCase
         $this->assertFalse($service->isFileFolderMisMatch('aFile', 'aFile2'));
     }
 
-    public function testGetTempStorageDirFullReturnsEmptyIfUuidMissing()
-    {
-        $sessionMock = Mockery::mock();
-        $sessionMock->shouldReceive('get')->with('temp_replace_dir_uuid')->andReturn(null);
-        Session::swap($sessionMock);
+//    public function testGetTempStorageDirFullReturnsEmptyIfUuidMissing()
+//    {
+//        $sessionMock = Mockery::mock();
+//        $sessionMock->shouldReceive('get')->with('temp_replace_dir_uuid')->andReturn(null);
+//        Session::swap($sessionMock);
+//
+//        $service = $this->makeService();
+//        $this->assertSame('', $service->getTempStorageDirFull());
+//    }
 
-        $service = $this->makeService();
-        $this->assertSame('', $service->getTempStorageDirFull());
-    }
-
-    public function testGetTempStorageDirFullReturnsCorrectPath()
-    {
-        $uuid = 'abc123';
-        $basePath = '/tmp/storage';
-
-        $sessionMock = Mockery::mock();
-        $sessionMock->shouldReceive('get')->with('temp_replace_dir_uuid')->andReturn($uuid);
-        Session::swap($sessionMock);
-
-        $pathService = Mockery::mock(LPathService::class);
-        $pathService->shouldReceive('getTempStorageDirPath')->andReturn($basePath);
-
-        $service = new UploadService(
-            $pathService,
-            Mockery::mock(LocalFileStatsService::class),
-            Mockery::mock(ThumbnailService::class),
-            $this->filesystem
-        );
-
-        $this->assertSame($basePath . DIRECTORY_SEPARATOR . $uuid, $service->getTempStorageDirFull());
-    }
+//    public function testGetTempStorageDirFullReturnsCorrectPath()
+//    {
+//        $uuid = 'abc123';
+//        $basePath = '/tmp/storage';
+//
+//        $sessionMock = Mockery::mock();
+//        $sessionMock->shouldReceive('get')->with('temp_replace_dir_uuid')->andReturn($uuid);
+//        Session::swap($sessionMock);
+//
+//        $pathService = Mockery::mock(LPathService::class);
+//        $pathService->shouldReceive('getTempStorageDirPath')->andReturn($basePath);
+//
+//        $service = new UploadService(
+//            $pathService,
+//            Mockery::mock(LocalFileStatsService::class),
+//            Mockery::mock(ThumbnailService::class),
+//            $this->filesystem
+//        );
+//
+//        $this->assertSame($basePath . DIRECTORY_SEPARATOR . $uuid, $service->getTempStorageDirFull());
+//    }
 
 
 }

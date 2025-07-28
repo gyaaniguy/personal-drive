@@ -78,32 +78,36 @@ class UploadController extends Controller
         $successfulUploads = 0;
         $duplicatesDetected = 0;
         foreach ($files as $index => $file) {
-            $fileNameWithDir = UploadFileHelper::getUploadedFileFullPath($index);
-            $destinationFullPath = $privatePath . $fileNameWithDir;
+            $fileName = $file->getClientOriginalPath();
+            $destinationFullPath = $privatePath . $fileName;
             if (file_exists($destinationFullPath) && $tempStorageDirFull) {
                 $duplicatesDetected++;
                 $this->uploadToDir(
-                    $tempStorageDirFull . ($publicPath ? '/' . $publicPath : '') . '/' . $fileNameWithDir,
-                    $file
+                    $this->uploadService->getTempStorageDirFull() . DIRECTORY_SEPARATOR . $publicPath ,
+                    $file,
+                    $this->uploadService->getTempStorageDir() . DIRECTORY_SEPARATOR . $publicPath
                 );
             } else {
-                $successfulUploads += $this->uploadToDir($destinationFullPath, $file);
+                $successfulUploads += $this->uploadToDir(
+                    dirname($destinationFullPath),
+                    $file,
+                    $this->uuidService->getStorageFilesUUID() . DIRECTORY_SEPARATOR . $publicPath
+                );
             }
         }
 
         return [$successfulUploads, $duplicatesDetected];
     }
 
-    private function uploadToDir(string $destinationFullPath, mixed $file): int
+    private function uploadToDir(string $destinationDir, mixed $file, string $publicPath): int
     {
         $successfulUploads = 0;
-        $filesDirectory = dirname($destinationFullPath);
-        if (!file_exists($filesDirectory)) {
-            $this->fileOperationsService->makeFolder($filesDirectory);
+        if (!$this->fileOperationsService->directoryExists($publicPath)) {
+            $this->fileOperationsService->makeFolder($publicPath);
         }
         try {
-            if ($file->move($filesDirectory, $file->getClientOriginalName())) {
-                chmod($filesDirectory . '/' . $file->getClientOriginalName(), 0640);
+            if ($file->move($destinationDir, $file->getClientOriginalName())) {
+                chmod($destinationDir . DIRECTORY_SEPARATOR . $file->getClientOriginalName(), 0640);
                 $successfulUploads++;
             }
         } catch (Error $e) {
@@ -120,10 +124,15 @@ class UploadController extends Controller
         $publicPath = $this->lPathService->cleanDrivePublicPath($publicPath);
         $privatePath = $this->lPathService->genPrivatePathFromPublic($publicPath);
         $storageFilesUUID = $this->uuidService->getStorageFilesUUID();
-        if ($isFile && !$this->fileOperationsService->makeFile($storageFilesUUID . DIRECTORY_SEPARATOR . $itemName)) {
+        if (
+            $isFile &&
+            !$this->fileOperationsService->makeFile(
+                $storageFilesUUID . DIRECTORY_SEPARATOR . ($publicPath ? $publicPath . DIRECTORY_SEPARATOR : '') . $itemName
+            )
+        ) {
             return $this->error('Create file failed');
         }
-        if (!$isFile && !$this->fileOperationsService->makeFolder($storageFilesUUID . DIRECTORY_SEPARATOR . $itemName)) {
+        if (!$isFile && !$this->fileOperationsService->makeFolder($storageFilesUUID . DIRECTORY_SEPARATOR . ($publicPath ? $publicPath . DIRECTORY_SEPARATOR : '') . $itemName)) {
             return $this->error('Create folder failed');
         }
 

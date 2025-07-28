@@ -13,15 +13,15 @@ class LPathService
         $this->uuidService = $uuidService;
     }
 
-    public function getTempStorageDirPath(): string
-    {
-        $storagePath = Setting::getSettingByKeyName(Setting::$storagePath);
-        if (!$storagePath) {
-            return '';
-        }
-
-        return $storagePath . DIRECTORY_SEPARATOR . "temp_storage";
-    }
+//    public function getTempStorageDirPath(): string
+//    {
+//        $storagePath = Setting::getSettingByKeyName(Setting::$storagePath);
+//        if (!$storagePath) {
+//            return '';
+//        }
+//
+//        return $storagePath . DIRECTORY_SEPARATOR . "temp_storage";
+//    }
 
     public function getThumbnailDirPath(): string
     {

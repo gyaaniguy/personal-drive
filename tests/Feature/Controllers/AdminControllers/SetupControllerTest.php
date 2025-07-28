@@ -2,14 +2,10 @@
 
 namespace Tests\Feature\Controllers\AdminControllers;
 
-use App\Http\Middleware\CheckSetup;
 use App\Http\Middleware\PreventSetupAccess;
 use App\Models\User;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Session\Middleware\StartSession;
-use Illuminate\Support\Facades\Artisan;
-use Illuminate\Support\Facades\Storage;
 use Inertia\Testing\AssertableInertia;
 use Tests\Helpers\SetupSite;
 use Tests\TestCase;
