@@ -85,21 +85,21 @@ class UploadService
             $this->filesystem->isDirectory($path);
     }
 
-    public function syncFileToStorage(SplFileInfo $file, string $sourceRoot, string $targetRoot): void
+    public function syncFileToStorage(SplFileInfo $tempFileSplInfo, string $sourceRoot, string $targetRoot): void
     {
-        $targetPath = str_replace($sourceRoot, $targetRoot, $file->getPathname());
+        $targetPath = str_replace($sourceRoot, $targetRoot, $tempFileSplInfo->getPathname());
 
         if (
             $this->filesystem->exists($targetPath) &&
-            $this->isFileFolderMisMatch($file->getPathname(), $targetPath)
+            $this->isFileFolderMisMatch($tempFileSplInfo->getPathname(), $targetPath)
         ) {
             return;
         }
 
         $this->filesystem->ensureDirectoryExists(dirname($targetPath));
-        $existingFile = $this->getForFileObjLocalFile($file);
+        $existingFile = LocalFile::getForFileObj($tempFileSplInfo);
 
-        $this->filesystem->move($file->getPathname(), $targetPath);
+        $this->filesystem->move($tempFileSplInfo->getPathname(), $targetPath);
         $newFile = new SplFileInfo($targetPath, dirname($targetPath), basename($targetPath));
 
         if (!$existingFile) {
@@ -121,10 +121,6 @@ class UploadService
         );
     }
 
-    public function getForFileObjLocalFile(SplFileInfo $file): LocalFile|null
-    {
-        return LocalFile::getForFileObj($file);
-    }
 
     public function updateOrCreateLocalFile(array $attributes, array $values): LocalFile
     {

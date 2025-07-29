@@ -25,6 +25,9 @@ class FetchFileExceptionTest extends TestCase
     {
         $exception = FetchFileException::couldNotZip();
         $this->assertInstanceOf(FetchFileException::class, $exception);
-        $this->assertEquals('Could not generate zip to download. Too large or empty folders ?', $exception->getMessage());
+        $this->assertEquals(
+            'Could not generate zip to download. Too large or empty folders ?',
+            $exception->getMessage()
+        );
     }
 }

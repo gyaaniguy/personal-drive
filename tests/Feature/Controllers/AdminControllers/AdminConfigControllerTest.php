@@ -8,23 +8,19 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Services\AdminConfigService;
 use App\Services\UUIDService;
 use Mockery;
-use Tests\Helpers\SetupSite;
-use Tests\TestCase;
+use Tests\Feature\BaseFeatureTest;
 
-class AdminConfigControllerTest extends TestCase
+class AdminConfigControllerTest extends BaseFeatureTest
 {
     use RefreshDatabase;
-    use SetupSite;
 
-    private $user;
     private AdminConfigService $adminConfigService;
     private FileOperationsService $fileService;
-    private UUIDService $uuidService;
     private Setting $mockSetting;
 
     public function test_index_returns_correct_view_with_data()
     {
-        $response = $this->actingAs($this->user)->get(route('admin-config'));
+        $response = $this->get(route('admin-config'));
 
         $response->assertOk();
         $response->assertInertia(
@@ -77,36 +73,6 @@ class AdminConfigControllerTest extends TestCase
         $this->assertEquals('Failed to save storage path setting', $result['message']);
     }
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-        $this->user = $this->makeUser();
-
-        $this->mockSetting = Mockery::mock('App\Models\Setting');
-        $this->mockSetting->shouldReceive('getSettingByKeyName')
-            ->with('uuidForStorageFiles')
-            ->andReturn('test_storage_uuid');
-        $this->mockSetting->shouldReceive('getSettingByKeyName')
-            ->with('uuidForThumbnails')
-            ->andReturn('test_thumbnails_uuid');
-        $this->fileService = Mockery::mock(FileOperationsService::class);
-        $this->uuidService = Mockery::mock(UUIDService::class);
-
-        $this->adminConfigService = new AdminConfigService($this->uuidService, $this->fileService, $this->mockSetting);
-
-        $this->storagePath = '/tmp/storage';
-        $this->storageUUID = 'files-uuid';
-        $this->thumbUUID = 'thumbs-uuid';
-
-        $this->storageDir = $this->storagePath . '/' . $this->storageUUID;
-        $this->thumbDir = $this->storagePath . '/' . $this->thumbUUID;
-
-        $this->uuidService->shouldReceive('getStorageFilesUUID')->andReturn($this->storageUUID);
-        $this->uuidService->shouldReceive('getThumbnailsUUID')->andReturn($this->thumbUUID);
-
-    }
-
-
     public function test_unable_to_create_storage_directory()
     {
         $this->fileService->shouldReceive('isWritable')->with($this->storagePath)->once()->andReturn(true);
@@ -132,7 +98,6 @@ class AdminConfigControllerTest extends TestCase
 
     public function test_unable_to_create_thumbnail_directory()
     {
-
         $this->mockSetting->shouldReceive('updateSetting')
             ->andReturn(true);
         $this->fileService->shouldReceive('directoryExists')->with($this->storagePath)->once()->andReturn(true);
@@ -148,6 +113,34 @@ class AdminConfigControllerTest extends TestCase
 
         $this->assertFalse($result['status']);
         $this->assertEquals('Unable to create or write to thumbnail directory. Check Permissions', $result['message']);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->makeUser();
+
+        $this->mockSetting = Mockery::mock('App\Models\Setting');
+        $this->mockSetting->shouldReceive('getSettingByKeyName')
+            ->with('uuidForStorageFiles')
+            ->andReturn('test_storage_uuid');
+        $this->mockSetting->shouldReceive('getSettingByKeyName')
+            ->with('uuidForThumbnails')
+            ->andReturn('test_thumbnails_uuid');
+        $this->fileService = Mockery::mock(FileOperationsService::class);
+        $this->uuidService = Mockery::mock(UUIDService::class);
+
+        $this->adminConfigService = new AdminConfigService($this->uuidService, $this->fileService, $this->mockSetting);
+
+        $this->storagePath = '/tmp/storage';
+        $this->storageUUID = 'files-uuid';
+        $this->thumbUUID = 'thumbs-uuid';
+
+        $this->storageDir = $this->storagePath . '/' . $this->storageUUID;
+        $this->thumbDir = $this->storagePath . '/' . $this->thumbUUID;
+
+        $this->uuidService->shouldReceive('getStorageFilesUUID')->andReturn($this->storageUUID);
+        $this->uuidService->shouldReceive('getThumbnailsUUID')->andReturn($this->thumbUUID);
     }
 
     protected function tearDown(): void

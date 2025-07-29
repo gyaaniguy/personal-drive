@@ -55,7 +55,7 @@ class ThumbnailServiceTest extends TestCase
     {
         $file = LocalFile::factory()->make([
             'file_type' => 'image',
-           ]);
+        ]);
         $file1 = LocalFile::factory()->make([
             'file_type' => 'pdf',
         ]);

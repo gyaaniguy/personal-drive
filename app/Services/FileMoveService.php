@@ -10,15 +10,20 @@ class FileMoveService
     protected LPathService $pathService;
     protected LocalFileStatsService $localFileStatsService;
     protected FileOperationsService $fileOperationsService;
+    protected UUIDService $uuidService;
+    private string $storageFilesUuid;
 
     public function __construct(
         LPathService $pathService,
         LocalFileStatsService $localFileStatsService,
-        FileOperationsService $fileOperationsService
+        FileOperationsService $fileOperationsService,
+        UUIDService $uuidService
     ) {
         $this->pathService = $pathService;
         $this->localFileStatsService = $localFileStatsService;
         $this->fileOperationsService = $fileOperationsService;
+        $this->uuidService = $uuidService;
+        $this->storageFilesUuid = $this->uuidService->getStorageFilesUUID();
     }
 
     public function moveFiles(array $fileKeyArray, string $destinationInputPath): bool
@@ -29,8 +34,8 @@ class FileMoveService
             throw FileMoveException::noValidFiles();
         }
 
-        $destinationPublicPath = $this->pathService->cleanDrivePublicPath($destinationInputPath);
-        $destinationPrivatePath = $this->pathService->genPrivatePathFromPublic($destinationPublicPath);
+        $desPublicPath = $this->pathService->cleanDrivePublicPath($destinationInputPath);
+        $destinationPrivatePath = $this->pathService->genPrivatePathFromPublic($desPublicPath);
 
         if (!$destinationPrivatePath || !file_exists($destinationPrivatePath) || !is_dir($destinationPrivatePath)) {
             throw FileMoveException::invalidDestinationPath();
@@ -39,21 +44,18 @@ class FileMoveService
         $successfulUploads = [];
 
         foreach ($localFiles as $localFile) {
-            $itemPublicDestPathName = $destinationPublicPath . DIRECTORY_SEPARATOR . $localFile->filename;
-            $itemPrivateDestPathName = $this->pathService->getStorageFolderPath() .
-                DIRECTORY_SEPARATOR . $itemPublicDestPathName;
+            $itemPublicDestPathName = $this->storageFilesUuid. DIRECTORY_SEPARATOR. ($desPublicPath ? $desPublicPath. DIRECTORY_SEPARATOR : '') . $localFile->filename;
 
             $this->moveSingleFileOrDirectory(
                 $localFile,
                 $itemPublicDestPathName,
-                $itemPrivateDestPathName,
                 $successfulUploads
             );
         }
 
         if ($successfulUploads) {
             LocalFile::getByIds($successfulUploads)->delete();
-            $this->localFileStatsService->generateStats($destinationPublicPath);
+            $this->localFileStatsService->generateStats($desPublicPath);
             return true;
         }
         return false;
@@ -62,10 +64,9 @@ class FileMoveService
     private function moveSingleFileOrDirectory(
         LocalFile $localFile,
         string $itemPublicDestPathName,
-        string $itemPrivateDestPathName,
         array &$successfulUploads
     ): void {
-        $itemPathName = $localFile->getPublicPathname();
+        $itemPathName = $this->storageFilesUuid. DIRECTORY_SEPARATOR . $localFile->getPublicPathname();
 
         if (!$localFile->fileExists()) {
             return;
@@ -73,7 +74,7 @@ class FileMoveService
 
         if ($localFile->isValidFile()) {
             $this->fileOperationsService->move($itemPathName, $itemPublicDestPathName);
-            if (file_exists($itemPrivateDestPathName)) {
+            if ($this->fileOperationsService->fileExists($itemPublicDestPathName)) {
                 $successfulUploads[] = $localFile->id;
             }
         }
@@ -83,7 +84,6 @@ class FileMoveService
                 $localFile,
                 $itemPathName,
                 $itemPublicDestPathName,
-                $itemPrivateDestPathName,
                 $successfulUploads
             );
         }
@@ -93,14 +93,13 @@ class FileMoveService
         LocalFile $localFile,
         string $itemPathName,
         string $itemPublicDestPathName,
-        string $itemPrivateDestPathName,
         array &$successfulUploads
     ): void {
-        $dirPublicPathname = ltrim($localFile->getPublicPathname(), '/');
+        $dirPublicPathname = $localFile->getPublicPathname();
         $dirSubFilesIds = LocalFile::getIdsByLikePublicPath($dirPublicPathname);
 
         $this->fileOperationsService->move($itemPathName, $itemPublicDestPathName);
-        if (file_exists($itemPrivateDestPathName)) {
+        if ($this->fileOperationsService->fileExists($itemPublicDestPathName)) {
             $successfulUploads[] = $localFile->id;
             $successfulUploads = array_merge($dirSubFilesIds, $successfulUploads);
         }

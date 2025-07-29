@@ -12,15 +12,13 @@ class UploadServiceTest extends TestCase
 {
     private $filesystem;
 
-    protected function setUp(): void
+    public function testIsFileFolderMisMatchTrue()
     {
-        parent::setUp();
-        $this->filesystem = Mockery::mock(Filesystem::class);
-    }
+        $this->filesystem->shouldReceive('isFile')->with('aFile')->andReturn(true);
+        $this->filesystem->shouldReceive('isDirectory')->with('aDir')->andReturn(true);
 
-    protected function tearDown(): void
-    {
-        Mockery::close();
+        $service = $this->makeService();
+        $this->assertTrue($service->isFileFolderMisMatch('aFile', 'aDir'));
     }
 
     private function makeService(): UploadService
@@ -31,16 +29,6 @@ class UploadServiceTest extends TestCase
             Mockery::mock(ThumbnailService::class),
             $this->filesystem
         );
-    }
-
-    public function testIsFileFolderMisMatchTrue()
-    {
-
-        $this->filesystem->shouldReceive('isFile')->with('aFile')->andReturn(true);
-        $this->filesystem->shouldReceive('isDirectory')->with('aDir')->andReturn(true);
-
-        $service = $this->makeService();
-        $this->assertTrue($service->isFileFolderMisMatch('aFile', 'aDir'));
     }
 
     public function testIsFileFolderMisMatchFalse()
@@ -55,6 +43,17 @@ class UploadServiceTest extends TestCase
         $this->filesystem->shouldReceive('isDirectory')->withAnyArgs()->andReturn(true);
         $service = $this->makeService();
         $this->assertFalse($service->isFileFolderMisMatch('aFile', 'aFile2'));
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+        $this->filesystem = Mockery::mock(Filesystem::class);
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
     }
 
 //    public function testGetTempStorageDirFullReturnsEmptyIfUuidMissing()
@@ -88,6 +87,4 @@ class UploadServiceTest extends TestCase
 //
 //        $this->assertSame($basePath . DIRECTORY_SEPARATOR . $uuid, $service->getTempStorageDirFull());
 //    }
-
-
 }

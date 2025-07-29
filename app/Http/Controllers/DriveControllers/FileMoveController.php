@@ -8,7 +8,7 @@ use App\Traits\FlashMessages;
 use App\Http\Controllers\Controller;
 use Exception;
 
-class MoveFilesController extends Controller
+class FileMoveController extends Controller
 {
     use FlashMessages;
 

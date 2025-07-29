@@ -16,27 +16,6 @@ class FileDeleteServiceTest extends TestCase
     protected string $tempDir;
     protected string $tempFile;
 
-    protected function setUp(): void
-    {
-        parent::setUp();
-
-        $this->fileDeleteService = new FileDeleteService();
-
-        // create temp directory and file
-        $this->tempDir = sys_get_temp_dir().'/testDir/';
-        @mkdir($this->tempDir);
-        $this->tempFile = 'test.txt';
-        file_put_contents($this->tempDir.$this->tempFile, 'content');
-    }
-
-    protected function tearDown(): void
-    {
-        @unlink($this->tempDir.$this->tempFile);
-        @rmdir($this->tempDir);
-
-        parent::tearDown();
-    }
-
     public function testIsDeletableDirectory()
     {
         $file = $this->createMock(LocalFile::class);
@@ -112,28 +91,48 @@ class FileDeleteServiceTest extends TestCase
         ]);
 
         $builder = LocalFile::whereIn('id', [$file1->id]);
-        $this->assertFileExists($this->tempDir.$this->tempFile);
+        $this->assertFileExists($this->tempDir . $this->tempFile);
 
         $this->fileDeleteService->deleteFiles($builder, sys_get_temp_dir());
-        $this->assertFileDoesNotExist($this->tempDir.$this->tempFile);
-
+        $this->assertFileDoesNotExist($this->tempDir . $this->tempFile);
     }
 
-    public function testDeleteFilesDeletesFilesAndDirectories(){
-
+    public function testDeleteFilesDeletesFilesAndDirectories()
+    {
         $tempSubDir = 'testSubDir';
-        @mkdir($this->tempDir.$tempSubDir);
+        @mkdir($this->tempDir . $tempSubDir);
         $dir = LocalFile::factory()->create([
             'private_path' => $this->tempDir,
             'filename' => $tempSubDir,
             'is_dir' => 1,
         ]);
 
-        $this->assertFileExists($this->tempDir.$this->tempFile);
+        $this->assertFileExists($this->tempDir . $this->tempFile);
 
         $builder = LocalFile::whereIn('id', [$dir->id]);
         $this->fileDeleteService->deleteFiles($builder, sys_get_temp_dir());
 
         $this->assertDirectoryDoesNotExist($dir);
+    }
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->fileDeleteService = new FileDeleteService();
+
+        // create temp directory and file
+        $this->tempDir = sys_get_temp_dir() . '/testDir/';
+        @mkdir($this->tempDir);
+        $this->tempFile = 'test.txt';
+        file_put_contents($this->tempDir . $this->tempFile, 'content');
+    }
+
+    protected function tearDown(): void
+    {
+        @unlink($this->tempDir . $this->tempFile);
+        @rmdir($this->tempDir);
+
+        parent::tearDown();
     }
 }

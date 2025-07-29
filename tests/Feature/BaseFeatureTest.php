@@ -1,35 +1,59 @@
 <?php
 
-namespace Tests\Helpers;
+namespace Tests\Feature;
 
 use App\Models\User;
+use App\Services\UUIDService;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\TestResponse;
+use Tests\TestCase;
 
-trait SetupSite
+class BaseFeatureTest extends TestCase
 {
+    public string $storageFilesUUID;
+    protected UUIDService $uuidService;
 
-    public function postUpload(array $filesArray, string $testPath): TestResponse
-    {
-        return $this->post(route('drive.upload'), [
-            '_token' => csrf_token(),
-            'files' => $filesArray,
-            'path' => $testPath
-        ]);
+    public function uploadMultipleFiles(
+        $testPath = '',
+        $fileNames = [
+            'ace.txt', 'bar/1.txt', 'foo/ace.txt', 'foo/b.txt', 'foo/c.txt', 'foo/bar/1.txt', 'foo/bar/2.txt',
+            'foo/bar/3.txt'
+        ]
+    ): TestResponse {
+        $files = [];
+        foreach ($fileNames as $fileName) {
+            $files[] = UploadedFile::fake()->create($fileName, 100);
+        }
+        return $this->postUpload($files, $testPath);
     }
 
-    public function create_upload_file_success($testPath = '/foo/bar', $fileName = 'dummy.txt')
+    public function postUpload(array $files, string $testPath): TestResponse
     {
-        $file = UploadedFile::fake()->create($fileName, 100);
-
-        $response = $this->postUpload([$file], $testPath);
+        $response = $this->post(route('drive.upload'), [
+            '_token' => csrf_token(),
+            'files' => $files,
+            'path' => $testPath
+        ]);
 
         $response->assertSessionHas('status', true);
-        $response->assertSessionHas('message', fn($value) => str_contains($value, 'Files uploaded'));
-        Storage::disk('local')->assertExists($this->storageFilesUUID . DIRECTORY_SEPARATOR . $testPath . DIRECTORY_SEPARATOR . $fileName);
+        $this->assertTrue(collect($files)->every(fn($file) => Storage::disk('local')->exists(
+            $this->storageFilesUUID . DIRECTORY_SEPARATOR . ($testPath ? $testPath . DIRECTORY_SEPARATOR : '') . $file->getClientOriginalPath()
+        )));
+
+        return $response;
+    }
+
+    public function upload_file(
+        string $testPath = '/foo/bar',
+        string $name = 'dummy.txt',
+        int $size = 100
+    ): TestResponse {
+        $file = UploadedFile::fake()->create($name, $size);
+        return $this->postUpload([$file], $testPath);
     }
 
     public function setupStoragePathPost(string $storagePath = ''): TestResponse
@@ -45,6 +69,13 @@ trait SetupSite
             '_token' => csrf_token(),
             'storage_path' => $storagePath
         ]);
+    }
+
+    protected function setup(): void
+    {
+        parent::setup();
+        $this->uuidService = app(UUIDService::class);
+        $this->storageFilesUUID = $this->uuidService->getStorageFilesUUID();
     }
 
     protected function makeUserUsingSetup(): void

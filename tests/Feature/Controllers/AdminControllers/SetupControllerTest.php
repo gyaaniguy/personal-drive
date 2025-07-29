@@ -7,13 +7,12 @@ use App\Models\User;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
-use Tests\Helpers\SetupSite;
+use Tests\Feature\BaseFeatureTest;
 use Tests\TestCase;
 
-class SetupControllerTest extends TestCase
+class SetupControllerTest extends BaseFeatureTest
 {
     use RefreshDatabase;
-    use SetupSite;
 
     public function test_show_renders_setup_inertia_component()
     {
@@ -79,6 +78,7 @@ class SetupControllerTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
+
         // Ensure no user exists before each test that creates a user
         User::query()->delete();
     }

@@ -5,7 +5,6 @@ namespace Tests\Unit\Models;
 use App\Models\Share;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
-
 use App\Models\LocalFile;
 use App\Models\SharedFile;
 use App\Models\User;
@@ -178,11 +177,11 @@ class LocalFileTest extends TestCase
 
     public function test_modify_file_collection_for_guest_modifies_public_path()
     {
-        $file = LocalFile::factory()->create(['public_path' => '/shared/folder/file.txt']);
+        $file = LocalFile::factory()->create(['public_path' => 'shared/folder']);
         $collection = new Collection([$file]);
 
         $modifiedCollection = LocalFile::modifyFileCollectionForGuest($collection, '/shared');
-        $this->assertEquals('folder/file.txt', $modifiedCollection->first()->public_path);
+        $this->assertEquals('folder/', $modifiedCollection->first()->public_path);
     }
 
     public function test_search_files_returns_matching_files()

@@ -11,7 +11,10 @@ class UploadFileExceptionTest extends TestCase
     {
         $exception = UploadFileException::outofmemory();
         $this->assertInstanceOf(UploadFileException::class, $exception);
-        $this->assertEquals('Memory exhausted while uploading. Increase PHP allocated memory', $exception->getMessage());
+        $this->assertEquals(
+            'Memory exhausted while uploading. Increase PHP allocated memory',
+            $exception->getMessage()
+        );
     }
 
     public function test_nonewdir_method_returns_correct_message()

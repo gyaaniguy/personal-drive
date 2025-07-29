@@ -2,18 +2,20 @@
 
 namespace Tests\Unit\Providers;
 
+use App\Exceptions\PersonalDriveExceptions\ThrottleException;
 use App\Models\Setting;
 use App\Providers\AppServiceProvider;
 use App\Services\UUIDService;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Http\Request;
+use Mockery;
 use Tests\TestCase;
 
 class AppServiceProviderTest extends TestCase
 {
     public function test_uuid_service_is_bound()
     {
-        $settingMock = \Mockery::mock(Setting::class);
+        $settingMock = Mockery::mock(Setting::class);
         $settingMock->shouldReceive('getSettingByKeyName')
             ->with('uuidForStorageFiles')->andReturn('uuid-1');
         $settingMock->shouldReceive('getSettingByKeyName')
@@ -42,14 +44,13 @@ class AppServiceProviderTest extends TestCase
 
         $request = Request::create('/', 'GET', [], [], [], ['REMOTE_ADDR' => '127.0.0.1']);
 
-        $this->expectException(\App\Exceptions\PersonalDriveExceptions\ThrottleException::class);
+        $this->expectException(ThrottleException::class);
         $limit = $loginLimit($request);
         call_user_func($limit->responseCallback, $request, []);
 
         // Repeat for shared
-        $this->expectException(\App\Exceptions\PersonalDriveExceptions\ThrottleException::class);
+        $this->expectException(ThrottleException::class);
         $limit = $sharedLimit($request);
         call_user_func($limit->responseCallback, $request, []);
     }
-
 }

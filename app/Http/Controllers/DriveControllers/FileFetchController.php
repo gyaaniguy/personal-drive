@@ -11,7 +11,7 @@ use App\Services\ThumbnailService;
 use App\Traits\FlashMessages;
 use Iman\Streamer\VideoStreamer;
 
-class FetchFileController extends Controller
+class FileFetchController extends Controller
 {
     use FlashMessages;
 

@@ -5,6 +5,7 @@ namespace Tests\Unit\Services;
 use App\Exceptions\PersonalDriveExceptions\UploadFileException;
 use App\Services\FileOperationsService;
 use App\Services\LPathService;
+use Exception;
 use League\Flysystem\Filesystem;
 use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use Mockery;
@@ -30,7 +31,7 @@ class FileOperationsServiceTest extends TestCase
 
         $this->fs->shouldReceive('createDirectory')
             ->once()->with('dir', ['visibility' => 'private'])
-            ->andThrow(new \Exception());
+            ->andThrow(new Exception());
 
         $this->assertFalse($this->service->makeFolder('dir'));
     }
@@ -50,7 +51,7 @@ class FileOperationsServiceTest extends TestCase
         $this->fs->shouldReceive('directoryExists')->with('dir')->andReturn(false);
 
         $this->fs->shouldReceive('createDirectory')
-            ->with('dir', ['visibility' => 'private'])->andThrow(new \Exception());
+            ->with('dir', ['visibility' => 'private'])->andThrow(new Exception());
 
         $this->assertFalse($this->service->makeFolder('dir'));
     }
@@ -58,7 +59,6 @@ class FileOperationsServiceTest extends TestCase
 
     protected function setUp(): void
     {
-
         $adapter = new InMemoryFilesystemAdapter();
 //        $this->fs = new Filesystem($adapter);
 

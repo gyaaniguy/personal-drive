@@ -29,15 +29,15 @@ Route::middleware(['web', 'auth', CheckAdmin::class])->group(callback: function 
     Route::post(
         '/delete-files',
         [DriveControllers\FileDeleteController::class, 'deleteFiles']
-    )->middleware(CleanupTempFiles::class);
+        )->middleware(CleanupTempFiles::class)->name('drive.delete-files');
     Route::post('/resync', [DriveControllers\ReSyncController::class, 'index']);
     Route::post('/gen-thumbs', [DriveControllers\ThumbnailController::class, 'update']);
-    Route::post('/search-files', [DriveControllers\SearchFilesController::class, 'index']);
+    Route::post('/search-files', [DriveControllers\SearchFilesController::class, 'index'])->name('drive.search');
     Route::get('/search-files', fn() => redirect('/drive'));
-    Route::post('/rename-file', [DriveControllers\FileRenameController::class, 'index']);
-    Route::post('/abort-replace', [DriveControllers\UploadController::class, 'abortReplace']);
+    Route::post('/rename-file', [DriveControllers\FileRenameController::class, 'index'])->name('drive.rename');
+    Route::post('/abort-replace', [DriveControllers\UploadController::class, 'abortReplace'])->name('drive.abort-replace');
     Route::post('/save-file', [DriveControllers\FileSaveController::class, 'update']);
-    Route::post('/move-files', [DriveControllers\MoveFilesController::class, 'update']);
+    Route::post('/move-files', [DriveControllers\FileMoveController::class, 'update'])->name('drive.move-files');
 
     // Share control Routes
     Route::post('/share-pause', [ShareControllers\ShareFilesModController::class, 'pause']);
@@ -48,9 +48,9 @@ Route::middleware(['web', 'auth', CheckAdmin::class])->group(callback: function 
 
 
 // admin or shared
-Route::get('/fetch-file/{id}/{slug?}', [DriveControllers\FetchFileController::class, 'index'])
+Route::get('/fetch-file/{id}/{slug?}', [DriveControllers\FileFetchController::class, 'index'])
     ->middleware([HandleAuthOrGuestMiddleware::class]);
-Route::get('/fetch-thumb/{id}/{slug?}', [DriveControllers\FetchFileController::class, 'getThumb'])
+Route::get('/fetch-thumb/{id}/{slug?}', [DriveControllers\FileFetchController::class, 'getThumb'])
     ->middleware([HandleAuthOrGuestMiddleware::class]);
 Route::post('/download-files', [DriveControllers\DownloadController::class, 'index'])
     ->middleware([HandleAuthOrGuestMiddleware::class]);

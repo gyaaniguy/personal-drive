@@ -29,7 +29,7 @@ class FileRenameController extends Controller
 
         $file = LocalFile::getById($id);
         if (!$file || !$file->getPrivatePathNameForFile()) {
-            return $this->error('Could not find file!');
+            return $this->error('Could not find file');
         }
         try {
             $this->fileRenameService->renameFile($file, $filename);

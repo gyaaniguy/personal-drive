@@ -6,14 +6,13 @@ use App\Models\User;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Artisan;
-use Tests\Helpers\SetupSite;
+use Tests\Feature\BaseFeatureTest;
 use Tests\TestCase;
 use Illuminate\Support\Facades\Auth;
 
-class AuthenticatedSessionControllerTest extends TestCase
+class AuthenticatedSessionControllerTest extends BaseFeatureTest
 {
     use RefreshDatabase;
-    use SetupSite;
 
     public function test_login_screen_can_be_rendered()
     {
@@ -26,7 +25,7 @@ class AuthenticatedSessionControllerTest extends TestCase
 
     public function test_users_can_not_authenticate_with_invalid_password()
     {
-        $user = $this->makeUser();
+        $this->makeUser();
 
         $this->post('/logout');
 
@@ -36,7 +35,6 @@ class AuthenticatedSessionControllerTest extends TestCase
         ]);
         $this->assertGuest();
         $response->assertSessionHas('message', 'Please check the form for errors.');
-
 //        $response->assertRedirect('/login');
     }
 

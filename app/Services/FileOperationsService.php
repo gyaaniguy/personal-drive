@@ -79,6 +79,11 @@ class FileOperationsService
         return $this->makeFileSystem() && $this->filesystem->directoryExists($path);
     }
 
+    public function fileExists(string $path): bool
+    {
+        return $this->makeFileSystem() && $this->filesystem->fileExists($path);
+    }
+
     public function makeFolder(string $path, int $permission = 0750): bool
     {
         if (!$this->makeFileSystem()) {
@@ -100,5 +105,16 @@ class FileOperationsService
     public function isWritable(string $path): bool
     {
         return is_writable($this->basePath . DIRECTORY_SEPARATOR . $path);
+    }
+
+    public function pathExistsAsFile(string $base, string $path): bool
+    {
+        while ($path !== '' && $path !== '.'  && $path !== DIRECTORY_SEPARATOR) {
+            if ($this->fileExists($base . $path)) {
+                return true;
+            }
+            $path = dirname($path);
+        }
+        return false;
     }
 }

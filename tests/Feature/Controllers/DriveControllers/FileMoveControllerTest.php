@@ -1,0 +1,74 @@
+<?php
+
+namespace Feature\Controllers\DriveControllers;
+
+use App\Models\LocalFile;
+use App\Services\LPathService;
+use Tests\Feature\BaseFeatureTest;
+use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Facades\Storage;
+use Illuminate\Support\Str;
+use Mockery;
+
+class FileMoveControllerTest extends BaseFeatureTest
+{
+    use RefreshDatabase;
+
+    public string $targetDir;
+    public mixed $pathService;
+    protected mixed $uploadService;
+
+    public function test_move_file_non_existent()
+    {
+        $testPath = 'bar';
+        $response = $this->post(route('drive.move-files'), [
+            '_token' => csrf_token(),
+            'fileList' => [(string) Str::ulid()],
+            'path' => $testPath
+        ]);
+        $response->assertSessionHas('status', false);
+        $response->assertSessionHas('message', 'Error: Could not move files');
+    }
+
+    public function test_move_file_success()
+    {
+        $testPath = '';
+        $fileNames = [
+            'bar/1.txt', 'foo/ace.txt', 'foo/b.txt', 'foo/c.txt', 'foo/bar/1.txt', 'foo/bar/2.txt',
+            'foo/bar/3.txt'
+        ];
+
+        $this->uploadMultipleFiles($testPath, $fileNames);
+        $firstFile = LocalFile::where('filename', '1.txt')->where('public_path', 'bar')->first();
+        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/bar/1.txt');
+
+        $response = $this->post(route('drive.move-files'), [
+            '_token' => csrf_token(),
+            'fileList' => [$firstFile->id],
+            'path' => 'foo'
+        ]);
+        $response->assertSessionHas('status', true);
+
+//        $response->assertSessionHas('message', 'Error: Could not move files');
+        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/foo/1.txt');
+        Storage::disk('local')->assertMissing($this->storageFilesUUID . $testPath . '/bar/1.txt');
+    }
+
+
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        $this->makeUserUsingSetup();
+        $response = $this->setupStoragePathPost();
+        $response->assertSessionHas('status', true);
+        $response->assertSessionHas('message', 'Storage path updated successfully');
+    }
+
+    protected function tearDown(): void
+    {
+        Mockery::close();
+        Storage::disk('local')->deleteDirectory('');
+        parent::tearDown();
+    }
+}

@@ -72,7 +72,7 @@ class LocalFile extends Model
         return $fileItems->map(function ($item) use ($publicPath) {
             $item->sizeText = self::getItemSizeText($item);
             if ($publicPath) {
-                $item->public_path = ltrim(substr($item->public_path, strlen($publicPath)), '/');
+                $item->public_path = substr($item->getPublicPath(), strlen($publicPath));
             }
 
             return $item;
@@ -116,7 +116,7 @@ class LocalFile extends Model
 
     public function getPublicPathname(): string
     {
-        return $this->public_path . DIRECTORY_SEPARATOR . $this->filename;
+        return $this->getPublicPath(). $this->filename;
     }
 
     public function isValidFile(): bool
@@ -137,5 +137,10 @@ class LocalFile extends Model
     public function fileExists(): bool
     {
         return file_exists($this->getPrivatePathNameForFile());
+    }
+
+    public function getPublicPath(): string
+    {
+        return $this->public_path ? $this->public_path.DIRECTORY_SEPARATOR : '';
     }
 }

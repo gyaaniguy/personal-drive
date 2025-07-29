@@ -4,21 +4,18 @@ namespace Feature\Services;
 
 use App\Models\Setting;
 use App\Services\FileOperationsService;
-use Tests\Helpers\SetupSite;
+use Mockery;
+use Tests\Feature\BaseFeatureTest;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Session;
 use App\Services\UploadService;
 use App\Services\LPathService;
 use App\Services\LocalFileStatsService;
 use App\Services\ThumbnailService;
-use Symfony\Component\Finder\SplFileInfo;
-use Tests\TestCase;
 
-class UploadServiceFeatureTest extends TestCase
+class UploadServiceFeatureTest extends BaseFeatureTest
 {
     use RefreshDatabase;
-    use SetupSite;
 
     private $uploadService;
     private $filesystem;
@@ -64,8 +61,8 @@ class UploadServiceFeatureTest extends TestCase
 
         $this->pathService = app(LPathService::class);
 
-        $this->statsService = \Mockery::mock(LocalFileStatsService::class);
-        $this->thumbService = \Mockery::mock(ThumbnailService::class);
+        $this->statsService = Mockery::mock(LocalFileStatsService::class);
+        $this->thumbService = Mockery::mock(ThumbnailService::class);
         $this->fileOperationsService = app(FileOperationsService::class);
         $this->uploadService = new UploadService(
             $this->pathService,
@@ -76,14 +73,14 @@ class UploadServiceFeatureTest extends TestCase
         $targetDir = sys_get_temp_dir() . '/upload-storage';
         Setting::updateSetting('storage_path', $targetDir);
 
-        $this->tempRootDir  = $this->uploadService->setTempStorageDirFull();
+        $this->tempRootDir = $this->uploadService->setTempStorageDirFull();
         $this->targetDir = $this->pathService->getStorageFolderPath();
     }
 
     protected function tearDown(): void
     {
         parent::tearDown();
-        \Mockery::close();
+        Mockery::close();
         $this->filesystem->deleteDirectory($this->tempRootDir);
         $this->filesystem->deleteDirectory($this->targetDir);
     }

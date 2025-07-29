@@ -10,25 +10,33 @@ use Illuminate\Support\Facades\File;
 class FileRenameService
 {
     protected FileOperationsService $fileOperationsService;
+    protected UUIDService $uuidService;
     private LPathService $pathService;
 
     public function __construct(
         LPathService $pathService,
-        FileOperationsService $fileOperationsService
+        FileOperationsService $fileOperationsService,
+        UUIDService $uuidService,
     ) {
         $this->pathService = $pathService;
         $this->fileOperationsService = $fileOperationsService;
+        $this->uuidService = $uuidService;
     }
 
     public function renameFile(LocalFile $file, string $newFilename): void
     {
+        $storageFolderName = $this->uuidService->getStorageFilesUUID();
+
         $itemPathName = $file->getPublicPathname();
-        $itemPublicDestPathName = $file->public_path . DIRECTORY_SEPARATOR . $newFilename;
-        $this->fileOperationsService->move($itemPathName, $itemPublicDestPathName);
-        $itemPrivateDestPathName = $this->pathService->getStorageFolderPath() .
+        $itemPublicDestPathName = $file->getPublicPath() . $newFilename;
+        $this->fileOperationsService->move(
+            $storageFolderName . DIRECTORY_SEPARATOR . $itemPathName,
+            $storageFolderName . DIRECTORY_SEPARATOR . $itemPublicDestPathName
+        );
+        $itemFileSystemDestPathName = $this->pathService->getStorageFolderPath() .
             DIRECTORY_SEPARATOR . $itemPublicDestPathName;
 
-        if (!File::exists($itemPrivateDestPathName)) {
+        if (!File::exists($itemFileSystemDestPathName)) {
             throw FileRenameException::couldNotRename();
         }
 
@@ -45,9 +53,8 @@ class FileRenameService
 
     public function updateDirChildrenRecursively(LocalFile $file, string $newFilename): void
     {
-        $dirPublicPathname = ltrim($file->getPublicPathname(), '/');
-        $newFolderPublicPath = ltrim($file->public_path .
-            DIRECTORY_SEPARATOR . $newFilename, '/');
+        $dirPublicPathname = $file->getPublicPathname();
+        $newFolderPublicPath = $file->getPublicPath()  . $newFilename;
         LocalFile::getByPublicPathLikeSearch($dirPublicPathname)
             ->chunk(
                 100,
