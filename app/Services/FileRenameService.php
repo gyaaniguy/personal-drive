@@ -54,7 +54,7 @@ class FileRenameService
     public function updateDirChildrenRecursively(LocalFile $file, string $newFilename): void
     {
         $dirPublicPathname = $file->getPublicPathname();
-        $newFolderPublicPath = $file->getPublicPath()  . $newFilename;
+        $newFolderPublicPath = $file->getPublicPath() . $newFilename;
         LocalFile::getByPublicPathLikeSearch($dirPublicPathname)
             ->chunk(
                 100,

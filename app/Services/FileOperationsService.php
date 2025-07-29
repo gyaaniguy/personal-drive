@@ -109,7 +109,7 @@ class FileOperationsService
 
     public function pathExistsAsFile(string $base, string $path): bool
     {
-        while ($path !== '' && $path !== '.'  && $path !== DIRECTORY_SEPARATOR) {
+        while ($path !== '' && $path !== '.' && $path !== DIRECTORY_SEPARATOR) {
             if ($this->fileExists($base . $path)) {
                 return true;
             }

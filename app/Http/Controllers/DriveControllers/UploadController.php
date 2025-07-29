@@ -91,10 +91,15 @@ class UploadController extends Controller
                 $this->uploadService->getTempStorageDirFull() . DIRECTORY_SEPARATOR . ($publicPath ? $publicPath . DIRECTORY_SEPARATOR : '') . $fileNameWithPath
             );
             $tempDirRelativePath = $this->uploadService->getTempStorageDir() . DIRECTORY_SEPARATOR . $publicPath;
-            $relativeBasePath = $this->uuidService->getStorageFilesUUID().DIRECTORY_SEPARATOR.($publicPath ? $publicPath.DIRECTORY_SEPARATOR : '');
-            $relativeDestinationPath = $relativeBasePath. $fileNameWithPath;
+            $relativeBasePath = $this->uuidService->getStorageFilesUUID() . DIRECTORY_SEPARATOR . ($publicPath ? $publicPath . DIRECTORY_SEPARATOR : '');
+            $relativeDestinationPath = $relativeBasePath . $fileNameWithPath;
 
-            if ($this->fileOperationsService->directoryExists($relativeDestinationPath) || $this->fileOperationsService->pathExistsAsFile($relativeBasePath,dirname($fileNameWithPath))) {
+            if (
+                $this->fileOperationsService->directoryExists($relativeDestinationPath) || $this->fileOperationsService->pathExistsAsFile(
+                    $relativeBasePath,
+                    dirname($fileNameWithPath)
+                )
+            ) {
                 $conflictsDetected++;
             } elseif (file_exists($destinationFullPath) && $tempStorageDirFull) {
                 $duplicatesDetected++;

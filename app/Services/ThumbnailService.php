@@ -85,14 +85,14 @@ class ThumbnailService
     public function getFullFileThumbnailPath(LocalFile $file): string
     {
         $thumbnailPathDir = $this->pathService->getThumbnailDirPath();
-        $fileThumbnailDirPath = $thumbnailPathDir. DIRECTORY_SEPARATOR .  $file->getPublicPath();
+        $fileThumbnailDirPath = $thumbnailPathDir . DIRECTORY_SEPARATOR . $file->getPublicPath();
 
         if (!file_exists($fileThumbnailDirPath)) {
             $this->fileOperationsService->makeFolder($fileThumbnailDirPath);
         }
         $imageExt = $file->file_type === 'video' ? $this->imageExt : '';
 
-        return $thumbnailPathDir. DIRECTORY_SEPARATOR . $file->getPublicPathname().$imageExt;
+        return $thumbnailPathDir . DIRECTORY_SEPARATOR . $file->getPublicPathname() . $imageExt;
     }
 
 

@@ -79,6 +79,11 @@ class LocalFile extends Model
         });
     }
 
+    public function getPublicPath(): string
+    {
+        return $this->public_path ? $this->public_path . DIRECTORY_SEPARATOR : '';
+    }
+
     public static function searchFiles(string $searchQuery): Collection
     {
         $fileItems = static::where('filename', 'like', '%' . $searchQuery . '%')
@@ -116,7 +121,7 @@ class LocalFile extends Model
 
     public function getPublicPathname(): string
     {
-        return $this->getPublicPath(). $this->filename;
+        return $this->getPublicPath() . $this->filename;
     }
 
     public function isValidFile(): bool
@@ -137,10 +142,5 @@ class LocalFile extends Model
     public function fileExists(): bool
     {
         return file_exists($this->getPrivatePathNameForFile());
-    }
-
-    public function getPublicPath(): string
-    {
-        return $this->public_path ? $this->public_path.DIRECTORY_SEPARATOR : '';
     }
 }
