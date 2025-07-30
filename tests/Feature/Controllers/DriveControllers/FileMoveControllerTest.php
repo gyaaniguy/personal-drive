@@ -34,8 +34,7 @@ class FileMoveControllerTest extends BaseFeatureTest
     {
         $testPath = '';
         $fileNames = [
-            'bar/1.txt', 'foo/ace.txt', 'foo/b.txt', 'foo/c.txt', 'foo/bar/1.txt', 'foo/bar/2.txt',
-            'foo/bar/3.txt'
+            'bar/1.txt', 'foo/ace.txt', 'foo/b.txt', 'foo/bar/1.txt', 'foo/bar/2.txt',
         ];
 
         $this->uploadMultipleFiles($testPath, $fileNames);
@@ -48,10 +47,33 @@ class FileMoveControllerTest extends BaseFeatureTest
             'path' => 'foo'
         ]);
         $response->assertSessionHas('status', true);
-
-//        $response->assertSessionHas('message', 'Error: Could not move files');
         Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/foo/1.txt');
         Storage::disk('local')->assertMissing($this->storageFilesUUID . $testPath . '/bar/1.txt');
+    }
+
+    public function test_move_file_directory_success()
+    {
+        $testPath = '';
+        $fileNames = [
+            'bar/1.txt', 'foo/ace.txt', 'foo/b.txt', 'foo/bar/1.txt', 'foo/bar/2.txt',
+        ];
+
+        $this->uploadMultipleFiles($testPath, $fileNames);
+        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/bar/1.txt');
+        $firstFile = LocalFile::where('filename', 'foo')->where('is_dir', '1')->first();
+
+        $response = $this->post(route('drive.move-files'), [
+            '_token' => csrf_token(),
+            'fileList' => [$firstFile->id],
+            'path' => 'bar'
+        ]);
+        $response->assertSessionHas('status', true);
+
+        Storage::disk('local')->assertMissing($this->storageFilesUUID . $testPath . '/foo/1.txt');
+        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/bar/1.txt');
+        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/bar/foo/ace.txt');
+        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/bar/foo/bar/1.txt');
+        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/bar/foo/bar/2.txt');
     }
 
 

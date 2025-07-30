@@ -99,7 +99,7 @@ class FileMoveService
         $dirSubFilesIds = LocalFile::getIdsByLikePublicPath($dirPublicPathname);
 
         $this->fileOperationsService->move($itemPathName, $itemPublicDestPathName);
-        if ($this->fileOperationsService->fileExists($itemPublicDestPathName)) {
+        if ($this->fileOperationsService->directoryExists($itemPublicDestPathName)) {
             $successfulUploads[] = $localFile->id;
             $successfulUploads = array_merge($dirSubFilesIds, $successfulUploads);
         }
