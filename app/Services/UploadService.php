@@ -139,7 +139,7 @@ class UploadService
         ) {
             Session::forget($this->tempUuid);
             Session::forget($this->tempUuidTime);
-            return UploadFileHelper::deleteFolder($tempDirFullPath);
+            return $this->filesystem->deleteDirectory($tempDirFullPath);
         }
         return false;
     }

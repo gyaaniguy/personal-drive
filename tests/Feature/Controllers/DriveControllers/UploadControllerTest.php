@@ -88,30 +88,6 @@ class UploadControllerTest extends BaseFeatureTest
         Storage::disk('local')->assertExists($this->storageFilesUUID . DIRECTORY_SEPARATOR . $testPath . $testFolder);
     }
 
-    public function test_create_upload_duplicates_detected()
-    {
-        $fileName = 'foo/bar/dum.txt';
-        $testPath = '';
-        $this->upload_file($testPath, $fileName);
-
-        $response = $this->upload_file($testPath, $fileName, 111);
-        $response->assertSessionHas('more_info', ['replaceAbort' => true]);
-        $response->assertSessionHas('message', fn($value) => str_contains($value, 'Duplicates Detected'));
-
-        $response = $this->post(route('drive.abort-replace'), [
-            '_token' => csrf_token(),
-            'action' => 'overwrite'
-        ]);
-
-        $response->assertSessionHas('status', true);
-        $response->assertSessionHas('message', 'Overwritten successfully');
-
-        $files = LocalFile::all();
-        $this->assertCount(3, $files);
-
-        $file = $files->firstWhere('filename', 'dum.txt');
-    }
-
     public function test_create_upload_folder_file_conflict_fail()
     {
         $testPath = 'some/path';
@@ -167,6 +143,20 @@ class UploadControllerTest extends BaseFeatureTest
 
     public function test_create_upload_folder_duplicates_partial()
     {
+        $this->uploadDuplicates();
+
+        $response = $this->post(route('drive.abort-replace'), [
+            '_token' => csrf_token(),
+            'action' => 'overwrite'
+        ]);
+
+        $response->assertSessionHas('status', true);
+        $response->assertSessionHas('message', 'Overwritten successfully');
+    }
+
+
+    public function uploadDuplicates()
+    {
         $testPath = 'some/path';
         $files = ['foo/bar/file1', 'foo/bar/file2', 'foo/file3'];
         $this->uploadMultipleFiles($testPath, ['foo/bar/file1', 'foo/bar/file2', 'foo/file3']);
@@ -183,14 +173,21 @@ class UploadControllerTest extends BaseFeatureTest
         $this->assertTrue(collect(array_intersect($files1, $files))->every(fn($file) => Storage::disk('local')->exists(
             $this->tempRootDir . DIRECTORY_SEPARATOR . $testPath . DIRECTORY_SEPARATOR . $file
         )));
+        return $response;
+    }
+
+    public function test_create_upload_folder_duplicates_abort()
+    {
+        $this->uploadDuplicates();
 
         $response = $this->post(route('drive.abort-replace'), [
             '_token' => csrf_token(),
-            'action' => 'overwrite'
+            'action' => 'abort'
         ]);
 
         $response->assertSessionHas('status', true);
-        $response->assertSessionHas('message', 'Overwritten successfully');
+        $response->assertSessionHas('message', 'Aborted Overwrite');
+        $this->assertDirectoryDoesNotExist($this->tempRootDir);
     }
 
     protected function setUp(): void
