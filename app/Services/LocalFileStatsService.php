@@ -7,7 +7,6 @@ use App\Models\LocalFile;
 use Exception;
 use FilesystemIterator;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Log;
 use RecursiveDirectoryIterator;
 use RecursiveIteratorIterator;
 use SplFileInfo;
@@ -36,7 +35,7 @@ class LocalFileStatsService
                 'file_type' => $this->getFileType($file)
             ]);
         } catch (Exception $e) {
-            throw UploadFileException::nonewdir($isDir ? 'folder' : 'file');
+            throw UploadFileException::noNewDir($isDir ? 'folder' : 'file');
         }
     }
 
@@ -138,9 +137,9 @@ class LocalFileStatsService
         ];
     }
 
-    public function updateFileStats(LocalFile $localFile, SplFileInfo $file)
+    public function updateFileStats(LocalFile $localFile, SplFileInfo $file): void
     {
-        $localFile?->update([
+        $localFile->update([
             'size' => $file->getSize(),
             'is_dir' => $file->isDir(),
             'file_type' => $this->getFileType($file),

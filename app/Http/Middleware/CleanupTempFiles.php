@@ -2,7 +2,6 @@
 
 namespace App\Http\Middleware;
 
-use App\Services\FileOperationsService;
 use App\Services\UploadService;
 use Closure;
 use Illuminate\Http\Request;

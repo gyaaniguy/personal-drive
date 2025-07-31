@@ -6,6 +6,7 @@ use App\Exceptions\PersonalDriveExceptions\UploadFileException;
 use App\Services\FileOperationsService;
 use App\Services\LPathService;
 use Exception;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use League\Flysystem\Filesystem;
 use League\Flysystem\InMemory\InMemoryFilesystemAdapter;
 use Mockery;
@@ -13,6 +14,8 @@ use Tests\TestCase;
 
 class FileOperationsServiceTest extends TestCase
 {
+    use RefreshDatabase;
+
     private $fs;
     private FileOperationsService $service;
 

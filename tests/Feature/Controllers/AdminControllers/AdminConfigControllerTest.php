@@ -12,8 +12,6 @@ use Tests\Feature\BaseFeatureTest;
 
 class AdminConfigControllerTest extends BaseFeatureTest
 {
-    use RefreshDatabase;
-
     private AdminConfigService $adminConfigService;
     private FileOperationsService $fileService;
     private Setting $mockSetting;
@@ -141,11 +139,5 @@ class AdminConfigControllerTest extends BaseFeatureTest
 
         $this->uuidService->shouldReceive('getStorageFilesUUID')->andReturn($this->storageUUID);
         $this->uuidService->shouldReceive('getThumbnailsUUID')->andReturn($this->thumbUUID);
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        parent::tearDown();
     }
 }

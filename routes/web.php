@@ -30,7 +30,7 @@ Route::middleware(['web', 'auth', CheckAdmin::class])->group(callback: function 
         '/delete-files',
         [DriveControllers\FileDeleteController::class, 'deleteFiles']
         )->middleware(CleanupTempFiles::class)->name('drive.delete-files');
-    Route::post('/resync', [DriveControllers\ReSyncController::class, 'index']);
+    Route::post('/resync', [DriveControllers\ReSyncController::class, 'index'])->name('resync');
     Route::post('/gen-thumbs', [DriveControllers\ThumbnailController::class, 'update']);
     Route::post('/search-files', [DriveControllers\SearchFilesController::class, 'index'])->name('drive.search');
     Route::get('/search-files', fn() => redirect('/drive'));
@@ -40,10 +40,14 @@ Route::middleware(['web', 'auth', CheckAdmin::class])->group(callback: function 
     Route::post('/move-files', [DriveControllers\FileMoveController::class, 'update'])->name('drive.move-files');
 
     // Share control Routes
-    Route::post('/share-pause', [ShareControllers\ShareFilesModController::class, 'pause']);
-    Route::post('/share-delete', [ShareControllers\ShareFilesModController::class, 'delete']);
-    Route::post('/share-files', [ShareControllers\ShareFilesGenController::class, 'index']);
-    Route::get('/shares-all', [ShareControllers\SharedListController::class, 'index'])->name('shares-all');
+    Route::post('/share-pause', [ShareControllers\ShareFilesModController::class, 'pause'])
+        ->name('drive.share-pause');
+    Route::post('/share-delete', [ShareControllers\ShareFilesModController::class, 'delete'])
+        ->name('drive.share-delete');
+    Route::post('/share-files', [ShareControllers\ShareFilesGenController::class, 'index'])
+        ->name('drive.share-files');
+    Route::get('/shares-all', [ShareControllers\ShareListController::class, 'index'])
+        ->name('drive.shares-all');
 });
 
 
@@ -59,9 +63,9 @@ Route::post('/download-files', [DriveControllers\DownloadController::class, 'ind
 Route::post(
     '/shared-check-password',
     [ShareControllers\ShareFilesGuestController::class, 'checkPassword']
-)->middleware(['throttle:shared']);
+)->middleware(['throttle:shared'])->name('shared.check-password');
 Route::get('/shared-password/{slug}', [ShareControllers\ShareFilesGuestController::class, 'passwordPage'])
-    ->name('shared.password')->middleware(['throttle:shared']);
+    ->middleware(['throttle:shared'])->name('shared.password');
 Route::get('/shared/{slug}/{path?}', [ShareControllers\ShareFilesGuestController::class, 'index'])->where(
     'path',
     '.*'

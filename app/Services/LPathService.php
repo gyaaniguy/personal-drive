@@ -46,9 +46,7 @@ class LPathService
             return $privateRoot . DIRECTORY_SEPARATOR;
         }
         $publicPath = $this->cleanDrivePublicPath($publicPath);
-        $privatePath = $privateRoot . DIRECTORY_SEPARATOR . $publicPath . DIRECTORY_SEPARATOR;
-
-        return $privatePath;
+        return $privateRoot . DIRECTORY_SEPARATOR . $publicPath . DIRECTORY_SEPARATOR;
     }
 
     public function getStorageFolderPath(): string

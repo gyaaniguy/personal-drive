@@ -6,12 +6,11 @@ use App\Models\Share;
 use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Session;
+use Tests\Feature\BaseFeatureTest;
 use Tests\TestCase;
 
-class HandleGuestShareMiddlewareTest extends TestCase
+class HandleGuestShareMiddlewareTest extends BaseFeatureTest
 {
-    use RefreshDatabase;
-
     public function test_redirects_to_rejected_if_no_slug_is_provided()
     {
         $response = $this->get('/shared'); // No slug in the URL

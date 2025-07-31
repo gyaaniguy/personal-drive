@@ -9,7 +9,7 @@ use App\Traits\FlashMessages;
 use Inertia\Inertia;
 use Inertia\Response;
 
-class SharedListController
+class ShareListController
 {
     use FlashMessages;
 

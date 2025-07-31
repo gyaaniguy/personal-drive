@@ -12,14 +12,9 @@ use Throwable;
 
 class FileOperationsService
 {
-    private LPathService $pathService;
     private ?Filesystem $filesystem = null;
     private string $basePath;
 
-    public function __construct(LPathService $pathService)
-    {
-        $this->pathService = $pathService;
-    }
 
     public function setFilesystem(Filesystem $filesystem): void
     {
@@ -54,7 +49,7 @@ class FileOperationsService
         return true;
     }
 
-    public function makeFile(string $path, int $permission = 0750): bool
+    public function makeFile(string $path): bool
     {
         if (!$this->makeFileSystem()) {
             return false;
@@ -90,7 +85,7 @@ class FileOperationsService
             return false;
         }
         if ($this->directoryExists($path)) {
-            throw UploadFileException::nonewdir('folder');
+            throw UploadFileException::noNewDir('folder');
         }
 
         try {

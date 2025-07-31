@@ -12,8 +12,6 @@ use Tests\TestCase;
 
 class SetupControllerTest extends BaseFeatureTest
 {
-    use RefreshDatabase;
-
     public function test_show_renders_setup_inertia_component()
     {
         $response = $this->withoutMiddleware(PreventSetupAccess::class)->get(route('setup.account'));

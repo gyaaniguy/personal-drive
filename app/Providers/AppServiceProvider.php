@@ -7,9 +7,6 @@ use App\Models\Setting;
 use App\Services\UUIDService;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\QueryException;
-use Illuminate\Database\SQLiteDatabaseDoesNotExistException;
-use Illuminate\Foundation\ViteException;
-use Illuminate\Foundation\ViteManifestNotFoundException;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Support\Facades\Schema;
@@ -60,15 +57,15 @@ class AppServiceProvider extends ServiceProvider
             return Limit::perMinute(7)
                 ->by($request->ip())
                 ->response(function () {
-                    throw ThrottleException::toomany();
+                    throw ThrottleException::tooMany();
                 });
         });
 
         RateLimiter::for('shared', function (Request $request) {
             return Limit::perMinute(20)
                 ->by($request->ip())
-                ->response(function (Request $request, array $headers) {
-                    throw ThrottleException::toomany();
+                ->response(function () {
+                    throw ThrottleException::tooMany();
                 });
         });
     }

@@ -12,8 +12,6 @@ use Tests\Feature\BaseFeatureTest;
 
 class UploadControllerTest extends BaseFeatureTest
 {
-    use RefreshDatabase;
-
     protected mixed $uploadService;
     private string $fileName = 'dummy.txt';
     private $tempRootDir;

@@ -6,12 +6,15 @@ use App\Exceptions\PersonalDriveExceptions\FetchFileException;
 use App\Helpers\DownloadHelper;
 use App\Models\LocalFile;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
 use Tests\TestCase;
 use ZipArchive;
 
 class DownloadHelperTest extends TestCase
 {
+    use RefreshDatabase;
+
     private DownloadHelper $downloadHelper;
     private string $tempDir;
 

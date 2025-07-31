@@ -17,7 +17,7 @@ class LocalFile extends Model
     use HasUlids;
 
     public $timestamps = true;
-    protected $hidden = ['private_path', 'user_id'];
+    protected $hidden = ['private_path', 'user_id', 'laravel_through_key'];
     protected $fillable = ['filename', 'is_dir', 'public_path', 'private_path', 'size', 'user_id', 'file_type'];
 
     public static function getById(string $id): ?self

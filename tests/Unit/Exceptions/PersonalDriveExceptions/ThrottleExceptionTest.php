@@ -9,7 +9,7 @@ class ThrottleExceptionTest extends TestCase
 {
     public function test_toomany_method_returns_throttle_exception_with_correct_message()
     {
-        $exception = ThrottleException::toomany();
+        $exception = ThrottleException::tooMany();
 
         $this->assertInstanceOf(ThrottleException::class, $exception);
         $this->assertEquals('Too Many requests. Please try again later', $exception->getMessage());

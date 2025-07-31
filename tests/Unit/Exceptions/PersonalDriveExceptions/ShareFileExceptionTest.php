@@ -11,7 +11,7 @@ class ShareFileExceptionTest extends TestCase
     {
         $exception = ShareFileException::couldNotShare();
         $this->assertInstanceOf(ShareFileException::class, $exception);
-        $this->assertEquals('No valid files to share. Database issue ? Try a Resync', $exception->getMessage());
+        $this->assertEquals('No valid files to share. Try a Resync', $exception->getMessage());
     }
 
     public function test_shareWrongPassword_method_returns_correct_message()

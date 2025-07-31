@@ -3,12 +3,11 @@
 use App\Exceptions\PersonalDriveExceptions\UploadFileException;
 use App\Helpers\UploadFileHelper;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Tests\Feature\BaseFeatureTest;
 use Tests\TestCase;
 
-class UploadFileHelperTest extends TestCase
+class UploadFileHelperTest extends BaseFeatureTest
 {
-    use RefreshDatabase;
-
     public function test_returns_full_path_of_uploaded_file()
     {
         $_FILES['files']['full_path'][0] = '/path/to/file.txt';

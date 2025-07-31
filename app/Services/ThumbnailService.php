@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Exceptions\PersonalDriveExceptions\ImageRelatedException;
 use App\Exceptions\PersonalDriveExceptions\ThumbnailException;
-use App\Helpers\UploadFileHelper;
 use App\Models\LocalFile;
 use Exception;
 use FFMpeg\Coordinate\TimeCode;
@@ -17,7 +16,7 @@ use Spatie\Image\Image;
 
 class ThumbnailService
 {
-    private const IMAGESIZE = 210;
+    private const IMAGE_SIZE = 210;
     protected FileOperationsService $fileOperationsService;
     private LPathService $pathService;
     private string $imageExt = '.jpeg';
@@ -76,9 +75,9 @@ class ThumbnailService
             $video = $ffmpeg->open($privateFilePath);
             $video->frame(TimeCode::fromSeconds(1))->save($fullFileThumbnailPath);
 
-            return $this->imageResize($fullFileThumbnailPath, $fullFileThumbnailPath, self::IMAGESIZE);
+            return $this->imageResize($fullFileThumbnailPath, $fullFileThumbnailPath);
         } catch (ExecutableNotFoundException $e) {
-            throw ThumbnailException::noffmpeg();
+            throw ThumbnailException::noFfmpeg();
         }
     }
 
@@ -96,12 +95,12 @@ class ThumbnailService
     }
 
 
-    private function imageResize(string $privateFilePath, string $fullFileThumbnailPath, int $size): bool
+    private function imageResize(string $privateFilePath, string $fullFileThumbnailPath): bool
     {
         try {
             Image::useImageDriver(ImageDriver::Gd)->loadFile($privateFilePath)
-                ->width($size)
-                ->height($size)
+                ->width(self::IMAGE_SIZE)
+                ->height(self::IMAGE_SIZE)
                 ->save($fullFileThumbnailPath);
         } catch (Exception $e) {
             return false;
@@ -118,13 +117,6 @@ class ThumbnailService
         }
         $fullFileThumbnailPath = $this->getFullFileThumbnailPath($file);
 
-        return $this->imageResize($privateFilePath, $fullFileThumbnailPath, self::IMAGESIZE);
-    }
-
-    private function setHasThumbnail($file): void
-    {
-        // deliberately has_thumbnail true, to prevent repeated thumb gen
-        $file->has_thumbnail = true;
-        $file->save();
+        return $this->imageResize($privateFilePath, $fullFileThumbnailPath, self::IMAGE_SIZE);
     }
 }

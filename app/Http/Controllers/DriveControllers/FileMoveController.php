@@ -7,6 +7,7 @@ use App\Services\FileMoveService;
 use App\Traits\FlashMessages;
 use App\Http\Controllers\Controller;
 use Exception;
+use Illuminate\Http\RedirectResponse;
 
 class FileMoveController extends Controller
 {
@@ -19,7 +20,7 @@ class FileMoveController extends Controller
         $this->fileMoveService = $fileMoveService;
     }
 
-    public function update(MoveFilesRequest $request)
+    public function update(MoveFilesRequest $request): RedirectResponse
     {
         $fileKeyArray = $request->validated('fileList');
         $destinationPath = $request->validated('path');

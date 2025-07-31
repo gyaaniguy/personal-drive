@@ -12,8 +12,6 @@ use Illuminate\Support\Facades\Auth;
 
 class AuthenticatedSessionControllerTest extends BaseFeatureTest
 {
-    use RefreshDatabase;
-
     public function test_login_screen_can_be_rendered()
     {
         $response = $this->withoutMiddleware()->get('/login');
@@ -27,8 +25,9 @@ class AuthenticatedSessionControllerTest extends BaseFeatureTest
     {
         $this->makeUser();
 
-        $this->post('/logout');
-
+        $this->post(route('logout'), [
+            '_token' => csrf_token(),
+        ]);
         $response = $this->post('/login', [
             'username' => 'testuser',
             'password' => 'wronggpassword',

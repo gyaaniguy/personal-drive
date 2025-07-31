@@ -5,13 +5,12 @@ namespace Tests\Feature\Middleware;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Schema;
 use Illuminate\Support\Facades\DB;
+use Tests\Feature\BaseFeatureTest;
 use Tests\TestCase;
 use App\Models\User;
 
-class PreventSetupAccessTest extends TestCase
+class PreventSetupAccessTest extends BaseFeatureTest
 {
-    use RefreshDatabase;
-
     public function test_redirects_if_users_table_exists_and_has_records()
     {
         // Ensure the users table exists and has a user

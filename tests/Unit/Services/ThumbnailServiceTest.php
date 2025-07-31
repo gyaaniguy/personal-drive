@@ -15,6 +15,7 @@ use Tests\TestCase;
 class ThumbnailServiceTest extends TestCase
 {
     use RefreshDatabase;
+
     use CreatesUploadService;
 
     public function test_get_generatable_files_filters_by_type()

@@ -10,9 +10,10 @@ use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Mockery;
+use Tests\Feature\BaseFeatureTest;
 use Tests\TestCase;
 
-class HandleAuthOrGuestMiddlewareTest extends TestCase
+class HandleAuthOrGuestMiddlewareTest extends BaseFeatureTest
 {
     public function test_allows_authenticated_users_to_pass()
     {
@@ -60,11 +61,5 @@ class HandleAuthOrGuestMiddlewareTest extends TestCase
     {
         parent::setUp();
         $this->artisan('migrate'); // Ensure database is migrated for each test
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        parent::tearDown();
     }
 }

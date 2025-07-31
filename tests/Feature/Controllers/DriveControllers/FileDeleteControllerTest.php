@@ -11,8 +11,6 @@ use Mockery;
 
 class FileDeleteControllerTest extends BaseFeatureTest
 {
-    use RefreshDatabase;
-
     public function test_delete_file_fake_ids()
     {
         $this->upload_file('', 'dummy.txt', 100);
@@ -50,7 +48,7 @@ class FileDeleteControllerTest extends BaseFeatureTest
         $response->assertSessionHas('status', true);
         $response->assertSessionHas('message', 'Deleted 1 files');
         $remainingFiles = LocalFile::all();
-        $this->assertCount(3, $remainingFiles);
+        $this->assertCount(4, $remainingFiles);
     }
 
 

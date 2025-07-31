@@ -8,8 +8,6 @@ use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AdminConfigService
 {
-    use RefreshDatabase;
-
     protected FileOperationsService $fileOperationsService;
 
     private UUIDService $uuidService;
@@ -62,15 +60,11 @@ class AdminConfigService
         }
     }
 
-    private function preparePaths(string $storagePath): array
+    private function preparePaths(): array
     {
         return [
             'storageFiles' => $this->uuidService->getStorageFilesUUID(),
             'thumbnails' => $this->uuidService->getThumbnailsUUID(),
-        ];
-        return [
-            'storageFiles' => $storagePath . DIRECTORY_SEPARATOR . $this->uuidService->getStorageFilesUUID(),
-            'thumbnails' => $storagePath . DIRECTORY_SEPARATOR . $this->uuidService->getThumbnailsUUID(),
         ];
     }
 

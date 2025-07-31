@@ -16,6 +16,7 @@ class ShareTest extends TestCase
 {
     use RefreshDatabase;
 
+
     public function test_share_can_be_created()
     {
         $share = Share::add('test-slug', 'password123', 7, '/public/path');

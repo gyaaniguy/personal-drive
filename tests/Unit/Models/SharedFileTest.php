@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Relations\BelongsTo;
 use Mockery;
 use ReflectionMethod;
+use Tests\Feature\BaseFeatureTest;
 use Tests\TestCase;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 

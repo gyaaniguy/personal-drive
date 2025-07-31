@@ -6,6 +6,7 @@ use App\Exceptions\PersonalDriveExceptions\ThrottleException;
 use App\Models\Setting;
 use App\Providers\AppServiceProvider;
 use App\Services\UUIDService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\RateLimiter;
 use Illuminate\Http\Request;
 use Mockery;
@@ -13,6 +14,8 @@ use Tests\TestCase;
 
 class AppServiceProviderTest extends TestCase
 {
+    use RefreshDatabase;
+
     public function test_uuid_service_is_bound()
     {
         $settingMock = Mockery::mock(Setting::class);

@@ -7,8 +7,6 @@ use Tests\TestCase;
 
 class EnsureFrontendBuiltTest extends TestCase
 {
-    use RefreshDatabase;
-
     public function test_allows_request_if_frontend_is_built()
     {
         // Simulate manifest file existence

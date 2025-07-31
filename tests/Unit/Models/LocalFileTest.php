@@ -18,6 +18,7 @@ class LocalFileTest extends TestCase
 {
     use RefreshDatabase;
 
+
     public function test_local_file_can_be_created_using_factory()
     {
         $localFile = LocalFile::factory()->create();

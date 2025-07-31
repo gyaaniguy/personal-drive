@@ -6,10 +6,13 @@ use App\Models\LocalFile;
 use App\Services\DownloadService;
 use App\Helpers\DownloadHelper;
 use Illuminate\Database\Eloquent\Collection;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use PHPUnit\Framework\TestCase;
 
 class DownloadServiceTest extends TestCase
 {
+    use RefreshDatabase;
+
     protected $downloadService;
     protected $downloadHelperMock;
 

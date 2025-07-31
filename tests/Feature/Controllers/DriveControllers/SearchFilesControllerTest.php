@@ -9,8 +9,6 @@ use Mockery;
 
 class SearchFilesControllerTest extends BaseFeatureTest
 {
-    use RefreshDatabase;
-
     public function test_search_results_single_success()
     {
         $response = $this->post(route('drive.search'), [

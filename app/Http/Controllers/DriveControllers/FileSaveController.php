@@ -52,7 +52,7 @@ class FileSaveController extends Controller
             $file = new SplFileInfo($privatePathFile);
             $this->localFileStatsService->updateFileStats($localFile, $file);
 
-            return ResponseHelper::json('File saved successfully', true);
+            return ResponseHelper::json('File saved successfully');
         } catch (Exception $e) {
             return ResponseHelper::json($e->getMessage(), false);
         }

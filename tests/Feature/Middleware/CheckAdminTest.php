@@ -6,10 +6,8 @@ use App\Models\User;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Tests\TestCase;
 
-class CheckAdminTest extends TestCase
+class CheckAdminTest extends BaseFeatureTest
 {
-    use RefreshDatabase;
-
     public function test_admin_can_access_admin_routes()
     {
         $admin = User::factory()->create(['is_admin' => true]);

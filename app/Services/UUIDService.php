@@ -20,7 +20,7 @@ class UUIDService
         $this->thumbnailsUUID = $setting->getSettingByKeyName('uuidForThumbnails') ?: '';
 
         if (!$this->storageFilesUUID || !$this->thumbnailsUUID) {
-            throw UUIDException::nouuid();
+            throw UUIDException::noUUID();
         }
     }
 

@@ -3,7 +3,6 @@
 namespace App\Http\Controllers\DriveControllers;
 
 use App\Exceptions\PersonalDriveExceptions\UploadFileException;
-use App\Helpers\UploadFileHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DriveRequests\CreateItemRequest;
 use App\Http\Requests\DriveRequests\ReplaceAbortRequest;
@@ -84,7 +83,7 @@ class UploadController extends Controller
         $tempStorageDirFull = $this->uploadService->setTempStorageDirFull();
 
         $conflictsDetected = $successfulUploads = $duplicatesDetected = 0;
-        foreach ($files as $index => $file) {
+        foreach ($files as $file) {
             $fileNameWithPath = $file->getClientOriginalPath();
             $destinationFullPath = $privatePath . $fileNameWithPath;
             $tempDirFullPath = dirname(
@@ -133,7 +132,7 @@ class UploadController extends Controller
                 $successfulUploads++;
             }
         } catch (Error $e) {
-            throw UploadFileException::outofmemory();
+            throw UploadFileException::outOfMemory();
         }
         return $successfulUploads;
     }

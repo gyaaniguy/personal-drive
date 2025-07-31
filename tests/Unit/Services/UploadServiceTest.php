@@ -1,5 +1,6 @@
 <?php
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Session;
 use PHPUnit\Framework\TestCase;
 use App\Services\UploadService;
@@ -10,6 +11,8 @@ use App\Services\ThumbnailService;
 
 class UploadServiceTest extends TestCase
 {
+    use RefreshDatabase;
+
     private $filesystem;
 
     public function testIsFileFolderMisMatchTrue()

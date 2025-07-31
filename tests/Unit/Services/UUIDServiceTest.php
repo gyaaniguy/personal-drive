@@ -5,6 +5,7 @@ namespace Tests\Unit\Services;
 use App\Exceptions\PersonalDriveExceptions\UUIDException;
 use App\Models\Setting;
 use App\Services\UUIDService;
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
 use Tests\TestCase;
 

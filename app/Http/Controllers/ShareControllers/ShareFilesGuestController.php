@@ -21,10 +21,6 @@ class ShareFilesGuestController
         $path = $request->validated('path');
         $share = Share::whereBySlug($slug)->first();
 
-        if (!$share) {
-            throw ShareFileException::couldNotShare();
-        }
-
         if ($path) {
             $files = Share::getFilenamesByPath(
                 $share->id,
@@ -47,7 +43,6 @@ class ShareFilesGuestController
     public function passwordPage(ShareFilesGuestRequest $request): Response
     {
         $slug = $request->validated('slug');
-
         return Inertia('Drive/Shares/CheckSharePassword', ['slug' => $slug]);
     }
 

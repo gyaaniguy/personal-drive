@@ -32,7 +32,7 @@ class ShareFilesModController
 
         $update = Share::whereById($shareId)->update(['enabled' => !$share->enabled]);
         if ($update) {
-            return $this->success('Paused');
+            return $this->success($share->enabled ? 'Paused' : 'Enabled');
         }
 
         return $this->error('Error! could not pause share');

@@ -10,6 +10,7 @@ class SettingTest extends TestCase
 {
     use RefreshDatabase;
 
+
     public function test_setting_can_be_created_using_factory()
     {
         $setting = Setting::factory()->create();

@@ -9,7 +9,7 @@ class UploadFileExceptionTest extends TestCase
 {
     public function test_outofmemory_method_returns_correct_message()
     {
-        $exception = UploadFileException::outofmemory();
+        $exception = UploadFileException::outOfMemory();
         $this->assertInstanceOf(UploadFileException::class, $exception);
         $this->assertEquals(
             'Memory exhausted while uploading. Increase PHP allocated memory',
@@ -19,7 +19,7 @@ class UploadFileExceptionTest extends TestCase
 
     public function test_nonewdir_method_returns_correct_message()
     {
-        $exception = UploadFileException::nonewdir('folder');
+        $exception = UploadFileException::noNewDir('folder');
         $this->assertInstanceOf(UploadFileException::class, $exception);
         $this->assertEquals('Could not create new folder', $exception->getMessage());
     }

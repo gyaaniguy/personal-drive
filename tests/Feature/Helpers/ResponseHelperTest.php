@@ -2,9 +2,10 @@
 
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\JsonResponse;
+use Tests\Feature\BaseFeatureTest;
 use Tests\TestCase;
 
-class ResponseHelperTest extends TestCase
+class ResponseHelperTest extends BaseFeatureTest
 {
     public function test_returns_successful_json_response()
     {

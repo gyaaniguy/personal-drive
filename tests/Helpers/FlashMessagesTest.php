@@ -10,8 +10,6 @@ use Tests\TestCase;
 
 class FlashMessagesTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected $flashMessages;
 
     public function test_sets_success_message_and_redirects_back()

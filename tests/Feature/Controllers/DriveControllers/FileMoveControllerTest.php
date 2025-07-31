@@ -12,8 +12,6 @@ use Mockery;
 
 class FileMoveControllerTest extends BaseFeatureTest
 {
-    use RefreshDatabase;
-
     public string $targetDir;
     public mixed $pathService;
     protected mixed $uploadService;

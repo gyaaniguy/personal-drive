@@ -70,7 +70,7 @@ class Share extends Model
         return $this->hasManyThrough(LocalFile::class, SharedFile::class, 'share_id', 'id', 'id', 'file_id');
     }
 
-    public static function getFilenamesByPath(int $shareID, string $path)
+    public static function getFilenamesByPath(int $shareID, string $path): Collection
     {
         return LocalFile::where('public_path', $path)
             ->whereExists(function ($query) use ($shareID) {

@@ -2,6 +2,7 @@
 
 namespace Tests\Unit\Providers;
 
+use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Config;
 use Illuminate\Support\Facades\File;
 use Tests\TestCase;

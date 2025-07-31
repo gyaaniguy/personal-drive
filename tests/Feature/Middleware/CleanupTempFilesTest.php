@@ -8,9 +8,10 @@ use App\Services\UploadService;
 use Closure;
 use Illuminate\Http\Request;
 use Mockery;
+use Tests\Feature\BaseFeatureTest;
 use Tests\TestCase;
 
-class CleanupTempFilesTest extends TestCase
+class CleanupTempFilesTest extends BaseFeatureTest
 {
     public function test_calls_clean_old_temp_files_on_upload_service()
     {
@@ -28,11 +29,5 @@ class CleanupTempFilesTest extends TestCase
         $response = $middleware->handle($request, $next);
 
         $this->assertEquals(200, $response->getStatusCode());
-    }
-
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        parent::tearDown();
     }
 }

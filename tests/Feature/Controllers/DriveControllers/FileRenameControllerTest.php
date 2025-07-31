@@ -11,9 +11,6 @@ use Tests\Feature\BaseFeatureTest;
 
 class FileRenameControllerTest extends BaseFeatureTest
 {
-    use RefreshDatabase;
-
-
     public function test_rename_folder_with_path_success()
     {
         $testPath = 'some/path';

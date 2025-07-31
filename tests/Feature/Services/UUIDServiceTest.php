@@ -7,8 +7,6 @@ use Tests\TestCase;
 
 class UUIDServiceTest extends TestCase
 {
-    use RefreshDatabase;
-
     protected $settingMock;
 
     public function test_initializes_with_valid_uuids()

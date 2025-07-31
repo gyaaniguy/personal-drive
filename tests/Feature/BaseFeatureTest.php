@@ -2,6 +2,8 @@
 
 namespace Tests\Feature;
 
+use App\Models\LocalFile;
+use App\Models\Share;
 use App\Models\User;
 use App\Services\UUIDService;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
@@ -10,25 +12,34 @@ use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Artisan;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Testing\TestResponse;
+use Mockery;
 use Tests\TestCase;
 
 class BaseFeatureTest extends TestCase
 {
+    use RefreshDatabase;
+
     public string $storageFilesUUID;
     protected UUIDService $uuidService;
 
     public function uploadMultipleFiles(
         $testPath = '',
         $fileNames = [
-            'ace.txt', 'bar/1.txt', 'foo/ace.txt', 'foo/b.txt', 'foo/c.txt', 'foo/bar/1.txt', 'foo/bar/2.txt',
-            'foo/bar/3.txt'
+            'ace.txt', 'beta.txt', 'bar/1.txt', 'foo/ace.txt', 'foo/b.txt', 'foo/c.txt', 'foo/bar/1.txt',
+            'foo/bar/2.txt'
         ]
     ): TestResponse {
+        $files = $this->getFilesForFileNames($fileNames);
+        return $this->postUpload($files, $testPath);
+    }
+
+    public function getFilesForFileNames(mixed $fileNames): array
+    {
         $files = [];
         foreach ($fileNames as $fileName) {
             $files[] = UploadedFile::fake()->create($fileName, 100);
         }
-        return $this->postUpload($files, $testPath);
+        return $files;
     }
 
     public function postUpload(array $files, string $testPath): TestResponse
@@ -40,11 +51,21 @@ class BaseFeatureTest extends TestCase
         ]);
 
         $response->assertSessionHas('status', true);
+        $this->assertFilesExist($files, $testPath);
+
+        return $response;
+    }
+
+    /**
+     * @param  array  $files
+     * @param  string  $testPath
+     * @return void
+     */
+    public function assertFilesExist(array $files, string $testPath): void
+    {
         $this->assertTrue(collect($files)->every(fn($file) => Storage::disk('local')->exists(
             $this->storageFilesUUID . DIRECTORY_SEPARATOR . ($testPath ? $testPath . DIRECTORY_SEPARATOR : '') . $file->getClientOriginalPath()
         )));
-
-        return $response;
     }
 
     public function upload_file(
@@ -69,6 +90,57 @@ class BaseFeatureTest extends TestCase
             '_token' => csrf_token(),
             'storage_path' => $storagePath
         ]);
+    }
+
+    public function logout(): void
+    {
+        $this->post(route('logout'), [
+            '_token' => csrf_token(),
+        ]);
+    }
+
+    public function getSlugId(string $slug): mixed
+    {
+        return Share::where('slug', $slug)->pluck('id')->first();
+    }
+
+    public function createMultipleShares(array $slugs): void
+    {
+        list($toShareFileIds) = $this->getDataForMakingShare();
+
+        foreach ($slugs as $slug) {
+            $this->createShare($toShareFileIds, 'password', 13, $slug);
+        }
+    }
+
+    public function getDataForMakingShare($password = 'password', $expiry = 13, $numFilesToShare = 2): array
+    {
+        $allFiles = LocalFile::all();
+        $toShareFileIds = $allFiles->slice(0, $numFilesToShare)->pluck('id')->toArray();
+        return array($toShareFileIds, $password, $expiry);
+    }
+
+    public function createShare(
+        array $toShareFileIds,
+        string $password = '',
+        int $expiry = -1,
+        string $slug = ''
+    ): TestResponse {
+        $postData = [
+            '_token' => csrf_token(),
+            'fileList' => $toShareFileIds,
+        ];
+        if ($password) {
+            $postData['password'] = $password;
+        }
+        if ($expiry !== -1) {
+            $postData['expiry'] = $expiry;
+        }
+        if ($slug) {
+            $postData['slug'] = $slug;
+        }
+
+        return $this->post(route('drive.share-files'), $postData);
     }
 
     protected function setup(): void
@@ -119,5 +191,11 @@ class BaseFeatureTest extends TestCase
         $this->withoutMiddleware(ValidateCsrfToken::class);
 
         return $user;
+    }
+
+    protected function tearDown(): void
+    {
+        parent::tearDown();
+        Mockery::close();
     }
 }

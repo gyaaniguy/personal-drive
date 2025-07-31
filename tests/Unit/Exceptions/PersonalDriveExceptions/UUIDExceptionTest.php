@@ -9,7 +9,7 @@ class UUIDExceptionTest extends TestCase
 {
     public function test_nouuid_method_returns_correct_message()
     {
-        $exception = UUIDException::nouuid();
+        $exception = UUIDException::noUUID();
         $this->assertInstanceOf(UUIDException::class, $exception);
         $this->assertEquals('application not installed properly. Try reinstalling', $exception->getMessage());
     }

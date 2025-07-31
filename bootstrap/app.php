@@ -5,7 +5,7 @@ use App\Exceptions\PersonalDriveExceptions\PersonalDriveException;
 use App\Exceptions\PersonalDriveExceptions\ThrottleException;
 use App\Exceptions\PersonalDriveExceptions\ThumbnailException;
 use App\Http\Middleware\CheckSetup;
-use App\Http\Middleware\HandleInertiaMiddlware;
+use App\Http\Middleware\HandleInertiaMiddleware;
 use Illuminate\Auth\AuthenticationException;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
@@ -24,7 +24,7 @@ return Application::configure(basePath: dirname(__DIR__))
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->redirectGuestsTo('login');
         $middleware->web(append: [
-            HandleInertiaMiddlware::class,
+            HandleInertiaMiddleware::class,
             AddLinkHeadersForPreloadedAssets::class,
         ], prepend: [
             CheckSetup::class,

@@ -15,8 +15,6 @@ use App\Services\ThumbnailService;
 
 class UploadServiceFeatureTest extends BaseFeatureTest
 {
-    use RefreshDatabase;
-
     private $uploadService;
     private $filesystem;
     private $pathService;
