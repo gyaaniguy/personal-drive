@@ -17,15 +17,49 @@ class FileRenameControllerTest extends BaseFeatureTest
         $this->rename_folder_with_path($testPath);
     }
 
-    /**
-     * @param  string  $testPath
-     * @return void
-     */
+    public function test_rename_folder_success()
+    {
+        $this->rename_folder_with_path();
+    }
+
+    public function test_rename_success()
+    {
+        $testPath = 'foo/bar';
+        $fileName = 'new_filename.txt';
+
+        $this->uploadFile($testPath, 'file.txt', 100);
+
+        $this->assertAuthenticated();
+        $firstFile = LocalFile::first();
+
+        $this->post(route('drive.rename'), [
+            '_token' => csrf_token(),
+            'id' => $firstFile->id,
+            'filename' => 'new_filename.txt',
+        ]);
+
+        Storage::disk('local')->assertExists(
+            $this->storageFilesUUID . DIRECTORY_SEPARATOR . $testPath . DIRECTORY_SEPARATOR . $fileName
+        );
+    }
+
+    public function test_rename_fake_ulid()
+    {
+        $ulid = (string) Str::ulid();
+        $response = $this->post(route('drive.rename'), [
+            '_token' => csrf_token(),
+            'id' => $ulid,
+            'filename' => 'new_filename1.txt',
+        ]);
+        $response->assertSessionHas('status', false);
+        $response->assertSessionHas('message', 'Could not find file');
+    }
+
     public function rename_folder_with_path(string $testPath = ''): void
     {
         $name = 'old_folder/old_sub_folder/file.txt';
 
-        $this->upload_file($testPath, $name, 100);
+        $this->uploadFile($testPath, $name, 100);
 
         $this->assertAuthenticated();
         $oldFolderModel = LocalFile::where('filename', 'old_sub_folder')->get()->first();
@@ -52,51 +86,11 @@ class FileRenameControllerTest extends BaseFeatureTest
         $this->assertEquals(true, $fileObj->is_dir);
     }
 
-    public function test_rename_folder_success()
-    {
-        $this->rename_folder_with_path();
-    }
-
-    public function test_rename_success()
-    {
-        $testPath = 'foo/bar';
-        $fileName = 'new_filename.txt';
-
-        $this->upload_file($testPath, 100, 100);
-
-        $this->assertAuthenticated();
-        $firstFile = LocalFile::first();
-
-        $response = $this->post(route('drive.rename'), [
-            '_token' => csrf_token(),
-            'id' => $firstFile->id,
-            'filename' => 'new_filename.txt',
-        ]);
-
-        Storage::disk('local')->assertExists(
-            $this->storageFilesUUID . DIRECTORY_SEPARATOR . $testPath . DIRECTORY_SEPARATOR . $fileName
-        );
-    }
-
-    public function test_rename_fake_ulid()
-    {
-        $ulid = (string) Str::ulid();
-        $response = $this->post(route('drive.rename'), [
-            '_token' => csrf_token(),
-            'id' => $ulid,
-            'filename' => 'new_filename1.txt',
-        ]);
-        $response->assertSessionHas('status', false);
-        $response->assertSessionHas('message', 'Could not find file');
-    }
-
     protected function setUp(): void
     {
         parent::setUp();
         $this->makeUserUsingSetup();
-        $response = $this->setupStoragePathPost();
-        $response->assertSessionHas('status', true);
-        $response->assertSessionHas('message', 'Storage path updated successfully');
+        $this->setupStoragePathPost();
     }
 
     protected function tearDown(): void

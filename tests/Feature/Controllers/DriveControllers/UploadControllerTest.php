@@ -36,9 +36,9 @@ class UploadControllerTest extends BaseFeatureTest
         $testPath2 = 'foo/bar';
         $testPath3 = 'foo/bar/foo';
 
-        $this->upload_file($testPath, $fileName, 100);
-        $this->upload_file($testPath2, $fileName2, 100);
-        $this->upload_file($testPath3, $fileName3, 100);
+        $this->uploadFile($testPath, $fileName, 100);
+        $this->uploadFile($testPath2, $fileName2, 100);
+        $this->uploadFile($testPath3, $fileName3, 100);
     }
 
     public function test_create_upload_mulitple_files_success()
@@ -192,9 +192,7 @@ class UploadControllerTest extends BaseFeatureTest
     {
         parent::setUp();
         $this->makeUserUsingSetup();
-        $response = $this->setupStoragePathPost();
-        $response->assertSessionHas('status', true);
-        $response->assertSessionHas('message', 'Storage path updated successfully');
+        $this->setupStoragePathPost();
         $this->uploadService = app(UploadService::class);
     }
 

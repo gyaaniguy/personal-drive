@@ -24,15 +24,13 @@ class SetupControllerTest extends BaseFeatureTest
     {
         $this->makeUserUsingSetup();
         $response = $this->setupStoragePathPost('/tmp/path');
-        $response->assertSessionHas('status', true);
-        $response->assertSessionHas('message', 'Storage path updated successfully');
         $response->assertRedirect(route('drive'));
     }
 
     public function test_update_storage_path_fail()
     {
         $this->makeUserUsingSetup();
-        $response = $this->setupStoragePathPost('/asdf/tmp/sdf');
+        $response = $this->setStoragePath('/asdf/tmp/sdf');
         $response->assertSessionHas('status', false);
         $response->assertSessionHas('message', fn($value) => str_contains($value, 'Unable to create a directory'));
         $response->assertRedirect(route('admin-config', ['setupMode' => true]));

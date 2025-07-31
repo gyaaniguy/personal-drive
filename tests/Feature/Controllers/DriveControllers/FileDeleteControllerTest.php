@@ -13,7 +13,7 @@ class FileDeleteControllerTest extends BaseFeatureTest
 {
     public function test_delete_file_fake_ids()
     {
-        $this->upload_file('', 'dummy.txt', 100);
+        $this->uploadFile('', 'dummy.txt', 100);
         $response = $this->post(route('drive.delete-files'), [
             '_token' => csrf_token(),
             'fileList' => [(string) Str::ulid()],
@@ -25,7 +25,7 @@ class FileDeleteControllerTest extends BaseFeatureTest
     public function test_delete_file_success()
     {
         $name = 'dummy.txt';
-        $this->upload_file('', $name, 100);
+        $this->uploadFile('', $name, 100);
         $firstFile = LocalFile::first();
 
         $response = $this->post(route('drive.delete-files'), [
@@ -56,15 +56,7 @@ class FileDeleteControllerTest extends BaseFeatureTest
     {
         parent::setUp();
         $this->makeUserUsingSetup();
-        $response = $this->setupStoragePathPost();
-        $response->assertSessionHas('status', true);
-        $response->assertSessionHas('message', 'Storage path updated successfully');
+        $this->setupStoragePathPost();
     }
 
-    protected function tearDown(): void
-    {
-        Mockery::close();
-        Storage::disk('local')->deleteDirectory('');
-        parent::tearDown();
-    }
 }

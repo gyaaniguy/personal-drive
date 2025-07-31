@@ -68,7 +68,7 @@ class BaseFeatureTest extends TestCase
         )));
     }
 
-    public function upload_file(
+    public function uploadFile(
         string $testPath = '/foo/bar',
         string $name = 'dummy.txt',
         int $size = 100
@@ -79,17 +79,10 @@ class BaseFeatureTest extends TestCase
 
     public function setupStoragePathPost(string $storagePath = ''): TestResponse
     {
-        Storage::fake('local');
-        if (!$storagePath) {
-            $storagePath = Storage::disk('local')->path('');
-            $storagePath = substr($storagePath, 0, strlen($storagePath) - 1);
-        }
-
-        $this->get(route('admin-config', ['setupMode' => '1']));
-        return $this->post(route('admin-config.update'), [
-            '_token' => csrf_token(),
-            'storage_path' => $storagePath
-        ]);
+        $response = $this->setStoragePath($storagePath);
+        $response->assertSessionHas('status', true);
+        $response->assertSessionHas('message', 'Storage path updated successfully');
+        return $response;
     }
 
     public function logout(): void
@@ -143,9 +136,29 @@ class BaseFeatureTest extends TestCase
         return $this->post(route('drive.share-files'), $postData);
     }
 
+    /**
+     * @param  string  $storagePath
+     * @return TestResponse
+     */
+    public function setStoragePath(string $storagePath): TestResponse
+    {
+        if (!$storagePath) {
+            $storagePath = Storage::disk('local')->path('');
+            $storagePath = substr($storagePath, 0, strlen($storagePath) - 1);
+        }
+
+        $this->get(route('admin-config', ['setupMode' => '1']));
+        $response = $this->post(route('admin-config.update'), [
+            '_token' => csrf_token(),
+            'storage_path' => $storagePath
+        ]);
+        return $response;
+    }
+
     protected function setup(): void
     {
         parent::setup();
+        Storage::fake('local');
         $this->uuidService = app(UUIDService::class);
         $this->storageFilesUUID = $this->uuidService->getStorageFilesUUID();
     }
@@ -197,5 +210,6 @@ class BaseFeatureTest extends TestCase
     {
         parent::tearDown();
         Mockery::close();
+        Storage::disk('local')->deleteDirectory('');
     }
 }

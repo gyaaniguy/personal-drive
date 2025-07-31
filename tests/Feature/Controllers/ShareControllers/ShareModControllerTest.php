@@ -107,9 +107,7 @@ class ShareModControllerTest extends BaseFeatureTest
     {
         parent::setUp();
         $this->makeUserUsingSetup();
-        $response = $this->setupStoragePathPost();
-        $response->assertSessionHas('status', true);
-        $response->assertSessionHas('message', 'Storage path updated successfully');
+        $this->setupStoragePathPost();
         $this->uploadMultipleFiles('', $this->fileNames);
     }
 }

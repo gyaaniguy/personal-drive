@@ -37,7 +37,7 @@ class FileSaveController extends Controller
         $content = $request->validated('content');
         $localFile = LocalFile::getById($id);
         if (!$localFile) {
-            return ResponseHelper::json('Could not find file ', false);
+            return ResponseHelper::json('Could not find file', false);
         }
         if ($localFile->file_type !== 'text' && $localFile->file_type !== 'empty') {
             return ResponseHelper::json('File is not a text file', false);
