@@ -17,6 +17,37 @@ class FileRenameControllerTest extends BaseFeatureTest
         $this->rename_folder_with_path($testPath);
     }
 
+    public function rename_folder_with_path(string $testPath = ''): void
+    {
+        $name = 'old_folder/old_sub_folder/file.txt';
+
+        $this->uploadFile($testPath, $name, 100);
+
+        $this->assertAuthenticated();
+        $oldFolderModel = LocalFile::where('filename', 'old_sub_folder')->get()->first();
+
+        $response = $this->post(route('drive.rename'), [
+            '_token' => csrf_token(),
+            'id' => $oldFolderModel->id,
+            'filename' => 'new_sub_folder',
+        ]);
+
+        Storage::disk('local')->assertExists(
+            $this->storageFilesUUID . DIRECTORY_SEPARATOR . ($testPath ? $testPath . DIRECTORY_SEPARATOR : '') . 'old_folder/new_sub_folder/file.txt'
+        );
+
+        $fileObj = LocalFile::where('filename', 'file.txt')->first();
+        $this->assertEquals(
+            ($testPath ? $testPath . DIRECTORY_SEPARATOR : '') . 'old_folder/new_sub_folder',
+            $fileObj->public_path
+        );
+        $this->assertEquals(false, $fileObj->is_dir);
+
+        $fileObj = LocalFile::where('filename', 'new_sub_folder')->first();
+        $this->assertEquals(($testPath ? $testPath . DIRECTORY_SEPARATOR : '') . 'old_folder', $fileObj->public_path);
+        $this->assertEquals(true, $fileObj->is_dir);
+    }
+
     public function test_rename_folder_success()
     {
         $this->rename_folder_with_path();
@@ -53,37 +84,6 @@ class FileRenameControllerTest extends BaseFeatureTest
         ]);
         $response->assertSessionHas('status', false);
         $response->assertSessionHas('message', 'Could not find file');
-    }
-
-    public function rename_folder_with_path(string $testPath = ''): void
-    {
-        $name = 'old_folder/old_sub_folder/file.txt';
-
-        $this->uploadFile($testPath, $name, 100);
-
-        $this->assertAuthenticated();
-        $oldFolderModel = LocalFile::where('filename', 'old_sub_folder')->get()->first();
-
-        $response = $this->post(route('drive.rename'), [
-            '_token' => csrf_token(),
-            'id' => $oldFolderModel->id,
-            'filename' => 'new_sub_folder',
-        ]);
-
-        Storage::disk('local')->assertExists(
-            $this->storageFilesUUID . DIRECTORY_SEPARATOR . ($testPath ? $testPath . DIRECTORY_SEPARATOR : '') . 'old_folder/new_sub_folder/file.txt'
-        );
-
-        $fileObj = LocalFile::where('filename', 'file.txt')->first();
-        $this->assertEquals(
-            ($testPath ? $testPath . DIRECTORY_SEPARATOR : '') . 'old_folder/new_sub_folder',
-            $fileObj->public_path
-        );
-        $this->assertEquals(false, $fileObj->is_dir);
-
-        $fileObj = LocalFile::where('filename', 'new_sub_folder')->first();
-        $this->assertEquals(($testPath ? $testPath . DIRECTORY_SEPARATOR : '') . 'old_folder', $fileObj->public_path);
-        $this->assertEquals(true, $fileObj->is_dir);
     }
 
     protected function setUp(): void

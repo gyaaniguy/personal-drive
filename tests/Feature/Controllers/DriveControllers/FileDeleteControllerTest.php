@@ -58,5 +58,4 @@ class FileDeleteControllerTest extends BaseFeatureTest
         $this->makeUserUsingSetup();
         $this->setupStoragePathPost();
     }
-
 }

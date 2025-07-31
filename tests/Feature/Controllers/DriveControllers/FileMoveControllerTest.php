@@ -82,5 +82,4 @@ class FileMoveControllerTest extends BaseFeatureTest
         $this->makeUserUsingSetup();
         $this->setupStoragePathPost();
     }
-
 }

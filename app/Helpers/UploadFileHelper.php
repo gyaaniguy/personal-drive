@@ -24,5 +24,4 @@ class UploadFileHelper
         }
         return $path;
     }
-
 }

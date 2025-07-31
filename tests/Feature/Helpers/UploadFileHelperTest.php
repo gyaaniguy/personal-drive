@@ -64,5 +64,4 @@ class UploadFileHelperTest extends BaseFeatureTest
         $method->setAccessible(true);
         $method->invoke(null, '../invalid/path');
     }
-
 }

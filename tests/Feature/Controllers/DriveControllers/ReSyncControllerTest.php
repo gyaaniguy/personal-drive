@@ -27,7 +27,7 @@ class ReSyncControllerTest extends BaseFeatureTest
         $this->assertCount(0, $allFiles);
 
 
-        $response = $this->post(route('resync'),[
+        $response = $this->post(route('resync'), [
             '_token' => csrf_token(),
         ]);
         $response->assertSessionHas('status', true);
@@ -44,7 +44,7 @@ class ReSyncControllerTest extends BaseFeatureTest
         $allFiles = LocalFile::all();
         $this->assertCount(0, $allFiles);
 
-        $response = $this->post(route('resync'),[
+        $response = $this->post(route('resync'), [
             '_token' => csrf_token(),
         ]);
         $response->assertSessionHas('status', false);
