@@ -4,7 +4,7 @@ namespace App\Services;
 
 use App\Models\Setting;
 
-class LPathService
+class PathService
 {
     protected UUIDService $uuidService;
 

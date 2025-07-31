@@ -12,7 +12,7 @@ use Symfony\Component\Finder\SplFileInfo;
 class UploadService
 {
     protected LocalFileStatsService $localFileStatsService;
-    private LPathService $pathService;
+    private PathService $pathService;
     private ThumbnailService $thumbnailService;
     private Filesystem $filesystem;
 
@@ -20,7 +20,7 @@ class UploadService
     private string $tempUuidTime = 'temp_replace_dir_uuid_time';
 
     public function __construct(
-        LPathService $pathService,
+        PathService $pathService,
         LocalFileStatsService $localFileStatsService,
         ThumbnailService $thumbnailService,
         Filesystem $filesystem

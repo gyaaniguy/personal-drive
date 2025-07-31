@@ -7,7 +7,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Requests\DriveRequests\FileSaveRequest;
 use App\Models\LocalFile;
 use App\Services\DownloadService;
-use App\Services\LPathService;
+use App\Services\PathService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use SplFileInfo;
@@ -16,13 +16,13 @@ use App\Http\Controllers\Controller;
 
 class FileSaveController extends Controller
 {
-    protected LPathService $pathService;
+    protected PathService $pathService;
 
     protected DownloadService $downloadService;
     protected LocalFileStatsService $localFileStatsService;
 
     public function __construct(
-        LPathService $pathService,
+        PathService $pathService,
         DownloadService $downloadService,
         LocalFileStatsService $localFileStatsService
     ) {

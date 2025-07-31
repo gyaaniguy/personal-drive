@@ -3,7 +3,7 @@
 namespace Tests\Helpers;
 
 use App\Services\FileOperationsService;
-use App\Services\LPathService;
+use App\Services\PathService;
 use App\Services\LocalFileStatsService;
 use App\Services\ThumbnailService;
 use Illuminate\Filesystem\Filesystem;
@@ -14,7 +14,7 @@ trait CreatesUploadService
     protected function makeUploadService(): FileOperationsService
     {
         return new FileOperationsService(
-            Mockery::mock(LPathService::class)
+            Mockery::mock(PathService::class)
         );
     }
 }

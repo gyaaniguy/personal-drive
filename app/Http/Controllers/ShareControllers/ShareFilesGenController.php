@@ -8,7 +8,7 @@ use App\Models\LocalFile;
 use App\Models\Share;
 use App\Models\SharedFile;
 use App\Services\LocalFileStatsService;
-use App\Services\LPathService;
+use App\Services\PathService;
 use App\Traits\FlashMessages;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Hash;
@@ -18,12 +18,12 @@ class ShareFilesGenController
 {
     use FlashMessages;
 
-    protected LPathService $pathService;
+    protected PathService $pathService;
 
     protected LocalFileStatsService $localFileStatsService;
 
     public function __construct(
-        LPathService $pathService,
+        PathService $pathService,
         LocalFileStatsService $localFileStatsService
     ) {
         $this->localFileStatsService = $localFileStatsService;

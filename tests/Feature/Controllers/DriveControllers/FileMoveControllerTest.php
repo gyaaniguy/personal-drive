@@ -3,7 +3,7 @@
 namespace Feature\Controllers\DriveControllers;
 
 use App\Models\LocalFile;
-use App\Services\LPathService;
+use App\Services\PathService;
 use Tests\Feature\BaseFeatureTest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;

@@ -4,7 +4,7 @@ namespace Tests\Unit\Services;
 
 use App\Exceptions\PersonalDriveExceptions\UploadFileException;
 use App\Services\FileOperationsService;
-use App\Services\LPathService;
+use App\Services\PathService;
 use Exception;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use League\Flysystem\Filesystem;
@@ -70,7 +70,7 @@ class FileOperationsServiceTest extends TestCase
 
         $this->fs = Mockery::mock(Filesystem::class);
 
-        $pathService = Mockery::mock(LPathService::class);
+        $pathService = Mockery::mock(PathService::class);
         $pathService->shouldReceive('getStorageFolderPath')->andReturn('');
 
         $this->service = new FileOperationsService($pathService);

@@ -7,7 +7,7 @@ use App\Helpers\ResponseHelper;
 use App\Http\Requests\DriveRequests\DownloadRequest;
 use App\Models\LocalFile;
 use App\Services\DownloadService;
-use App\Services\LPathService;
+use App\Services\PathService;
 use Exception;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Support\Facades\Response;
@@ -15,12 +15,12 @@ use Symfony\Component\HttpFoundation\BinaryFileResponse;
 
 class DownloadController
 {
-    protected LPathService $pathService;
+    protected PathService $pathService;
 
     protected DownloadService $downloadService;
 
     public function __construct(
-        LPathService $pathService,
+        PathService $pathService,
         DownloadService $downloadService
     ) {
         $this->pathService = $pathService;

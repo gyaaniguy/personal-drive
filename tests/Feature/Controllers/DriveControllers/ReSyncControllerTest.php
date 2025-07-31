@@ -3,7 +3,7 @@
 namespace Feature\Controllers\DriveControllers;
 
 use App\Models\LocalFile;
-use App\Services\LPathService;
+use App\Services\PathService;
 use Tests\Feature\BaseFeatureTest;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Storage;
@@ -27,7 +27,9 @@ class ReSyncControllerTest extends BaseFeatureTest
         $this->assertCount(0, $allFiles);
 
 
-        $response = $this->post(route('resync'));
+        $response = $this->post(route('resync'),[
+            '_token' => csrf_token(),
+        ]);
         $response->assertSessionHas('status', true);
         $response->assertSessionHas('message', 'Sync successful. Found : 8 files');
         $allFiles = LocalFile::all();
@@ -42,7 +44,9 @@ class ReSyncControllerTest extends BaseFeatureTest
         $allFiles = LocalFile::all();
         $this->assertCount(0, $allFiles);
 
-        $response = $this->post(route('resync'));
+        $response = $this->post(route('resync'),[
+            '_token' => csrf_token(),
+        ]);
         $response->assertSessionHas('status', false);
         $response->assertSessionHas('message', 'No files found');
 

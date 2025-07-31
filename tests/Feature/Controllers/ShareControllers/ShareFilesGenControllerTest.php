@@ -7,7 +7,7 @@ use App\Models\LocalFile;
 use App\Models\Share;
 use App\Models\SharedFile;
 use App\Services\LocalFileStatsService;
-use App\Services\LPathService;
+use App\Services\PathService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\Hash;
 use Illuminate\Support\Str;

@@ -3,7 +3,7 @@
 namespace Tests\Unit\Services;
 
 use App\Models\LocalFile;
-use App\Services\LPathService;
+use App\Services\PathService;
 use App\Services\ThumbnailService;
 use App\Services\FileOperationsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -24,7 +24,7 @@ class ThumbnailServiceTest extends TestCase
         $video = LocalFile::factory()->create(['file_type' => 'video']);
         $doc = LocalFile::factory()->create(['file_type' => 'document']);
 
-        $pathService = Mockery::mock(LPathService::class);
+        $pathService = Mockery::mock(PathService::class);
         $fileOperations = Mockery::mock(FileOperationsService::class);
         $service = new ThumbnailService($pathService, $fileOperations);
 
@@ -45,7 +45,7 @@ class ThumbnailServiceTest extends TestCase
 //        }
 //
 //        $file = LocalFile::factory()->make(['file_type' => 'image']);
-//        $pathService = Mockery::mock(LPathService::class);
+//        $pathService = Mockery::mock(PathService::class);
 //        $service = new ThumbnailService($pathService, $this->makeUploadService());
 //
 //        $this->expectException(\App\Exceptions\PersonalDriveExceptions\ImageRelatedException::class);
@@ -60,7 +60,7 @@ class ThumbnailServiceTest extends TestCase
         $file1 = LocalFile::factory()->make([
             'file_type' => 'pdf',
         ]);
-        $pathService = Mockery::mock(LPathService::class);
+        $pathService = Mockery::mock(PathService::class);
         $uploadService = Mockery::mock(FileOperationsService::class);
         $service = Mockery::mock(ThumbnailService::class, [$pathService, $uploadService])
             ->makePartial()

@@ -9,7 +9,7 @@ use Tests\Feature\BaseFeatureTest;
 use Illuminate\Filesystem\Filesystem;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Services\UploadService;
-use App\Services\LPathService;
+use App\Services\PathService;
 use App\Services\LocalFileStatsService;
 use App\Services\ThumbnailService;
 
@@ -57,7 +57,7 @@ class UploadServiceFeatureTest extends BaseFeatureTest
         $this->makeUser();
         $this->filesystem = new Filesystem();
 
-        $this->pathService = app(LPathService::class);
+        $this->pathService = app(PathService::class);
 
         $this->statsService = Mockery::mock(LocalFileStatsService::class);
         $this->thumbService = Mockery::mock(ThumbnailService::class);

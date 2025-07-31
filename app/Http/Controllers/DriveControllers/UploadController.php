@@ -8,7 +8,7 @@ use App\Http\Requests\DriveRequests\CreateItemRequest;
 use App\Http\Requests\DriveRequests\ReplaceAbortRequest;
 use App\Http\Requests\DriveRequests\UploadRequest;
 use App\Services\LocalFileStatsService;
-use App\Services\LPathService;
+use App\Services\PathService;
 use App\Services\FileOperationsService;
 use App\Services\UploadService;
 use App\Services\UUIDService;
@@ -21,21 +21,21 @@ class UploadController extends Controller
 {
     use FlashMessages;
 
-    protected LPathService $lPathService;
+    protected PathService $pathService;
     protected FileOperationsService $fileOperationsService;
     protected UploadService $uploadService;
     protected LocalFileStatsService $localFileStatsService;
     protected UUIDService $uuidService;
 
     public function __construct(
-        LPathService $lPathService,
+        PathService $pathService,
         LocalFileStatsService $localFileStatsService,
         FileOperationsService $fileOperationsService,
         UploadService $uploadService,
         UUIDService $uuidService,
     ) {
         $this->localFileStatsService = $localFileStatsService;
-        $this->lPathService = $lPathService;
+        $this->pathService = $pathService;
         $this->fileOperationsService = $fileOperationsService;
         $this->uploadService = $uploadService;
         $this->uuidService = $uuidService;
@@ -46,8 +46,8 @@ class UploadController extends Controller
         $conflictsMessage = '';
         $files = $request->validated('files') ?? [];
         $publicPath = $request->validated('path') ?? '';
-        $publicPath = $this->lPathService->cleanDrivePublicPath($publicPath);
-        $privatePath = $this->lPathService->genPrivatePathFromPublic($publicPath);
+        $publicPath = $this->pathService->cleanDrivePublicPath($publicPath);
+        $privatePath = $this->pathService->genPrivatePathFromPublic($publicPath);
 
         if (!$files) {
             return $this->error('File upload failed. No files uploaded');
@@ -142,8 +142,8 @@ class UploadController extends Controller
         $publicPath = $request->validated('path') ?? '';
         $itemName = $request->validated('itemName');
         $isFile = $request->validated('isFile');
-        $publicPath = $this->lPathService->cleanDrivePublicPath($publicPath);
-        $privatePath = $this->lPathService->genPrivatePathFromPublic($publicPath);
+        $publicPath = $this->pathService->cleanDrivePublicPath($publicPath);
+        $privatePath = $this->pathService->genPrivatePathFromPublic($publicPath);
         $storageFilesUUID = $this->uuidService->getStorageFilesUUID();
         if (
             $isFile &&

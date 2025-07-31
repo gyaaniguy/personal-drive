@@ -18,10 +18,10 @@ class ThumbnailService
 {
     private const IMAGE_SIZE = 210;
     protected FileOperationsService $fileOperationsService;
-    private LPathService $pathService;
+    private PathService $pathService;
     private string $imageExt = '.jpeg';
 
-    public function __construct(LPathService $pathService, FileOperationsService $fileOperationsService)
+    public function __construct(PathService $pathService, FileOperationsService $fileOperationsService)
     {
         $this->pathService = $pathService;
         $this->fileOperationsService = $fileOperationsService;

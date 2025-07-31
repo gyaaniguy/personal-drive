@@ -11,10 +11,10 @@ class FileRenameService
 {
     protected FileOperationsService $fileOperationsService;
     protected UUIDService $uuidService;
-    private LPathService $pathService;
+    private PathService $pathService;
 
     public function __construct(
-        LPathService $pathService,
+        PathService $pathService,
         FileOperationsService $fileOperationsService,
         UUIDService $uuidService,
     ) {

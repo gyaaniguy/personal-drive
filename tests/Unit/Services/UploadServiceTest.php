@@ -5,7 +5,7 @@ use Illuminate\Support\Facades\Session;
 use PHPUnit\Framework\TestCase;
 use App\Services\UploadService;
 use Illuminate\Filesystem\Filesystem;
-use App\Services\LPathService;
+use App\Services\PathService;
 use App\Services\LocalFileStatsService;
 use App\Services\ThumbnailService;
 
@@ -27,7 +27,7 @@ class UploadServiceTest extends TestCase
     private function makeService(): UploadService
     {
         return new UploadService(
-            Mockery::mock(LPathService::class),
+            Mockery::mock(PathService::class),
             Mockery::mock(LocalFileStatsService::class),
             Mockery::mock(ThumbnailService::class),
             $this->filesystem
@@ -78,7 +78,7 @@ class UploadServiceTest extends TestCase
 //        $sessionMock->shouldReceive('get')->with('temp_replace_dir_uuid')->andReturn($uuid);
 //        Session::swap($sessionMock);
 //
-//        $pathService = Mockery::mock(LPathService::class);
+//        $pathService = Mockery::mock(PathService::class);
 //        $pathService->shouldReceive('getTempStorageDirPath')->andReturn($basePath);
 //
 //        $service = new UploadService(

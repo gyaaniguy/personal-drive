@@ -2,48 +2,48 @@
 
 namespace Tests\Unit\Services;
 
-use App\Services\LPathService;
+use App\Services\PathService;
 use App\Services\UUIDService;
 use PHPUnit\Framework\TestCase;
 
-class LPathServiceTest extends TestCase
+class PathServiceTest extends TestCase
 {
-    protected LPathService $lPathService;
+    protected PathService $pathService;
     protected UUIDService $uuidService;
-    protected LPathService $lPathServiceMock;
+    protected PathService $pathServiceMock;
     protected string $tempDir;
 
     public function testCleanDrivePublicPath()
     {
-        $result = $this->lPathService->cleanDrivePublicPath('this/folder/drive');
+        $result = $this->pathService->cleanDrivePublicPath('this/folder/drive');
         self::assertEquals($result, 'this/folder/drive');
 
-        $result = $this->lPathService->cleanDrivePublicPath('/drive/my/drive');
+        $result = $this->pathService->cleanDrivePublicPath('/drive/my/drive');
         self::assertEquals($result, 'my/drive');
 
-        $result = $this->lPathService->cleanDrivePublicPath('/drive/');
+        $result = $this->pathService->cleanDrivePublicPath('/drive/');
         self::assertEquals($result, '');
 
-        $result = $this->lPathService->cleanDrivePublicPath('/drive');
+        $result = $this->pathService->cleanDrivePublicPath('/drive');
         self::assertEquals($result, '');
 
-        $result = $this->lPathService->cleanDrivePublicPath('/drivemy/drive');
+        $result = $this->pathService->cleanDrivePublicPath('/drivemy/drive');
         self::assertEquals($result, '/drivemy/drive');
     }
 
     public function testGenPrivatePathFromPublicWithEmptyPublicPath()
     {
-        $this->lPathServiceMock->method('getStorageFolderPath')->willReturn('test/storage/path/test-uuid');
+        $this->pathServiceMock->method('getStorageFolderPath')->willReturn('test/storage/path/test-uuid');
 
-        $result = $this->lPathServiceMock->genPrivatePathFromPublic('');
+        $result = $this->pathServiceMock->genPrivatePathFromPublic('');
         $this->assertEquals('test/storage/path/test-uuid/', $result);
     }
 
     public function testGenPrivatePathFromPublicWithNonExistentPath()
     {
-        $this->lPathServiceMock->method('getStorageFolderPath')->willReturn('/test/storage/path/test-uuid');
+        $this->pathServiceMock->method('getStorageFolderPath')->willReturn('/test/storage/path/test-uuid');
 
-        $result = $this->lPathServiceMock->genPrivatePathFromPublic('/drive/nonexistent/path');
+        $result = $this->pathServiceMock->genPrivatePathFromPublic('/drive/nonexistent/path');
         $this->assertEquals('/test/storage/path/test-uuid/nonexistent/path/', $result);
     }
 
@@ -51,8 +51,8 @@ class LPathServiceTest extends TestCase
     {
         parent::setUp();
         $this->uuidService = $this->createMock(UUIDService::class);
-        $this->lPathService = new LPathService($this->uuidService);
-        $this->lPathServiceMock = $this->getMockBuilder(LPathService::class)
+        $this->pathService = new PathService($this->uuidService);
+        $this->pathServiceMock = $this->getMockBuilder(PathService::class)
             ->setConstructorArgs([$this->uuidService])
             ->onlyMethods(['getStorageFolderPath'])
             ->getMock();

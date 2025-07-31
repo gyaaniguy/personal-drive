@@ -6,7 +6,7 @@ use App\Http\Requests\DriveRequests\FileDeleteRequest;
 use App\Models\LocalFile;
 use App\Services\FileDeleteService;
 use App\Services\LocalFileStatsService;
-use App\Services\LPathService;
+use App\Services\PathService;
 use App\Traits\FlashMessages;
 use Illuminate\Http\RedirectResponse;
 
@@ -16,13 +16,13 @@ class FileDeleteController
 
     protected LocalFileStatsService $localFileStatsService;
 
-    protected LPathService $pathService;
+    protected PathService $pathService;
 
     protected FileDeleteService $fileDeleteService;
 
     public function __construct(
         LocalFileStatsService $localFileStatsService,
-        LPathService $pathService,
+        PathService $pathService,
         FileDeleteService $fileDeleteService
     ) {
         $this->localFileStatsService = $localFileStatsService;

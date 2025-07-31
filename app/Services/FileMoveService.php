@@ -7,14 +7,14 @@ use App\Models\LocalFile;
 
 class FileMoveService
 {
-    protected LPathService $pathService;
+    protected PathService $pathService;
     protected LocalFileStatsService $localFileStatsService;
     protected FileOperationsService $fileOperationsService;
     protected UUIDService $uuidService;
     private string $storageFilesUuid;
 
     public function __construct(
-        LPathService $pathService,
+        PathService $pathService,
         LocalFileStatsService $localFileStatsService,
         FileOperationsService $fileOperationsService,
         UUIDService $uuidService

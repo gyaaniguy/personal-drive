@@ -13,9 +13,9 @@ use SplFileInfo;
 
 class LocalFileStatsService
 {
-    private LPathService $pathService;
+    private PathService $pathService;
 
-    public function __construct(LPathService $pathService)
+    public function __construct(PathService $pathService)
     {
         $this->pathService = $pathService;
     }
