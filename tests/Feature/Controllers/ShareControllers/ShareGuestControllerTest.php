@@ -77,6 +77,8 @@ class ShareGuestControllerTest extends BaseFeatureTest
     public function test_get_invalid_password()
     {
         $slug = 'test-slug';
+        $this->createMultipleShares([$slug]);
+        $this->logout();
         $response = $this->post(route('shared.check-password'), [
             '_token' => csrf_token(),
             'slug' => $slug,

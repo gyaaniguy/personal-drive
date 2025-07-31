@@ -65,16 +65,4 @@ class UploadFileHelperTest extends BaseFeatureTest
         $method->invoke(null, '../invalid/path');
     }
 
-
-    public function test_delete_folder_deletes_folder_successfully()
-    {
-        $dirPath = __DIR__ . '/folder_to_delete';
-        mkdir($dirPath, 0750, true);
-        file_put_contents($dirPath . '/file.txt', 'test');
-
-        $result = UploadFileHelper::deleteFolder($dirPath);
-
-        $this->assertTrue($result);
-        $this->assertDirectoryDoesNotExist($dirPath);
-    }
 }

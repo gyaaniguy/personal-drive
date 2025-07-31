@@ -25,13 +25,4 @@ class UploadFileHelper
         return $path;
     }
 
-
-    public static function deleteFolder(string $dir): bool
-    {
-        if (File::exists($dir)) {
-            return File::deleteDirectory($dir); // Delete everything inside UUID dir
-        }
-
-        return true;
-    }
 }
