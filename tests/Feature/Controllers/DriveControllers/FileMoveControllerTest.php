@@ -25,7 +25,7 @@ class FileMoveControllerTest extends BaseFeatureTest
             'path' => $testPath
         ]);
         $response->assertSessionHas('status', false);
-        $response->assertSessionHas('message', 'Error: Could not move files');
+        $response->assertSessionHas('message', 'Could not find any valid files to move');
     }
 
     public function test_move_file_success()
