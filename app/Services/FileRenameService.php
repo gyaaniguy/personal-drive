@@ -28,7 +28,7 @@ class FileRenameService
         $storageFolderName = $this->uuidService->getStorageFilesUUID();
 
         $itemPathName = $storageFolderName . DIRECTORY_SEPARATOR . $file->getPublicPathname();
-        $itemPublicDestPathName =  $storageFolderName . DIRECTORY_SEPARATOR . $file->getPublicPath() . $newFilename;
+        $itemPublicDestPathName = $storageFolderName . DIRECTORY_SEPARATOR . $file->getPublicPath() . $newFilename;
         $this->fileOperationsService->move($itemPathName, $itemPublicDestPathName);
 
         if ($this->fileOperationsService->fileExists($itemPublicDestPathName)) {

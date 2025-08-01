@@ -35,7 +35,6 @@ class ThumbnailServiceTest extends TestCase
     }
 
 
-
     public function test_generate_thumbnails_for_image_returns_count()
     {
         $file = LocalFile::factory()->make([

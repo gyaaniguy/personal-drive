@@ -37,7 +37,6 @@ class FileOperationsService
     {
         if (!$this->filesystem) {
             $this->basePath = Setting::getStoragePath();
-            ;
             if (!$this->basePath) {
                 return false;
             }

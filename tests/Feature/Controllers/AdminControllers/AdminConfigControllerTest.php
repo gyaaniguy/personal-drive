@@ -60,6 +60,7 @@ class AdminConfigControllerTest extends BaseFeatureTest
         $response = $this->updateStoragePost(false);
         $this->assertSessionHas($response, 'Unable to create storage directory. Check Permissions');
     }
+
     public function test_update_thumbnail_not_writable_fail()
     {
         $this->fileOptsMock->shouldReceive('isWritable')->with($this->thumbnailUuid)->andReturn(false);
@@ -77,7 +78,7 @@ class AdminConfigControllerTest extends BaseFeatureTest
         return $response;
     }
 
-    protected function assertSessionHas($response , string $message): void
+    protected function assertSessionHas($response, string $message): void
     {
         $response->assertSessionHas(
             'message',

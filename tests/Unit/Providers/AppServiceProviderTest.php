@@ -58,5 +58,4 @@ class AppServiceProviderTest extends TestCase
         }
         $this->assertTrue(RateLimiter::tooManyAttempts($key, 7));
     }
-
 }

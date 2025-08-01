@@ -28,7 +28,7 @@ class AdminConfigController extends Controller
     public function index(Request $request): Response
     {
         $setupMode = (bool) $request->query('setupMode');
-        $storagePath = Setting::getStoragePath();;
+        $storagePath = Setting::getStoragePath();
 
         return Inertia::render('Admin/Config', [
             'storage_path' => $storagePath,

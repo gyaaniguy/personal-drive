@@ -36,9 +36,9 @@ class AppServiceProviderFeatureTest extends BaseFeatureTest
         RateLimiter::clear('login|' . '127.0.0.1');
         // Send 20 allowed POST requests
         for ($i = 0; $i < 20; $i++) {
-            $this->get(route('shared.password',['slug' => 'slug']));
+            $this->get(route('shared.password', ['slug' => 'slug']));
         }
-        $response = $this->get(route('shared.password',['slug' => 'slug']));
+        $response = $this->get(route('shared.password', ['slug' => 'slug']));
         $response->assertSessionHas('status', false);
         $response->assertRedirect(route('rejected', ['message' => 'Too Many requests. Please try again later']));
     }

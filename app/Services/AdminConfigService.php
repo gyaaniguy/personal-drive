@@ -49,6 +49,15 @@ class AdminConfigService
         }
     }
 
+    public function updateSetting(string $storagePath): bool
+    {
+        $res = $this->setting->updateSetting('storage_path', $storagePath);
+        if ($res) {
+            $this->fileOperationsService->setFilesystem(null);
+        }
+        return $res;
+    }
+
     protected function ensureDirectoryExists(string $path): bool
     {
         if ($this->fileOperationsService->directoryExists($path)) {
@@ -56,6 +65,11 @@ class AdminConfigService
         }
 
         return $this->fileOperationsService->makeFolder($path) && $this->fileOperationsService->isWritable($path);
+    }
+
+    private function revertSetting(): bool
+    {
+        return $this->setting->revertStoragePath();
     }
 
     public function getPhpUploadMaxFilesize(): string
@@ -71,19 +85,5 @@ class AdminConfigService
     public function getPhpMaxFileUploads(): string
     {
         return (string) ini_get('max_file_uploads');
-    }
-
-    public function updateSetting(string $storagePath): bool
-    {
-        $res = $this->setting->updateSetting('storage_path', $storagePath);
-        if ($res) {
-            $this->fileOperationsService->setFilesystem(null);
-        }
-        return $res;
-    }
-
-    private function revertSetting(): bool
-    {
-        return $this->setting->revertStoragePath();
     }
 }
