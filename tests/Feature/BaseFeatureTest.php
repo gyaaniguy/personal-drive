@@ -56,16 +56,20 @@ class BaseFeatureTest extends TestCase
         return $response;
     }
 
-    /**
-     * @param  array  $files
-     * @param  string  $testPath
-     * @return void
-     */
     public function assertFilesExist(array $files, string $testPath): void
     {
         $this->assertTrue(collect($files)->every(fn($file) => Storage::disk('local')->exists(
             $this->storageFilesUUID . DIRECTORY_SEPARATOR . ($testPath ? $testPath . DIRECTORY_SEPARATOR : '') . $file->getClientOriginalPath()
         )));
+    }
+
+    public function postCheckPassword(string $slug, string $password): TestResponse
+    {
+        return $this->post(route('shared.check-password'), [
+            '_token' => csrf_token(),
+            'slug' => $slug,
+            'password' => $password,
+        ]);
     }
 
     public function uploadFile(
@@ -89,14 +93,12 @@ class BaseFeatureTest extends TestCase
     public function setStoragePath(string $storagePath = ''): TestResponse
     {
         $storagePath = $this->getFakeLocalStoragePath($storagePath);
-//        $storagePath = substr($storagePath, 0, strlen($storagePath) - 1);
 
         $this->get(route('admin-config', ['setupMode' => '1']));
         return $this->post(route('admin-config.update'), [
             '_token' => csrf_token(),
             'storage_path' => $storagePath
         ]);
-        return $response;
     }
 
     public function logout(): void

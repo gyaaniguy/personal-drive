@@ -15,7 +15,10 @@ use Inertia\Inertia;
 
 Route::middleware(['web', 'auth', CheckAdmin::class])->group(callback: function () {
     Route::get('/admin-config', [AdminControllers\AdminConfigController::class, 'index'])->name('admin-config');
-    Route::post('/admin-config/update', [AdminControllers\AdminConfigController::class, 'update'])->name('admin-config.update');
+    Route::post(
+        '/admin-config/update',
+        [AdminControllers\AdminConfigController::class, 'update']
+    )->name('admin-config.update');
     // Drive routes
     Route::get('/drive/{path?}', [DriveControllers\FileManagerController::class, 'index'])
         ->where('path', '.*')
@@ -29,15 +32,18 @@ Route::middleware(['web', 'auth', CheckAdmin::class])->group(callback: function 
     Route::post(
         '/delete-files',
         [DriveControllers\FileDeleteController::class, 'deleteFiles']
-        )->middleware(CleanupTempFiles::class)->name('drive.delete-files');
+    )->middleware(CleanupTempFiles::class)->name('drive.delete-files');
     Route::post('/resync', [DriveControllers\ReSyncController::class, 'index'])->name('resync');
     Route::post('/gen-thumbs', [DriveControllers\ThumbnailController::class, 'update']);
     Route::post('/search-files', [DriveControllers\SearchFilesController::class, 'index'])->name('drive.search');
     Route::get('/search-files', fn() => redirect('/drive'));
     Route::post('/rename-file', [DriveControllers\FileRenameController::class, 'index'])->name('drive.rename');
-    Route::post('/abort-replace', [DriveControllers\UploadController::class, 'abortReplace'])->name('drive.abort-replace');
+    Route::post(
+        '/abort-replace',
+        [DriveControllers\UploadController::class, 'abortReplace']
+    )->name('drive.abort-replace');
     Route::post('/save-file', [DriveControllers\FileSaveController::class, 'update'])
-    ->name('drive.save-file');
+        ->name('drive.save-file');
     Route::post('/move-files', [DriveControllers\FileMoveController::class, 'update'])->name('drive.move-files');
 
     // Share control Routes
@@ -86,7 +92,7 @@ Route::get(
 )->name('rejected');
 
 // Setup
-Route::middleware([PreventSetupAccess::class, 'web'])->group(function () {
+Route::middleware([PreventSetupAccess::class, 'web', 'throttle:login'])->group(function () {
     Route::get('/setup/account', [
         AdminControllers\SetupController::class, 'show'
     ])->middleware(EnsureFrontendBuilt::class)->name('setup.account');

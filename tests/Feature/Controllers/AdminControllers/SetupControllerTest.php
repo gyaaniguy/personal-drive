@@ -6,10 +6,8 @@ use App\Http\Middleware\PreventSetupAccess;
 use App\Models\User;
 use App\Services\FileOperationsService;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
 use Tests\Feature\BaseFeatureTest;
-use Tests\TestCase;
 
 class SetupControllerTest extends BaseFeatureTest
 {

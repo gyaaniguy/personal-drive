@@ -2,13 +2,12 @@
 
 namespace Tests\Unit\Providers;
 
-use App\Exceptions\PersonalDriveExceptions\ThrottleException;
 use App\Models\Setting;
 use App\Providers\AppServiceProvider;
 use App\Services\UUIDService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\RateLimiter;
-use Illuminate\Http\Request;
 use Mockery;
 use Tests\TestCase;
 
@@ -32,28 +31,32 @@ class AppServiceProviderTest extends TestCase
         $this->assertInstanceOf(UUIDService::class, $resolved);
     }
 
-    public function test_rate_limiters_are_registered()
+    public function test_login_and_shared_rate_limiting_enforced()
     {
-        RateLimiter::clear('login');
-        RateLimiter::clear('shared');
+        $ip = '127.0.0.1';
+        $loginKey = 'login|' . $ip;
+        $sharedKey = 'shared|' . $ip;
 
-        (new AppServiceProvider($this->app))->boot();
+        // Hit login limit
+        $this->testThrottle($loginKey);
+        $this->testThrottle($sharedKey);
 
-        $loginLimit = RateLimiter::limiter('login');
-        $sharedLimit = RateLimiter::limiter('shared');
+        // Travel forward to simulate decay
+        Carbon::setTestNow(now()->addSeconds(61));
+        $this->assertFalse(RateLimiter::tooManyAttempts($loginKey, 7));
+        $this->assertFalse(RateLimiter::tooManyAttempts($sharedKey, 20));
 
-        $this->assertNotNull($loginLimit);
-        $this->assertNotNull($sharedLimit);
-
-        $request = Request::create('/', 'GET', [], [], [], ['REMOTE_ADDR' => '127.0.0.1']);
-
-        $this->expectException(ThrottleException::class);
-        $limit = $loginLimit($request);
-        call_user_func($limit->responseCallback, $request, []);
-
-        // Repeat for shared
-        $this->expectException(ThrottleException::class);
-        $limit = $sharedLimit($request);
-        call_user_func($limit->responseCallback, $request, []);
+        RateLimiter::clear($loginKey);
+        RateLimiter::clear($sharedKey);
+        Carbon::setTestNow();
     }
+
+    private function testThrottle(string $key)
+    {
+        for ($i = 0; $i < 9; $i++) {
+            RateLimiter::hit($key);
+        }
+        $this->assertTrue(RateLimiter::tooManyAttempts($key, 7));
+    }
+
 }

@@ -34,11 +34,7 @@ class ShareGuestControllerTest extends BaseFeatureTest
         $this->createShare($toShareFileIds, 'password1', 7, $slug1);
         $this->logout();
 
-        $response = $this->post(route('shared.check-password'), [
-            '_token' => csrf_token(),
-            'slug' => $slug1,
-            'password' => 'password1',
-        ]);
+        $response = $this->postCheckPassword($slug1, 'password1');
 
         $response->assertSessionHas("shared_{$slug1}_authenticated", true);
         $response->assertStatus(302);
@@ -64,12 +60,8 @@ class ShareGuestControllerTest extends BaseFeatureTest
         $slug = 'test-slug';
         $this->createMultipleShares([$slug]);
         $this->logout();
+        $response = $this->postCheckPassword('wrong-slug', 'password');
 
-        $response = $this->post(route('shared.check-password'), [
-            '_token' => csrf_token(),
-            'slug' => 'wrong-slug',
-            'password' => 'password',
-        ]);
         $response->assertSessionHas('status', false);
         $response->assertSessionHas('message', 'Wrong password');
     }
@@ -79,12 +71,8 @@ class ShareGuestControllerTest extends BaseFeatureTest
         $slug = 'test-slug';
         $this->createMultipleShares([$slug]);
         $this->logout();
-        $response = $this->post(route('shared.check-password'), [
-            '_token' => csrf_token(),
-            'slug' => $slug,
-            'password' => 'wrong-password',
+        $response = $this->postCheckPassword($slug, 'wrong-password');
 
-        ]);
         $response->assertSessionHas('status', false);
         $response->assertSessionHas('message', 'Wrong password');
     }
@@ -136,11 +124,12 @@ class ShareGuestControllerTest extends BaseFeatureTest
     {
         $this->logout();
         $response = $this->get('/shared/');
-        $response->assertRedirect('/rejected');
+        $response->assertRedirect(route('rejected'));
 
         $response = $this->get('/shared/' . 'no-such-share');
         $response->assertRedirect(route('login', ['slug' => 'no-such-share']));
     }
+
 
 
     protected function setUp(): void
