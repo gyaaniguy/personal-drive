@@ -47,10 +47,6 @@ class ShareFilesGenController
 
         $share = Share::add($slug, $hashedPassword, $expiry, $localFiles[0]->public_path);
 
-        if (!$share) {
-            throw ShareFileException::couldNotShare();
-        }
-
         $sharedFiles = SharedFile::addArray($localFiles, $share->id);
         if (!$sharedFiles) {
             throw ShareFileException::couldNotShare();

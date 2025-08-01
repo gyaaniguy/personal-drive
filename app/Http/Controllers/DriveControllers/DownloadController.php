@@ -31,7 +31,7 @@ class DownloadController
     {
         $fileKeyArray = $request->validated('fileList');
         $localFiles = LocalFile::getByIds($fileKeyArray)->get();
-        if (!$localFiles || count($localFiles) === 0) {
+        if ($localFiles->isEmpty()) {
             throw FetchFileException::notFoundDownload();
         }
         try {

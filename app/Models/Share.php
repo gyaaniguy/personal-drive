@@ -2,6 +2,7 @@
 
 namespace App\Models;
 
+use App\Exceptions\PersonalDriveExceptions\ShareFileException;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -9,6 +10,7 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\Relations\HasMany;
 use Illuminate\Database\Eloquent\Relations\HasManyThrough;
 use Illuminate\Support\Facades\DB;
+use Throwable;
 
 class Share extends Model
 {
@@ -28,13 +30,18 @@ class Share extends Model
         ?string $expiry = '',
         ?string $publicPath = '',
     ): self {
-        return static::create([
-            'slug' => $slug,
-            'password' => $password,
-            'expiry' => $expiry,
-            'public_path' => $publicPath,
-        ]);
+        try {
+            return static::create([
+                'slug' => $slug,
+                'password' => $password,
+                'expiry' => $expiry,
+                'public_path' => $publicPath,
+            ]);
+        } catch (Throwable $e) {
+            throw ShareFileException::couldNotShare();
+        }
     }
+
 
     public static function getAllUnExpired(): Collection
     {

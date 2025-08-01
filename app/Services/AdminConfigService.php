@@ -67,9 +67,9 @@ class AdminConfigService
         return $this->fileOperationsService->makeFolder($path) && $this->fileOperationsService->isWritable($path);
     }
 
-    private function revertSetting(): bool
+    private function revertSetting(): void
     {
-        return $this->setting->revertStoragePath();
+        $this->setting->revertStoragePath();
     }
 
     public function getPhpUploadMaxFilesize(): string

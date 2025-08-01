@@ -5,6 +5,7 @@ namespace App\Services;
 use App\Exceptions\PersonalDriveExceptions\FileMoveException;
 use App\Exceptions\PersonalDriveExceptions\UploadFileException;
 use App\Models\Setting;
+use Exception;
 use League\Flysystem\Filesystem;
 use League\Flysystem\FilesystemException;
 use League\Flysystem\Local\LocalFilesystemAdapter;
@@ -28,7 +29,7 @@ class FileOperationsService
         }
         try {
             $this->filesystem->move($src, $dest);
-        } catch (FilesystemException $e) {
+        } catch (Exception | FilesystemException $e) {
             throw FileMoveException::couldNotMove();
         }
     }

@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use Hamcrest\Core\Set;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 
@@ -34,7 +33,7 @@ class Setting extends Model
         return $result->wasRecentlyCreated || $result->wasChanged() || $result->exists;
     }
 
-    public static function getStoragePath()
+    public static function getStoragePath(): string
     {
         return Setting::getSettingByKeyName(Setting::$storagePath);
     }

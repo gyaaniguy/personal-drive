@@ -5,7 +5,6 @@ namespace App\Services;
 use App\Exceptions\PersonalDriveExceptions\FileRenameException;
 use App\Models\LocalFile;
 use Illuminate\Support\Facades\DB;
-use Illuminate\Support\Facades\File;
 
 class FileRenameService
 {
@@ -26,21 +25,19 @@ class FileRenameService
     public function renameFile(LocalFile $file, string $newFilename): void
     {
         $storageFolderName = $this->uuidService->getStorageFilesUUID();
-
         $itemPathName = $storageFolderName . DIRECTORY_SEPARATOR . $file->getPublicPathname();
         $itemPublicDestPathName = $storageFolderName . DIRECTORY_SEPARATOR . $file->getPublicPath() . $newFilename;
-        $this->fileOperationsService->move($itemPathName, $itemPublicDestPathName);
 
         if ($this->fileOperationsService->fileExists($itemPublicDestPathName)) {
             throw FileRenameException::couldNotRename();
         }
 
+        $this->fileOperationsService->move($itemPathName, $itemPublicDestPathName);
         if ($file->is_dir) {
             $this->updateDirChildrenRecursively($file, $newFilename);
         }
 
         $updated = $file->update(['filename' => $newFilename]);
-
         if (!$updated) {
             throw FileRenameException::couldNotUpdateIndex();
         }

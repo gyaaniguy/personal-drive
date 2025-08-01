@@ -117,6 +117,6 @@ class ThumbnailService
         }
         $fullFileThumbnailPath = $this->getFullFileThumbnailPath($file);
 
-        return $this->imageResize($privateFilePath, $fullFileThumbnailPath, self::IMAGE_SIZE);
+        return $this->imageResize($privateFilePath, $fullFileThumbnailPath);
     }
 }

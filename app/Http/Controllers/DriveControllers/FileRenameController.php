@@ -6,7 +6,6 @@ use App\Http\Requests\DriveRequests\FileRenameRequest;
 use App\Models\LocalFile;
 use App\Services\FileRenameService;
 use App\Traits\FlashMessages;
-use Exception;
 use Illuminate\Http\RedirectResponse;
 use App\Http\Controllers\Controller;
 
