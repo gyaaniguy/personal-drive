@@ -65,7 +65,9 @@ class FileRenameControllerTest extends BaseFeatureTest
 
         $this->assertAuthenticated();
         $firstFile = LocalFile::first();
-        $this->postRename($firstFile->id, $fileName);
+        $response = $this->postRename($firstFile->id, $fileName);
+        $response->assertSessionHas('status', true);
+        $response->assertSessionHas('message', 'Renamed to '. $fileName);
 
         Storage::disk('local')->assertExists(
             $this->storageFilesUUID . DIRECTORY_SEPARATOR . $testPath . DIRECTORY_SEPARATOR . $fileName
