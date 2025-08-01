@@ -46,6 +46,14 @@ class AdminConfigControllerTest extends BaseFeatureTest
         $this->assertSessionHas($response, 'Storage path updated successfully');
     }
 
+    protected function assertSessionHas($response, string $message): void
+    {
+        $response->assertSessionHas(
+            'message',
+            fn($value) => str_contains($value, $message)
+        );
+    }
+
     public function test_update_setting_fail()
     {
         $this->settingMock->shouldReceive('updateSetting')->withAnyArgs()->andReturn(false);
@@ -53,6 +61,15 @@ class AdminConfigControllerTest extends BaseFeatureTest
         $this->assertSessionHas($response, 'Failed to save storage path setting');
     }
 
+    public function updateStoragePost($status = true): TestResponse
+    {
+        $originalStoragePath = Setting::getStoragePath();
+        $response = $this->setStoragePath($this->newStoragePath);
+        $response->assertSessionHas('status', $status);
+        $response->assertRedirect(route('admin-config', ['setupMode' => true]));
+        $this->assertEquals($originalStoragePath, Setting::getStoragePath());
+        return $response;
+    }
 
     public function test_update_storage_not_writable_fail()
     {
@@ -66,24 +83,6 @@ class AdminConfigControllerTest extends BaseFeatureTest
         $this->fileOptsMock->shouldReceive('isWritable')->with($this->thumbnailUuid)->andReturn(false);
         $response = $this->updateStoragePost(false);
         $this->assertSessionHas($response, 'Unable to create thumbnail directory. Check Permissions');
-    }
-
-    public function updateStoragePost($status = true): TestResponse
-    {
-        $originalStoragePath = Setting::getStoragePath();
-        $response = $this->setStoragePath($this->newStoragePath);
-        $response->assertSessionHas('status', $status);
-        $response->assertRedirect(route('admin-config', ['setupMode' => true]));
-        $this->assertEquals($originalStoragePath, Setting::getStoragePath());
-        return $response;
-    }
-
-    protected function assertSessionHas($response, string $message): void
-    {
-        $response->assertSessionHas(
-            'message',
-            fn($value) => str_contains($value, $message)
-        );
     }
 
     protected function setUp(): void

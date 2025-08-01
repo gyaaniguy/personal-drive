@@ -131,7 +131,6 @@ class ShareGuestControllerTest extends BaseFeatureTest
     }
 
 
-
     protected function setUp(): void
     {
         parent::setUp();

@@ -101,6 +101,15 @@ class BaseFeatureTest extends TestCase
         ]);
     }
 
+    /**
+     * @param  string  $storagePath
+     * @return string
+     */
+    public function getFakeLocalStoragePath(string $storagePath): string
+    {
+        return Storage::disk('local')->path($storagePath);
+    }
+
     public function logout(): void
     {
         $this->post(route('logout'), [
@@ -150,15 +159,6 @@ class BaseFeatureTest extends TestCase
         }
 
         return $this->post(route('drive.share-files'), $postData);
-    }
-
-    /**
-     * @param  string  $storagePath
-     * @return string
-     */
-    public function getFakeLocalStoragePath(string $storagePath): string
-    {
-        return Storage::disk('local')->path($storagePath);
     }
 
     protected function setup(): void

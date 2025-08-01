@@ -6,6 +6,7 @@ use App\Models\LocalFile;
 use App\Services\FileOperationsService;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Support\Str;
+use Illuminate\Testing\TestResponse;
 use Mockery;
 use Tests\Feature\BaseFeatureTest;
 
@@ -41,6 +42,15 @@ class FileRenameControllerTest extends BaseFeatureTest
         $this->assertEquals(true, $fileObj->is_dir);
     }
 
+    public function postRename(string $ulid, string $filename): TestResponse
+    {
+        return $this->post(route('drive.rename'), [
+            '_token' => csrf_token(),
+            'id' => $ulid,
+            'filename' => $filename,
+        ]);
+    }
+
     public function test_rename_folder_success()
     {
         $this->rename_folder_with_path();
@@ -61,11 +71,12 @@ class FileRenameControllerTest extends BaseFeatureTest
             $this->storageFilesUUID . DIRECTORY_SEPARATOR . $testPath . DIRECTORY_SEPARATOR . $fileName
         );
     }
+
     public function test_rename_file_exist_fail()
     {
         $testPath = 'foo/bar';
         $fileName = 'new_filename.txt';
-        $this->fileOptsMock->shouldReceive('fileExists')->with($this->storageFilesUUID.DIRECTORY_SEPARATOR.$testPath.DIRECTORY_SEPARATOR.$fileName)->andReturn(true);
+        $this->fileOptsMock->shouldReceive('fileExists')->with($this->storageFilesUUID . DIRECTORY_SEPARATOR . $testPath . DIRECTORY_SEPARATOR . $fileName)->andReturn(true);
         $this->uploadFile($testPath, 'file.txt');
         $firstFile = LocalFile::first();
         $response = $this->postRename($firstFile->id, $fileName);
@@ -79,15 +90,6 @@ class FileRenameControllerTest extends BaseFeatureTest
         $response = $this->postRename($ulid, 'new_filename1.txt');
         $response->assertSessionHas('status', false);
         $response->assertSessionHas('message', 'Could not find file');
-    }
-
-    public function postRename(string $ulid, string $filename): \Illuminate\Testing\TestResponse
-    {
-        return $this->post(route('drive.rename'), [
-            '_token' => csrf_token(),
-            'id' => $ulid,
-            'filename' => $filename,
-        ]);
     }
 
     protected function setUp(): void
