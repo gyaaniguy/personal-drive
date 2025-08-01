@@ -24,11 +24,8 @@ class FileMoveController extends Controller
     {
         $fileKeyArray = $request->validated('fileList');
         $destinationPath = $request->validated('path');
-        try {
-            $res = $this->fileMoveService->moveFiles($fileKeyArray, $destinationPath);
-        } catch (Exception $e) {
-            return $this->error('Error: Could not move files');
-        }
+        $res = $this->fileMoveService->moveFiles($fileKeyArray, $destinationPath);
+
 
         return $res ? $this->success('Files moved successfully.') : $this->error('Error: Could not move files');
     }
