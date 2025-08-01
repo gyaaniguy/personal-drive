@@ -13,7 +13,6 @@ use Tests\TestCase;
 
 class AdminConfigServiceTest extends TestCase
 {
-    use CreatesUploadService;
 
     protected $uuidService;
     protected $uploadService;

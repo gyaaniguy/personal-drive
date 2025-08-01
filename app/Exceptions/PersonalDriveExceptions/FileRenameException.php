@@ -6,7 +6,7 @@ class FileRenameException extends PersonalDriveException
 {
     public static function couldNotRename(): FileRenameException
     {
-        return new self('couldNotRename');
+        return new self('Could not rename file. File with same name exists');
     }
 
     public static function couldNotUpdateIndex(): FileRenameException

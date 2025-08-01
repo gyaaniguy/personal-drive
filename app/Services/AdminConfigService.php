@@ -4,7 +4,6 @@ namespace App\Services;
 
 use App\Models\Setting;
 use Exception;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 
 class AdminConfigService
 {
@@ -26,46 +25,28 @@ class AdminConfigService
     public function updateStoragePath(string $storagePath): array
     {
         try {
-            $paths = $this->preparePaths($storagePath);
-
-            if (
-                $this->fileOperationsService->directoryExists($storagePath) &&
-                !$this->fileOperationsService->isWritable($storagePath)
-            ) {
-                return ['status' => false, 'message' => 'Storage directory exists but is not writable'];
-            }
-
-            if (!$this->setting->updateSetting('storage_path', $storagePath)) {
+            if (!$this->updateSetting($storagePath)) {
                 return ['status' => false, 'message' => 'Failed to save storage path setting'];
             }
+            if (!$this->ensureDirectoryExists($this->uuidService->getStorageFilesUUID())) {
+                $this->revertSetting();
+                return [
+                    'status' => false, 'message' => 'Unable to create storage directory. Check Permissions'
+                ];
+            }
 
-
-            if (!$this->ensureDirectoryExists($paths['thumbnails'])) {
+            if (!$this->ensureDirectoryExists($this->uuidService->getThumbnailsUUID())) {
+                $this->revertSetting();
                 return [
                     'status' => false,
-                    'message' => 'Unable to create or write to thumbnail directory. Check Permissions'
+                    'message' => 'Unable to create thumbnail directory. Check Permissions'
                 ];
             }
-
-            if (!$this->ensureDirectoryExists($paths['storageFiles'])) {
-                return [
-                    'status' => false, 'message' => 'Unable to create or write to storage directory. Check Permissions'
-                ];
-            }
-
 
             return ['status' => true, 'message' => 'Storage path updated successfully'];
         } catch (Exception $e) {
             return ['status' => false, 'message' => 'An unexpected error occurred: ' . $e->getMessage()];
         }
-    }
-
-    private function preparePaths(): array
-    {
-        return [
-            'storageFiles' => $this->uuidService->getStorageFilesUUID(),
-            'thumbnails' => $this->uuidService->getThumbnailsUUID(),
-        ];
     }
 
     protected function ensureDirectoryExists(string $path): bool
@@ -90,5 +71,19 @@ class AdminConfigService
     public function getPhpMaxFileUploads(): string
     {
         return (string) ini_get('max_file_uploads');
+    }
+
+    public function updateSetting(string $storagePath): bool
+    {
+        $res = $this->setting->updateSetting('storage_path', $storagePath);
+        if ($res) {
+            $this->fileOperationsService->setFilesystem(null);
+        }
+        return $res;
+    }
+
+    private function revertSetting(): bool
+    {
+        return $this->setting->revertStoragePath();
     }
 }

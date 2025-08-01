@@ -42,7 +42,7 @@ class UploadService
 
     public function getTempStorageDirFull(): string
     {
-        $storagePath = Setting::getSettingByKeyName(Setting::$storagePath);
+        $storagePath = Setting::getStoragePath();;
 
         $tempStorageDir = $this->getTempStorageDir();
         if (!$tempStorageDir) {

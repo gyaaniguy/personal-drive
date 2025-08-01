@@ -7,19 +7,22 @@ use App\Services\FileOperationsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use App\Services\AdminConfigService;
 use App\Services\UUIDService;
+use Illuminate\Testing\TestResponse;
 use Mockery;
 use Tests\Feature\BaseFeatureTest;
 
+use const false;
+
 class AdminConfigControllerTest extends BaseFeatureTest
 {
-    private AdminConfigService $adminConfigService;
-    private FileOperationsService $fileService;
-    private Setting $mockSetting;
+    private string $newStoragePath = '';
+    private $fileOptsMock;
+    private string $thumbnailUuid;
+    private $settingMock;
 
     public function test_index_returns_correct_view_with_data()
     {
         $response = $this->get(route('admin-config'));
-
         $response->assertOk();
         $response->assertInertia(
             fn($page) => $page
@@ -34,110 +37,65 @@ class AdminConfigControllerTest extends BaseFeatureTest
         );
     }
 
-    public function test_update_with_valid_data_redirects_to_drive()
+    public function test_update_setting_success()
     {
-        $this->fileService->shouldReceive('directoryExists')->withAnyArgs()->andReturn(true);
-        $this->fileService->shouldReceive('isWritable')->withAnyArgs()->andReturn(true);
-        $this->mockSetting->shouldReceive('updateSetting')
-            ->andReturn(true);
-        $result = $this->adminConfigService->updateStoragePath($this->storagePath);
-
-        $this->assertTrue($result['status']);
-        $this->assertEquals('Storage path updated successfully', $result['message']);
+        $response = $this->setStoragePath($this->newStoragePath);
+        $response->assertSessionHas('status', true);
+        $response->assertRedirect(route('drive'));
+        $this->assertEquals($this->getFakeLocalStoragePath($this->newStoragePath), Setting::getStoragePath());
+        $this->assertSessionHas($response, 'Storage path updated successfully');
     }
 
-    public function test_storage_directory_exists_but_not_writable()
+    public function test_update_setting_fail()
     {
-        $this->fileService->shouldReceive('directoryExists')->with($this->storagePath)->once()->andReturn(true);
-        $this->fileService->shouldReceive('isWritable')->with($this->storagePath)->once()->andReturn(false);
-
-        $result = $this->adminConfigService->updateStoragePath($this->storagePath);
-
-        $this->assertFalse($result['status']);
-        $this->assertEquals('Storage directory exists but is not writable', $result['message']);
+        $this->settingMock->shouldReceive('updateSetting')->withAnyArgs()->andReturn(false);
+        $response = $this->updateStoragePost(false);
+        $this->assertSessionHas($response, 'Failed to save storage path setting');
     }
 
-    public function test_setting_update_fails()
+
+    public function test_update_storage_not_writable_fail()
     {
-        $this->fileService->shouldReceive('directoryExists')->with($this->storagePath)->once()->andReturn(true);
-        $this->fileService->shouldReceive('isWritable')->with($this->storagePath)->once()->andReturn(true);
-
-        $this->mockSetting->shouldReceive('updateSetting')
-            ->andReturn(false);
-
-        $result = $this->adminConfigService->updateStoragePath($this->storagePath);
-
-        $this->assertFalse($result['status']);
-        $this->assertEquals('Failed to save storage path setting', $result['message']);
+        $this->fileOptsMock->shouldReceive('isWritable')->with($this->storageFilesUUID)->andReturn(false);
+        $response = $this->updateStoragePost(false);
+        $this->assertSessionHas($response, 'Unable to create storage directory. Check Permissions');
+    }
+    public function test_update_thumbnail_not_writable_fail()
+    {
+        $this->fileOptsMock->shouldReceive('isWritable')->with($this->thumbnailUuid)->andReturn(false);
+        $response = $this->updateStoragePost(false);
+        $this->assertSessionHas($response, 'Unable to create thumbnail directory. Check Permissions');
     }
 
-    public function test_unable_to_create_storage_directory()
+    public function updateStoragePost($status = true): TestResponse
     {
-        $this->fileService->shouldReceive('isWritable')->with($this->storagePath)->once()->andReturn(true);
-
-        $this->fileService->shouldReceive('makeFolder')->with($this->storageDir)->andReturn(false);
-        $this->fileService->shouldReceive('directoryExists')->with($this->storageDir)->andReturn(true);
-        $this->fileService->shouldReceive('directoryExists')->with($this->storagePath)->andReturn(true);
-        $this->fileService->shouldReceive('directoryExists')->with($this->storageUUID)->andReturn(false);
-        $this->fileService->shouldReceive('directoryExists')->with($this->thumbUUID)->andReturn(true);
-        $this->fileService->shouldReceive('makeFolder')->with($this->storageUUID)->andReturn(false);
-        $this->fileService->shouldReceive('makeFolder')->with($this->thumbUUID)->andReturn(true);
-        $this->fileService->shouldReceive('isWritable')->with($this->storageUUID)->andReturn(true);
-        $this->fileService->shouldReceive('isWritable')->with($this->thumbUUID)->andReturn(true);
-
-        $this->mockSetting->shouldReceive('updateSetting')
-            ->andReturn(true);
-
-        $result = $this->adminConfigService->updateStoragePath($this->storagePath);
-
-        $this->assertFalse($result['status']);
-        $this->assertEquals('Unable to create or write to storage directory. Check Permissions', $result['message']);
+        $originalStoragePath = Setting::getStoragePath();
+        $response = $this->setStoragePath($this->newStoragePath);
+        $response->assertSessionHas('status', $status);
+        $response->assertRedirect(route('admin-config', ['setupMode' => true]));
+        $this->assertEquals($originalStoragePath, Setting::getStoragePath());
+        return $response;
     }
 
-    public function test_unable_to_create_thumbnail_directory()
+    protected function assertSessionHas($response , string $message): void
     {
-        $this->mockSetting->shouldReceive('updateSetting')
-            ->andReturn(true);
-        $this->fileService->shouldReceive('directoryExists')->with($this->storagePath)->once()->andReturn(true);
-        $this->fileService->shouldReceive('isWritable')->with($this->storagePath)->once()->andReturn(true);
-
-        $this->fileService->shouldReceive('isWritable')->with($this->thumbUUID)->andReturn(true);
-
-        $this->fileService->shouldReceive('makeFolder')->with($this->thumbUUID)->andReturn(false);
-        $this->fileService->shouldReceive('directoryExists')->with($this->thumbUUID)->andReturn(false);
-
-
-        $result = $this->adminConfigService->updateStoragePath($this->storagePath);
-
-        $this->assertFalse($result['status']);
-        $this->assertEquals('Unable to create or write to thumbnail directory. Check Permissions', $result['message']);
+        $response->assertSessionHas(
+            'message',
+            fn($value) => str_contains($value, $message)
+        );
     }
 
     protected function setUp(): void
     {
         parent::setUp();
-        $this->makeUser();
+        $this->thumbnailUuid = $this->uuidService->getThumbnailsUUID();
 
-        $this->mockSetting = Mockery::mock('App\Models\Setting');
-        $this->mockSetting->shouldReceive('getSettingByKeyName')
-            ->with('uuidForStorageFiles')
-            ->andReturn('test_storage_uuid');
-        $this->mockSetting->shouldReceive('getSettingByKeyName')
-            ->with('uuidForThumbnails')
-            ->andReturn('test_thumbnails_uuid');
-        $this->fileService = Mockery::mock(FileOperationsService::class);
-        $this->uuidService = Mockery::mock(UUIDService::class);
-
-        $this->adminConfigService = new AdminConfigService($this->uuidService, $this->fileService, $this->mockSetting);
-
-        $this->storagePath = '/tmp/storage';
-        $this->storageUUID = 'files-uuid';
-        $this->thumbUUID = 'thumbs-uuid';
-
-        $this->storageDir = $this->storagePath . '/' . $this->storageUUID;
-        $this->thumbDir = $this->storagePath . '/' . $this->thumbUUID;
-
-        $this->uuidService->shouldReceive('getStorageFilesUUID')->andReturn($this->storageUUID);
-        $this->uuidService->shouldReceive('getThumbnailsUUID')->andReturn($this->thumbUUID);
+        $this->makeUserUsingSetup();
+        $this->newStoragePath = '/foo/bar';
+        $this->fileOptsMock = Mockery::mock(FileOperationsService::class)->makePartial();
+        $this->app->instance(FileOperationsService::class, $this->fileOptsMock);
+        $this->settingMock = Mockery::mock(Setting::class)->makePartial();
+        $this->app->instance(Setting::class, $this->settingMock);
+        $this->setupStoragePathPost();
     }
 }

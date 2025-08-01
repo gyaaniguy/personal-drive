@@ -16,7 +16,7 @@ class FileOperationsService
     private string $basePath;
 
 
-    public function setFilesystem(Filesystem $filesystem): void
+    public function setFilesystem(?Filesystem $filesystem): void
     {
         $this->filesystem = $filesystem;
     }
@@ -36,7 +36,8 @@ class FileOperationsService
     private function makeFileSystem(): bool
     {
         if (!$this->filesystem) {
-            $this->basePath = Setting::getSettingByKeyName(Setting::$storagePath);
+            $this->basePath = Setting::getStoragePath();
+            ;
             if (!$this->basePath) {
                 return false;
             }
@@ -54,8 +55,8 @@ class FileOperationsService
         if (!$this->makeFileSystem()) {
             return false;
         }
-        if ($this->directoryExists($this->basePath) && $this->filesystem->fileExists($path)) {
-            return true;
+        if ($this->filesystem->fileExists($path)) {
+            throw UploadFileException::fileExists();
         }
         if (
             file_put_contents(
@@ -67,11 +68,6 @@ class FileOperationsService
         }
 
         return true;
-    }
-
-    public function directoryExists(string $path): bool
-    {
-        return $this->makeFileSystem() && $this->filesystem->directoryExists($path);
     }
 
     public function fileExists(string $path): bool
@@ -97,9 +93,14 @@ class FileOperationsService
         }
     }
 
+    public function directoryExists(string $path): bool
+    {
+        return $this->makeFileSystem() && $this->filesystem->directoryExists($path);
+    }
+
     public function isWritable(string $path): bool
     {
-        return is_writable($this->basePath . DIRECTORY_SEPARATOR . $path);
+        return $this->makeFileSystem() && is_writable($this->basePath . DIRECTORY_SEPARATOR . $path);
     }
 
     public function pathExistsAsFile(string $base, string $path): bool

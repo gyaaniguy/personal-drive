@@ -55,7 +55,7 @@ export default function AdminConfig({
                                     >
                                         Storage Path:
                                     </label>
-                                    <p className="  mt-1">
+                                    <div className="  mt-1">
                                         <p className=" mb-1 ">
                                             Set the local folder where your
                                             files will be stored.
@@ -69,7 +69,7 @@ export default function AdminConfig({
                                             subFolder
                                             <br />- All Shares will get reset !
                                         </p>
-                                    </p>
+                                    </div>
 
                                     <input
                                         type="text"

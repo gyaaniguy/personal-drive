@@ -85,19 +85,14 @@ class BaseFeatureTest extends TestCase
         return $response;
     }
 
-    /**
-     * @param  string  $storagePath
-     * @return TestResponse
-     */
-    public function setStoragePath(string $storagePath): TestResponse
+
+    public function setStoragePath(string $storagePath = ''): TestResponse
     {
-        if (!$storagePath) {
-            $storagePath = Storage::disk('local')->path('');
-            $storagePath = substr($storagePath, 0, strlen($storagePath) - 1);
-        }
+        $storagePath = $this->getFakeLocalStoragePath($storagePath);
+//        $storagePath = substr($storagePath, 0, strlen($storagePath) - 1);
 
         $this->get(route('admin-config', ['setupMode' => '1']));
-        $response = $this->post(route('admin-config.update'), [
+        return $this->post(route('admin-config.update'), [
             '_token' => csrf_token(),
             'storage_path' => $storagePath
         ]);
@@ -153,6 +148,15 @@ class BaseFeatureTest extends TestCase
         }
 
         return $this->post(route('drive.share-files'), $postData);
+    }
+
+    /**
+     * @param  string  $storagePath
+     * @return string
+     */
+    public function getFakeLocalStoragePath(string $storagePath): string
+    {
+        return Storage::disk('local')->path($storagePath);
     }
 
     protected function setup(): void

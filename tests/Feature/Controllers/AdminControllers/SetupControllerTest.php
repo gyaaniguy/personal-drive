@@ -4,6 +4,7 @@ namespace Tests\Feature\Controllers\AdminControllers;
 
 use App\Http\Middleware\PreventSetupAccess;
 use App\Models\User;
+use App\Services\FileOperationsService;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Inertia\Testing\AssertableInertia;
@@ -30,9 +31,16 @@ class SetupControllerTest extends BaseFeatureTest
     public function test_update_storage_path_fail()
     {
         $this->makeUserUsingSetup();
+
+        $this->partialMock(FileOperationsService::class, function ($mock) {
+            $mock->shouldReceive('isWritable')->andReturn(false);
+        });
         $response = $this->setStoragePath('/asdf/tmp/sdf');
         $response->assertSessionHas('status', false);
-        $response->assertSessionHas('message', fn($value) => str_contains($value, 'Unable to create a directory'));
+        $response->assertSessionHas(
+            'message',
+            fn($value) => str_contains($value, 'Unable to create storage directory. Check Permissions')
+        );
         $response->assertRedirect(route('admin-config', ['setupMode' => true]));
     }
 

@@ -38,8 +38,8 @@ class CommonRequestTest extends TestCase
         $validator = Validator::make(['path' => '/valid/path'], ['path' => $rules]);
         $this->assertTrue($validator->passes(), 'The valid path should pass validation.');
 
-        $validator = Validator::make(['path' => str_repeat('a', 101)], ['path' => $rules]);
-        $this->assertFalse($validator->passes(), 'A path exceeding 100 characters should fail validation.');
+        $validator = Validator::make(['path' => str_repeat('a', 257)], ['path' => $rules]);
+        $this->assertFalse($validator->passes(), 'A path exceeding 256 characters should fail validation.');
 
         $validator = Validator::make(['path' => null], ['path' => $rules]);
         $this->assertTrue($validator->passes(), 'A null path should pass validation as it is nullable.');

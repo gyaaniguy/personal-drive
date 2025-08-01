@@ -27,16 +27,11 @@ class FileRenameService
     {
         $storageFolderName = $this->uuidService->getStorageFilesUUID();
 
-        $itemPathName = $file->getPublicPathname();
-        $itemPublicDestPathName = $file->getPublicPath() . $newFilename;
-        $this->fileOperationsService->move(
-            $storageFolderName . DIRECTORY_SEPARATOR . $itemPathName,
-            $storageFolderName . DIRECTORY_SEPARATOR . $itemPublicDestPathName
-        );
-        $itemFileSystemDestPathName = $this->pathService->getStorageFolderPath() .
-            DIRECTORY_SEPARATOR . $itemPublicDestPathName;
+        $itemPathName = $storageFolderName . DIRECTORY_SEPARATOR . $file->getPublicPathname();
+        $itemPublicDestPathName =  $storageFolderName . DIRECTORY_SEPARATOR . $file->getPublicPath() . $newFilename;
+        $this->fileOperationsService->move($itemPathName, $itemPublicDestPathName);
 
-        if (!File::exists($itemFileSystemDestPathName)) {
+        if ($this->fileOperationsService->fileExists($itemPublicDestPathName)) {
             throw FileRenameException::couldNotRename();
         }
 

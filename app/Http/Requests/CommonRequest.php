@@ -20,7 +20,7 @@ class CommonRequest extends FormRequest
 
     public static function pathRules(): array
     {
-        return ['nullable', 'string', new ValidPath(), 'max:100'];
+        return ['nullable', 'string', new ValidPath(), 'max:256'];
     }
 
     public static function passwordRules(): array

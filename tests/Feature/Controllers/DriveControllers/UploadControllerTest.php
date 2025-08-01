@@ -7,8 +7,12 @@ use App\Services\UploadService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
 use Illuminate\Support\Facades\Storage;
+use Illuminate\Testing\TestResponse;
 use Mockery;
 use Tests\Feature\BaseFeatureTest;
+use Tests\TestCase;
+
+use const true;
 
 class UploadControllerTest extends BaseFeatureTest
 {
@@ -55,19 +59,50 @@ class UploadControllerTest extends BaseFeatureTest
         Storage::disk('local')->assertExists($this->storageFilesUUID . DIRECTORY_SEPARATOR . $testPath . DIRECTORY_SEPARATOR . $testFileName2);
     }
 
+    public function test_create_file_same_name()
+    {
+        $this->createItem('', $this->fileName, true);
+    }
+
+    public function createItem(string $fileName, string $testPath = '', bool $isFile = true): TestResponse
+    {
+        return $this->post(route('drive.create-item'), [
+            '_token' => csrf_token(),
+            'itemName' => $fileName,
+            'path' => $testPath,
+            'isFile' => $isFile,
+        ]);
+    }
+
+    public function test_create_file_in_folder()
+    {
+        $this->fileName = 'foo';
+        $response = $this->createItem($this->fileName, '', false);
+        $this->successAsserts($response, '', 'folder');
+        $this->fileName = 'dummy.txt';
+        $response = $this->createItem($this->fileName, 'foo');
+        $this->successAsserts($response, 'foo');
+        $response = $this->createItem($this->fileName, 'foo');
+
+        $response->assertSessionHas('status', false);
+        $response->assertSessionHas('message', 'File already exists');
+    }
+
+    public function successAsserts($response, $testPath = '', $fileFolder = 'file'): void
+    {
+        $response->assertSessionHas('status', true);
+        $response->assertSessionHas('message', 'Created ' . $fileFolder . ' successfully');
+        Storage::disk('local')->assertExists($this->storageFilesUUID . DIRECTORY_SEPARATOR . ($testPath ? $testPath . '/' : '') . $this->fileName);
+    }
+
     public function test_create_file_successfully()
     {
-        $testPath = '';
-        $response = $this->post(route('drive.create-item'), [
-            '_token' => csrf_token(),
-            'itemName' => $this->fileName,
-            'path' => $testPath,
-            'isFile' => true,
-        ]);
+        $response = $this->createItem($this->fileName);
+        $this->successAsserts($response, '', 'file');
+        $response = $this->createItem($this->fileName);
 
-        $response->assertSessionHas('status', true);
-        $response->assertSessionHas('message', 'Created file successfully');
-        Storage::disk('local')->assertExists($this->storageFilesUUID . DIRECTORY_SEPARATOR . $testPath . $this->fileName);
+        $response->assertSessionHas('status', false);
+        $response->assertSessionHas('message', 'File already exists');
     }
 
     public function test_create_folder_successfully()
@@ -151,7 +186,6 @@ class UploadControllerTest extends BaseFeatureTest
         $response->assertSessionHas('status', true);
         $response->assertSessionHas('message', 'Overwritten successfully');
     }
-
 
     public function uploadDuplicates()
     {

@@ -33,8 +33,8 @@ export default function Header() {
                                 Settings
                             </NavLink>
                             <NavLink
-                                href={route("shares-all")}
-                                active={route().current("shares-all")}
+                                href={route("drive.shares-all")}
+                                active={route().current("drive.shares-all")}
                                 className={` text-xs `}
                             >
                                 Shares

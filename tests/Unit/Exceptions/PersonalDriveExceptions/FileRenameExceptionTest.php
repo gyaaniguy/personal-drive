@@ -11,7 +11,7 @@ class FileRenameExceptionTest extends TestCase
     {
         $exception = FileRenameException::couldNotRename();
         $this->assertInstanceOf(FileRenameException::class, $exception);
-        $this->assertEquals('couldNotRename', $exception->getMessage());
+        $this->assertEquals('Could not rename file. File with same name exists', $exception->getMessage());
     }
 
     public function test_couldNotUpdateIndex_method_returns_correct_message()

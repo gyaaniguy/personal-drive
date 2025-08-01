@@ -186,7 +186,7 @@ const ShareModal = ({
                                 </button>
 
                                 <Link
-                                    href="/shares-all"
+                                    href={route("drive.shares-all")}
                                     className={`text-sm text-center px-2 py-1 rounded-md  bg-blue-700 hover:bg-blue-600 active:bg-blue-700`}
                                 >
                                     {" "}

@@ -50,8 +50,6 @@ class FlashMessagesTest extends TestCase
     {
         parent::setUp();
 
-        Session::flush();
-
         $this->flashMessages = new class {
             use FlashMessages;
         };

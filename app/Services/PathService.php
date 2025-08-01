@@ -15,7 +15,7 @@ class PathService
 
 //    public function getTempStorageDirPath(): string
 //    {
-//        $storagePath = Setting::getSettingByKeyName(Setting::$storagePath);
+//        $storagePath = Setting::getStoragePath();;
 //        if (!$storagePath) {
 //            return '';
 //        }
@@ -25,7 +25,7 @@ class PathService
 
     public function getThumbnailDirPath(): string
     {
-        $storagePath = Setting::getSettingByKeyName(Setting::$storagePath);
+        $storagePath = Setting::getStoragePath();;
         $uuid = $this->uuidService->getThumbnailsUUID();
         if (!$storagePath || !$uuid) {
             return '';
@@ -51,7 +51,7 @@ class PathService
 
     public function getStorageFolderPath(): string
     {
-        $storagePath = Setting::getSettingByKeyName(Setting::$storagePath);
+        $storagePath = Setting::getStoragePath();;
         $uuid = $this->uuidService->getStorageFilesUUID();
         if (!$storagePath || !$uuid) {
             return '';

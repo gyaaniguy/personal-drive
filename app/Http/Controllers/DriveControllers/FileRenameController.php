@@ -31,13 +31,8 @@ class FileRenameController extends Controller
         if (!$file || !$file->getPrivatePathNameForFile()) {
             return $this->error('Could not find file');
         }
-        try {
-            $this->fileRenameService->renameFile($file, $filename);
-        } catch (Exception $e) {
-            return $this->error(
-                'Could not rename file. File with same name exists? Also Check permissions. ' . $e->getMessage()
-            );
-        }
+        $this->fileRenameService->renameFile($file, $filename);
+
 
         return $this->success('Renamed to ' . $filename);
     }

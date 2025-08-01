@@ -9,14 +9,12 @@ use App\Services\FileOperationsService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Facades\File;
 use Mockery;
-use Tests\Helpers\CreatesUploadService;
 use Tests\TestCase;
 
 class ThumbnailServiceTest extends TestCase
 {
     use RefreshDatabase;
 
-    use CreatesUploadService;
 
     public function test_get_generatable_files_filters_by_type()
     {
@@ -37,20 +35,6 @@ class ThumbnailServiceTest extends TestCase
     }
 
 
-
-//    public function test_generate_thumbnails_for_files_throws_without_gd()
-//    {
-//        if (extension_loaded('gd')) {
-//            $this->markTestSkipped('GD is loaded, cannot simulate missing extension.');
-//        }
-//
-//        $file = LocalFile::factory()->make(['file_type' => 'image']);
-//        $pathService = Mockery::mock(PathService::class);
-//        $service = new ThumbnailService($pathService, $this->makeUploadService());
-//
-//        $this->expectException(\App\Exceptions\PersonalDriveExceptions\ImageRelatedException::class);
-//        $service->generateThumbnailsForFiles(collect([$file]));
-//    }
 
     public function test_generate_thumbnails_for_image_returns_count()
     {
