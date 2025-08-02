@@ -92,7 +92,7 @@ Route::get(
 )->name('rejected');
 
 // Setup
-Route::middleware([PreventSetupAccess::class, 'web', 'throttle:login'])->group(function () {
+Route::middleware([PreventSetupAccess::class, 'web'])->group(function () {
     Route::get('/setup/account', [
         AdminControllers\SetupController::class, 'show'
     ])->middleware(EnsureFrontendBuilt::class)->name('setup.account');
