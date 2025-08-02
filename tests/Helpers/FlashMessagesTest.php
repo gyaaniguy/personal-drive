@@ -3,9 +3,7 @@
 namespace Helpers;
 
 use App\Traits\FlashMessages;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\RedirectResponse;
-use Illuminate\Support\Facades\Session;
 use Tests\TestCase;
 
 class FlashMessagesTest extends TestCase

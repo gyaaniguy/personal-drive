@@ -21,7 +21,7 @@ class DatabaseFileServiceProvider extends ServiceProvider
             if (!File::exists($databaseDir)) {
                 File::makeDirectory($databaseDir, 0777, true);
             }
-            if (!File::exists($databasePath)) {
+            if (!File::exists($databasePath) && $databasePath !== ':memory:') {
                 File::put($databasePath, '');
                 File::chmod($databasePath, 0776);
             }
