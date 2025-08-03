@@ -1,7 +1,6 @@
 <?php
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Facades\Session;
 use PHPUnit\Framework\TestCase;
 use App\Services\UploadService;
 use Illuminate\Filesystem\Filesystem;
@@ -59,35 +58,4 @@ class UploadServiceTest extends TestCase
         Mockery::close();
     }
 
-//    public function testGetTempStorageDirFullReturnsEmptyIfUuidMissing()
-//    {
-//        $sessionMock = Mockery::mock();
-//        $sessionMock->shouldReceive('get')->with('temp_replace_dir_uuid')->andReturn(null);
-//        Session::swap($sessionMock);
-//
-//        $service = $this->makeService();
-//        $this->assertSame('', $service->getTempStorageDirFull());
-//    }
-
-//    public function testGetTempStorageDirFullReturnsCorrectPath()
-//    {
-//        $uuid = 'abc123';
-//        $basePath = '/tmp/storage';
-//
-//        $sessionMock = Mockery::mock();
-//        $sessionMock->shouldReceive('get')->with('temp_replace_dir_uuid')->andReturn($uuid);
-//        Session::swap($sessionMock);
-//
-//        $pathService = Mockery::mock(PathService::class);
-//        $pathService->shouldReceive('getTempStorageDirPath')->andReturn($basePath);
-//
-//        $service = new UploadService(
-//            $pathService,
-//            Mockery::mock(LocalFileStatsService::class),
-//            Mockery::mock(ThumbnailService::class),
-//            $this->filesystem
-//        );
-//
-//        $this->assertSame($basePath . DS . $uuid, $service->getTempStorageDirFull());
-//    }
 }

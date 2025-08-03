@@ -58,7 +58,7 @@ class UploadService
             return '';
         }
 
-        return "temp_storage" . DS . $tempUuid;
+        return TEMP_SUBDIR . DS . $tempUuid;
     }
 
     public function syncTempToStorage(): bool

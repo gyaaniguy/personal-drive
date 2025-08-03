@@ -11,7 +11,6 @@ use App\Services\LocalFileStatsService;
 use App\Services\PathService;
 use App\Services\FileOperationsService;
 use App\Services\UploadService;
-use App\Services\UUIDService;
 use App\Traits\FlashMessages;
 use Error;
 use Illuminate\Http\RedirectResponse;
@@ -25,20 +24,17 @@ class UploadController extends Controller
     protected FileOperationsService $fileOperationsService;
     protected UploadService $uploadService;
     protected LocalFileStatsService $localFileStatsService;
-    protected UUIDService $uuidService;
 
     public function __construct(
         PathService $pathService,
         LocalFileStatsService $localFileStatsService,
         FileOperationsService $fileOperationsService,
         UploadService $uploadService,
-        UUIDService $uuidService,
     ) {
         $this->localFileStatsService = $localFileStatsService;
         $this->pathService = $pathService;
         $this->fileOperationsService = $fileOperationsService;
         $this->uploadService = $uploadService;
-        $this->uuidService = $uuidService;
     }
 
     public function store(UploadRequest $request): RedirectResponse
@@ -90,7 +86,7 @@ class UploadController extends Controller
                 $this->uploadService->getTempStorageDirFull() . DS . ($publicPath ? $publicPath . DS : '') . $fileNameWithPath
             );
             $tempDirRelativePath = $this->uploadService->getTempStorageDir() . DS . $publicPath;
-            $relativeBasePath = $this->uuidService->getStorageFilesUUID() . DS . ($publicPath ? $publicPath . DS : '');
+            $relativeBasePath = CONTENT_SUBDIR . DS . ($publicPath ? $publicPath . DS : '');
             $relativeDestinationPath = $relativeBasePath . $fileNameWithPath;
 
             if (
@@ -144,16 +140,15 @@ class UploadController extends Controller
         $isFile = $request->validated('isFile');
         $publicPath = $this->pathService->cleanDrivePublicPath($publicPath);
         $privatePath = $this->pathService->genPrivatePathFromPublic($publicPath);
-        $storageFilesUUID = $this->uuidService->getStorageFilesUUID();
         if (
             $isFile &&
             !$this->fileOperationsService->makeFile(
-                $storageFilesUUID . DS . ($publicPath ? $publicPath . DS : '') . $itemName
+                CONTENT_SUBDIR . DS . ($publicPath ? $publicPath . DS : '') . $itemName
             )
         ) {
             return $this->error('Create file failed');
         }
-        if (!$isFile && !$this->fileOperationsService->makeFolder($storageFilesUUID . DS . ($publicPath ? $publicPath . DS : '') . $itemName)) {
+        if (!$isFile && !$this->fileOperationsService->makeFolder(CONTENT_SUBDIR . DS . ($publicPath ? $publicPath . DS : '') . $itemName)) {
             return $this->error('Create folder failed');
         }
 

@@ -18,6 +18,18 @@ if (!defined('DS')) {
     define('DS', DIRECTORY_SEPARATOR);
 }
 
+if (!defined('CONTENT_SUBDIR')) {
+    define('CONTENT_SUBDIR', 'storage_personaldrive');
+}
+
+if (!defined('THUMBS_SUBDIR')) {
+    define('THUMBS_SUBDIR', 'thumbnails_directory');
+}
+
+if (!defined('TEMP_SUBDIR')) {
+    define('TEMP_SUBDIR', 'temp_directory');
+}
+
 return Application::configure(basePath: dirname(__DIR__))
     ->withRouting(
         web: __DIR__.'/../routes/web.php',

@@ -14,15 +14,6 @@ return new class () extends Migration {
                 'key' => 'storage_path', 'value' => '', 'created_at' => now(),
                 'updated_at' => now(),
             ],
-            [
-                'key' => 'uuidForStorageFiles',
-                'value' => 'storage_personaldrive', 'created_at' => now(),
-                'updated_at' => now(),
-            ],
-            [
-                'key' => 'uuidForThumbnails', 'value' => 'thumbnail_pe', 'created_at' => now(),
-                'updated_at' => now(),
-            ],
         ]);
     }
 };

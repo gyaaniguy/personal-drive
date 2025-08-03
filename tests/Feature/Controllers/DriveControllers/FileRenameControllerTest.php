@@ -27,7 +27,7 @@ class FileRenameControllerTest extends BaseFeatureTest
         $this->postRename($oldFolderModel->id, 'new_sub_folder');
 
         Storage::disk('local')->assertExists(
-            $this->storageFilesUUID . DS . ($testPath ? $testPath . DS : '') . 'old_folder/new_sub_folder/file.txt'
+            CONTENT_SUBDIR . DS . ($testPath ? $testPath . DS : '') . 'old_folder/new_sub_folder/file.txt'
         );
 
         $fileObj = LocalFile::where('filename', 'file.txt')->first();
@@ -70,7 +70,7 @@ class FileRenameControllerTest extends BaseFeatureTest
         $response->assertSessionHas('message', 'Renamed to '. $fileName);
 
         Storage::disk('local')->assertExists(
-            $this->storageFilesUUID . DS . $testPath . DS . $fileName
+            CONTENT_SUBDIR . DS . $testPath . DS . $fileName
         );
     }
 
@@ -78,7 +78,7 @@ class FileRenameControllerTest extends BaseFeatureTest
     {
         $testPath = 'foo/bar';
         $fileName = 'new_filename.txt';
-        $this->fileOptsMock->shouldReceive('fileExists')->with($this->storageFilesUUID . DS . $testPath . DS . $fileName)->andReturn(true);
+        $this->fileOptsMock->shouldReceive('fileExists')->with(CONTENT_SUBDIR . DS . $testPath . DS . $fileName)->andReturn(true);
         $this->uploadFile($testPath, 'file.txt');
         $firstFile = LocalFile::first();
         $response = $this->postRename($firstFile->id, $fileName);

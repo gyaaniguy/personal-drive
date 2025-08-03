@@ -6,12 +6,6 @@ use App\Models\Setting;
 
 class PathService
 {
-    protected UUIDService $uuidService;
-
-    public function __construct(UUIDService $uuidService)
-    {
-        $this->uuidService = $uuidService;
-    }
 
 //    public function getTempStorageDirPath(): string
 //    {
@@ -25,13 +19,7 @@ class PathService
 
     public function getThumbnailDirPath(): string
     {
-        $storagePath = Setting::getStoragePath();
-        $uuid = $this->uuidService->getThumbnailsUUID();
-        if (!$storagePath || !$uuid) {
-            return '';
-        }
-
-        return $storagePath . DS . $uuid;
+        return Setting::getStoragePath(). DS . THUMBS_SUBDIR;
     }
 
     public function genPrivatePathFromPublic(string $publicPath = ''): string
@@ -51,13 +39,7 @@ class PathService
 
     public function getStorageFolderPath(): string
     {
-        $storagePath = Setting::getStoragePath();
-        $uuid = $this->uuidService->getStorageFilesUUID();
-        if (!$storagePath || !$uuid) {
-            return '';
-        }
-
-        return $storagePath . DS . $uuid;
+        return Setting::getStoragePath() . DS . CONTENT_SUBDIR;
     }
 
     public function cleanDrivePublicPath(string $path): string

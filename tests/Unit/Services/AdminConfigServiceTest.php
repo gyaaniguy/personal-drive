@@ -5,15 +5,11 @@ namespace Tests\Unit\Services;
 use App\Models\Setting;
 use App\Services\AdminConfigService;
 use App\Services\FileOperationsService;
-use App\Services\UUIDService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
 use Mockery;
-use Tests\Helpers\CreatesUploadService;
 use Tests\TestCase;
 
 class AdminConfigServiceTest extends TestCase
 {
-    protected $uuidService;
     protected $uploadService;
     protected $adminConfigService;
     protected $setting;
@@ -37,21 +33,13 @@ class AdminConfigServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->uuidService = Mockery::mock(UUIDService::class);
         $this->uploadService = Mockery::mock(FileOperationsService::class);
         $this->setting = Mockery::mock(Setting::class);
         $this->adminConfigService = Mockery::mock(
             AdminConfigService::class,
-            [$this->uuidService, $this->uploadService, $this->setting]
+            [ $this->uploadService, $this->setting]
         )
             ->makePartial();
-        $storageFilesUUID = 'uuid_storage';
-        $thumbnailsUUID = 'uuid_thumbnails';
-
-        $this->uuidService->shouldReceive('getStorageFilesUUID')
-            ->andReturn($storageFilesUUID);
-        $this->uuidService->shouldReceive('getThumbnailsUUID')
-            ->andReturn($thumbnailsUUID);
     }
 
     protected function tearDown(): void

@@ -55,8 +55,8 @@ class UploadControllerTest extends BaseFeatureTest
         $response = $this->postUpload([$file, $file2], $testPath);
         $response->assertSessionHas('status', true);
         $response->assertSessionHas('message', fn($value) => str_contains($value, 'Files uploaded: 2'));
-        Storage::disk('local')->assertExists($this->storageFilesUUID . DS . $testPath . DS . $this->fileName);
-        Storage::disk('local')->assertExists($this->storageFilesUUID . DS . $testPath . DS . $testFileName2);
+        Storage::disk('local')->assertExists(CONTENT_SUBDIR . DS . $testPath . DS . $this->fileName);
+        Storage::disk('local')->assertExists(CONTENT_SUBDIR . DS . $testPath . DS . $testFileName2);
     }
 
     public function test_create_file_same_name()
@@ -92,7 +92,7 @@ class UploadControllerTest extends BaseFeatureTest
     {
         $response->assertSessionHas('status', true);
         $response->assertSessionHas('message', 'Created ' . $fileFolder . ' successfully');
-        Storage::disk('local')->assertExists($this->storageFilesUUID . DS . ($testPath ? $testPath . '/' : '') . $this->fileName);
+        Storage::disk('local')->assertExists(CONTENT_SUBDIR . DS . ($testPath ? $testPath . '/' : '') . $this->fileName);
     }
 
     public function test_create_file_successfully()
@@ -118,7 +118,7 @@ class UploadControllerTest extends BaseFeatureTest
 
         $response->assertSessionHas('status', true);
         $response->assertSessionHas('message', 'Created folder successfully');
-        Storage::disk('local')->assertExists($this->storageFilesUUID . DS . $testPath . $testFolder);
+        Storage::disk('local')->assertExists(CONTENT_SUBDIR . DS . $testPath . $testFolder);
     }
 
     public function test_create_upload_folder_file_conflict_fail()
@@ -200,7 +200,7 @@ class UploadControllerTest extends BaseFeatureTest
         $this->tempRootDir = $this->uploadService->getTempStorageDir();
 
         $this->assertTrue(collect(array_merge($files, $files1))->every(fn($file) => Storage::disk('local')->exists(
-            $this->storageFilesUUID . DS . $testPath . DS . $file
+            CONTENT_SUBDIR . DS . $testPath . DS . $file
         )));
         $this->assertTrue(collect(array_intersect($files1, $files))->every(fn($file) => Storage::disk('local')->exists(
             $this->tempRootDir . DS . $testPath . DS . $file

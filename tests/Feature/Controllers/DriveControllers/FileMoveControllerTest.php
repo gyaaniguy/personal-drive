@@ -38,8 +38,8 @@ class FileMoveControllerTest extends BaseFeatureTest
         $response = $this->postMoveFiles([$firstFile->id], 'foo');
         $response->assertSessionHas('status', false);
         $response->assertSessionHas('message', 'Could not move: Same name Directory exists');
-        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/bar/1.txt');
-        Storage::disk('local')->assertMissing($this->storageFilesUUID . $testPath . 'foo/bar/1.txt');
+        Storage::disk('local')->assertExists(CONTENT_SUBDIR . $testPath . '/bar/1.txt');
+        Storage::disk('local')->assertMissing(CONTENT_SUBDIR . $testPath . 'foo/bar/1.txt');
     }
 
     public function test_move_file_success()
@@ -49,8 +49,8 @@ class FileMoveControllerTest extends BaseFeatureTest
 
         $response = $this->postMoveFiles([$firstFile->id], 'foo');
         $response->assertSessionHas('status', true);
-        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/foo/1.txt');
-        Storage::disk('local')->assertMissing($this->storageFilesUUID . $testPath . '/bar/1.txt');
+        Storage::disk('local')->assertExists(CONTENT_SUBDIR . $testPath . '/foo/1.txt');
+        Storage::disk('local')->assertMissing(CONTENT_SUBDIR . $testPath . '/bar/1.txt');
     }
 
     public function test_move_directory_success()
@@ -61,11 +61,11 @@ class FileMoveControllerTest extends BaseFeatureTest
         $response = $this->postMoveFiles([$firstFile->id], 'bar');
         $response->assertSessionHas('status', true);
 
-        Storage::disk('local')->assertMissing($this->storageFilesUUID . $testPath . '/foo/1.txt');
-        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/bar/1.txt');
-        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/bar/foo/ace.txt');
-        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/bar/foo/bar/1.txt');
-        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/bar/foo/bar/2.txt');
+        Storage::disk('local')->assertMissing(CONTENT_SUBDIR . $testPath . '/foo/1.txt');
+        Storage::disk('local')->assertExists(CONTENT_SUBDIR . $testPath . '/bar/1.txt');
+        Storage::disk('local')->assertExists(CONTENT_SUBDIR . $testPath . '/bar/foo/ace.txt');
+        Storage::disk('local')->assertExists(CONTENT_SUBDIR . $testPath . '/bar/foo/bar/1.txt');
+        Storage::disk('local')->assertExists(CONTENT_SUBDIR . $testPath . '/bar/foo/bar/2.txt');
     }
 
     public function test_move_multiple_success()
@@ -77,13 +77,13 @@ class FileMoveControllerTest extends BaseFeatureTest
         $response = $this->postMoveFiles([$firstFile->id, $secondFile->id], 'bar');
         $response->assertSessionHas('status', true);
 
-        Storage::disk('local')->assertMissing($this->storageFilesUUID . $testPath . '/foo/ace.txt');
-        Storage::disk('local')->assertMissing($this->storageFilesUUID . $testPath . '/foo/bar/1.txt');
-        Storage::disk('local')->assertMissing($this->storageFilesUUID . $testPath . '/foo/bar/2.txt');
-        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/bar/1.txt');
-        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/bar/ace.txt');
-        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/bar/bar/1.txt');
-        Storage::disk('local')->assertExists($this->storageFilesUUID . $testPath . '/bar/bar/2.txt');
+        Storage::disk('local')->assertMissing(CONTENT_SUBDIR . $testPath . '/foo/ace.txt');
+        Storage::disk('local')->assertMissing(CONTENT_SUBDIR . $testPath . '/foo/bar/1.txt');
+        Storage::disk('local')->assertMissing(CONTENT_SUBDIR . $testPath . '/foo/bar/2.txt');
+        Storage::disk('local')->assertExists(CONTENT_SUBDIR . $testPath . '/bar/1.txt');
+        Storage::disk('local')->assertExists(CONTENT_SUBDIR . $testPath . '/bar/ace.txt');
+        Storage::disk('local')->assertExists(CONTENT_SUBDIR . $testPath . '/bar/bar/1.txt');
+        Storage::disk('local')->assertExists(CONTENT_SUBDIR . $testPath . '/bar/bar/2.txt');
     }
 
     public function postMoveFiles(array $fileIds, string $path): TestResponse
@@ -103,7 +103,7 @@ class FileMoveControllerTest extends BaseFeatureTest
         ];
 
         $this->uploadMultipleFiles($testPath, $fileNames);
-        Storage::disk('local')->assertExists($this->storageFilesUUID.$testPath.'/bar/1.txt');
+        Storage::disk('local')->assertExists(CONTENT_SUBDIR.$testPath.'/bar/1.txt');
         return $testPath;
     }
 

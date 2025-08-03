@@ -4,9 +4,6 @@ namespace Feature\Controllers\AdminControllers;
 
 use App\Models\Setting;
 use App\Services\FileOperationsService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use App\Services\AdminConfigService;
-use App\Services\UUIDService;
 use Illuminate\Testing\TestResponse;
 use Mockery;
 use Tests\Feature\BaseFeatureTest;
@@ -17,7 +14,6 @@ class AdminConfigControllerTest extends BaseFeatureTest
 {
     private string $newStoragePath = '';
     private $fileOptsMock;
-    private string $thumbnailUuid;
     private $settingMock;
 
     public function test_index_returns_correct_view_with_data()
@@ -73,14 +69,14 @@ class AdminConfigControllerTest extends BaseFeatureTest
 
     public function test_update_storage_not_writable_fail()
     {
-        $this->fileOptsMock->shouldReceive('isWritable')->with($this->storageFilesUUID)->andReturn(false);
+        $this->fileOptsMock->shouldReceive('isWritable')->with(CONTENT_SUBDIR)->andReturn(false);
         $response = $this->updateStoragePost(false);
         $this->assertSessionHas($response, 'Unable to create storage directory. Check Permissions');
     }
 
     public function test_update_thumbnail_not_writable_fail()
     {
-        $this->fileOptsMock->shouldReceive('isWritable')->with($this->thumbnailUuid)->andReturn(false);
+        $this->fileOptsMock->shouldReceive('isWritable')->with(THUMBS_SUBDIR)->andReturn(false);
         $response = $this->updateStoragePost(false);
         $this->assertSessionHas($response, 'Unable to create thumbnail directory. Check Permissions');
     }
@@ -88,8 +84,6 @@ class AdminConfigControllerTest extends BaseFeatureTest
     protected function setUp(): void
     {
         parent::setUp();
-        $this->thumbnailUuid = $this->uuidService->getThumbnailsUUID();
-
         $this->makeUserUsingSetup();
         $this->newStoragePath = '/foo/bar';
         $this->fileOptsMock = Mockery::mock(FileOperationsService::class)->makePartial();

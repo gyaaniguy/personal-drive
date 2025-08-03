@@ -5,7 +5,6 @@ namespace Tests\Feature;
 use App\Models\LocalFile;
 use App\Models\Share;
 use App\Models\User;
-use App\Services\UUIDService;
 use Illuminate\Foundation\Http\Middleware\ValidateCsrfToken;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -18,9 +17,6 @@ use Tests\TestCase;
 class BaseFeatureTest extends TestCase
 {
     use RefreshDatabase;
-
-    public string $storageFilesUUID;
-    protected UUIDService $uuidService;
 
     public function uploadMultipleFiles(
         $testPath = '',
@@ -59,7 +55,7 @@ class BaseFeatureTest extends TestCase
     public function assertFilesExist(array $files, string $testPath): void
     {
         $this->assertTrue(collect($files)->every(fn($file) => Storage::disk('local')->exists(
-            $this->storageFilesUUID . DS . ($testPath ? $testPath . DS : '') . $file->getClientOriginalPath()
+            CONTENT_SUBDIR . DS . ($testPath ? $testPath . DS : '') . $file->getClientOriginalPath()
         )));
     }
 
@@ -165,8 +161,6 @@ class BaseFeatureTest extends TestCase
     {
         parent::setup();
         Storage::fake('local');
-        $this->uuidService = app(UUIDService::class);
-        $this->storageFilesUUID = $this->uuidService->getStorageFilesUUID();
     }
 
     protected function makeUserUsingSetup(): void

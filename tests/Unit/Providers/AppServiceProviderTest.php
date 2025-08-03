@@ -4,7 +4,6 @@ namespace Tests\Unit\Providers;
 
 use App\Models\Setting;
 use App\Providers\AppServiceProvider;
-use App\Services\UUIDService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\RateLimiter;
@@ -14,22 +13,6 @@ use Tests\TestCase;
 class AppServiceProviderTest extends TestCase
 {
     use RefreshDatabase;
-
-    public function test_uuid_service_is_bound()
-    {
-        $settingMock = Mockery::mock(Setting::class);
-        $settingMock->shouldReceive('getSettingByKeyName')
-            ->with('uuidForStorageFiles')->andReturn('uuid-1');
-        $settingMock->shouldReceive('getSettingByKeyName')
-            ->with('uuidForThumbnails')->andReturn('uuid-2');
-
-        $this->app->instance(Setting::class, $settingMock);
-
-        (new AppServiceProvider($this->app))->register();
-
-        $resolved = $this->app->make(UUIDService::class);
-        $this->assertInstanceOf(UUIDService::class, $resolved);
-    }
 
     public function test_login_and_shared_rate_limiting_enforced()
     {

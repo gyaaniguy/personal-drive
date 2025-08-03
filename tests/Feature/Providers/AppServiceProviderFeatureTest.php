@@ -2,15 +2,9 @@
 
 namespace Tests\Unit\Providers;
 
-use App\Models\Setting;
-use App\Providers\AppServiceProvider;
-use App\Services\UUIDService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Carbon;
 use Illuminate\Support\Facades\RateLimiter;
-use Mockery;
 use Tests\Feature\BaseFeatureTest;
-use Tests\TestCase;
 
 class AppServiceProviderFeatureTest extends BaseFeatureTest
 {

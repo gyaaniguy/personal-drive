@@ -10,20 +10,15 @@ class FileMoveService
     protected PathService $pathService;
     protected LocalFileStatsService $localFileStatsService;
     protected FileOperationsService $fileOperationsService;
-    protected UUIDService $uuidService;
-    private string $storageFilesUuid;
 
     public function __construct(
         PathService $pathService,
         LocalFileStatsService $localFileStatsService,
         FileOperationsService $fileOperationsService,
-        UUIDService $uuidService
     ) {
         $this->pathService = $pathService;
         $this->localFileStatsService = $localFileStatsService;
         $this->fileOperationsService = $fileOperationsService;
-        $this->uuidService = $uuidService;
-        $this->storageFilesUuid = $this->uuidService->getStorageFilesUUID();
     }
 
     public function moveFiles(array $fileKeyArray, string $destinationInputPath): bool
@@ -44,7 +39,7 @@ class FileMoveService
         $successfulUploads = [];
 
         foreach ($localFiles as $localFile) {
-            $itemPublicDestPathName = $this->storageFilesUuid . DS . ($desPublicPath ? $desPublicPath . DS : '') . $localFile->filename;
+            $itemPublicDestPathName = CONTENT_SUBDIR . DS . ($desPublicPath ? $desPublicPath . DS : '') . $localFile->filename;
 
             $this->moveSingleFileOrDirectory(
                 $localFile,
@@ -66,7 +61,7 @@ class FileMoveService
         string $itemPublicDestPathName,
         array &$successfulUploads
     ): void {
-        $itemPathName = $this->storageFilesUuid . DS . $localFile->getPublicPathname();
+        $itemPathName = CONTENT_SUBDIR . DS . $localFile->getPublicPathname();
 
         if (!$localFile->fileExists()) {
             return;

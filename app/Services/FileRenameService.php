@@ -9,22 +9,19 @@ use Illuminate\Support\Facades\DB;
 class FileRenameService
 {
     protected FileOperationsService $fileOperationsService;
-    protected UUIDService $uuidService;
     private PathService $pathService;
 
     public function __construct(
         PathService $pathService,
         FileOperationsService $fileOperationsService,
-        UUIDService $uuidService,
     ) {
         $this->pathService = $pathService;
         $this->fileOperationsService = $fileOperationsService;
-        $this->uuidService = $uuidService;
     }
 
     public function renameFile(LocalFile $file, string $newFilename): void
     {
-        $storageFolderName = $this->uuidService->getStorageFilesUUID();
+        $storageFolderName = CONTENT_SUBDIR;
         $itemPathName = $storageFolderName . \DS . $file->getPublicPathname();
         $itemPublicDestPathName = $storageFolderName . DS . $file->getPublicPath() . $newFilename;
 

@@ -9,15 +9,12 @@ class AdminConfigService
 {
     protected FileOperationsService $fileOperationsService;
 
-    private UUIDService $uuidService;
     private Setting $setting;
 
     public function __construct(
-        UUIDService $uuidService,
         FileOperationsService $fileOperationsService,
         Setting $setting
     ) {
-        $this->uuidService = $uuidService;
         $this->fileOperationsService = $fileOperationsService;
         $this->setting = $setting;
     }
@@ -28,14 +25,14 @@ class AdminConfigService
             if (!$this->updateSetting($storagePath)) {
                 return ['status' => false, 'message' => 'Failed to save storage path setting'];
             }
-            if (!$this->ensureDirectoryExists($this->uuidService->getStorageFilesUUID())) {
+            if (!$this->ensureDirectoryExists(CONTENT_SUBDIR)) {
                 $this->revertSetting();
                 return [
                     'status' => false, 'message' => 'Unable to create storage directory. Check Permissions'
                 ];
             }
 
-            if (!$this->ensureDirectoryExists($this->uuidService->getThumbnailsUUID())) {
+            if (!$this->ensureDirectoryExists(THUMBS_SUBDIR)) {
                 $this->revertSetting();
                 return [
                     'status' => false,

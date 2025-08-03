@@ -4,7 +4,6 @@ namespace App\Providers;
 
 use App\Exceptions\PersonalDriveExceptions\ThrottleException;
 use App\Models\Setting;
-use App\Services\UUIDService;
 use Illuminate\Cache\RateLimiting\Limit;
 use Illuminate\Database\QueryException;
 use Illuminate\Http\Request;
@@ -21,10 +20,7 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-        $this->app->singleton(UUIDService::class, function () {
-            $setting = $this->app->make(Setting::class);
-            return new UUIDService($setting);
-        });
+
     }
 
     /**

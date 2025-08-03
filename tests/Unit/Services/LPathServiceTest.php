@@ -3,13 +3,11 @@
 namespace Tests\Unit\Services;
 
 use App\Services\PathService;
-use App\Services\UUIDService;
 use PHPUnit\Framework\TestCase;
 
 class PathServiceTest extends TestCase
 {
     protected PathService $pathService;
-    protected UUIDService $uuidService;
     protected PathService $pathServiceMock;
     protected string $tempDir;
 
@@ -31,13 +29,7 @@ class PathServiceTest extends TestCase
         self::assertEquals($result, '/drivemy/drive');
     }
 
-    public function testGenPrivatePathFromPublicWithEmptyPublicPath()
-    {
-        $this->pathServiceMock->method('getStorageFolderPath')->willReturn('test/storage/path/test-uuid');
 
-        $result = $this->pathServiceMock->genPrivatePathFromPublic('');
-        $this->assertEquals('test/storage/path/test-uuid/', $result);
-    }
 
     public function testGenPrivatePathFromPublicWithNonExistentPath()
     {
@@ -50,10 +42,8 @@ class PathServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->uuidService = $this->createMock(UUIDService::class);
-        $this->pathService = new PathService($this->uuidService);
+        $this->pathService = new PathService();
         $this->pathServiceMock = $this->getMockBuilder(PathService::class)
-            ->setConstructorArgs([$this->uuidService])
             ->onlyMethods(['getStorageFolderPath'])
             ->getMock();
     }
