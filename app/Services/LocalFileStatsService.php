@@ -31,6 +31,24 @@ class LocalFileStatsService
         }
     }
 
+    public function getSplFileStats(
+        string $itemName,
+        bool $isDir,
+        string $publicPath,
+        string $privatePath,
+        SplFileInfo $file
+    ): array {
+        return [
+            'filename' => $itemName,
+            'is_dir' => $isDir ? 1 : 0,
+            'public_path' => $publicPath,
+            'private_path' => $privatePath,
+            'size' => $file->isDir() ? '' : $file->getSize(),
+            'user_id' => Auth::user()->id ?? 1,
+            'file_type' => $this->getFileType($file)
+        ];
+    }
+
     private function getFileType(SplFileInfo $item): string
     {
         if ($item->isDir()) {
@@ -59,7 +77,7 @@ class LocalFileStatsService
     {
         $privatePath = $this->pathService->genPrivatePathFromPublic($path);
         if (!$privatePath) {
-            return false;
+            return 0;
         }
 
         return $this->populateLocalFileWithStats($privatePath);
@@ -67,23 +85,10 @@ class LocalFileStatsService
 
     private function populateLocalFileWithStats(string $privatePath): int
     {
-        $insertArr = [];
-        $iterator = $this->createFileIterator($privatePath);
-        $filesUpdated = 0;
-        foreach ($iterator as $item) {
-            $insertArr[] = $this->getFileItemDetails($item);
-            // Insert in chunks of 100
-            if (count($insertArr) === 100) {
-                $filesUpdated += LocalFile::insertRows($insertArr);
-                $insertArr = []; // Clear the array for the next chunk
-            }
-        }
-        // Insert remaining items if any
-        if (!empty($insertArr)) {
-            $filesUpdated += LocalFile::insertRows($insertArr);
-        }
-
-        return $filesUpdated;
+        $batchSize = 100;
+        $items = collect($this->createFileIterator($privatePath))
+            ->map(fn($item) => $this->getFileItemDetails($item));
+        return $items->chunk($batchSize)->sum(fn($chunk) => LocalFile::insertRows($chunk->all()));
     }
 
     private function createFileIterator(string $path): RecursiveIteratorIterator
@@ -114,23 +119,5 @@ class LocalFileStatsService
             'is_dir' => $file->isDir(),
             'file_type' => $this->getFileType($file),
         ]);
-    }
-
-    public function getSplFileStats(
-        string $itemName,
-        bool $isDir,
-        string $publicPath,
-        string $privatePath,
-        SplFileInfo $file
-    ): array {
-        return [
-            'filename' => $itemName,
-            'is_dir' => $isDir ? 1 : 0,
-            'public_path' => $publicPath,
-            'private_path' => $privatePath,
-            'size' => $file->isDir() ? '' : $file->getSize(),
-            'user_id' => Auth::user()->id ?? 1,
-            'file_type' => $this->getFileType($file)
-        ];
     }
 }

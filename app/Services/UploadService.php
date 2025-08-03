@@ -102,8 +102,7 @@ class UploadService
         $newFile = new SplFileInfo($targetPath, dirname($targetPath), basename($targetPath));
 
         if (!$existingFile) {
-            $dirSize = [];
-            $itemDetails = $this->localFileStatsService->getFileItemDetails($newFile, $dirSize);
+            $itemDetails = $this->localFileStatsService->getFileItemDetails($newFile);
             $existingFile = $this->updateOrCreateLocalFile($itemDetails, ['filename', 'public_path']);
         } else {
             $this->localFileStatsService->updateFileStats($existingFile, $newFile);
