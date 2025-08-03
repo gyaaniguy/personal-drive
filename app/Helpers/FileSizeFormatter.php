@@ -6,6 +6,9 @@ class FileSizeFormatter
 {
     public static function format(int $bytes): string
     {
+        if ($bytes === 0) {
+            return '';
+        }
         if ($bytes < 1024) {
             return '1 KB';
         }

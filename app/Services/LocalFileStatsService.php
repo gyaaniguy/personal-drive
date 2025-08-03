@@ -25,15 +25,7 @@ class LocalFileStatsService
         $file = new SplFileInfo($privatePath . $itemName);
 
         try {
-            LocalFile::create([
-                'filename' => $itemName,
-                'is_dir' => $isDir ? 1 : 0,
-                'public_path' => $publicPath,
-                'private_path' => $privatePath,
-                'size' => '',
-                'user_id' => Auth::user()?->id ?? 1,
-                'file_type' => $this->getFileType($file)
-            ]);
+            LocalFile::create($this->getSplFileStats($itemName, $isDir, $publicPath, $privatePath, $file));
         } catch (Exception $e) {
             throw UploadFileException::noNewDir($isDir ? 'folder' : 'file');
         }
@@ -76,11 +68,10 @@ class LocalFileStatsService
     private function populateLocalFileWithStats(string $privatePath): int
     {
         $insertArr = [];
-        $dirSizes = [];
         $iterator = $this->createFileIterator($privatePath);
         $filesUpdated = 0;
         foreach ($iterator as $item) {
-            $insertArr[] = $this->getFileItemDetails($item, $dirSizes);
+            $insertArr[] = $this->getFileItemDetails($item);
             // Insert in chunks of 100
             if (count($insertArr) === 100) {
                 $filesUpdated += LocalFile::insertRows($insertArr);
@@ -108,33 +99,12 @@ class LocalFileStatsService
         );
     }
 
-    public function getFileItemDetails(mixed $item, array &$dirSizes): array
+    public function getFileItemDetails(SplFileInfo $item): array
     {
         $rootPathLen = strlen($this->pathService->getStorageFolderPath()) + 1;
-
-        $itemPrivatePathname = $item->getPath();
-        $currentDir = dirname($item->getPathname());
-        if (!$item->isDir()) {
-            $dirSizes[$currentDir] = array_key_exists(
-                $currentDir,
-                $dirSizes
-            ) ? $dirSizes[$currentDir] + $item->getSize() : $item->getSize();
-        } elseif (array_key_exists($item->getPathname(), $dirSizes)) {
-            $dirSizes[$currentDir] = array_key_exists(
-                $currentDir,
-                $dirSizes
-            ) ? $dirSizes[$currentDir] + $dirSizes[$item->getPathname()] : $dirSizes[$item->getPathname()];
-        }
-        $publicPathname = substr($itemPrivatePathname, $rootPathLen);
-        return [
-            'filename' => $item->getFilename(),
-            'is_dir' => $item->isDir(),
-            'public_path' => $publicPathname,
-            'private_path' => $itemPrivatePathname,
-            'size' => $item->isDir() ? $dirSizes[$item->getPathname()] ?? '' : $item->getSize(),
-            'user_id' => Auth::user()?->id ?? 1, // Set the appropriate user ID
-            'file_type' => $this->getFileType($item),
-        ];
+        $privatePath = $item->getPath();
+        $publicPath = substr($privatePath, $rootPathLen);
+        return $this->getSplFileStats($item->getFilename(), $item->isDir(), $publicPath, $privatePath, $item);
     }
 
     public function updateFileStats(LocalFile $localFile, SplFileInfo $file): void
@@ -144,5 +114,23 @@ class LocalFileStatsService
             'is_dir' => $file->isDir(),
             'file_type' => $this->getFileType($file),
         ]);
+    }
+
+    public function getSplFileStats(
+        string $itemName,
+        bool $isDir,
+        string $publicPath,
+        string $privatePath,
+        SplFileInfo $file
+    ): array {
+        return [
+            'filename' => $itemName,
+            'is_dir' => $isDir ? 1 : 0,
+            'public_path' => $publicPath,
+            'private_path' => $privatePath,
+            'size' => $file->isDir() ? '' : $file->getSize(),
+            'user_id' => Auth::user()->id ?? 1,
+            'file_type' => $this->getFileType($file)
+        ];
     }
 }

@@ -6,6 +6,10 @@ it('formats bytes less than one KB', function () {
     expect(FileSizeFormatter::format(512))->toBe('1 KB')
         ->and(FileSizeFormatter::format(100))->toBe('1 KB');
 });
+it('formats bytes 0', function () {
+    expect(FileSizeFormatter::format(0))->toBe('')
+        ->and(FileSizeFormatter::format(100))->toBe('1 KB');
+});
 
 it('formats bytes in KB', function () {
     expect(FileSizeFormatter::format(1024))->toBe('1 KB')
