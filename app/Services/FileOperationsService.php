@@ -63,7 +63,7 @@ class FileOperationsService
         }
         if (
             file_put_contents(
-                $this->basePath . DIRECTORY_SEPARATOR . $path,
+                $this->basePath . DS . $path,
                 ''
             ) === false && $this->filesystem->fileExists($path) === false
         ) {
@@ -103,12 +103,12 @@ class FileOperationsService
 
     public function isWritable(string $path): bool
     {
-        return $this->makeFileSystem() && is_writable($this->basePath . DIRECTORY_SEPARATOR . $path);
+        return $this->makeFileSystem() && is_writable($this->basePath . DS . $path);
     }
 
     public function pathExistsAsFile(string $base, string $path): bool
     {
-        while ($path !== '' && $path !== '.' && $path !== DIRECTORY_SEPARATOR) {
+        while ($path !== '' && $path !== '.' && $path !== DS) {
             if ($this->fileExists($base . $path)) {
                 return true;
             }

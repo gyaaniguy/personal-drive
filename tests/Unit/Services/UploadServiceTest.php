@@ -88,6 +88,6 @@ class UploadServiceTest extends TestCase
 //            $this->filesystem
 //        );
 //
-//        $this->assertSame($basePath . DIRECTORY_SEPARATOR . $uuid, $service->getTempStorageDirFull());
+//        $this->assertSame($basePath . DS . $uuid, $service->getTempStorageDirFull());
 //    }
 }

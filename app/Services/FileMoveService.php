@@ -44,7 +44,7 @@ class FileMoveService
         $successfulUploads = [];
 
         foreach ($localFiles as $localFile) {
-            $itemPublicDestPathName = $this->storageFilesUuid . DIRECTORY_SEPARATOR . ($desPublicPath ? $desPublicPath . DIRECTORY_SEPARATOR : '') . $localFile->filename;
+            $itemPublicDestPathName = $this->storageFilesUuid . DS . ($desPublicPath ? $desPublicPath . DS : '') . $localFile->filename;
 
             $this->moveSingleFileOrDirectory(
                 $localFile,
@@ -66,7 +66,7 @@ class FileMoveService
         string $itemPublicDestPathName,
         array &$successfulUploads
     ): void {
-        $itemPathName = $this->storageFilesUuid . DIRECTORY_SEPARATOR . $localFile->getPublicPathname();
+        $itemPathName = $this->storageFilesUuid . DS . $localFile->getPublicPathname();
 
         if (!$localFile->fileExists()) {
             return;

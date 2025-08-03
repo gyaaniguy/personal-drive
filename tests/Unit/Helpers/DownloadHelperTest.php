@@ -20,7 +20,7 @@ class DownloadHelperTest extends TestCase
 
     public function test_create_zip_archive_with_single_file()
     {
-        $filePath = $this->tempDir . DIRECTORY_SEPARATOR . 'test_file.txt';
+        $filePath = $this->tempDir . DS . 'test_file.txt';
         file_put_contents($filePath, 'Hello, world!');
 
         $mockLocalFile = Mockery::mock(LocalFile::class);
@@ -28,7 +28,7 @@ class DownloadHelperTest extends TestCase
             ->andReturn($filePath);
 
         $localFiles = new Collection([$mockLocalFile]);
-        $outputZipPath = $this->tempDir . DIRECTORY_SEPARATOR . 'output.zip';
+        $outputZipPath = $this->tempDir . DS . 'output.zip';
 
         $this->downloadHelper->createZipArchive($localFiles, $outputZipPath);
 
@@ -44,12 +44,12 @@ class DownloadHelperTest extends TestCase
 
     public function test_create_zip_archive_with_directory()
     {
-        $dirPath = $this->tempDir . DIRECTORY_SEPARATOR . 'test_dir';
+        $dirPath = $this->tempDir . DS . 'test_dir';
         mkdir($dirPath, 0777, true);
-        file_put_contents($dirPath . DIRECTORY_SEPARATOR . 'file1.txt', 'Content 1');
-        file_put_contents($dirPath . DIRECTORY_SEPARATOR . 'file2.txt', 'Content 2');
-        mkdir($dirPath . DIRECTORY_SEPARATOR . 'subdir', 0777, true);
-        file_put_contents($dirPath . DIRECTORY_SEPARATOR . 'subdir' . DIRECTORY_SEPARATOR . 'file3.txt', 'Content 3');
+        file_put_contents($dirPath . DS . 'file1.txt', 'Content 1');
+        file_put_contents($dirPath . DS . 'file2.txt', 'Content 2');
+        mkdir($dirPath . DS . 'subdir', 0777, true);
+        file_put_contents($dirPath . DS . 'subdir' . DS . 'file3.txt', 'Content 3');
 
         $mockLocalFile = Mockery::mock(LocalFile::class);
         $mockLocalFile->shouldReceive('getPrivatePathNameForFile')
@@ -59,7 +59,7 @@ class DownloadHelperTest extends TestCase
             ->andReturn('test_dir');
 
         $localFiles = new Collection([$mockLocalFile]);
-        $outputZipPath = $this->tempDir . DIRECTORY_SEPARATOR . 'output_dir.zip';
+        $outputZipPath = $this->tempDir . DS . 'output_dir.zip';
 
         $this->downloadHelper->createZipArchive($localFiles, $outputZipPath);
 
@@ -82,15 +82,15 @@ class DownloadHelperTest extends TestCase
 
     public function test_create_zip_archive_throws_exception_on_zip_open_failure()
     {
-        $nonWritableDir = $this->tempDir . DIRECTORY_SEPARATOR . 'non_writable_dir';
+        $nonWritableDir = $this->tempDir . DS . 'non_writable_dir';
         mkdir($nonWritableDir, 0444, true); // Create a non-writable directory
 
         $mockLocalFile = Mockery::mock(LocalFile::class);
         $mockLocalFile->shouldReceive('getPrivatePathNameForFile')
-            ->andReturn($this->tempDir . DIRECTORY_SEPARATOR . 'non_existent_file.txt');
+            ->andReturn($this->tempDir . DS . 'non_existent_file.txt');
 
         $localFiles = new Collection([$mockLocalFile]);
-        $outputZipPath = $nonWritableDir . DIRECTORY_SEPARATOR . 'output.zip';
+        $outputZipPath = $nonWritableDir . DS . 'output.zip';
 
         $this->expectException(FetchFileException::class);
         $this->expectExceptionMessage('Could not generate zip to download. Too large or empty folders ?');
@@ -100,7 +100,7 @@ class DownloadHelperTest extends TestCase
 
     public function test_create_zip_archive_skips_non_existent_files()
     {
-        $filePath = $this->tempDir . DIRECTORY_SEPARATOR . 'existing_file.txt';
+        $filePath = $this->tempDir . DS . 'existing_file.txt';
         file_put_contents($filePath, 'Existing content');
 
         $mockLocalFile1 = Mockery::mock(LocalFile::class);
@@ -109,10 +109,10 @@ class DownloadHelperTest extends TestCase
 
         $mockLocalFile2 = Mockery::mock(LocalFile::class);
         $mockLocalFile2->shouldReceive('getPrivatePathNameForFile')
-            ->andReturn($this->tempDir . DIRECTORY_SEPARATOR . 'non_existent_file.txt');
+            ->andReturn($this->tempDir . DS . 'non_existent_file.txt');
 
         $localFiles = new Collection([$mockLocalFile1, $mockLocalFile2]);
-        $outputZipPath = $this->tempDir . DIRECTORY_SEPARATOR . 'output_skip.zip';
+        $outputZipPath = $this->tempDir . DS . 'output_skip.zip';
 
         $this->downloadHelper->createZipArchive($localFiles, $outputZipPath);
 
@@ -129,7 +129,7 @@ class DownloadHelperTest extends TestCase
     {
         parent::setUp();
         $this->downloadHelper = new DownloadHelper();
-        $this->tempDir = sys_get_temp_dir() . DIRECTORY_SEPARATOR . 'download_test_' . uniqid();
+        $this->tempDir = sys_get_temp_dir() . DS . 'download_test_' . uniqid();
         mkdir($this->tempDir, 0777, true);
     }
 

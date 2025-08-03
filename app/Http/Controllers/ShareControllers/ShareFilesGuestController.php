@@ -24,7 +24,7 @@ class ShareFilesGuestController
         if ($path) {
             $files = Share::getFilenamesByPath(
                 $share->id,
-                ($share->public_path ? $share->public_path . DIRECTORY_SEPARATOR : '') . $path
+                ($share->public_path ? $share->public_path . DS : '') . $path
             );
         } else {
             $files = Share::getFilenamesBySlug($slug);

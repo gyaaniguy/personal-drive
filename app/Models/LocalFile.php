@@ -81,7 +81,7 @@ class LocalFile extends Model
 
     public function getPublicPath(): string
     {
-        return $this->public_path ? $this->public_path . DIRECTORY_SEPARATOR : '';
+        return $this->public_path ? $this->public_path . DS : '';
     }
 
     public static function searchFiles(string $searchQuery): Collection
@@ -131,7 +131,7 @@ class LocalFile extends Model
 
     public function getPrivatePathNameForFile(): string
     {
-        return $this->private_path . DIRECTORY_SEPARATOR . $this->filename;
+        return $this->private_path . DS . $this->filename;
     }
 
     public function isValidDir(): bool

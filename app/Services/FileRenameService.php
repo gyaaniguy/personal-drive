@@ -25,8 +25,8 @@ class FileRenameService
     public function renameFile(LocalFile $file, string $newFilename): void
     {
         $storageFolderName = $this->uuidService->getStorageFilesUUID();
-        $itemPathName = $storageFolderName . DIRECTORY_SEPARATOR . $file->getPublicPathname();
-        $itemPublicDestPathName = $storageFolderName . DIRECTORY_SEPARATOR . $file->getPublicPath() . $newFilename;
+        $itemPathName = $storageFolderName . \DS . $file->getPublicPathname();
+        $itemPublicDestPathName = $storageFolderName . DS . $file->getPublicPath() . $newFilename;
 
         if ($this->fileOperationsService->fileExists($itemPublicDestPathName)) {
             throw FileRenameException::couldNotRename();

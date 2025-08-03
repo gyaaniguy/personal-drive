@@ -27,18 +27,18 @@ class FileRenameControllerTest extends BaseFeatureTest
         $this->postRename($oldFolderModel->id, 'new_sub_folder');
 
         Storage::disk('local')->assertExists(
-            $this->storageFilesUUID . DIRECTORY_SEPARATOR . ($testPath ? $testPath . DIRECTORY_SEPARATOR : '') . 'old_folder/new_sub_folder/file.txt'
+            $this->storageFilesUUID . DS . ($testPath ? $testPath . DS : '') . 'old_folder/new_sub_folder/file.txt'
         );
 
         $fileObj = LocalFile::where('filename', 'file.txt')->first();
         $this->assertEquals(
-            ($testPath ? $testPath . DIRECTORY_SEPARATOR : '') . 'old_folder/new_sub_folder',
+            ($testPath ? $testPath . DS : '') . 'old_folder/new_sub_folder',
             $fileObj->public_path
         );
         $this->assertEquals(false, $fileObj->is_dir);
 
         $fileObj = LocalFile::where('filename', 'new_sub_folder')->first();
-        $this->assertEquals(($testPath ? $testPath . DIRECTORY_SEPARATOR : '') . 'old_folder', $fileObj->public_path);
+        $this->assertEquals(($testPath ? $testPath . DS : '') . 'old_folder', $fileObj->public_path);
         $this->assertEquals(true, $fileObj->is_dir);
     }
 
@@ -70,7 +70,7 @@ class FileRenameControllerTest extends BaseFeatureTest
         $response->assertSessionHas('message', 'Renamed to '. $fileName);
 
         Storage::disk('local')->assertExists(
-            $this->storageFilesUUID . DIRECTORY_SEPARATOR . $testPath . DIRECTORY_SEPARATOR . $fileName
+            $this->storageFilesUUID . DS . $testPath . DS . $fileName
         );
     }
 
@@ -78,7 +78,7 @@ class FileRenameControllerTest extends BaseFeatureTest
     {
         $testPath = 'foo/bar';
         $fileName = 'new_filename.txt';
-        $this->fileOptsMock->shouldReceive('fileExists')->with($this->storageFilesUUID . DIRECTORY_SEPARATOR . $testPath . DIRECTORY_SEPARATOR . $fileName)->andReturn(true);
+        $this->fileOptsMock->shouldReceive('fileExists')->with($this->storageFilesUUID . DS . $testPath . DS . $fileName)->andReturn(true);
         $this->uploadFile($testPath, 'file.txt');
         $firstFile = LocalFile::first();
         $response = $this->postRename($firstFile->id, $fileName);

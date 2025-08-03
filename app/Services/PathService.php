@@ -20,7 +20,7 @@ class PathService
 //            return '';
 //        }
 //
-//        return $storagePath . DIRECTORY_SEPARATOR . "temp_storage";
+//        return $storagePath . DS . "temp_storage";
 //    }
 
     public function getThumbnailDirPath(): string
@@ -31,7 +31,7 @@ class PathService
             return '';
         }
 
-        return $storagePath . DIRECTORY_SEPARATOR . $uuid;
+        return $storagePath . DS . $uuid;
     }
 
     public function genPrivatePathFromPublic(string $publicPath = ''): string
@@ -43,10 +43,10 @@ class PathService
         }
 
         if ($publicPath === '') {
-            return $privateRoot . DIRECTORY_SEPARATOR;
+            return $privateRoot . DS;
         }
         $publicPath = $this->cleanDrivePublicPath($publicPath);
-        return $privateRoot . DIRECTORY_SEPARATOR . $publicPath . DIRECTORY_SEPARATOR;
+        return $privateRoot . DS . $publicPath . DS;
     }
 
     public function getStorageFolderPath(): string
@@ -57,7 +57,7 @@ class PathService
             return '';
         }
 
-        return $storagePath . DIRECTORY_SEPARATOR . $uuid;
+        return $storagePath . DS . $uuid;
     }
 
     public function cleanDrivePublicPath(string $path): string

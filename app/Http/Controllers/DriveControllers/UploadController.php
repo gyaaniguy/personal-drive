@@ -87,10 +87,10 @@ class UploadController extends Controller
             $fileNameWithPath = $file->getClientOriginalPath();
             $destinationFullPath = $privatePath . $fileNameWithPath;
             $tempDirFullPath = dirname(
-                $this->uploadService->getTempStorageDirFull() . DIRECTORY_SEPARATOR . ($publicPath ? $publicPath . DIRECTORY_SEPARATOR : '') . $fileNameWithPath
+                $this->uploadService->getTempStorageDirFull() . DS . ($publicPath ? $publicPath . DS : '') . $fileNameWithPath
             );
-            $tempDirRelativePath = $this->uploadService->getTempStorageDir() . DIRECTORY_SEPARATOR . $publicPath;
-            $relativeBasePath = $this->uuidService->getStorageFilesUUID() . DIRECTORY_SEPARATOR . ($publicPath ? $publicPath . DIRECTORY_SEPARATOR : '');
+            $tempDirRelativePath = $this->uploadService->getTempStorageDir() . DS . $publicPath;
+            $relativeBasePath = $this->uuidService->getStorageFilesUUID() . DS . ($publicPath ? $publicPath . DS : '');
             $relativeDestinationPath = $relativeBasePath . $fileNameWithPath;
 
             if (
@@ -128,7 +128,7 @@ class UploadController extends Controller
         }
         try {
             if ($file->move($destinationDir, $file->getClientOriginalName())) {
-                chmod($destinationDir . DIRECTORY_SEPARATOR . $file->getClientOriginalName(), 0640);
+                chmod($destinationDir . DS . $file->getClientOriginalName(), 0640);
                 $successfulUploads++;
             }
         } catch (Error $e) {
@@ -148,12 +148,12 @@ class UploadController extends Controller
         if (
             $isFile &&
             !$this->fileOperationsService->makeFile(
-                $storageFilesUUID . DIRECTORY_SEPARATOR . ($publicPath ? $publicPath . DIRECTORY_SEPARATOR : '') . $itemName
+                $storageFilesUUID . DS . ($publicPath ? $publicPath . DS : '') . $itemName
             )
         ) {
             return $this->error('Create file failed');
         }
-        if (!$isFile && !$this->fileOperationsService->makeFolder($storageFilesUUID . DIRECTORY_SEPARATOR . ($publicPath ? $publicPath . DIRECTORY_SEPARATOR : '') . $itemName)) {
+        if (!$isFile && !$this->fileOperationsService->makeFolder($storageFilesUUID . DS . ($publicPath ? $publicPath . DS : '') . $itemName)) {
             return $this->error('Create folder failed');
         }
 

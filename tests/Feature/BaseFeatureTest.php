@@ -59,7 +59,7 @@ class BaseFeatureTest extends TestCase
     public function assertFilesExist(array $files, string $testPath): void
     {
         $this->assertTrue(collect($files)->every(fn($file) => Storage::disk('local')->exists(
-            $this->storageFilesUUID . DIRECTORY_SEPARATOR . ($testPath ? $testPath . DIRECTORY_SEPARATOR : '') . $file->getClientOriginalPath()
+            $this->storageFilesUUID . DS . ($testPath ? $testPath . DS : '') . $file->getClientOriginalPath()
         )));
     }
 

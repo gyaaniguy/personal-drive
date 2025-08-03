@@ -48,7 +48,7 @@ class UploadService
         if (!$tempStorageDir) {
             return '';
         }
-        return $storagePath . DIRECTORY_SEPARATOR . $tempStorageDir;
+        return $storagePath . DS . $tempStorageDir;
     }
 
     public function getTempStorageDir(): string
@@ -58,7 +58,7 @@ class UploadService
             return '';
         }
 
-        return "temp_storage" . DIRECTORY_SEPARATOR . $tempUuid;
+        return "temp_storage" . DS . $tempUuid;
     }
 
     public function syncTempToStorage(): bool
