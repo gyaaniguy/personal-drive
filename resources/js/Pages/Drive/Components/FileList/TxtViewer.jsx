@@ -147,7 +147,7 @@ const TxtViewer = ({
                 />
             ) : (
                 <pre className={`w-[70vw]  ${isAdmin ? "cursor-pointer" : ""}`} onClick={startEditing}>
-                    {content || "Click to edit..."}
+                    {content || (isAdmin ? "Click to edit..." : "Empty File")}
                 </pre>
             )}
             {isInEditMode && (

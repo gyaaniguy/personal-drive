@@ -70,7 +70,7 @@ export default function AllShares({ shares }) {
                                         key={share.id}
                                         className={` hover:bg-gray-700/20 ${share.enabled ? "" : "bg-red-800/50"} text-sm`}
                                     >
-                                        <td className="hidden md:table-cell p-1 sm:p-2 md:p-4  ">
+                                        <td className="hidden md:table-cell p-1 sm:p-2 md:p-4 text-gray-400/70 ">
                                             {new Date(
                                                 share.created_at,
                                             ).toLocaleDateString()}
@@ -89,7 +89,7 @@ export default function AllShares({ shares }) {
                                                                 .length
                                                         }
                                                     </span>
-                                                    <span className="text-sm text-gray-400 ">
+                                                    <span className="text-xs text-gray-500 ">
                                                         {share.shared_files
                                                             .length > 1 &&
                                                             `files`}
