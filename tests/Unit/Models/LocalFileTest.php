@@ -335,21 +335,6 @@ class LocalFileTest extends TestCase
         $this->assertFalse($localFile->isValidDir());
     }
 
-    public function test_file_exists_returns_false_if_file_does_not_exist()
-    {
-        $localFile = LocalFile::factory()->make([
-            'private_path' => '/tmp',
-            'filename' => 'non_existing_file.txt',
-        ]);
-
-        $mockFileExists = Mockery::mock('alias:file_exists');
-        $mockFileExists->shouldReceive('file_exists')
-            ->with('/tmp' . DS . 'non_existing_file.txt')
-            ->andReturn(false);
-
-        $this->assertFalse($localFile->fileExists());
-    }
-
     protected function tearDown(): void
     {
         Mockery::close();

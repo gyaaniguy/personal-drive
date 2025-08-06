@@ -57,9 +57,9 @@ class FileMoveService
         array &$successfulUploads
     ): void {
         $itemPathName =  $localFile->getFullPathFromContentRoot();
-        $itemPublicDestPathName = $localFile->getFullPathFromContentRoot('', $desPublicPath);CONTENT_SUBDIR . DS . ($desPublicPath ? $desPublicPath . DS : '') . $localFile->filename;
+        $itemPublicDestPathName = $localFile->getFullPathFromContentRoot('', $desPublicPath);
 
-        if (!$localFile->fileExists()) {
+        if (!$this->fileOperationsService->fileExists($itemPathName) && !$this->fileOperationsService->directoryExists($itemPathName)) {
             return;
         }
         if ($localFile->isValidFile()) {

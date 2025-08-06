@@ -149,8 +149,4 @@ class LocalFile extends Model
         return is_dir($this->getPrivatePathNameForFile()) && $this->is_dir === 1;
     }
 
-    public function fileExists(): bool
-    {
-        return file_exists($this->getPrivatePathNameForFile());
-    }
 }
