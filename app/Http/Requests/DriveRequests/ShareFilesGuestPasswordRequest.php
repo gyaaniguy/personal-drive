@@ -11,7 +11,7 @@ class ShareFilesGuestPasswordRequest extends FormRequest
     {
         return [
             'slug' => CommonRequest::slugRules(),
-            'password' => CommonRequest::sharePasswordRules(),
+            'password' => ['required', 'string', 'max:50'],
         ];
     }
 }
