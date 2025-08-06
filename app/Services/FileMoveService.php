@@ -23,12 +23,11 @@ class FileMoveService
 
     public function moveFiles(array $fileKeyArray, string $destinationInputPath): bool
     {
+        $successfulUploads = [];
         $localFiles = LocalFile::getByIds($fileKeyArray)->get();
-
         if (!$localFiles->count()) {
             throw FileMoveException::noValidFiles();
         }
-
         $desPublicPath = $this->pathService->cleanDrivePublicPath($destinationInputPath);
         $destinationPrivatePath = $this->pathService->genPrivatePathFromPublic($desPublicPath);
 
@@ -36,14 +35,10 @@ class FileMoveService
             throw FileMoveException::invalidDestinationPath();
         }
 
-        $successfulUploads = [];
-
         foreach ($localFiles as $localFile) {
-            $itemPublicDestPathName = CONTENT_SUBDIR . DS . ($desPublicPath ? $desPublicPath . DS : '') . $localFile->filename;
-
             $this->moveSingleFileOrDirectory(
                 $localFile,
-                $itemPublicDestPathName,
+                $desPublicPath,
                 $successfulUploads
             );
         }
@@ -58,22 +53,21 @@ class FileMoveService
 
     private function moveSingleFileOrDirectory(
         LocalFile $localFile,
-        string $itemPublicDestPathName,
+        string $desPublicPath,
         array &$successfulUploads
     ): void {
-        $itemPathName = CONTENT_SUBDIR . DS . $localFile->getPublicPathname();
+        $itemPathName =  $localFile->getFullPathFromContentRoot();
+        $itemPublicDestPathName = $localFile->getFullPathFromContentRoot('', $desPublicPath);CONTENT_SUBDIR . DS . ($desPublicPath ? $desPublicPath . DS : '') . $localFile->filename;
 
         if (!$localFile->fileExists()) {
             return;
         }
-
         if ($localFile->isValidFile()) {
             $this->fileOperationsService->move($itemPathName, $itemPublicDestPathName);
             if ($this->fileOperationsService->fileExists($itemPublicDestPathName)) {
                 $successfulUploads[] = $localFile->id;
             }
         }
-
         if ($localFile->isValidDir()) {
             $this->moveDirectory(
                 $localFile,
@@ -90,9 +84,8 @@ class FileMoveService
         string $itemPublicDestPathName,
         array &$successfulUploads
     ): void {
-        $dirPublicPathname = $localFile->getPublicPathname();
+        $dirPublicPathname = $localFile->getPublicPathPlusName();
         $dirSubFilesIds = LocalFile::getIdsByLikePublicPath($dirPublicPathname);
-
         $this->fileOperationsService->move($itemPathName, $itemPublicDestPathName);
         if ($this->fileOperationsService->directoryExists($itemPublicDestPathName)) {
             $successfulUploads[] = $localFile->id;

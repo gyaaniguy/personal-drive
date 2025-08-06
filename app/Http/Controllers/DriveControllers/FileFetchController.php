@@ -43,7 +43,7 @@ class FileFetchController extends Controller
                 'Content-Type' => 'text/plain',
             ])->send();
         } else {
-            VideoStreamer::streamFile($filePrivatePathName);
+            $this->streamFile($filePrivatePathName);
         }
     }
 
@@ -69,11 +69,16 @@ class FileFetchController extends Controller
     {
         $file = $this->handleHashRequest($request);
         if (!$file->has_thumbnail) {
-            throw FetchFileException::notFoundStream();
+            throw FetchFileException::notFoundThumb();
         }
         $filePrivatePathName = $this->thumbnailService->getFullFileThumbnailPath($file);
         if (file_exists($filePrivatePathName)) {
-            VideoStreamer::streamFile($filePrivatePathName);
+            $this->streamFile($filePrivatePathName);
         }
+    }
+
+    public function streamFile(string $filePrivatePathName): void
+    {
+        VideoStreamer::streamFile($filePrivatePathName);
     }
 }

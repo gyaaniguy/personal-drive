@@ -74,7 +74,6 @@ class ThumbnailService
             $ffmpeg = FFMpeg::create();
             $video = $ffmpeg->open($privateFilePath);
             $video->frame(TimeCode::fromSeconds(1))->save($fullFileThumbnailPath);
-
             return $this->imageResize($fullFileThumbnailPath, $fullFileThumbnailPath);
         } catch (ExecutableNotFoundException $e) {
             throw ThumbnailException::noFfmpeg();
@@ -91,7 +90,7 @@ class ThumbnailService
         }
         $imageExt = $file->file_type === 'video' ? $this->imageExt : '';
 
-        return $thumbnailPathDir . DS . $file->getPublicPathname() . $imageExt;
+        return $thumbnailPathDir . DS . $file->getPublicPathPlusName() . $imageExt;
     }
 
 

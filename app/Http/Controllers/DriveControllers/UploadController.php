@@ -76,23 +76,23 @@ class UploadController extends Controller
     private function processFiles(array $files, string $privatePath, string $publicPath): array
     {
         //Temp storage in case we need to abort
-        $tempStorageDirFull = $this->uploadService->setTempStorageDirFull();
+        $tempStorageDirFull = $this->uploadService->setTempStorageDirAbs();
 
         $conflictsDetected = $successfulUploads = $duplicatesDetected = 0;
         foreach ($files as $file) {
-            $fileNameWithPath = $file->getClientOriginalPath();
-            $destinationFullPath = $privatePath . $fileNameWithPath;
+            $fileNameWithUploadedPath = $file->getClientOriginalPath();
+            $destinationFullPath = $privatePath . $fileNameWithUploadedPath;
             $tempDirFullPath = dirname(
-                $this->uploadService->getTempStorageDirFull() . DS . ($publicPath ? $publicPath . DS : '') . $fileNameWithPath
+                $this->uploadService->getTempStorageDirAbs() . DS . ($publicPath ? $publicPath . DS : '') . $fileNameWithUploadedPath
             );
             $tempDirRelativePath = $this->uploadService->getTempStorageDir() . DS . $publicPath;
-            $relativeBasePath = CONTENT_SUBDIR . DS . ($publicPath ? $publicPath . DS : '');
-            $relativeDestinationPath = $relativeBasePath . $fileNameWithPath;
+            $relativeBasePath = $this->pathService->getPlusContentRoot($publicPath);
+            $relativeDestinationPath = $relativeBasePath . $fileNameWithUploadedPath;
 
             if (
                 $this->fileOperationsService->directoryExists($relativeDestinationPath) || $this->fileOperationsService->pathExistsAsFile(
                     $relativeBasePath,
-                    dirname($fileNameWithPath)
+                    dirname($fileNameWithUploadedPath)
                 )
             ) {
                 $conflictsDetected++;
@@ -142,13 +142,14 @@ class UploadController extends Controller
         $privatePath = $this->pathService->genPrivatePathFromPublic($publicPath);
         if (
             $isFile &&
-            !$this->fileOperationsService->makeFile(
-                CONTENT_SUBDIR . DS . ($publicPath ? $publicPath . DS : '') . $itemName
-            )
+            !$this->fileOperationsService->makeFile($this->pathService->getPlusContentRoot($publicPath, $itemName))
         ) {
             return $this->error('Create file failed');
         }
-        if (!$isFile && !$this->fileOperationsService->makeFolder(CONTENT_SUBDIR . DS . ($publicPath ? $publicPath . DS : '') . $itemName)) {
+        if (
+            !$isFile &&
+            !$this->fileOperationsService->makeFolder($this->pathService->getPlusContentRoot($publicPath, $itemName))
+        ) {
             return $this->error('Create folder failed');
         }
 

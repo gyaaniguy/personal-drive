@@ -21,9 +21,8 @@ class FileRenameService
 
     public function renameFile(LocalFile $file, string $newFilename): void
     {
-        $storageFolderName = CONTENT_SUBDIR;
-        $itemPathName = $storageFolderName . \DS . $file->getPublicPathname();
-        $itemPublicDestPathName = $storageFolderName . DS . $file->getPublicPath() . $newFilename;
+        $itemPathName = $file->getFullPathFromContentRoot();
+        $itemPublicDestPathName = $file->getFullPathFromContentRoot($newFilename);
 
         if ($this->fileOperationsService->fileExists($itemPublicDestPathName)) {
             throw FileRenameException::couldNotRename();
@@ -42,8 +41,8 @@ class FileRenameService
 
     public function updateDirChildrenRecursively(LocalFile $file, string $newFilename): void
     {
-        $dirPublicPathname = $file->getPublicPathname();
-        $newFolderPublicPath = $file->getPublicPath() . $newFilename;
+        $dirPublicPathname = $file->getPublicPathPlusName();
+        $newFolderPublicPath = $file->getPublicPathPlusName($newFilename) ;
         LocalFile::getByPublicPathLikeSearch($dirPublicPathname)
             ->chunk(
                 100,

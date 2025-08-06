@@ -60,9 +60,10 @@ Route::middleware(['web', 'auth', CheckAdmin::class])->group(callback: function 
 
 // admin or shared
 Route::get('/fetch-file/{id}/{slug?}', [DriveControllers\FileFetchController::class, 'index'])
-    ->middleware([HandleAuthOrGuestMiddleware::class]);
+    ->middleware([HandleAuthOrGuestMiddleware::class])->name('drive.fetch-file');
 Route::get('/fetch-thumb/{id}/{slug?}', [DriveControllers\FileFetchController::class, 'getThumb'])
-    ->middleware([HandleAuthOrGuestMiddleware::class]);
+    ->middleware([HandleAuthOrGuestMiddleware::class])
+    ->name('drive.get-thumb');
 Route::post('/download-files', [DriveControllers\DownloadController::class, 'index'])
     ->middleware([HandleAuthOrGuestMiddleware::class]);
 

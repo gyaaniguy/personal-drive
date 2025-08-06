@@ -20,6 +20,11 @@ class LocalFile extends Model
     protected $hidden = ['private_path', 'user_id', 'laravel_through_key'];
     protected $fillable = ['filename', 'is_dir', 'public_path', 'private_path', 'size', 'user_id', 'file_type'];
 
+    public static function getByName(string $name): ?self
+    {
+        return self::where('filename', $name)->first();
+    }
+
     public static function getById(string $id): ?self
     {
         return self::where('id', $id)->first();
@@ -116,12 +121,17 @@ class LocalFile extends Model
 
     public function deleteUsingPublicPath()
     {
-        return $this->where('public_path', 'like', $this->getPublicPathname() . '%')->delete();
+        return $this->where('public_path', 'like', $this->getPublicPathPlusName() . '%')->delete();
     }
 
-    public function getPublicPathname(): string
+    public function getPublicPathPlusName(string $customFileName = '', string $customPath = ''): string
     {
-        return $this->getPublicPath() . $this->filename;
+        return ($customPath ? $customPath . DS : $this->getPublicPath()) . ($customFileName ?: $this->filename);
+    }
+
+    public function getFullPathFromContentRoot(string $customFileName = '', string $customPath = ''): string
+    {
+        return CONTENT_SUBDIR . DS . $this->getPublicPathPlusName($customFileName, $customPath);
     }
 
     public function isValidFile(): bool

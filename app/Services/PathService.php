@@ -17,6 +17,12 @@ class PathService
 //        return $storagePath . DS . "temp_storage";
 //    }
 
+
+    public function getPlusContentRoot(string $publicPath, string $fileName = ''): string
+    {
+        return CONTENT_SUBDIR . DS . ($publicPath ? $publicPath . DS : '') . ( $fileName ?: '');
+    }
+
     public function getThumbnailDirPath(): string
     {
         return Setting::getStoragePath(). DS . THUMBS_SUBDIR;

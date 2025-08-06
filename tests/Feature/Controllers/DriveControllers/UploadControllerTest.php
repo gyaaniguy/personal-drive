@@ -3,6 +3,7 @@
 namespace Tests\Feature\Controllers\DriveControllers;
 
 use App\Models\LocalFile;
+use App\Services\FileOperationsService;
 use App\Services\UploadService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
 use Illuminate\Http\UploadedFile;
@@ -59,10 +60,6 @@ class UploadControllerTest extends BaseFeatureTest
         Storage::disk('local')->assertExists(CONTENT_SUBDIR . DS . $testPath . DS . $testFileName2);
     }
 
-    public function test_create_file_same_name()
-    {
-        $this->createItem('', $this->fileName, true);
-    }
 
     public function createItem(string $fileName, string $testPath = '', bool $isFile = true): TestResponse
     {
@@ -74,6 +71,25 @@ class UploadControllerTest extends BaseFeatureTest
         ]);
     }
 
+    public function test_create_folder_fail(){
+        $fileOptsMock = $this->mockFileOperations();
+
+        $fileOptsMock->shouldReceive('makeFolder')->withAnyArgs()->andReturn(false);
+        $response = $this->createItem($this->fileName, '', false);
+        $response->assertSessionHas('status', false);
+        $response->assertSessionHas('message', 'Create folder failed');
+    }
+    public function test_create_file_fail()
+    {
+        $fileOptsMock = $this->mockFileOperations();
+
+        $fileOptsMock->shouldReceive('makeFile')->withAnyArgs()->andReturn(false);
+        $response = $this->createItem($this->fileName, '', true);
+        $response->assertSessionHas('status', false);
+        $response->assertSessionHas('message', 'Create file failed');
+
+
+    }
     public function test_create_file_in_folder()
     {
         $this->fileName = 'foo';
@@ -220,6 +236,13 @@ class UploadControllerTest extends BaseFeatureTest
         $response->assertSessionHas('status', true);
         $response->assertSessionHas('message', 'Aborted Overwrite');
         $this->assertDirectoryDoesNotExist($this->tempRootDir);
+    }
+
+    public function mockFileOperations()
+    {
+        $fileOptsMock = Mockery::mock(FileOperationsService::class)->makePartial();
+        $this->app->instance(FileOperationsService::class, $fileOptsMock);
+        return $fileOptsMock;
     }
 
     protected function setUp(): void

@@ -35,11 +35,13 @@ class AdminConfigControllerTest extends BaseFeatureTest
 
     public function test_update_setting_success()
     {
-        $response = $this->setStoragePath($this->newStoragePath);
-        $response->assertSessionHas('status', true);
-        $response->assertRedirect(route('drive'));
-        $this->assertEquals($this->getFakeLocalStoragePath($this->newStoragePath), Setting::getStoragePath());
-        $this->assertSessionHas($response, 'Storage path updated successfully');
+        $this->postNewStoragePath();
+    }
+
+    public function test_update_setting_same_success()
+    {
+        $this->postNewStoragePath();
+        $this->postNewStoragePath();
     }
 
     protected function assertSessionHas($response, string $message): void
@@ -79,6 +81,15 @@ class AdminConfigControllerTest extends BaseFeatureTest
         $this->fileOptsMock->shouldReceive('isWritable')->with(THUMBS_SUBDIR)->andReturn(false);
         $response = $this->updateStoragePost(false);
         $this->assertSessionHas($response, 'Unable to create thumbnail directory. Check Permissions');
+    }
+
+    public function postNewStoragePath(): void
+    {
+        $response = $this->setStoragePath($this->newStoragePath);
+        $response->assertSessionHas('status', true);
+        $response->assertRedirect(route('drive'));
+        $this->assertEquals($this->getFakeLocalStoragePath($this->newStoragePath), Setting::getStoragePath());
+        $this->assertSessionHas($response, 'Storage path updated successfully');
     }
 
     protected function setUp(): void

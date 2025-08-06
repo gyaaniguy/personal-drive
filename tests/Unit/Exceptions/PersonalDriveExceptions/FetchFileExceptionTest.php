@@ -11,7 +11,7 @@ class FetchFileExceptionTest extends TestCase
     {
         $exception = FetchFileException::notFoundStream();
         $this->assertInstanceOf(FetchFileException::class, $exception);
-        $this->assertEquals('Could not find file to stream', $exception->getMessage());
+        $this->assertEquals('Could not find file to send', $exception->getMessage());
     }
 
     public function test_notFoundDownload_method_returns_correct_message()

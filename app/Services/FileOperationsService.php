@@ -27,12 +27,12 @@ class FileOperationsService
         if (!$this->makeFileSystem()) {
             return;
         }
+        if ($this->directoryExists($dest)) {
+            throw FileMoveException::directoryExists();
+        }
         try {
             $this->filesystem->move($src, $dest);
         } catch (Exception $e) {
-            if (str_contains($e->getMessage(), 'Directory not empty')) {
-                throw FileMoveException::directoryExists();
-            }
             throw FileMoveException::couldNotMove();
         }
     }

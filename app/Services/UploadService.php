@@ -31,16 +31,16 @@ class UploadService
         $this->filesystem = $filesystem;
     }
 
-    public function setTempStorageDirFull(): string
+    public function setTempStorageDirAbs(): string
     {
         $tempStorageUuid = Str::uuid()->toString();
         Session::put($this->tempUuid, $tempStorageUuid);
         Session::put($this->tempUuidTime, now());
 
-        return $this->getTempStorageDirFull();
+        return $this->getTempStorageDirAbs();
     }
 
-    public function getTempStorageDirFull(): string
+    public function getTempStorageDirAbs(): string
     {
         $storagePath = Setting::getStoragePath();
 
@@ -63,7 +63,7 @@ class UploadService
 
     public function syncTempToStorage(): bool
     {
-        $tempDir = $this->getTempStorageDirFull();
+        $tempDir = $this->getTempStorageDirAbs();
         $storageDir = $this->pathService->getStorageFolderPath();
 
         if (!$this->isValidDirectory($storageDir) || !$this->isValidDirectory($tempDir)) {
@@ -127,7 +127,7 @@ class UploadService
 
     public function cleanOldTempFiles(): bool
     {
-        $tempDirFullPath = $this->getTempStorageDirFull();
+        $tempDirFullPath = $this->getTempStorageDirAbs();
         if (!$tempDirFullPath) {
             return true;
         }
@@ -142,8 +142,4 @@ class UploadService
         return false;
     }
 
-    public function getTempUuid(): string
-    {
-        return $this->tempUuid;
-    }
 }

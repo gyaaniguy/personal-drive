@@ -25,9 +25,6 @@ class ThumbnailController extends Controller
         $fileIds = $request->validated('ids');
         $publicPath = $request->validated('path') ?? '';
         $publicPath = preg_replace('#^/drive/?#', '', $publicPath);
-        if (!$fileIds) {
-            session()->flash('message', 'Could not generate thumbnails');
-        }
         LocalFile::setHasThumbnail($fileIds);
         $thumbsGenerated = $this->thumbnailService->genThumbnailsForFileIds($fileIds);
         if ($thumbsGenerated === 0) {

@@ -173,7 +173,7 @@ class LocalFileTest extends TestCase
         $this->assertEquals('2 KB', LocalFile::getItemSizeText($file));
 
         $dir = LocalFile::factory()->make(['size' => 0, 'is_dir' => true]);
-        $this->assertEquals('1 KB', LocalFile::getItemSizeText($dir));
+        $this->assertEquals('', LocalFile::getItemSizeText($dir));
     }
 
     public function test_modify_file_collection_for_guest_modifies_public_path()
@@ -286,7 +286,7 @@ class LocalFileTest extends TestCase
             'public_path' => '/my/folder',
             'filename' => 'my_file.doc',
         ]);
-        $this->assertEquals('/my/folder' . DS . 'my_file.doc', $localFile->getPublicPathname());
+        $this->assertEquals('/my/folder' . DS . 'my_file.doc', $localFile->getPublicPathPlusName());
     }
 
     public function test_is_valid_file_returns_false_for_directory()

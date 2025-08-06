@@ -85,6 +85,11 @@ class BaseFeatureTest extends TestCase
         return $response;
     }
 
+    protected function uploadImage(string $fileName){
+        $file = UploadedFile::fake()->image($fileName);
+
+        return $this->postUpload([$file], '');
+    }
 
     public function setStoragePath(string $storagePath = ''): TestResponse
     {
@@ -97,10 +102,6 @@ class BaseFeatureTest extends TestCase
         ]);
     }
 
-    /**
-     * @param  string  $storagePath
-     * @return string
-     */
     public function getFakeLocalStoragePath(string $storagePath): string
     {
         return Storage::disk('local')->path($storagePath);
