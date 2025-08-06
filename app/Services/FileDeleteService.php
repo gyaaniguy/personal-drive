@@ -49,7 +49,7 @@ class FileDeleteService
 
     public function isDeletableDirectory(LocalFile $file, string $privateFilePathName): bool
     {
-        return $file->is_dir === 1 && file_exists($privateFilePathName) && is_dir($privateFilePathName);
+        return $file->is_dir && file_exists($privateFilePathName) && is_dir($privateFilePathName);
     }
 
     public function isDirSubDirOfStorage(string $privateFilePathName, string $rootStoragePath): string|false
@@ -59,6 +59,6 @@ class FileDeleteService
 
     public function isDeletableFile(LocalFile $file): bool
     {
-        return $file->is_dir === 0;
+        return !$file->is_dir ;
     }
 }

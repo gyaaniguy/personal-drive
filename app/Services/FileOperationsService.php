@@ -32,7 +32,7 @@ class FileOperationsService
         }
         try {
             $this->filesystem->move($src, $dest);
-        } catch (Exception $e) {
+        } catch (Exception) {
             throw FileMoveException::couldNotMove();
         }
     }
@@ -53,6 +53,11 @@ class FileOperationsService
         return true;
     }
 
+    public function directoryExists(string $path): bool
+    {
+        return $this->makeFileSystem() && $this->filesystem->directoryExists($path);
+    }
+
     public function makeFile(string $path): bool
     {
         if (!$this->makeFileSystem()) {
@@ -61,16 +66,8 @@ class FileOperationsService
         if ($this->filesystem->fileExists($path)) {
             throw UploadFileException::fileExists();
         }
-        if (
-            file_put_contents(
-                $this->basePath . DS . $path,
-                ''
-            ) === false && $this->filesystem->fileExists($path) === false
-        ) {
-            return false;
-        }
-
-        return true;
+        file_put_contents($this->basePath . DS . $path, '');
+        return $this->filesystem->fileExists($path);
     }
 
     public function fileExists(string $path): bool
@@ -94,11 +91,6 @@ class FileOperationsService
         } catch (Throwable) {
             return false;
         }
-    }
-
-    public function directoryExists(string $path): bool
-    {
-        return $this->makeFileSystem() && $this->filesystem->directoryExists($path);
     }
 
     public function isWritable(string $path): bool

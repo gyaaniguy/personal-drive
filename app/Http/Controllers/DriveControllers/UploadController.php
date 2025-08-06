@@ -127,7 +127,7 @@ class UploadController extends Controller
                 chmod($destinationDir . DS . $file->getClientOriginalName(), 0640);
                 $successfulUploads++;
             }
-        } catch (Error $e) {
+        } catch (Error) {
             throw UploadFileException::outOfMemory();
         }
         return $successfulUploads;

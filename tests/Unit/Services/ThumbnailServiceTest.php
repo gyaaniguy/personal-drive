@@ -49,9 +49,9 @@ class ThumbnailServiceTest extends TestCase
             ->makePartial()
             ->shouldAllowMockingProtectedMethods();
 
-        $service->shouldReceive('generateImageThumbnail')->with($file)->andReturn(true);
+        $service->shouldReceive('generateThumbnail')->with($file)->andReturn(true);
 
-        $result = $service->generateThumbnailsForFiles(collect([$file, $file1]));
+        $result = $service->generateThumbnails(collect([$file, $file1]));
 
         $this->assertEquals(1, $result);
     }

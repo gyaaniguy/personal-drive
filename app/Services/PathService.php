@@ -23,7 +23,7 @@ class PathService
         return CONTENT_SUBDIR . DS . ($publicPath ? $publicPath . DS : '') . ( $fileName ?: '');
     }
 
-    public function getThumbnailDirPath(): string
+    public function getThumbnailAbsPath(): string
     {
         return Setting::getStoragePath(). DS . THUMBS_SUBDIR;
     }

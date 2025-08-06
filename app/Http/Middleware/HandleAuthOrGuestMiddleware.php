@@ -15,7 +15,7 @@ class HandleAuthOrGuestMiddleware
         $authMiddleware = app(Authenticate::class);
         try {
             return $authMiddleware->handle($request, $next);
-        } catch (Exception $e) {
+        } catch (Exception) {
             // If not authenticated, delegate to the HandleGuestShareRequests middleware
             return app(HandleGuestShareMiddleware::class)->handle($request, $next);
         }

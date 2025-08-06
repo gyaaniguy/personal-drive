@@ -17,9 +17,11 @@ use Spatie\Image\Image;
 class ThumbnailService
 {
     private const IMAGE_SIZE = 210;
+    private const IMAGE_EXT = '.jpeg';
+    private const VIDEO_TYPE = 'video';
+    private const IMAGE_TYPE = 'image';
     protected FileOperationsService $fileOperationsService;
     private PathService $pathService;
-    private string $imageExt = '.jpeg';
 
     public function __construct(PathService $pathService, FileOperationsService $fileOperationsService)
     {
@@ -30,7 +32,7 @@ class ThumbnailService
     public function genThumbnailsForFileIds(array $fileIds): int
     {
         $filesToGenerateFor = $this->getGeneratableFiles($fileIds)->get();
-        return $this->generateThumbnailsForFiles($filesToGenerateFor);
+        return $this->generateThumbnails($filesToGenerateFor);
     }
 
     public function getGeneratableFiles(array $fileIds): Builder
@@ -38,30 +40,40 @@ class ThumbnailService
         return LocalFile::getByIds($fileIds)->whereIn('file_type', ['video', 'image']);
     }
 
-    public function generateThumbnailsForFiles(Collection $files): int
+    public function generateThumbnails(Collection $files): int
+    {
+        $this->ensureImageDriverLoaded();
+
+        return $files->reduce(
+            fn(int $count, LocalFile $file) => $count + $this->generateThumbnail($file),
+            0
+        );
+    }
+
+    /**
+     * @return void
+     * @throws ImageRelatedException
+     */
+    public function ensureImageDriverLoaded(): void
     {
         if (!extension_loaded('gd')) {
             throw ImageRelatedException::invalidImageDriver();
         }
-        $thumbsGenerated = 0;
-        foreach ($files as $file) {
-            switch ($file->file_type) {
-                case 'video':
-                    $thumbsGenerated += $this->generateVideoThumbnail($file) ? 1 : 0;
-                    break;
-                case 'image':
-                    $thumbsGenerated += $this->generateImageThumbnail($file) ? 1 : 0;
-                    break;
-            }
-        }
+    }
 
-        return $thumbsGenerated;
+    public function generateThumbnail(LocalFile $file): int
+    {
+        return match ($file->file_type) {
+            self::VIDEO_TYPE => $this->handleVideo($file),
+            self::IMAGE_TYPE => $this->handleImage($file),
+            default => 0,
+        };
     }
 
     /**
      * @throws ThumbnailException
      */
-    private function generateVideoThumbnail(LocalFile $file): bool
+    private function handleVideo(LocalFile $file): bool
     {
         $privateFilePath = $file->getPrivatePathNameForFile();
 
@@ -74,7 +86,7 @@ class ThumbnailService
             $ffmpeg = FFMpeg::create();
             $video = $ffmpeg->open($privateFilePath);
             $video->frame(TimeCode::fromSeconds(1))->save($fullFileThumbnailPath);
-            return $this->imageResize($fullFileThumbnailPath, $fullFileThumbnailPath);
+            return $this->resizeImage($fullFileThumbnailPath, $fullFileThumbnailPath);
         } catch (ExecutableNotFoundException $e) {
             throw ThumbnailException::noFfmpeg();
         }
@@ -82,33 +94,34 @@ class ThumbnailService
 
     public function getFullFileThumbnailPath(LocalFile $file): string
     {
-        $thumbnailPathDir = $this->pathService->getThumbnailDirPath();
         $fileThumbnailDirPath = THUMBS_SUBDIR . DS . $file->getPublicPath();
 
         if (!$this->fileOperationsService->directoryExists($fileThumbnailDirPath)) {
             $this->fileOperationsService->makeFolder($fileThumbnailDirPath);
         }
-        $imageExt = $file->file_type === 'video' ? $this->imageExt : '';
 
-        return $thumbnailPathDir . DS . $file->getPublicPathPlusName() . $imageExt;
+        return $this->pathService->getThumbnailAbsPath()
+            . DS
+            . $file->getPublicPathPlusName()
+            . ($file->file_type === 'video' ? self::IMAGE_EXT : '');
     }
 
 
-    private function imageResize(string $privateFilePath, string $fullFileThumbnailPath): bool
+    private function resizeImage(string $privateFilePath, string $fullFileThumbnailPath): bool
     {
         try {
             Image::useImageDriver(ImageDriver::Gd)->loadFile($privateFilePath)
                 ->width(self::IMAGE_SIZE)
                 ->height(self::IMAGE_SIZE)
                 ->save($fullFileThumbnailPath);
-        } catch (Exception $e) {
+        } catch (Exception) {
             return false;
         }
 
         return true;
     }
 
-    protected function generateImageThumbnail(LocalFile $file): bool
+    protected function handleImage(LocalFile $file): bool
     {
         $privateFilePath = $file->getPrivatePathNameForFile();
         if (!file_exists($privateFilePath)) {
@@ -116,6 +129,6 @@ class ThumbnailService
         }
         $fullFileThumbnailPath = $this->getFullFileThumbnailPath($file);
 
-        return $this->imageResize($privateFilePath, $fullFileThumbnailPath);
+        return $this->resizeImage($privateFilePath, $fullFileThumbnailPath);
     }
 }

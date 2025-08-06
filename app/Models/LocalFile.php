@@ -136,7 +136,7 @@ class LocalFile extends Model
 
     public function isValidFile(): bool
     {
-        return is_file($this->getPrivatePathNameForFile()) && $this->is_dir === 0;
+        return is_file($this->getPrivatePathNameForFile()) && !$this->is_dir ;
     }
 
     public function getPrivatePathNameForFile(): string
@@ -146,7 +146,7 @@ class LocalFile extends Model
 
     public function isValidDir(): bool
     {
-        return is_dir($this->getPrivatePathNameForFile()) && $this->is_dir === 1;
+        return is_dir($this->getPrivatePathNameForFile()) && $this->is_dir ;
     }
 
 }

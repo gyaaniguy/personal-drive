@@ -26,7 +26,7 @@ class LocalFileStatsService
 
         try {
             LocalFile::create($this->getSplFileStats($itemName, $isDir, $publicPath, $privatePath, $file));
-        } catch (Exception $e) {
+        } catch (Exception) {
             throw UploadFileException::noNewDir($isDir ? 'folder' : 'file');
         }
     }
