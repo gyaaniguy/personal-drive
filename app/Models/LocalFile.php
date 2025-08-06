@@ -124,19 +124,26 @@ class LocalFile extends Model
         return $this->where('public_path', 'like', $this->getPublicPathPlusName() . '%')->delete();
     }
 
-    public function getPublicPathPlusName(string $customFileName = '', string $customPath = ''): string
+    public function getPublicPathPlusName(string $customFileName = '', ?string $customPath = null): string
     {
-        return ($customPath ? $customPath . DS : $this->getPublicPath()) . ($customFileName ?: $this->filename);
+        if ($customPath === null) {
+            $path = $this->getPublicPath();
+        } elseif ($customPath === '') {
+            $path = '';
+        } else {
+            $path = $customPath . DS;
+        }
+        return $path . ($customFileName ?: $this->filename);
     }
 
-    public function getFullPathFromContentRoot(string $customFileName = '', string $customPath = ''): string
+    public function getFullPathFromContentRoot(string $customFileName = '', ?string $customPath = null): string
     {
         return CONTENT_SUBDIR . DS . $this->getPublicPathPlusName($customFileName, $customPath);
     }
 
     public function isValidFile(): bool
     {
-        return is_file($this->getPrivatePathNameForFile()) && !$this->is_dir ;
+        return is_file($this->getPrivatePathNameForFile()) && !$this->is_dir;
     }
 
     public function getPrivatePathNameForFile(): string
@@ -146,7 +153,6 @@ class LocalFile extends Model
 
     public function isValidDir(): bool
     {
-        return is_dir($this->getPrivatePathNameForFile()) && $this->is_dir ;
+        return is_dir($this->getPrivatePathNameForFile()) && $this->is_dir;
     }
-
 }
