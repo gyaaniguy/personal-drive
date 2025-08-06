@@ -177,6 +177,12 @@ The admin password cannot be changed. This is done to reduce the attack surface.
 Built with Laravel 11 and React. Inertia.js connects React components to the Laravel backend. Uses SQLite as the database.
 PHP code follows PSR-12 standard.
 
+### Extensive Testing. 
+
+90% coverage has been achieved. This includes testing for various scenarios and branches.
+
+[![codecov](https://codecov.io/github/gyaaniguy/personal-drive/branch/main/graph/badge.svg?token=DYLKB4SZVD)](https://codecov.io/github/gyaaniguy/personal-drive)
+
 For local development, you may want to disable HTTPS. Change these in `.env`:
 ```env
 DISABLE_HTTPS=true
