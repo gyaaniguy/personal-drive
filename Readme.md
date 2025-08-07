@@ -62,7 +62,7 @@
 - Edit text files
 - Create new files
 - Markdown supported
-  - Move files
+- Move files
 
 ---
 
