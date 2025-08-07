@@ -1,10 +1,10 @@
 import {
     memo,
     useCallback,
+    useContext,
     useEffect,
     useRef,
     useState,
-    useContext,
 } from "react";
 import { useNavigate } from "react-router-dom";
 import { Grid, List, StepBackIcon } from "lucide-react";
@@ -19,7 +19,7 @@ import DownloadButton from "@/Pages/Drive/Components/DownloadButton.jsx";
 import ShowShareModalButton from "@/Pages/Drive/Components/Shares/ShowShareModalButton.jsx";
 import DeleteButton from "@/Pages/Drive/Components/DeleteButton.jsx";
 import UploadMenu from "@/Pages/Drive/Components/UploadMenu.jsx";
-import { usePage, router } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
 import RenameModal from "@/Pages/Drive/Components/FileList/RenameModal.jsx";
 import CutButton from "./CutButton.jsx";
 import PasteButton from "./PasteButton.jsx";
@@ -45,7 +45,8 @@ const FileBrowserSection = memo(({ files, path, token, isAdmin, slug }) => {
     const [fileToRename, setFileToRename] = useState(new Set());
     const [isRenameModalOpen, setIsRenameModalOpen] = useState(false);
 
-    const { cutFiles, setCutFiles, cutPath, setCutPath } = useContext(CutFilesContext);
+    const { cutFiles, setCutFiles, cutPath, setCutPath } =
+        useContext(CutFilesContext);
 
     const handleCut = () => {
         setCutFiles?.(new Set(selectedFiles));
@@ -120,8 +121,13 @@ const FileBrowserSection = memo(({ files, path, token, isAdmin, slug }) => {
 
     function sortArrayByKey(arr, key, direction) {
         return [...arr].sort((a, b) => {
-            const valA = a[key]?.toLowerCase?.() || a[key] || "";
-            const valB = b[key]?.toLowerCase?.() || b[key] || "";
+            let valA =
+                a[key]?.toLowerCase?.() || (a[key] != null ? a[key] : "");
+            let valB =
+                b[key]?.toLowerCase?.() || (b[key] != null ? b[key] : "");
+            // empty string are for folders sizes
+            valA = valA === "" ? -1 : valA;
+            valB = valB === "" ? -1 : valB;
 
             if (direction === "desc") {
                 return valA > valB ? -1 : valA < valB ? 1 : 0;

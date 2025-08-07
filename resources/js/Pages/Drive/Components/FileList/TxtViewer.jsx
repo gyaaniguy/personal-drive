@@ -66,7 +66,7 @@ const TxtViewer = ({
             }
             if (response.data?.message.includes("success")) {
                 setSavedMessage("Changes saved successfully!");
-                let src = "/fetch-file/" + previewFile.id ;
+                let src = "/fetch-file/" + previewFile.id;
                 appendParamsToTxtFileUrl(src);
             } else {
                 setSavedMessage("Error: " + response.data?.message);
@@ -99,7 +99,7 @@ const TxtViewer = ({
     };
 
     useEffect(() => {
-        let src = "/fetch-file/" + previewFile.id ;
+        let src = "/fetch-file/" + previewFile.id;
         appendParamsToTxtFileUrl(src);
     }, [previewFile, slug]);
 
@@ -146,7 +146,10 @@ const TxtViewer = ({
                     onClick={startEditing}
                 />
             ) : (
-                <pre className={`w-[70vw]  ${isAdmin ? "cursor-pointer" : ""}`} onClick={startEditing}>
+                <pre
+                    className={`w-[70vw]  ${isAdmin ? "cursor-pointer" : ""}`}
+                    onClick={startEditing}
+                >
                     {content || (isAdmin ? "Click to edit..." : "Empty File")}
                 </pre>
             )}
