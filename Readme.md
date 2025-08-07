@@ -47,21 +47,21 @@
   - Play and view images and videos
   - Preview text and PDF files
   - Keyboard shortcuts available during slideshow: Left, Right, Escape
-  - Files are indexed
-  - Dynamically generated thumbnails
-  - Upload multiple files or entire folders recursively
-  - Select one or all files in a folder
-  - Download, delete, share selected files
-  - Two layouts: list view and tile view
-  - Sort based on size, type, or name
-  - Fast sort, even for thousands of files
-  - Breadcrumb navigation
-  - Rename functionality
-  - Drag and drop to upload files and folders
-  - Duplicate detection and overwriting/abort option
-  - Edit text files
-  - Create new files
-  - Markdown supported
+- Files are indexed
+- Dynamically generated thumbnails
+- Upload multiple files or entire folders recursively
+- Select one or all files in a folder
+- Download, delete, share selected files
+- Two layouts: list view and tile view
+- Sort based on size, type, or name
+- Fast sort, even for thousands of files
+- Breadcrumb navigation
+- Rename functionality
+- Drag and drop to upload files and folders
+- Duplicate detection and overwriting/abort option
+- Edit text files
+- Create new files
+- Markdown supported
   - Move files
 
 ---
