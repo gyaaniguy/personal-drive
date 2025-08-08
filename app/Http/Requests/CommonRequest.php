@@ -43,7 +43,14 @@ class CommonRequest extends FormRequest
 
     public static function itemNameRule(): array
     {
-        return ['required', 'string', 'max:255', 'regex:/^[a-zA-Z0-9_\- \.]+$/'];
+        return [
+            'required',
+            'string',
+            'max:255',
+            // Block file system dangerous chars and ALL control characters
+            'regex:/^[^\/<>:"|?*\x00-\x1f\x7f-\x9f\\\\]+$/u',
+            // Prevent Windows reserved names
+            'not_regex:/^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(\.|$)/i',        ];
     }
 
     public static function localFileIdRules(): array

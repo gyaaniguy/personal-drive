@@ -104,22 +104,213 @@ class CommonRequestTest extends TestCase
         $validator = Validator::make(['username' => '12345'], ['username' => $rules]);
         $this->assertTrue($validator->passes(), 'A numeric username should pass validation.');
     }
-
     public function testItemNameRule()
     {
         $rules = CommonRequest::itemNameRule();
 
+        // Basic valid cases
         $validator = Validator::make(['itemName' => 'Valid Item Name 123'], ['itemName' => $rules]);
         $this->assertTrue($validator->passes(), 'A valid item name should pass validation.');
 
-        $validator = Validator::make(['itemName' => str_repeat('a', 256)], ['itemName' => $rules]);
-        $this->assertFalse($validator->passes(), 'An item name exceeding 255 characters should fail validation.');
+        $validator = Validator::make(['itemName' => 'simple'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'A simple name should pass validation.');
+
+        $validator = Validator::make(['itemName' => 'file_with_underscores'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Names with underscores should pass validation.');
+
+        $validator = Validator::make(['itemName' => 'file-with-hyphens'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Names with hyphens should pass validation.');
+
+        $validator = Validator::make(['itemName' => 'file.with.dots.txt'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Names with dots should pass validation.');
 
         $validator = Validator::make(['itemName' => 'Invalid|ItemName'], ['itemName' => $rules]);
         $this->assertFalse($validator->passes(), 'An item name with invalid characters should fail validation.');
 
+
+        // Greek character tests
+        $validator = Validator::make(['itemName' => 'Αρχείο'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Greek characters should pass validation.');
+
+        $validator = Validator::make(['itemName' => 'Έγγραφο Πελάτη'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Greek characters with spaces should pass validation.');
+
+        $validator = Validator::make(['itemName' => 'Φάκελος_2023'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Mixed Greek characters with numbers and underscores should pass validation.');
+
+        $validator = Validator::make(['itemName' => 'ΑΒΓΔΕΖΗΘΙΚΛΜΝΞΟΠΡΣΤΥΦΧΨΩ'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Greek uppercase characters should pass validation.');
+
+        $validator = Validator::make(['itemName' => 'αβγδεζηθικλμνξοπρστυφχψω'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Greek lowercase characters should pass validation.');
+
+        $validator = Validator::make(['itemName' => 'Άλφα Βήτα Γάμμα'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Greek characters with accents should pass validation.');
+
+        // Other Unicode tests
+        $validator = Validator::make(['itemName' => 'Файл'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Cyrillic characters should pass validation.');
+
+        $validator = Validator::make(['itemName' => 'Documento español'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Spanish characters with accents should pass validation.');
+
+        $validator = Validator::make(['itemName' => 'Café münü'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Mixed accented characters should pass validation.');
+
+        // Length validation
+        $validator = Validator::make(['itemName' => str_repeat('a', 255)], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'A 255-character name should pass validation.');
+
+        $validator = Validator::make(['itemName' => str_repeat('a', 256)], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'An item name exceeding 255 characters should fail validation.');
+
+        $validator = Validator::make(['itemName' => str_repeat('Α', 255)], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'A 255-character Greek name should pass validation.');
+
+        // Required field validation
         $validator = Validator::make(['itemName' => ''], ['itemName' => $rules]);
         $this->assertFalse($validator->passes(), 'An empty item name should fail validation.');
+
+        $validator = Validator::make(['itemName' => null], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'A null item name should fail validation.');
+
+        $validator = Validator::make([], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'A missing item name should fail validation.');
+
+        // Whitespace tests
+        $validator = Validator::make(['itemName' => '   '], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Spaces-only name should pass validation (if allowed by regex).');
+
+        $validator = Validator::make(['itemName' => 'File with spaces'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Names with normal spaces should pass validation.');
+
+        $validator = Validator::make(['itemName' => '  Leading and trailing spaces  '], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Names with leading/trailing spaces should pass validation.');
+
+        // Security tests - Directory traversal attempts
+        $validator = Validator::make(['itemName' => '../'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Directory traversal with ../ should fail validation.');
+
+        $validator = Validator::make(['itemName' => '..\\'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Directory traversal with ..\\ should fail validation.');
+
+        $validator = Validator::make(['itemName' => '/etc/passwd'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Absolute path should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'folder/../file'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Path with traversal should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'C:\\Windows\\System32'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Windows path should fail validation.');
+
+        // Invalid file system characters
+        $validator = Validator::make(['itemName' => 'file<name'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with < should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'file>name'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with > should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'file:name'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with : should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'file"name'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with " should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'file|name'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with | should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'file?name'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with ? should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'file*name'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with * should fail validation.');
+
+        // Control characters
+        $validator = Validator::make(['itemName' => "file\x00name"], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with null bytes should fail validation.');
+
+        $validator = Validator::make(['itemName' => "file\x01name"], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with control characters should fail validation.');
+
+        $validator = Validator::make(['itemName' => "file\x1fname"], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with ASCII control characters should fail validation.');
+
+        $validator = Validator::make(['itemName' => "file\x7fname"], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with DEL character should fail validation.');
+
+        $validator = Validator::make(['itemName' => "file\nnewline"], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with newlines should fail validation.');
+
+        $validator = Validator::make(['itemName' => "file\ttab"], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with tabs should fail validation.');
+
+        // Windows reserved names
+        $validator = Validator::make(['itemName' => 'CON'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Windows reserved name CON should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'PRN'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Windows reserved name PRN should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'AUX'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Windows reserved name AUX should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'NUL'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Windows reserved name NUL should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'COM1'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Windows reserved name COM1 should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'LPT9'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Windows reserved name LPT9 should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'con.txt'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Windows reserved name with extension should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'CON.'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Windows reserved name with trailing dot should fail validation.');
+
+        // Case sensitivity tests for reserved names
+        $validator = Validator::make(['itemName' => 'con'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Lowercase Windows reserved name should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'Con'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Mixed case Windows reserved name should fail validation.');
+
+        // Edge cases with dots and spaces
+        $validator = Validator::make(['itemName' => 'file.'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Names ending with dot should pass validation (if allowed).');
+
+        $validator = Validator::make(['itemName' => '.hiddenfile'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Names starting with dot should pass validation.');
+
+        $validator = Validator::make(['itemName' => '...'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Names with multiple dots should pass validation.');
+
+        // Unicode edge cases
+        $validator = Validator::make(['itemName' => 'file\u200bname'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with zero-width space should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'file\u202ename'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with right-to-left override should fail validation.');
+
+        // Very long Unicode names
+        $validator = Validator::make(['itemName' => str_repeat('Αβ', 128)], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Very long Unicode names should fail validation.');
+
+        // Mixed valid characters
+        $validator = Validator::make(['itemName' => 'File_123-άλφα βήτα.txt'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Mixed valid characters with Greek should pass validation.');
+
+        $validator = Validator::make(['itemName' => 'Αρχείο_2023-Final Version.pdf'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Real-world Greek filename should pass validation.');
+
+        // Homograph attack tests (visually similar characters)
+        $validator = Validator::make(['itemName' => 'аdmin.php'], ['itemName' => $rules]); // Cyrillic 'а'
+        $this->assertTrue($validator->passes(), 'Cyrillic characters should pass (homograph detection not in regex).');
+
+        // Numbers in different scripts
+        $validator = Validator::make(['itemName' => 'file１２３'], ['itemName' => $rules]); // Fullwidth numbers
+        $this->assertTrue($validator->passes(), 'Fullwidth numbers should pass validation.');
     }
 
     public function testLocalFileIdRules()
