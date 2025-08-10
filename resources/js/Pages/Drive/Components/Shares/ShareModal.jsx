@@ -2,6 +2,7 @@ import { useState } from "react";
 import Modal from "../Modal.jsx";
 import { Link, router } from "@inertiajs/react";
 import { CopyIcon } from "lucide-react";
+import CopyShareLinkButton from "@/Pages/Drive/Components/Shares/CopyShareLinkButton.jsx";
 
 const ShareModal = ({
     isShareModalOpen,
@@ -12,7 +13,6 @@ const ShareModal = ({
 }) => {
     let formDefaultData = { password: "", expiry: 7, slug: "" };
     const [formData, setFormData] = useState({ ...formDefaultData });
-    const [copyToClipboard, setCopyToClipboard] = useState("Copy to clipboard");
     const [sharedLink, setSharedLink] = useState("");
 
     const handleChange = (e) => {
@@ -30,13 +30,6 @@ const ShareModal = ({
         setFormData(formDefaultData);
         setSharedLink("");
     }
-
-    const handleCopy = (e) => {
-        e.preventDefault();
-        navigator.clipboard?.writeText(sharedLink).then(() => {
-            setCopyToClipboard("Copied!");
-        });
-    };
 
     const handleSubmit = async (e) => {
         e.preventDefault();
@@ -175,15 +168,7 @@ const ShareModal = ({
                                     readOnly
                                     className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-gray-800 text-gray-300"
                                 />
-                                <button
-                                    onClick={handleCopy}
-                                    className={`p-2 mx-1 rounded-md bg-gray-600 hover:bg-gray-500  relative group active:bg-gray-600`}
-                                >
-                                    <CopyIcon />
-                                    <span className="absolute bottom-full left-1/2 transform -translate-x-1/2 mb-2 w-max px-2 py-1 text-xs text-white bg-black rounded opacity-0 group-hover:opacity-100">
-                                        {copyToClipboard}
-                                    </span>
-                                </button>
+                                <CopyShareLinkButton sharedLink={sharedLink} />
 
                                 <Link
                                     href={route("drive.shares-all")}
