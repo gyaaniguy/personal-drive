@@ -10,7 +10,7 @@ class ShareFilesGuestRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'slug' => CommonRequest::slugRules(),
+            'slug' => ['required', ...CommonRequest::shareSlugRules()],
             'path' => CommonRequest::pathRules()
         ];
     }

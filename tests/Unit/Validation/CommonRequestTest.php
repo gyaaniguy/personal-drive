@@ -10,7 +10,10 @@ class CommonRequestTest extends TestCase
 {
     public function testSlugRules()
     {
-        $rules = CommonRequest::slugRules();
+        $rules = CommonRequest::shareSlugRules();
+
+        $validator = Validator::make(['slug' => 'γνώση-multi'], ['slug' => $rules]);
+        $this->assertTrue($validator->passes(), 'A multi-lingual slug should pass validation.');
 
         $validator = Validator::make(['slug' => 'valid-slug'], ['slug' => $rules]);
         $this->assertTrue($validator->passes(), 'A valid slug should pass validation.');
@@ -20,9 +23,6 @@ class CommonRequestTest extends TestCase
 
         $validator = Validator::make(['slug' => 'toolongslugtoolongslug'], ['slug' => $rules]);
         $this->assertFalse($validator->passes(), 'A slug exceeding 20 characters should fail validation.');
-
-        $validator = Validator::make(['slug' => ''], ['slug' => $rules]);
-        $this->assertFalse($validator->passes(), 'An empty slug should fail validation.');
 
         $validator = Validator::make(['slug' => 'valid_slug123'], ['slug' => $rules]);
         $this->assertTrue($validator->passes(), 'A valid slug with underscores and numbers should pass validation.');

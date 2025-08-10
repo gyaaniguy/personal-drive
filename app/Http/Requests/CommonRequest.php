@@ -8,15 +8,26 @@ use Illuminate\Validation\Rules\Password;
 
 class CommonRequest extends FormRequest
 {
-    public static function slugRules(): array
+    public static function shareSlugRules(): array
     {
-        return ['required', 'string', self::slugRegex(), 'max:20'];
+        return [
+              ...self::baseNameRule(), 'not_regex:/[ :\/\\\\]/u', 'max:20'
+        ];
     }
 
-    public static function slugRegex(): string
+    public static function baseNameRule(): array
     {
-        return 'regex:/^[a-zA-Z0-9\-\_]{1,20}$/';
+        return [
+            'string',
+            // Block filesystem dangerous chars and control characters
+            'regex:/^[^\x00-\x1f\x7f-\x9f<>\"|?*\x{200B}\x{200C}\x{200D}]+$/u',
+            // Prevent just  . or space
+            'not_regex:/^[\/\. ]+$/u',
+            // Prevent directory traversal (`..` as a segment or the whole name)
+            'not_regex:/(^|[\/\\\\])\.\.([\/\\\\]|$)/',
+        ];
     }
+
 
     public static function passwordRules(): array
     {
@@ -34,20 +45,6 @@ class CommonRequest extends FormRequest
     public static function usernameRules(): array
     {
         return ['required', 'string', 'regex:/^[0-9a-z\_]+$/'];
-    }
-
-
-    public static function baseNameRule(): array
-    {
-        return [
-            'string',
-            // Block filesystem dangerous chars and control characters
-            'regex:/^[^\x00-\x1f\x7f-\x9f<>\"|?*\x{200B}\x{200C}\x{200D}]+$/u',
-            // Prevent just  . or space
-            'not_regex:/^[\/\. ]+$/u',
-            // Prevent directory traversal (`..` as a segment or the whole name)
-            'not_regex:/(^|[\/\\\\])\.\.([\/\\\\]|$)/',
-        ];
     }
 
     public static function itemNameRule(): array
