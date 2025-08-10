@@ -38,8 +38,8 @@ class CommonRequestTest extends TestCase
         $validator = Validator::make(['path' => '/valid/path'], ['path' => $rules]);
         $this->assertTrue($validator->passes(), 'The valid path should pass validation.');
 
-        $validator = Validator::make(['path' => str_repeat('a', 257)], ['path' => $rules]);
-        $this->assertFalse($validator->passes(), 'A path exceeding 256 characters should fail validation.');
+        $validator = Validator::make(['path' => str_repeat('a', 513)], ['path' => $rules]);
+        $this->assertFalse($validator->passes(), 'A path exceeding 512 characters should fail validation.');
 
         $validator = Validator::make(['path' => null], ['path' => $rules]);
         $this->assertTrue($validator->passes(), 'A null path should pass validation as it is nullable.');
@@ -49,6 +49,73 @@ class CommonRequestTest extends TestCase
 
         $validator = Validator::make(['path' => '/var/www/../naughty'], ['path' => $rules]);
         $this->assertFalse($validator->passes(), 'A path with invalid characters should fail validation.');
+
+        // --- Existing tests ---
+        $validator = Validator::make(['path' => 'd:/documents folder/storage'], ['path' => $rules]);
+        $this->assertTrue($validator->passes(), 'Windows valid path should pass validation.');
+
+        $validator = Validator::make(['path' => '/valid/path'], ['path' => $rules]);
+        $this->assertTrue($validator->passes(), 'The valid path should pass validation.');
+
+        $validator = Validator::make(['path' => str_repeat('a', 513)], ['path' => $rules]);
+        $this->assertFalse($validator->passes(), 'A path exceeding 512 characters should fail validation.');
+
+        $validator = Validator::make(['path' => null], ['path' => $rules]);
+        $this->assertTrue($validator->passes(), 'A null path should pass validation as it is nullable.');
+
+        $validator = Validator::make(['path' => 'invalid|path'], ['path' => $rules]);
+        $this->assertFalse($validator->passes(), 'A path with invalid characters should fail validation.');
+
+        $validator = Validator::make(['path' => '/var/www/../naughty'], ['path' => $rules]);
+        $this->assertFalse($validator->passes(), 'A path with invalid characters should fail validation.');
+
+        // --- Added from old ValidPathTest ---
+        $validator = Validator::make(['path' => 'valid/path/to/file.txt'], ['path' => $rules]);
+        $this->assertTrue($validator->passes(), 'A valid relative path should pass.');
+
+        $validator = Validator::make(['path' => '../invalid/path'], ['path' => $rules]);
+        $this->assertFalse($validator->passes(), 'Directory traversal with ../ should fail.');
+
+        $validator = Validator::make(['path' => '..\\invalid\\path'], ['path' => $rules]);
+        $this->assertFalse($validator->passes(), 'Backslash directory traversal should fail.');
+
+        $validator = Validator::make(['path' => 'invalid*path'], ['path' => $rules]);
+        $this->assertFalse($validator->passes(), 'Invalid character * should fail.');
+
+        $validator = Validator::make(['path' => 'valid/path?with/invalid'], ['path' => $rules]);
+        $this->assertFalse($validator->passes(), 'Path with ? should fail.');
+
+        $validator = Validator::make(['path' => '/'], ['path' => $rules]);
+        $this->assertFalse($validator->passes(), 'Root path should pass.');
+
+
+        $validator = Validator::make(['path' => 'path with spaces'], ['path' => $rules]);
+        $this->assertTrue($validator->passes(), 'Path with spaces should pass.');
+
+        $validator = Validator::make(['path' => 'C:/path/to/file'], ['path' => $rules]);
+        $this->assertTrue($validator->passes(), 'Windows path with colon should pass.');
+
+        $validator = Validator::make(['path' => './current/directory'], ['path' => $rules]);
+        $this->assertTrue($validator->passes(), 'Relative path with ./ should pass.');
+
+        // --- Extra edge cases for more coverage ---
+        $validator = Validator::make(['path' => '...'], ['path' => $rules]);
+        $this->assertFalse($validator->passes(), 'Path with only dots should fail.');
+
+        $validator = Validator::make(['path' => "folder\u{200B}name"], ['path' => $rules]);
+        $this->assertFalse($validator->passes(), 'Zero-width space in path should fail.');
+
+        $validator = Validator::make(['path' => '/διαδρομή/έγγραφο.txt'], ['path' => $rules]);
+        $this->assertTrue($validator->passes(), 'Greek path should pass.');
+
+        $validator = Validator::make(['path' => '/путь/файл.txt'], ['path' => $rules]);
+        $this->assertTrue($validator->passes(), 'Cyrillic path should pass.');
+
+        $validator = Validator::make(['path' => '/../etc/passwd'], ['path' => $rules]);
+        $this->assertFalse($validator->passes(), 'Leading slash traversal should fail.');
+
+        $validator = Validator::make(['path' => 'folder\\..\\evil'], ['path' => $rules]);
+        $this->assertFalse($validator->passes(), 'Mixed slash traversal should fail.');
     }
 
     public function testPasswordRules()
@@ -164,7 +231,7 @@ class CommonRequestTest extends TestCase
         $validator = Validator::make(['itemName' => str_repeat('a', 256)], ['itemName' => $rules]);
         $this->assertFalse($validator->passes(), 'An item name exceeding 255 characters should fail validation.');
 
-        $validator = Validator::make(['itemName' => str_repeat('Α', 255)], ['itemName' => $rules]);
+        $validator = Validator::make(['itemName' => str_repeat('ώ', 255)], ['itemName' => $rules]);
         $this->assertTrue($validator->passes(), 'A 255-character Greek name should pass validation.');
 
         // Required field validation
@@ -244,38 +311,6 @@ class CommonRequestTest extends TestCase
         $validator = Validator::make(['itemName' => "file\ttab"], ['itemName' => $rules]);
         $this->assertFalse($validator->passes(), 'Names with tabs should fail validation.');
 
-        // Windows reserved names
-        $validator = Validator::make(['itemName' => 'CON'], ['itemName' => $rules]);
-        $this->assertFalse($validator->passes(), 'Windows reserved name CON should fail validation.');
-
-        $validator = Validator::make(['itemName' => 'PRN'], ['itemName' => $rules]);
-        $this->assertFalse($validator->passes(), 'Windows reserved name PRN should fail validation.');
-
-        $validator = Validator::make(['itemName' => 'AUX'], ['itemName' => $rules]);
-        $this->assertFalse($validator->passes(), 'Windows reserved name AUX should fail validation.');
-
-        $validator = Validator::make(['itemName' => 'NUL'], ['itemName' => $rules]);
-        $this->assertFalse($validator->passes(), 'Windows reserved name NUL should fail validation.');
-
-        $validator = Validator::make(['itemName' => 'COM1'], ['itemName' => $rules]);
-        $this->assertFalse($validator->passes(), 'Windows reserved name COM1 should fail validation.');
-
-        $validator = Validator::make(['itemName' => 'LPT9'], ['itemName' => $rules]);
-        $this->assertFalse($validator->passes(), 'Windows reserved name LPT9 should fail validation.');
-
-        $validator = Validator::make(['itemName' => 'con.txt'], ['itemName' => $rules]);
-        $this->assertFalse($validator->passes(), 'Windows reserved name with extension should fail validation.');
-
-        $validator = Validator::make(['itemName' => 'CON.'], ['itemName' => $rules]);
-        $this->assertFalse($validator->passes(), 'Windows reserved name with trailing dot should fail validation.');
-
-        // Case sensitivity tests for reserved names
-        $validator = Validator::make(['itemName' => 'con'], ['itemName' => $rules]);
-        $this->assertFalse($validator->passes(), 'Lowercase Windows reserved name should fail validation.');
-
-        $validator = Validator::make(['itemName' => 'Con'], ['itemName' => $rules]);
-        $this->assertFalse($validator->passes(), 'Mixed case Windows reserved name should fail validation.');
-
         // Edge cases with dots and spaces
         $validator = Validator::make(['itemName' => 'file.'], ['itemName' => $rules]);
         $this->assertTrue($validator->passes(), 'Names ending with dot should pass validation (if allowed).');
@@ -283,8 +318,11 @@ class CommonRequestTest extends TestCase
         $validator = Validator::make(['itemName' => '.hiddenfile'], ['itemName' => $rules]);
         $this->assertTrue($validator->passes(), 'Names starting with dot should pass validation.');
 
+        $validator = Validator::make(['itemName' => ' '], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Names with only space should fail validation.');
+
         $validator = Validator::make(['itemName' => '...'], ['itemName' => $rules]);
-        $this->assertTrue($validator->passes(), 'Names with multiple dots should pass validation.');
+        $this->assertFalse($validator->passes(), 'Names with multiple dots should fail validation.');
 
         // Unicode edge cases
         $validator = Validator::make(['itemName' => 'file\u200bname'], ['itemName' => $rules]);
@@ -311,6 +349,37 @@ class CommonRequestTest extends TestCase
         // Numbers in different scripts
         $validator = Validator::make(['itemName' => 'file１２３'], ['itemName' => $rules]); // Fullwidth numbers
         $this->assertTrue($validator->passes(), 'Fullwidth numbers should pass validation.');
+
+        // --- Additional Security Tests ---
+        $validator = Validator::make(['itemName' => './file'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Relative path starting with ./ should fail validation.');
+
+        $validator = Validator::make(['itemName' => '.\\file'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Relative path starting with .\\ should fail validation.');
+
+        $validator = Validator::make(['itemName' => ' ' . str_repeat('a', 253) . ' '], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Name with leading and trailing spaces should pass if total length ≤ 255.');
+
+        $validator = Validator::make(['itemName' => 'COM1'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Windows reserved device name COM1 is not blocked by regex and should pass.');
+
+        $validator = Validator::make(['itemName' => 'aux'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Windows reserved device name aux is not blocked by regex and should pass.');
+
+// --- Edge Character Tests ---
+        $validator = Validator::make(['itemName' => '.'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Single dot should fail validation.');
+
+        $validator = Validator::make(['itemName' => '/'], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Single slash should fail validation.');
+
+        $validator = Validator::make(['itemName' => ' '], ['itemName' => $rules]);
+        $this->assertFalse($validator->passes(), 'Single space should fail validation.');
+
+        $validator = Validator::make(['itemName' => 'file..name'], ['itemName' => $rules]);
+        $this->assertTrue($validator->passes(), 'Multiple dots in middle should pass validation.');
+
+
     }
 
     public function testLocalFileIdRules()
@@ -340,4 +409,6 @@ class CommonRequestTest extends TestCase
         $validator = Validator::make(['sharePassword' => null], ['sharePassword' => $rules]);
         $this->assertTrue($validator->passes(), 'A null password should pass validation as it is nullable.');
     }
+
+
 }

@@ -18,11 +18,6 @@ class CommonRequest extends FormRequest
         return 'regex:/^[a-zA-Z0-9\-\_]{1,20}$/';
     }
 
-    public static function pathRules(): array
-    {
-        return ['nullable', 'string', new ValidPath(), 'max:256'];
-    }
-
     public static function passwordRules(): array
     {
         return ['required', 'string', Password::defaults()];
@@ -41,17 +36,40 @@ class CommonRequest extends FormRequest
         return ['required', 'string', 'regex:/^[0-9a-z\_]+$/'];
     }
 
+
+    public static function baseNameRule(): array
+    {
+        return [
+            'string',
+            // Block filesystem dangerous chars and control characters
+            'regex:/^[^\x00-\x1f\x7f-\x9f<>\"|?*\x{200B}\x{200C}\x{200D}]+$/u',
+            // Prevent just  . or space
+            'not_regex:/^[\/\. ]+$/u',
+            // Prevent directory traversal (`..` as a segment or the whole name)
+            'not_regex:/(^|[\/\\\\])\.\.([\/\\\\]|$)/',
+        ];
+    }
+
     public static function itemNameRule(): array
     {
         return [
             'required',
-            'string',
             'max:255',
-            // Block file system dangerous chars and ALL control characters
-            'regex:/^[^\/<>:"|?*\x00-\x1f\x7f-\x9f\\\\]+$/u',
-            // Prevent Windows reserved names
-            'not_regex:/^(CON|PRN|AUX|NUL|COM[1-9]|LPT[1-9])(\.|$)/i',        ];
+            ...self::baseNameRule(),
+            // Block colon, slash, backslash
+            'not_regex:/[:\/\\\\]/u',
+        ];
     }
+
+    public static function pathRules(): array
+    {
+        return [
+            'nullable',
+            ...self::baseNameRule(),
+            'max:512',
+        ];
+    }
+
 
     public static function localFileIdRules(): array
     {
