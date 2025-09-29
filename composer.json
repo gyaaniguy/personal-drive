@@ -44,6 +44,7 @@
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
         "larastan/larastan": "^3.6",
+        "laravel/boost": "^1.0",
         "laravel/breeze": "^2.2",
         "laravel/pail": "^1.1",
         "laravel/pint": "^1.13",
