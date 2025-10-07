@@ -1,5 +1,8 @@
 # Changelog
 
+## Not versioned changes
+
+- Html viewer
 
 ## [v1.0.0] - 2025-08-07
 

@@ -82,6 +82,7 @@ const FileBrowserSection = memo(({ files, path, token, isAdmin, slug }) => {
     let textFileTypes = ["text", "txt", "csv", "ini"];
     let previewAbleTypes = useRef([
         "empty",
+        "html",
         "image",
         "video",
         "pdf",

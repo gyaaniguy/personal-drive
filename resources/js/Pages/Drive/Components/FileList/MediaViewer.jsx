@@ -5,6 +5,7 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useCallback, useEffect, useRef, useState } from "react";
 import PdfViewer from "@/Pages/Drive/Components/FileList/PdfViewer.jsx";
 import TxtViewer from "@/Pages/Drive/Components/FileList/TxtViewer.jsx";
+import HtmlViewer from "@/Pages/Drive/Components/FileList/HtmlViewer.jsx";
 
 const MediaViewer = ({
     previewFile,
@@ -135,24 +136,28 @@ const MediaViewer = ({
                     ((selectedFileType === "video" && (
                         <VideoPlayer id={selectedid} slug={slug} />
                     )) ||
-                        (selectedFileType === "image" && (
-                            <ImageViewer id={selectedid} slug={slug} />
-                        )) ||
-                        (selectedFileType === "pdf" && (
-                            <PdfViewer id={selectedid} slug={slug} />
-                        )) ||
-                        ((selectedFileType === "text" ||
-                            selectedFileType === "empty") && (
-                            <TxtViewer
-                                previewFile={previewFile}
-                                slug={slug}
-                                isEditingRef={isEditingRef}
-                                isFocusedRef={isFocusedRef}
-                                isInEditMode={isInEditMode}
-                                setIsInEditMode={setIsInEditMode}
-                                isAdmin={isAdmin}
-                            />
-                        )))}
+                    (selectedFileType === "image" && (
+                        <ImageViewer id={selectedid} slug={slug} />
+                    )) ||
+                    (selectedFileType === "html" && (
+                        <HtmlViewer id={selectedid}  />
+                    )) ||
+                    (selectedFileType === "pdf" && (
+                        <PdfViewer id={selectedid} slug={slug} />
+                    )) ||
+                    ((selectedFileType === "text" ||
+                        selectedFileType === "empty") && (
+                        <TxtViewer
+                            previewFile={previewFile}
+                            slug={slug}
+                            isEditingRef={isEditingRef}
+                            isFocusedRef={isFocusedRef}
+                            isInEditMode={isInEditMode}
+                            setIsInEditMode={setIsInEditMode}
+                            isAdmin={isAdmin}
+                        />
+                    )))
+                }
             </div>
         </Modal>
     );

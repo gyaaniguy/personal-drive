@@ -62,6 +62,8 @@ class LocalFileStatsService
             $fileType = 'video';
         } elseif ($mimeType === 'application/pdf') {
             $fileType = 'pdf';
+        } elseif ($mimeType === 'text/html') {
+            $fileType = 'html';
         } elseif (str_starts_with($mimeType, 'text/')) {
             $fileType = 'text';
         } elseif (str_contains($mimeType, 'x-empty')) {
