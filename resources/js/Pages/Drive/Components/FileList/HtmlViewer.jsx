@@ -1,5 +1,6 @@
-const HtmlViewer = ({ id }) => {
+const HtmlViewer = ({ id, slug }) => {
     let src = "/fetch-file/" + id;
+    src += slug ? "/" + slug : "";
     console.log('html', src);
     return (
         <iframe

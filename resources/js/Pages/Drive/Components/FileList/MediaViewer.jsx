@@ -140,7 +140,7 @@ const MediaViewer = ({
                         <ImageViewer id={selectedid} slug={slug} />
                     )) ||
                     (selectedFileType === "html" && (
-                        <HtmlViewer id={selectedid}  />
+                        <HtmlViewer id={selectedid} slug={slug} />
                     )) ||
                     (selectedFileType === "pdf" && (
                         <PdfViewer id={selectedid} slug={slug} />
