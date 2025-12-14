@@ -189,7 +189,7 @@ const FileBrowserSection = memo(({ files, path, token, isAdmin, slug }) => {
     }, [selectedFiles]);
 
     return (
-        <div className="min-h-screen rounded-md px-0 md:px-4 ">
+        <div className="min-h-screen rounded-md px-3 md:px-4 ">
             <ShareModal
                 isShareModalOpen={isShareModalOpen}
                 setIsShareModalOpen={setIsShareModalOpen}
