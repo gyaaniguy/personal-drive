@@ -3,6 +3,8 @@
 ## Not versioned changes
 
 - Html viewer
+- Mobile Layout fixes and improvements
+- Other UI improvements
 
 ## [v1.0.0] - 2025-08-07
 
