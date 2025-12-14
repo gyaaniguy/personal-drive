@@ -33,10 +33,10 @@ const FolderItem = React.memo(function FolderItem({
                           (file.public_path ? file.public_path + "/" : "")
                         : path + "/") + file.filename
                 }
-                className={`p-4  flex items-center w-full  ${isSelected ? "bg-blue-100" : ""}`}
+                className={`p-1 sm:p-2 md:p-4  flex items-center w-full  ${isSelected ? "bg-blue-100" : ""}`}
                 preserveScroll
             >
-                <div className="flex  ">
+                <div className="flex items-center">
                     <Folder className={`mr-2 text-yellow-600`} size={20} />
                     <span>
                         {(isSearch ? file.public_path + "/" : "") +

@@ -25,9 +25,9 @@ const FileItem = React.memo(function FileItem({
             className={` flex items-center  hover:bg-gray-900 justify-between`}
             onClick={() => handleFileClick(file)}
         >
-            <div className="flex p-4 ">
-                <File className={`mr-2 text-gray-300 `} size={20} />
-                <span className="overflow-hidden text-ellipsis whitespace-nowrap max-w-2xl">
+            <div className="flex p-1 sm:p-2 md:p-4  items-center">
+                <File className={`mr-2 text-gray-300`} size={20} />
+                <span className="text-ellipsis  max-w-2xl">
                     {(isSearch ? file.public_path + "/" : "") + file.filename}
                 </span>
             </div>

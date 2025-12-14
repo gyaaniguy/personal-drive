@@ -35,14 +35,14 @@ const ListView = ({
             <hr className=" text-gray-500 border-gray-600" />
             <div className="flex items-center justify-between text-gray-400 border-b border-b-gray-600 w-full">
                 <div
-                    className="p-2 md:px-6 w-20 text-center hover:bg-gray-900 hover:cursor-pointer"
+                    className="p-1 md:px-6  w-6 md:w-10 flex  justify-center hover:bg-gray-900 hover:cursor-pointer"
                     onClick={(e) => handleSelectAllToggle(filesCopy)}
                 >
                     <input type="checkbox" checked={selectAllToggle} readOnly />
                 </div>
                 <div
                     onClick={(e) => handleSortClick(e, "filename")}
-                    className={`text-left w-full p-2 px-4 hover:bg-gray-900 hover:cursor-pointer ${sortDetails.key === "filename" ? "text-blue-400" : ""}`}
+                    className={`text-left w-full p-1 px-2 md:p-2 md:px-4 hover:bg-gray-900 hover:cursor-pointer ${sortDetails.key === "filename" ? "text-blue-400" : ""}`}
                 >
                     <span>Name</span>
                     <SortIcon
@@ -51,7 +51,7 @@ const ListView = ({
                 </div>
                 <div
                     onClick={(e) => handleSortClick(e, "size")}
-                    className={`p-2 px-4 w-44 hover:bg-gray-900  hover:cursor-pointer text-right ${sortDetails.key === "size" ? "text-blue-400" : ""}`}
+                    className={`p-1 px-1 md:p-2 md:px-4 w-28 md:w-44 hover:bg-gray-900  hover:cursor-pointer text-right ${sortDetails.key === "size" ? "text-blue-400" : ""}`}
                 >
                     <span>Size</span>
                     <SortIcon
@@ -60,7 +60,7 @@ const ListView = ({
                 </div>
                 <div
                     onClick={(e) => handleSortClick(e, "file_type")}
-                    className={`p-2 px-4 w-44 hover:bg-gray-900  hover:cursor-pointer text-right ${sortDetails.key === "file_type" ? "text-blue-400" : ""}`}
+                    className={`p-1 px-1 md:p-2 md:px-4 w-28 md:w-44 hover:bg-gray-900  hover:cursor-pointer text-right ${sortDetails.key === "file_type" ? "text-blue-400" : ""}`}
                 >
                     <span>Type</span>
                     <SortIcon

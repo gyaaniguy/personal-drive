@@ -23,7 +23,7 @@ const FileListRow = React.memo(function FileListRow({
     return (
         <div className="cursor-pointer hover:bg-gray-700 group flex flex-row w-full">
             <div
-                className="p-2 md:px-6 w-20 items-center flex hover:bg-gray-900 justify-center"
+                className="p-1 md:px-6 w-6 md:w-10 flex  justify-center items-center hover:bg-gray-900"
                 onClick={() => handlerSelectFile(file)}
             >
                 <input
@@ -68,8 +68,8 @@ const FileListRow = React.memo(function FileListRow({
                     />
                 )}
             </div>
-            <div className="p-4 text-right w-44">{file.sizeText}</div>
-            <div className="p-4 text-right w-44">{file.file_type}</div>
+            <div className="p-1 sm:p-2 md:p-4 text-right w-28 md:w-44 text-gray-400 text-sm">{file.sizeText}</div>
+            <div className="p-1 sm:p-2 md:p-4 text-right w-28 md:w-44 text-gray-400 text-sm">{file.file_type}</div>
         </div>
     );
 });
