@@ -30,13 +30,13 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
 
     return (
         <div
-            className={`group relative overflow-hidden rounded-lg border border-gray-800 bg-gray-900/50 p-1 md:p-3 transition-all duration-200 hover:border-gray-700 hover:shadow-lg w-[180px]  sm:w-[210px] md:w-[270px] lg:w-[250px] flex flex-col justify-between  ${isSelected ? "bg-gray-950" : ""} `}
+            className={`group relative overflow-hidden rounded-lg border border-gray-800 bg-gray-900/50 p-1 md:p-3 transition-all duration-200 hover:border-gray-700 hover:shadow-lg w-[150px]  md:w-[270px] h-[150px]   md:h-[270px] flex flex-col justify-between  ${isSelected ? "bg-gray-950" : ""} `}
         >
             <div className="">
                 {/* Filename and Checkbox Header */}
                 <div className="flex items-center justify-between relative">
                     <h3
-                        className=" font-medium truncate max-w-[120px] sm:max-w-[160px] md:max-w-[200px] text-sm text-gray-400 mb-3 mt-1 overflow-hidden"
+                        className=" font-medium truncate max-w-[120px]  md:max-w-[200px] text-sm text-gray-400 mb-3 mt-1 overflow-hidden"
                         title={
                             (isSearch ? file.public_path + "/" : "") +
                             file.filename
@@ -61,18 +61,19 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
                 {/* File Icon */}
                 {file.is_dir === 0 && (
                     <div
-                        className="flex cursor-pointer justify-center items-center transition-transform duration-200 h-[220px]"
+                        className="flex cursor-pointer justify-center items-center transition-transform duration-200  "
                         onClick={() => handleFileClick(file)}
                     >
-                        {file.has_thumbnail &&
-                        !file.filename.endsWith(".svg") ? (
-                            <img src={imageSrc} alt="Thumbnail" />
-                        ) : (
-                            <File
-                                className="text-gray-400 group-hover:text-gray-300 "
-                                size={120}
-                            />
-                        )}
+                        <div className="flex items-center justify-center md:h-[220px] md:w-[250px] w-[130px] h-[100px]">
+                            {file.has_thumbnail &&
+                            !file.filename.endsWith(".svg") ? (
+                                <img src={imageSrc} alt="Thumbnail" />
+                            ) : (
+                                <File
+                                    className="text-gray-400 group-hover:text-gray-300 md:w-[180px] w-[90px] h-[90px] md:h-[180px] "
+                                />
+                            )}
+                        </div>
                     </div>
                 )}
 
@@ -87,12 +88,11 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
                                           : "")
                                     : path + "/") + file.filename
                             }
-                            className={`flex items-center  cursor-pointer h-[220px] w-[220px] justify-center`}
+                            className={`flex items-center  cursor-pointer md:h-[220px] md:w-[220px] w-[100px] h-[100px]  justify-center`}
                             preserveScroll
                         >
                             <Folder
-                                className={`mr-2 text-yellow-600`}
-                                size={120}
+                                className={`mr-2 text-yellow-600 md:w-[180px] w-[90px] h-[90px] md:h-[180px]`}
                             />
                         </Link>
                     </div>

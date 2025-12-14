@@ -1,5 +1,6 @@
 import { DownloadIcon } from "lucide-react";
 import Button from "./Generic/Button.jsx";
+import NProgress from 'nprogress'
 
 const DownloadButton = ({
     setSelectedFiles,
@@ -36,6 +37,7 @@ const DownloadButton = ({
     const handleDownload = async (e) => {
         e.stopPropagation();
         let response = {};
+        NProgress.start();
         try {
             setStatusMessage("Downloading...");
             setAlertStatus(true);
@@ -46,12 +48,21 @@ const DownloadButton = ({
             if (slug) {
                 formData["slug"] = slug;
             }
+            NProgress.start();
+
             response = await axios({
                 url: "/download-files",
                 method: "POST",
                 responseType: "blob",
                 data: formData,
+                onDownloadProgress: (e) => {
+                    if (!e.total) return;
+                    NProgress.set(e.loaded / e.total);
+                },
             });
+            NProgress.done();
+        } catch {
+            NProgress.done(true);
         } finally {
             setStatusMessage("");
             setSelectedFiles?.(new Set());
