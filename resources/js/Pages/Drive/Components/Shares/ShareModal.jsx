@@ -1,7 +1,6 @@
 import { useState } from "react";
 import Modal from "../Modal.jsx";
 import { Link, router } from "@inertiajs/react";
-import { CopyIcon } from "lucide-react";
 import CopyShareLinkButton from "@/Pages/Drive/Components/Shares/CopyShareLinkButton.jsx";
 
 const ShareModal = ({

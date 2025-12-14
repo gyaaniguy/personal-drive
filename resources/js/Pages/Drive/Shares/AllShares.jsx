@@ -151,12 +151,16 @@ export default function AllShares({ shares }) {
                                                     {share.enabled ? (
                                                         <span>
                                                             <PauseIcon className=" inline" />
-                                                            <span className="hidden md:inline">Pause</span>
+                                                            <span className="hidden md:inline">
+                                                                Pause
+                                                            </span>
                                                         </span>
                                                     ) : (
                                                         <span>
                                                             <PlayIcon className="text-green-200 inline" />
-                                                            <span className="hidden md:inline">Resume</span>
+                                                            <span className="hidden md:inline">
+                                                                Resume
+                                                            </span>
                                                         </span>
                                                     )}
                                                 </Button>
@@ -170,7 +174,10 @@ export default function AllShares({ shares }) {
                                                 >
                                                     <span>
                                                         <DeleteIcon className="text-red-300 inline" />
-                                                        <span className="hidden md:inline"> Delete</span>
+                                                        <span className="hidden md:inline">
+                                                            {" "}
+                                                            Delete
+                                                        </span>
                                                     </span>
                                                 </Button>
                                             </td>

@@ -40,6 +40,7 @@ const MediaViewer = ({
         isEditingRef.current = false;
         return false;
     }
+
     function prevClick() {
         if (keepEditing()) {
             return;
@@ -136,28 +137,27 @@ const MediaViewer = ({
                     ((selectedFileType === "video" && (
                         <VideoPlayer id={selectedid} slug={slug} />
                     )) ||
-                    (selectedFileType === "image" && (
-                        <ImageViewer id={selectedid} slug={slug} />
-                    )) ||
-                    (selectedFileType === "html" && (
-                        <HtmlViewer id={selectedid} slug={slug} />
-                    )) ||
-                    (selectedFileType === "pdf" && (
-                        <PdfViewer id={selectedid} slug={slug} />
-                    )) ||
-                    ((selectedFileType === "text" ||
-                        selectedFileType === "empty") && (
-                        <TxtViewer
-                            previewFile={previewFile}
-                            slug={slug}
-                            isEditingRef={isEditingRef}
-                            isFocusedRef={isFocusedRef}
-                            isInEditMode={isInEditMode}
-                            setIsInEditMode={setIsInEditMode}
-                            isAdmin={isAdmin}
-                        />
-                    )))
-                }
+                        (selectedFileType === "image" && (
+                            <ImageViewer id={selectedid} slug={slug} />
+                        )) ||
+                        (selectedFileType === "html" && (
+                            <HtmlViewer id={selectedid} slug={slug} />
+                        )) ||
+                        (selectedFileType === "pdf" && (
+                            <PdfViewer id={selectedid} slug={slug} />
+                        )) ||
+                        ((selectedFileType === "text" ||
+                            selectedFileType === "empty") && (
+                            <TxtViewer
+                                previewFile={previewFile}
+                                slug={slug}
+                                isEditingRef={isEditingRef}
+                                isFocusedRef={isFocusedRef}
+                                isInEditMode={isInEditMode}
+                                setIsInEditMode={setIsInEditMode}
+                                isAdmin={isAdmin}
+                            />
+                        )))}
             </div>
         </Modal>
     );

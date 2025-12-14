@@ -68,8 +68,12 @@ const FileListRow = React.memo(function FileListRow({
                     />
                 )}
             </div>
-            <div className="p-1 sm:p-2 md:p-4 text-right w-28 md:w-44 text-gray-400 text-sm">{file.sizeText}</div>
-            <div className="p-1 sm:p-2 md:p-4 text-right w-28 md:w-44 text-gray-400 text-sm">{file.file_type}</div>
+            <div className="p-1 sm:p-2 md:p-4 text-right w-28 md:w-44 text-gray-400 text-sm">
+                {file.sizeText}
+            </div>
+            <div className="p-1 sm:p-2 md:p-4 text-right w-28 md:w-44 text-gray-400 text-sm">
+                {file.file_type}
+            </div>
         </div>
     );
 });

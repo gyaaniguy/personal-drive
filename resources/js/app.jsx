@@ -1,21 +1,20 @@
-import '../css/app.css';
-import './bootstrap';
+import "../css/app.css";
+import "./bootstrap";
 
-import { createInertiaApp } from '@inertiajs/react';
-import { resolvePageComponent } from 'laravel-vite-plugin/inertia-helpers';
-import { createRoot } from 'react-dom/client';
-import { BrowserRouter } from 'react-router-dom'
-import { CutFilesProvider } from './Contexts/CutFilesContext';
+import { createInertiaApp } from "@inertiajs/react";
+import { resolvePageComponent } from "laravel-vite-plugin/inertia-helpers";
+import { createRoot } from "react-dom/client";
+import { BrowserRouter } from "react-router-dom";
+import { CutFilesProvider } from "./Contexts/CutFilesContext";
 
-
-const appName = import.meta.env.VITE_APP_NAME || 'Laravel';
+const appName = import.meta.env.VITE_APP_NAME || "Laravel";
 
 createInertiaApp({
     title: (title) => `${title} - ${appName}`,
     resolve: (name) =>
         resolvePageComponent(
             `./Pages/${name}.jsx`,
-            import.meta.glob('./Pages/**/*.jsx'),
+            import.meta.glob("./Pages/**/*.jsx"),
         ),
     setup({ el, App, props }) {
         const root = createRoot(el);
@@ -25,14 +24,11 @@ createInertiaApp({
                 <CutFilesProvider>
                     <App {...props} />
                 </CutFilesProvider>
-
-            </BrowserRouter>
-
+            </BrowserRouter>,
         );
     },
     progress: {
-        color: '#22BFFA',
+        color: "#22BFFA",
         showSpinner: true,
-
     },
 });
