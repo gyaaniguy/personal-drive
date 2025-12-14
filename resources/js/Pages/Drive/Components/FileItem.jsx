@@ -26,7 +26,7 @@ const FileItem = React.memo(function FileItem({
             onClick={() => handleFileClick(file)}
         >
             <div className="flex p-1 sm:p-2 md:p-4  items-center">
-                <File className={`mr-2 text-gray-300`} size={20} />
+                <File className={`mr-2 text-gray-300 min-w-3 min-h-3 max-w-3 max-h-3`} />
                 <span className="text-ellipsis  max-w-2xl">
                     {(isSearch ? file.public_path + "/" : "") + file.filename}
                 </span>

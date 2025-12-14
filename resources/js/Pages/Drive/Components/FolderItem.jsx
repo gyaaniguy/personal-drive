@@ -24,7 +24,7 @@ const FolderItem = React.memo(function FolderItem({
 }) {
     return (
         <div
-            className={` flex items-center hover:bg-gray-900  justify-between`}
+            className={`flex items-center hover:bg-gray-900  justify-between`}
         >
             <Link
                 href={
@@ -33,11 +33,13 @@ const FolderItem = React.memo(function FolderItem({
                           (file.public_path ? file.public_path + "/" : "")
                         : path + "/") + file.filename
                 }
-                className={`p-1 sm:p-2 md:p-4  flex items-center w-full  ${isSelected ? "bg-blue-100" : ""}`}
+                className={` ${isSelected ? "bg-blue-100" : ""}`}
                 preserveScroll
             >
-                <div className="flex items-center">
-                    <Folder className={`mr-2 text-yellow-600`} size={20} />
+                <div className="flex items-center  p-1 sm:p-2 md:p-4  ">
+                    <Folder
+                        className={`mr-2 text-yellow-600 min-w-3 min-h-3 max-w-3 max-h-3`}
+                    />
                     <span>
                         {(isSearch ? file.public_path + "/" : "") +
                             file.filename}
