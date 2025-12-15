@@ -16,11 +16,6 @@ const VideoPlayer = ({ id, slug }) => {
         }
     }, [autoplay]);
 
-    const handleAutoplayToggle = () => {
-        localStorage.setItem("videoAutoplay", JSON.stringify(!autoplay));
-        setAutoplay(!autoplay);
-    };
-
     return (
         <div className="flex justify-center flex-col gap-y-2 ">
             <video
@@ -33,21 +28,6 @@ const VideoPlayer = ({ id, slug }) => {
                 <source src={src} type="video/mp4" />
                 Your browser does not support the video tag.
             </video>
-            <div className="flex items-center space-x-2">
-                <input
-                    type="checkbox"
-                    id="autoplay"
-                    checked={autoplay}
-                    onChange={handleAutoplayToggle}
-                    className="w-4 h-4 text-blue-600 rounded focus:ring-blue-600 ring-offset-gray-800 focus:ring-2 bg-gray-700 border-gray-600"
-                />
-                <label
-                    htmlFor="autoplay"
-                    className="text-sm font-medium text-gray-300"
-                >
-                    Autoplay
-                </label>
-            </div>
         </div>
     );
 };
