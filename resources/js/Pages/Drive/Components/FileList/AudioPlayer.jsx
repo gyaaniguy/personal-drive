@@ -1,4 +1,5 @@
 import { useEffect, useRef, useState } from "react";
+import { useLocalStorageBool } from "@/Pages/Drive/Hooks/useLocalStorageBool.jsx";
 
 const AudioPlayer = ({ id, slug }) => {
     let src = "/fetch-file/" + id;
@@ -6,21 +7,14 @@ const AudioPlayer = ({ id, slug }) => {
 
     const audioRef = useRef(null);
 
-    const [audioAutoplay] = useState(() => {
-        const savedAutoplay = localStorage.getItem("audioAutoplay");
-        return savedAutoplay !== null ? JSON.parse(savedAutoplay) : false;
-    });
-
-    const [savePos] = useState(() => {
-        const savedPos = localStorage.getItem("audioSavePosition");
-        return savedPos !== null ? JSON.parse(savedPos) : false;
-    });
+    const [audioAutoplay] = useLocalStorageBool("audioAutoplay");
+    const [audioSavePos] = useLocalStorageBool("audioSavePosition");
 
     const POSITION_KEY = `audio-position-${id}`;
 
     useEffect(() => {
         const audio = audioRef.current;
-        if (!audio || !savePos) return;
+        if (!audio || !audioSavePos) return;
         const savedTime = localStorage.getItem(POSITION_KEY);
         if (savedTime) {
             audio.currentTime = Number(savedTime);

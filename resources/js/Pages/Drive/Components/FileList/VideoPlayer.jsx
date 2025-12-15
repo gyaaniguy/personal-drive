@@ -1,20 +1,20 @@
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useRef } from "react";
+import { useLocalStorageBool } from "@/Pages/Drive/Hooks/useLocalStorageBool.jsx";
 
 const VideoPlayer = ({ id, slug }) => {
     let src = "/fetch-file/" + id;
 
     src += slug ? "/" + slug : "";
-    const [autoplay] = useState(() => {
-        const savedAutoplay = localStorage.getItem("videoAutoplay");
-        return savedAutoplay !== null ? JSON.parse(savedAutoplay) : false;
-    });
+
+    const [videoAutoplay] = useLocalStorageBool("videoAutoplay");
+
     const videoRef = useRef(null);
 
     useEffect(() => {
         if (videoRef.current) {
-            videoRef.current.autoplay = autoplay;
+            videoRef.current.autoplay = videoAutoplay;
         }
-    }, [autoplay]);
+    }, [videoAutoplay]);
 
     return (
         <div className="flex justify-center flex-col gap-y-2 ">
@@ -22,7 +22,7 @@ const VideoPlayer = ({ id, slug }) => {
                 ref={videoRef}
                 key={id}
                 controls
-                autoPlay={autoplay}
+                autoPlay={videoAutoplay}
                 className="max-w-2xl rounded-lg shadow-lg max-h-[90vh]"
             >
                 <source src={src} type="video/mp4" />

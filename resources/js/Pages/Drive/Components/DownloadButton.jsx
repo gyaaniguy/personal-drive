@@ -1,6 +1,6 @@
 import { DownloadIcon } from "lucide-react";
 import Button from "./Generic/Button.jsx";
-import NProgress from 'nprogress'
+import NProgress from "nprogress";
 
 const DownloadButton = ({
     setSelectedFiles,

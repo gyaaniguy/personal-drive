@@ -69,9 +69,7 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
                             !file.filename.endsWith(".svg") ? (
                                 <img src={imageSrc} alt="Thumbnail" />
                             ) : (
-                                <File
-                                    className="text-gray-400 group-hover:text-gray-300 md:w-[180px] w-[90px] h-[90px] md:h-[180px] "
-                                />
+                                <File className="text-gray-400 group-hover:text-gray-300 md:w-[180px] w-[90px] h-[90px] md:h-[180px] " />
                             )}
                         </div>
                     </div>

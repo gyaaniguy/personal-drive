@@ -3,6 +3,7 @@ import { router } from "@inertiajs/react";
 import { useState } from "react";
 import AlertBox from "@/Pages/Drive/Components/AlertBox.jsx";
 import RefreshButton from "@/Pages/Drive/Components/RefreshButton.jsx";
+import { useLocalStorageBool } from "@/Pages/Drive/Hooks/useLocalStorageBool.jsx";
 
 export default function AdminConfig({
     storage_path,
@@ -19,19 +20,12 @@ export default function AdminConfig({
         php_max_file_uploads: php_max_file_uploads,
     });
 
-    const [videoAutoplay, setVideoAutoplay] = useState(() => {
-        const savedAutoplay = localStorage.getItem("videoAutoplay");
-        return savedAutoplay !== null ? JSON.parse(savedAutoplay) : false;
-    });
-    const [audioAutoplay, setAudioAutoplay] = useState(() => {
-        const savedAutoplay = localStorage.getItem("audioAutoplay");
-        return savedAutoplay !== null ? JSON.parse(savedAutoplay) : false;
-    });
-
-    const [audioSavePos, setAudioSavePos] = useState(() => {
-        const savedAutoplay = localStorage.getItem("audioAutoplay");
-        return savedAutoplay !== null ? JSON.parse(savedAutoplay) : false;
-    });
+    const [videoAutoplay, setVideoAutoplay] =
+        useLocalStorageBool("videoAutoplay");
+    const [audioAutoplay, setAudioAutoplay] =
+        useLocalStorageBool("audioAutoplay");
+    const [audioSavePos, setAudioSavePos] =
+        useLocalStorageBool("audioSavePosition");
 
     function handleChange(e) {
         setFormData((oldValues) => ({
