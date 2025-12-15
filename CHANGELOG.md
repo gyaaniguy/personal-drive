@@ -5,6 +5,9 @@
 - Html viewer
 - Mobile Layout fixes and improvements
 - Other UI improvements
+- Audio player
+- Audiobook feaatures: save position automatically, multiple rewind buttons
+- Stream line settings for autoplaying media
 
 ## [v1.0.0] - 2025-08-07
 

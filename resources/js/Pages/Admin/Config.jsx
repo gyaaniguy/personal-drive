@@ -28,6 +28,11 @@ export default function AdminConfig({
         return savedAutoplay !== null ? JSON.parse(savedAutoplay) : false;
     });
 
+    const [audioSavePos, setAudioSavePos] = useState(() => {
+        const savedAutoplay = localStorage.getItem("audioAutoplay");
+        return savedAutoplay !== null ? JSON.parse(savedAutoplay) : false;
+    });
+
     function handleChange(e) {
         setFormData((oldValues) => ({
             ...oldValues,
@@ -48,6 +53,14 @@ export default function AdminConfig({
     function handleAudioAutoplayToggle() {
         localStorage.setItem("audioAutoplay", JSON.stringify(!audioAutoplay));
         setAudioAutoplay(!audioAutoplay);
+    }
+
+    function handleAudioSavePosToggle() {
+        localStorage.setItem(
+            "audioSavePosition",
+            JSON.stringify(!audioSavePos),
+        );
+        setAudioSavePos(!audioSavePos);
     }
 
     return (
@@ -112,8 +125,8 @@ export default function AdminConfig({
                             <h2 className=" text-blue-200 text-2xl font-bold mt-2 mb-2 ">
                                 Media Settings
                             </h2>
-                            <div >
-                                <div className="my-2">
+                            <div className="flex flex-col space-y-2">
+                                <div>
                                     <button
                                         className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800 "
                                         onClick={handleVideoAutoplayToggle}
@@ -132,7 +145,18 @@ export default function AdminConfig({
                                         {audioAutoplay &&
                                             "Audios - DISABLE Autoplay"}
                                         {!audioAutoplay &&
-                                            "Audios - Enable Autoplay "}
+                                            "Audios - ENABLE Autoplay "}
+                                    </button>
+                                </div>
+                                <div>
+                                    <button
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800 "
+                                        onClick={handleAudioSavePosToggle}
+                                    >
+                                        {audioSavePos &&
+                                            "Audios - DISABLE Save Postion"}
+                                        {!audioSavePos &&
+                                            "Audios - ENABLE Save Postion"}
                                     </button>
                                 </div>
                             </div>

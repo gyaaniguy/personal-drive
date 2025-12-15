@@ -11,14 +11,16 @@ const AudioPlayer = ({ id, slug }) => {
         return savedAutoplay !== null ? JSON.parse(savedAutoplay) : false;
     });
 
+    const [savePos] = useState(() => {
+        const savedPos = localStorage.getItem("audioSavePosition");
+        return savedPos !== null ? JSON.parse(savedPos) : false;
+    });
+
     const POSITION_KEY = `audio-position-${id}`;
 
     useEffect(() => {
         const audio = audioRef.current;
-        if (!audio) return;
-
-        audio.autoplay = audioAutoplay;
-
+        if (!audio || !savePos) return;
         const savedTime = localStorage.getItem(POSITION_KEY);
         if (savedTime) {
             audio.currentTime = Number(savedTime);
@@ -33,7 +35,7 @@ const AudioPlayer = ({ id, slug }) => {
         return () => {
             audio.removeEventListener("timeupdate", saveTime);
         };
-    }, [audioAutoplay, id]);
+    }, [id]);
 
     const rewind = (seconds) => {
         const audio = audioRef.current;
