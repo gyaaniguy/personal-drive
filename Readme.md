@@ -44,9 +44,10 @@
   - Set custom URL
   - A sharing control panel to pause and delete existing shares
 - Media player and slideshow:
-  - Play and view images and videos
+  - Play and view images, videos and audios
   - Preview text and PDF files
   - Keyboard shortcuts available during slideshow: Left, Right, Escape
+  - Audiobook support, by adding rewind and save position
 - Files are indexed
 - Dynamically generated thumbnails
 - Upload multiple files or entire folders recursively
@@ -222,10 +223,10 @@ As of 18 April 2025, I have added several 'intermediate' level features. The nex
 These are just thoughts. Can't make any promises.
 - Feature: Encryption. Vital, so the host can't read our files
 - Feature: Improve search. Maybe in-content search, folder-specific. Maybe a special 'Notes' mode
-- Feature: Collaboration. Perhaps a checkbox that allows guests to upload? 
-- Feature: Save playback position checkbox 
-- Feature: mp3/audio playback
+- Feature: Collaboration. Perhaps a checkbox that allows guests to upload?
 - Feature: More previewable files - doc, docx, ppt. Unsure if this will be feasible.
+- Feature: Explore login options, no auth mode
+- Feature: Support application behind reverse proxy
 
 ---
 
