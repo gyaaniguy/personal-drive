@@ -66,6 +66,8 @@ class LocalFileStatsService
             $fileType = 'html';
         } elseif (str_starts_with($mimeType, 'text/')) {
             $fileType = 'text';
+        } elseif (str_starts_with($mimeType, 'audio/')) {
+            $fileType = 'audio';
         } elseif (str_contains($mimeType, 'x-empty')) {
             $fileType = 'empty';
         } else {

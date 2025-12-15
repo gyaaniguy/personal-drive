@@ -85,6 +85,7 @@ const FileBrowserSection = memo(({ files, path, token, isAdmin, slug }) => {
         "html",
         "image",
         "video",
+        "audio",
         "pdf",
         ...textFileTypes,
     ]);

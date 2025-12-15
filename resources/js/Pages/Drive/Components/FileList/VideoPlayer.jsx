@@ -4,7 +4,7 @@ const VideoPlayer = ({ id, slug }) => {
     let src = "/fetch-file/" + id;
 
     src += slug ? "/" + slug : "";
-    const [autoplay, setAutoplay] = useState(() => {
+    const [autoplay] = useState(() => {
         const savedAutoplay = localStorage.getItem("videoAutoplay");
         return savedAutoplay !== null ? JSON.parse(savedAutoplay) : false;
     });
