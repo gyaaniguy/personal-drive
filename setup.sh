@@ -13,7 +13,7 @@ done
 
 
 # Default values
-WEB_USER="www-data"
+CURRENT_USER=$(whoami)
 WEB_GROUP="www-data"
 
 # Function to ask for user input
@@ -28,9 +28,7 @@ ask_for_value() {
 
 # echo "You can change these values if needed."
 # Ask the user to confirm or change the web server user and group
-WEB_USER=$(ask_for_value "Enter the web server user" "$WEB_USER")
 WEB_GROUP=$(ask_for_value "Enter the web server group" "$WEB_GROUP")
-
 
 echo "Setting up environment file..."
 cp .env.example .env
@@ -56,8 +54,8 @@ echo "Generating application key..."
 php artisan key:generate --force
 
 # Set permissions
-echo "Attempting to change ownership to $WEB_USER:$WEB_GROUP..."
-if sudo chown -R $WEB_USER:$WEB_GROUP storage bootstrap/cache database 2>/dev/null; then
+echo "Attempting to change ownership to $CURRENT_USER:$WEB_GROUP..."
+if sudo chown -R $CURRENT_USER:$WEB_GROUP storage bootstrap/cache database 2>/dev/null; then
     echo "Ownership changed successfully."
 else
     echo "Could not change owner. Insufficient permissions. Please fix manually."
