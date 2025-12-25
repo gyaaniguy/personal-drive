@@ -35,8 +35,9 @@ class ShareGuestControllerTest extends BaseFeatureTest
         $this->logout();
 
         $response = $this->postCheckPassword($slug1, 'password1');
-
+        $shareSlug1 = Share::whereBySlug($slug1)->first();
         $response->assertSessionHas("shared_{$slug1}_authenticated", true);
+        $response->assertSessionHas("share_id", $shareSlug1->id);
         $response->assertStatus(302);
         $response->assertRedirect('/shared/' . $slug1);
 

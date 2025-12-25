@@ -24,7 +24,7 @@ class HandleGuestShareMiddleware
         if ($this->isNeedsPassword($share, $slug)) {
             return redirect()->route('shared.password', ['slug' => $slug]);
         }
-
+        Session::put("share_id", $share->id);
         return $next($request);
     }
 

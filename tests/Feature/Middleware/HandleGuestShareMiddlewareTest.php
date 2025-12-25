@@ -88,6 +88,7 @@ class HandleGuestShareMiddlewareTest extends BaseFeatureTest
         ]);
 
         Session::put('shared_test-slug_authenticated', true);
+        Session::put('share_id', $share->id);
 
         $response = $this->get(route('shared', ['slug' => 'test-slug']));
 
