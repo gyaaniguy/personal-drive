@@ -3,6 +3,7 @@ import Button from "./Generic/Button.jsx";
 import NProgress from "nprogress";
 
 const DownloadButton = ({
+    isAdmin,
     setSelectedFiles,
     selectedFiles,
     classes,
@@ -51,7 +52,7 @@ const DownloadButton = ({
             NProgress.start();
 
             response = await axios({
-                url: "/download-files",
+                url: isAdmin ? "/download-files" : "/download-guest-files",
                 method: "POST",
                 responseType: "blob",
                 data: formData,

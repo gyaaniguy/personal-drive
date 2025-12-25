@@ -42,6 +42,7 @@ const FileItem = React.memo(function FileItem({
                     />
                 )}
                 <DownloadButton
+                    isAdmin={isAdmin}
                     classes="hidden group-hover:block mr-2"
                     selectedFiles={new Set([file.id])}
                     token={token}

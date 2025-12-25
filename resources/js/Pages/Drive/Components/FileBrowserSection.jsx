@@ -216,6 +216,7 @@ const FileBrowserSection = memo(({ files, path, token, isAdmin, slug }) => {
                     {selectedFiles.size > 0 && (
                         <div className="flex gap-x-1 h-8 md:h-10 ">
                             <DownloadButton
+                                isAdmin={isAdmin}
                                 setSelectedFiles={setSelectedFiles}
                                 selectedFiles={selectedFiles}
                                 setStatusMessage={setStatusMessage}

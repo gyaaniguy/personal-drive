@@ -54,7 +54,8 @@ const FolderItem = React.memo(function FolderItem({
                     />
                 )}
                 <DownloadButton
-                    classes="hidden  group-hover:block mr-2  z-10"
+                    isAdmin={isAdmin}
+                    classes="hidden group-hover:block mr-2  z-10"
                     selectedFiles={new Set([file.id])}
                     token={token}
                     setStatusMessage={setStatusMessage}

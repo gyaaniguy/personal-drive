@@ -33,6 +33,7 @@ Route::middleware(['web', 'auth', CheckAdmin::class])->group(callback: function 
         '/delete-files',
         [DriveControllers\FileDeleteController::class, 'deleteFiles']
     )->middleware(CleanupTempFiles::class)->name('drive.delete-files');
+    Route::post('/download-files', [DriveControllers\DownloadController::class, 'index']);
     Route::post('/resync', [DriveControllers\ReSyncController::class, 'index'])->name('resync');
     Route::post('/gen-thumbs', [DriveControllers\ThumbnailController::class, 'update']);
     Route::post('/search-files', [DriveControllers\SearchFilesController::class, 'index'])->name('drive.search');
@@ -64,10 +65,10 @@ Route::get('/fetch-file/{id}/{slug?}', [DriveControllers\FileFetchController::cl
 Route::get('/fetch-thumb/{id}/{slug?}', [DriveControllers\FileFetchController::class, 'getThumb'])
     ->middleware([HandleAuthOrGuestMiddleware::class])
     ->name('drive.get-thumb');
-Route::post('/download-files', [DriveControllers\DownloadController::class, 'index'])
-    ->middleware([HandleAuthOrGuestMiddleware::class]);
 
 // shared guest routes
+Route::post('/download-guest-files', [DriveControllers\DownloadController::class, 'guest'])
+    ->middleware([HandleGuestShareMiddleware::class]);
 Route::post(
     '/shared-check-password',
     [ShareControllers\ShareFilesGuestController::class, 'checkPassword']

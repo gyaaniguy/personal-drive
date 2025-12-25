@@ -126,6 +126,7 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
                         </>
                     )}
                     <DownloadButton
+                        isAdmin={isAdmin}
                         classes="w-full ml-1 md:ml-2  justify-center hover:bg-green-950 text-center py-2 rounded-md "
                         selectedFiles={selectedFileSet}
                         token={token}
