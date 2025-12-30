@@ -59,18 +59,6 @@ const AudioPlayer = ({ id, slug }) => {
             <div className="flex justify-between text-gray-400 text-sm">
                 <div className="flex gap-x-2 ">
                     <button
-                        onClick={() => rewind(10)}
-                        className="group hover:bg-blue-950 active:bg-blue-900 p-1 rounded cursor-pointer "
-                    >
-                        <span className="  ">
-                            <span className="group-hover:hidden">◁◁</span>
-                            <span className="hidden group-hover:inline">
-                                ◀◀
-                            </span>
-                        </span>{" "}
-                        <span className="text-xs text-blue-200">10s</span>
-                    </button>
-                    <button
                         onClick={() => rewind(60)}
                         className="group hover:bg-blue-950 active:bg-blue-900 p-1 rounded cursor-pointer "
                     >
@@ -81,6 +69,18 @@ const AudioPlayer = ({ id, slug }) => {
                             </span>
                         </span>{" "}
                         <span className="text-xs text-blue-200">1m</span>
+                    </button>
+                    <button
+                        onClick={() => rewind(10)}
+                        className="group hover:bg-blue-950 active:bg-blue-900 p-1 rounded cursor-pointer "
+                    >
+                        <span className="  ">
+                            <span className="group-hover:hidden">◁◁</span>
+                            <span className="hidden group-hover:inline">
+                                ◀◀
+                            </span>
+                        </span>{" "}
+                        <span className="text-xs text-blue-200">10s</span>
                     </button>
                 </div>
                 <div className="flex gap-x-2">
