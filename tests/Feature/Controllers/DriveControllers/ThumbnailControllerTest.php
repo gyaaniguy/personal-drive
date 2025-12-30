@@ -4,6 +4,7 @@ namespace Feature\Controllers\DriveControllers;
 
 use App\Http\Controllers\DriveControllers\FileFetchController;
 use App\Models\LocalFile;
+use App\Services\DownloadService;
 use App\Services\LocalFileStatsService;
 use App\Services\ThumbnailService;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -47,6 +48,7 @@ class ThumbnailControllerTest extends BaseFeatureTest
         $mock = Mockery::mock(FileFetchController::class . '[streamFile]', [
             app(LocalFileStatsService::class),
             app(ThumbnailService::class),
+            app(DownloadService::class),
         ]);
 
         $mock->shouldReceive('streamFile')

@@ -11,6 +11,15 @@ class SharedFile extends Model
 {
     use HasFactory;
 
+    public static function hasFileIdsInShare(int $shareId, array $fileIds): bool
+    {
+        $count = self::where('share_id', $shareId)
+            ->whereIn('file_id', $fileIds)
+            ->count();
+
+        return $count === count($fileIds);
+    }
+
     public static function addArray(Collection $localFiles, int $shareId): bool
     {
         $sharedFiles = $localFiles->map(fn($localFile) => self::getFileIds($shareId, $localFile))->toArray();

@@ -18,7 +18,7 @@ use Tests\Feature\BaseFeatureTest;
 
 class ShareModControllerTest extends BaseFeatureTest
 {
-    private array $fileNames = [
+    public $fileNames = [
         'ace.txt', 'bar/1.txt', 'foo/ace.txt', 'foo/b.txt', 'foo/bar/1.txt'
     ];
 
@@ -108,6 +108,6 @@ class ShareModControllerTest extends BaseFeatureTest
         parent::setUp();
         $this->makeUserUsingSetup();
         $this->setupStoragePathPost();
-        $this->uploadMultipleFiles('', $this->fileNames);
+        $this->uploadMultipleFiles('');
     }
 }

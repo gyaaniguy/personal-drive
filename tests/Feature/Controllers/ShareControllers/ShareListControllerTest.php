@@ -17,7 +17,7 @@ use Tests\Feature\BaseFeatureTest;
 
 class ShareListControllerTest extends BaseFeatureTest
 {
-    private array $fileNames = [
+    public $fileNames = [
         'ace.txt', 'bar/1.txt', 'foo/ace.txt', 'foo/b.txt', 'foo/bar/1.txt'
     ];
 
@@ -92,6 +92,6 @@ class ShareListControllerTest extends BaseFeatureTest
         parent::setUp();
         $this->makeUserUsingSetup();
         $this->setupStoragePathPost();
-        $this->uploadMultipleFiles('', $this->fileNames);
+        $this->uploadMultipleFiles('');
     }
 }

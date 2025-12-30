@@ -131,6 +131,8 @@ class BaseFeatureTest extends TestCase
     public function getDataForMakingShare($password = 'password', $expiry = 13, $numFilesToShare = 2): array
     {
         $allFiles = LocalFile::all();
+        $allFiles[0]->file_type = 'text';
+        $allFiles[0]->save();
         $toShareFileIds = $allFiles->slice(0, $numFilesToShare)->pluck('id')->toArray();
         return array($toShareFileIds, $password, $expiry);
     }

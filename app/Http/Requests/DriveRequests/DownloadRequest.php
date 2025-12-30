@@ -2,8 +2,8 @@
 
 namespace App\Http\Requests\DriveRequests;
 
-use Illuminate\Foundation\Http\FormRequest;
 use App\Http\Requests\CommonRequest;
+use Illuminate\Foundation\Http\FormRequest;
 
 class DownloadRequest extends FormRequest
 {

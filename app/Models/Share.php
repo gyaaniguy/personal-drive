@@ -84,13 +84,16 @@ class Share extends Model
     {
         return LocalFile::where('public_path', $path)
             ->whereExists(function ($query) use ($shareID) {
-                $query->select(DB::raw(1))
-                    ->from('local_files AS l')
-                    ->join('shared_files AS sf', 'l.id', '=', 'sf.file_id')
-                    ->join('shares AS s', 'sf.share_id', '=', 's.id')
-                    ->where('s.id', $shareID)
-                    ->whereRaw("local_files.public_path LIKE (l.public_path ||  '%')")
-                    ->limit(1);
+                self::getLimitByShareQuery($query, $shareID);
+            })
+            ->get();
+    }
+
+    public static function getFilenamesByIds(int $shareID, array $ids): Collection
+    {
+        return LocalFile::whereIn('id', $ids)
+            ->whereExists(function ($query) use ($shareID) {
+                self::getLimitByShareQuery($query, $shareID);
             })
             ->get();
     }
@@ -103,5 +106,19 @@ class Share extends Model
     public function sharedFiles(): HasMany
     {
         return $this->hasMany(SharedFile::class);
+    }
+
+
+    public static function getLimitByShareQuery($query, int $shareID): void
+    {
+        $query->select(DB::raw(1))
+            ->from('local_files AS l')
+            ->join('shared_files AS sf', 'l.id', '=', 'sf.file_id')
+            ->join('shares AS s', 'sf.share_id', '=', 's.id')
+            ->where('s.id', $shareID)
+            ->whereRaw("local_files.public_path LIKE ( l.public_path ||
+                                CASE WHEN l.public_path <> '' THEN '/' ELSE '' END ||
+                                l.filename || '%')")
+            ->limit(1);
     }
 }

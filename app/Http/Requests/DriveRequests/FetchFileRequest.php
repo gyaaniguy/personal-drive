@@ -11,6 +11,7 @@ class FetchFileRequest extends FormRequest
     {
         return [
             'id' => CommonRequest::localFileIdRules(),
+            'slug' => ['nullable', ...CommonRequest::shareSlugRules()],
         ];
     }
 
@@ -18,6 +19,7 @@ class FetchFileRequest extends FormRequest
     {
         $this->merge([
             'id' => $this->route('id'),
+            'slug' => $this->route('slug'),
         ]);
     }
 }

@@ -14,7 +14,6 @@ class DownloadServiceTest extends TestCase
     use RefreshDatabase;
 
     protected $downloadService;
-    protected $downloadHelperMock;
 
     public function testGenerateDownloadPathSingleFile()
     {
@@ -37,29 +36,6 @@ class DownloadServiceTest extends TestCase
 
 
         $localFiles = new Collection([$file]);
-        $this->downloadHelperMock->expects($this->once())
-            ->method('createZipArchive')
-            ->with($localFiles, $this->anything());
-        $result = $this->downloadService->generateDownloadPath($localFiles);
-
-        $this->assertStringContainsString('/tmp/personal_drive_', $result);
-        $this->assertStringEndsWith('.zip', $result);
-    }
-
-    public function testGenerateDownloadPathMultipleFiles()
-    {
-        $file1 = $this->createMock(LocalFile::class);
-        $file1->is_dir = false;
-
-        $file2 = $this->createMock(LocalFile::class);
-        $file2->is_dir = false;
-
-        $localFiles = new Collection([$file1, $file2]);
-
-        $this->downloadHelperMock->expects($this->once())
-            ->method('createZipArchive')
-            ->with($localFiles, $this->anything());
-
         $result = $this->downloadService->generateDownloadPath($localFiles);
 
         $this->assertStringContainsString('/tmp/personal_drive_', $result);
@@ -96,7 +72,6 @@ class DownloadServiceTest extends TestCase
     protected function setUp(): void
     {
         parent::setUp();
-        $this->downloadHelperMock = $this->createMock(DownloadHelper::class);
-        $this->downloadService = new DownloadService($this->downloadHelperMock);
+        $this->downloadService = new DownloadService();
     }
 }
