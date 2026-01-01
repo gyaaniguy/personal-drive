@@ -8,12 +8,13 @@ use App\Http\Middleware\CleanupTempFiles;
 use App\Http\Middleware\EnsureFrontendBuilt;
 use App\Http\Middleware\HandleAuthOrGuestMiddleware;
 use App\Http\Middleware\HandleGuestShareMiddleware;
+use App\Http\Middleware\OptionalAuth;
 use App\Http\Middleware\PreventSetupAccess;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
 
-Route::middleware(['web', 'auth', CheckAdmin::class])->group(callback: function () {
+Route::middleware([OptionalAuth::class, 'web', 'auth', CheckAdmin::class])->group(callback: function () {
     Route::get('/admin-config', [AdminControllers\AdminConfigController::class, 'index'])->name('admin-config');
     Route::post(
         '/admin-config/update',

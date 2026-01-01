@@ -6,7 +6,9 @@ use App\Exceptions\PersonalDriveExceptions\ThrottleException;
 use App\Exceptions\PersonalDriveExceptions\ThumbnailException;
 use App\Http\Middleware\CheckSetup;
 use App\Http\Middleware\HandleInertiaMiddleware;
+use App\Http\Middleware\OptionalAuth;
 use Illuminate\Auth\AuthenticationException;
+use Illuminate\Auth\Middleware\Authenticate;
 use Illuminate\Foundation\Application;
 use Illuminate\Foundation\Configuration\Exceptions;
 use Illuminate\Foundation\Configuration\Middleware;
@@ -42,6 +44,10 @@ return Application::configure(basePath: dirname(__DIR__))
             "Illuminate\Http\Middleware\TrustProxies",
             "App\Http\Middleware\TrustProxies"
         );
+        $middleware->priority([
+            OptionalAuth::class,
+            Authenticate::class,
+        ]);
         $middleware->web(append: [
             HandleInertiaMiddleware::class,
             AddLinkHeadersForPreloadedAssets::class,

@@ -64,6 +64,8 @@
 - Create new files
 - Markdown supported
 - Move files
+- Config option to disable authentication
+- Config options to run behind a http proxy (reverse proxy)
 
 ---
 
@@ -172,6 +174,14 @@ To run behind a Http proxy, configure to allow trusted headers and specify the i
 1. `TRUSTED_PROXIES=*` - to trust all ips. add to .env file in root of the directory. OR `TRUSTED_PROXIES=some.ip,ano.ther.ip` 
 2. Optionally adjust headers to trust via `TRUSTED_HEADERS` in .env
 
+### Disable Authentication, login.
+
+!!! BE CAREFUL WITH THIS !!!   
+After setup, add `DISABLE_AUTH=true` to .env to disable login. 
+
+>If its on a public site, your application will be accessible by anyone  
+> Only use this option if you know what you are doing
+
 ---
 
 ## Forgot Password: 
@@ -232,8 +242,6 @@ These are just thoughts. Can't make any promises.
 - Feature: Improve search. Maybe in-content search, folder-specific. Maybe a special 'Notes' mode
 - Feature: Collaboration. Perhaps a checkbox that allows guests to upload?
 - Feature: More previewable files - doc, docx, ppt. Unsure if this will be feasible.
-- Feature: Explore login options, no auth mode
-- Feature: Support application behind reverse proxy
 
 ---
 

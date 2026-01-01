@@ -26,6 +26,7 @@ return [
     'proxy_ips' => env('TRUSTED_PROXIES', false),
     'proxy_headers' => $proxyHeaders,
     'disable_https' => env('DISABLE_HTTPS', false),
+    'disable_auth' => env('DISABLE_AUTH', false),
 
     /*
     |--------------------------------------------------------------------------
