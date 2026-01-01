@@ -165,6 +165,13 @@ database
 ```
 The setup script adjusts permissions and ownership if provided with root access.
 
+### Running Behind Reverse proxy
+
+This app can be run behind a Http proxy. But its important to configure to allow trusted headers and specify the ips to trust. This typically refers to the headers sent by your proxy server and the ip on which it is running.
+
+1. `TRUSTED_PROXIES=*` - to trust all ips. add to .env file in root of the directory. OR `TRUSTED_PROXIES=some.ip,ano.ther.ip` 
+2. Optionally adjust headers to trust via `TRUSTED_HEADERS` in .env
+
 ---
 
 ## Forgot Password: 

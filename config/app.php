@@ -2,16 +2,29 @@
 
 use Illuminate\Http\Request;
 
+$headers = env('TRUSTED_HEADERS');
+
+if ($headers) {
+    $proxyHeaders = 0;
+
+    foreach (explode(',', $headers) as $header) {
+        $const = 'Illuminate\Http\Request::' . trim($header);
+        if (defined($const)) {
+            $proxyHeaders |= constant($const);
+        }
+    }
+} else {
+    $proxyHeaders =
+        Request::HEADER_X_FORWARDED_FOR |
+        Request::HEADER_X_FORWARDED_HOST |
+        Request::HEADER_X_FORWARDED_PORT |
+        Request::HEADER_X_FORWARDED_PROTO;
+}
+
 return [
 
     'proxy_ips' => env('TRUSTED_PROXIES', null),
-    'proxy_headers' => env('TRUSTED_HEADERS') ?? (
-            Request::HEADER_X_FORWARDED_FOR |
-            Request::HEADER_X_FORWARDED_HOST |
-            Request::HEADER_X_FORWARDED_PORT |
-            Request::HEADER_X_FORWARDED_PROTO
-        ),
-
+    'proxy_headers' => $proxyHeaders,
     'disable_https' => env('DISABLE_HTTPS', false),
 
     /*

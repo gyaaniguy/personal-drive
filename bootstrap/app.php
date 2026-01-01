@@ -38,7 +38,10 @@ return Application::configure(basePath: dirname(__DIR__))
     )
     ->withMiddleware(function (Middleware $middleware) {
         $middleware->redirectGuestsTo('login');
-        $middleware->replace("Illuminate\Http\Middleware\TrustProxies","App\Http\Middleware\TrustProxies");
+        $middleware->replace(
+            "Illuminate\Http\Middleware\TrustProxies",
+            "App\Http\Middleware\TrustProxies"
+        );
         $middleware->web(append: [
             HandleInertiaMiddleware::class,
             AddLinkHeadersForPreloadedAssets::class,
