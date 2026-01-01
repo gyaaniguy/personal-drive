@@ -10,6 +10,7 @@
 - Stream line settings for autoplaying media
 - Improve setup.sh for better permission handling
 - Security: Guests could view admin files. I added robust checks on several endpoints.
+- Support running behind reverse proxies by adding configurable/optional trusted proxies 
 
 ## [v1.0.0] - 2025-08-07
 
