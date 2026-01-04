@@ -65,7 +65,7 @@
     # Install only *runtime* system dependencies
     RUN apt-get update && apt-get install -y --no-install-recommends \
         # --- RUNTIME LIBRARIES ONLY ---
-        sqlite3 libsqlite3-0 libjpeg62-turbo libpng16-16 libwebp7 libfreetype6 zlib1g libzip4 \
+        sqlite3 libsqlite3-0 libjpeg62-turbo libpng16-16 libwebp7 libfreetype6 zlib1g libzip-dev \
         # Runtime deps for the application
         ffmpeg \
         # --- DO NOT RUN docker-php-ext-configure/install HERE ---
