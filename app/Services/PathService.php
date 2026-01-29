@@ -6,18 +6,6 @@ use App\Models\Setting;
 
 class PathService
 {
-
-    //    public function getTempStorageDirPath(): string
-    //    {
-    //        $storagePath = Setting::getStoragePath();;
-    //        if (!$storagePath) {
-    //            return '';
-    //        }
-    //
-    //        return $storagePath . DS . "temp_storage";
-    //    }
-
-
     public function getPlusContentRoot(string $publicPath, string $fileName = ''): string
     {
         return CONTENT_SUBDIR . DS . ($publicPath ? $publicPath . DS : '') . ( $fileName ?: '');
@@ -25,7 +13,7 @@ class PathService
 
     public function getThumbnailAbsPath(): string
     {
-        return Setting::getStoragePath(). DS . THUMBS_SUBDIR;
+        return Setting::getStoragePath() . DS . THUMBS_SUBDIR;
     }
 
     public function genPrivatePathFromPublic(string $publicPath = ''): string

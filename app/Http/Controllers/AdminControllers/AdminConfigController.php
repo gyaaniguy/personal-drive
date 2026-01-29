@@ -31,7 +31,8 @@ class AdminConfigController extends Controller
         $storagePath = Setting::getStoragePath();
 
         return Inertia::render(
-            'Admin/Config', [
+            'Admin/Config',
+            [
             'storage_path' => $storagePath,
             'php_max_upload_size' => $this->adminConfigService->getPhpUploadMaxFilesize(),
             'php_post_max_size' => $this->adminConfigService->getPhpPostMaxSize(),

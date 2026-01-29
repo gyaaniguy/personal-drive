@@ -49,7 +49,9 @@ class FileFetchController extends Controller
             response()->stream(
                 function () use ($filePrivatePathName) {
                     readfile($filePrivatePathName);
-                }, 200, [
+                },
+                200,
+                [
                 'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
                 'Pragma' => 'no-cache',
                 'Content-Type' => 'text/plain',

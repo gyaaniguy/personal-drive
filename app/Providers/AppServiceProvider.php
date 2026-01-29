@@ -20,7 +20,6 @@ class AppServiceProvider extends ServiceProvider
      */
     public function register(): void
     {
-
     }
 
     /**
@@ -38,10 +37,12 @@ class AppServiceProvider extends ServiceProvider
                 config(['session.driver' => 'file']);
             }
         } catch (QueryException | PDOException $e) {
-            if (str_contains($e->getMessage(), 'readonly database') || str_contains(
-                $e->getMessage(),
-                'open database'
-            )
+            if (
+                str_contains($e->getMessage(), 'readonly database') ||
+                str_contains(
+                    $e->getMessage(),
+                    'open database'
+                )
             ) {
                 http_response_code(500);
                 echo 'Database error: check permissions on database.sqlite';
@@ -49,7 +50,8 @@ class AppServiceProvider extends ServiceProvider
             }
         }
         RateLimiter::for(
-            'login', function (Request $request) {
+            'login',
+            function (Request $request) {
                 return Limit::perMinute(7)
                     ->by($request->ip())
                     ->response(
@@ -61,7 +63,8 @@ class AppServiceProvider extends ServiceProvider
         );
 
         RateLimiter::for(
-            'shared', function (Request $request) {
+            'shared',
+            function (Request $request) {
                 return Limit::perMinute(20)
                     ->by($request->ip())
                     ->response(

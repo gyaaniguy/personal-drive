@@ -10,7 +10,8 @@ class ShareFilesGenRequest extends FormRequest
     public function rules(): array
     {
         return array_merge(
-            CommonRequest::fileListRules(), [
+            CommonRequest::fileListRules(),
+            [
             'slug' => ['nullable', 'unique:shares', CommonRequest::shareSlugRules()],
             'password' => CommonRequest::sharePasswordRules(),
             'expiry' => 'nullable|integer',

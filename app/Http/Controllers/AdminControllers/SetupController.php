@@ -32,12 +32,8 @@ class SetupController extends Controller
             );
             $message = 'Created User successfully';
             $status = true;
-            //            $request->session()->invalidate();
-            //            config(['session.driver' => 'database']);
             Auth::login($user, true);
-            //            $request->session()->regenerate();
-        }
-        catch (Exception) {
+        } catch (Exception) {
             $status = false;
             $message = 'Error. could not create user. Try re-installing, checking permissions for storage folder';
         }

@@ -20,4 +20,3 @@ trait GuestResourceAuthorize
         return true;
     }
 }
-

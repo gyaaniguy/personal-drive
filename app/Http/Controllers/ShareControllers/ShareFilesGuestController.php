@@ -32,7 +32,8 @@ class ShareFilesGuestController
         $files = LocalFile::modifyFileCollectionForGuest($files, $share->public_path);
 
         return Inertia::render(
-            'Drive/ShareFilesGuestHome', [
+            'Drive/ShareFilesGuestHome',
+            [
             'files' => $files,
             'path' => '/shared/' . $slug . ($path ? '/' . $path : ''),
             'token' => csrf_token(),

@@ -36,8 +36,9 @@ class FileDeleteService
         string $privateFilePathName,
         string $rootStoragePath
     ): bool {
-        if ($this->isDeletableDirectory($file, $privateFilePathName) 
-            && $this->isDirSubDirOfStorage($privateFilePathName, $rootStoragePath)
+        if (
+            $this->isDeletableDirectory($file, $privateFilePathName) &&
+            $this->isDirSubDirOfStorage($privateFilePathName, $rootStoragePath)
         ) {
             File::deleteDirectory($privateFilePathName);
             $file->deleteUsingPublicPath();

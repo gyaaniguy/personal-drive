@@ -17,7 +17,8 @@ class SearchFilesController extends Controller
         $files = LocalFile::searchFiles($searchQuery);
 
         return Inertia::render(
-            'Drive/DriveHome', [
+            'Drive/DriveHome',
+            [
             'files' => $files,
             'searchResults' => true,
             ]
