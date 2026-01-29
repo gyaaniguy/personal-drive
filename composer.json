@@ -26,6 +26,7 @@
         "ext-tokenizer": "*",
         "ext-xml": "*",
         "ext-zip": "*",
+        "ext-iconv": "*",
         "aws/aws-sdk-php": "^3.331",
         "fakerphp/faker": "^1.23",
         "imanghafoori/laravel-video": "*",
