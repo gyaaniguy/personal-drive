@@ -25,10 +25,12 @@ class SettingTest extends TestCase
         $result = Setting::updateSetting($key, $value);
 
         $this->assertTrue($result);
-        $this->assertDatabaseHas('settings', [
+        $this->assertDatabaseHas(
+            'settings', [
             'key' => $key,
             'value' => $value,
-        ]);
+            ]
+        );
     }
 
     public function test_update_setting_updates_existing_setting()
@@ -41,14 +43,18 @@ class SettingTest extends TestCase
         $result = Setting::updateSetting($key, $newValue);
 
         $this->assertTrue($result);
-        $this->assertDatabaseHas('settings', [
+        $this->assertDatabaseHas(
+            'settings', [
             'key' => $key,
             'value' => $newValue,
-        ]);
-        $this->assertDatabaseMissing('settings', [
+            ]
+        );
+        $this->assertDatabaseMissing(
+            'settings', [
             'key' => $key,
             'value' => $oldValue,
-        ]);
+            ]
+        );
     }
 
     public function test_get_setting_by_key_name_returns_correct_value()

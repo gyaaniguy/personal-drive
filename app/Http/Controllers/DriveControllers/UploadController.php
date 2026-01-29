@@ -89,11 +89,10 @@ class UploadController extends Controller
             $relativeBasePath = $this->pathService->getPlusContentRoot($publicPath);
             $relativeDestinationPath = $relativeBasePath . $fileNameWithUploadedPath;
 
-            if (
-                $this->fileOperationsService->directoryExists($relativeDestinationPath) || $this->fileOperationsService->pathExistsAsFile(
-                    $relativeBasePath,
-                    dirname($fileNameWithUploadedPath)
-                )
+            if ($this->fileOperationsService->directoryExists($relativeDestinationPath) || $this->fileOperationsService->pathExistsAsFile(
+                $relativeBasePath,
+                dirname($fileNameWithUploadedPath)
+            )
             ) {
                 $conflictsDetected++;
             } elseif (file_exists($destinationFullPath) && $tempStorageDirFull) {
@@ -140,15 +139,13 @@ class UploadController extends Controller
         $isFile = $request->validated('isFile');
         $publicPath = $this->pathService->cleanDrivePublicPath($publicPath);
         $privatePath = $this->pathService->genPrivatePathFromPublic($publicPath);
-        if (
-            $isFile &&
-            !$this->fileOperationsService->makeFile($this->pathService->getPlusContentRoot($publicPath, $itemName))
+        if ($isFile 
+            && !$this->fileOperationsService->makeFile($this->pathService->getPlusContentRoot($publicPath, $itemName))
         ) {
             return $this->error('Create file failed');
         }
-        if (
-            !$isFile &&
-            !$this->fileOperationsService->makeFolder($this->pathService->getPlusContentRoot($publicPath, $itemName))
+        if (!$isFile 
+            && !$this->fileOperationsService->makeFolder($this->pathService->getPlusContentRoot($publicPath, $itemName))
         ) {
             return $this->error('Create folder failed');
         }

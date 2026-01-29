@@ -31,12 +31,14 @@ class Share extends Model
         ?string $publicPath = '',
     ): self {
         try {
-            return static::create([
+            return static::create(
+                [
                 'slug' => $slug,
                 'password' => $password,
                 'expiry' => $expiry,
                 'public_path' => $publicPath,
-            ]);
+                ]
+            );
         } catch (Throwable $e) {
             throw ShareFileException::couldNotShare();
         }
@@ -46,10 +48,12 @@ class Share extends Model
     public static function getAllUnExpired(): Collection
     {
         return static::with(['sharedFiles.localFile:id,filename'])
-            ->where(function ($query) {
-                $query->whereRaw("datetime(created_at, '+' || expiry || ' days') > datetime('now')")
-                    ->orWhereNull('expiry');
-            })
+            ->where(
+                function ($query) {
+                    $query->whereRaw("datetime(created_at, '+' || expiry || ' days') > datetime('now')")
+                        ->orWhereNull('expiry');
+                }
+            )
             ->orderBy('created_at', 'desc')
             ->get();
     }
@@ -83,18 +87,22 @@ class Share extends Model
     public static function getFilenamesByPath(int $shareID, string $path): Collection
     {
         return LocalFile::where('public_path', $path)
-            ->whereExists(function ($query) use ($shareID) {
-                self::getLimitByShareQuery($query, $shareID);
-            })
+            ->whereExists(
+                function ($query) use ($shareID) {
+                    self::getLimitByShareQuery($query, $shareID);
+                }
+            )
             ->get();
     }
 
     public static function getFilenamesByIds(int $shareID, array $ids): Collection
     {
         return LocalFile::whereIn('id', $ids)
-            ->whereExists(function ($query) use ($shareID) {
-                self::getLimitByShareQuery($query, $shareID);
-            })
+            ->whereExists(
+                function ($query) use ($shareID) {
+                    self::getLimitByShareQuery($query, $shareID);
+                }
+            )
             ->get();
     }
 
@@ -116,9 +124,11 @@ class Share extends Model
             ->join('shared_files AS sf', 'l.id', '=', 'sf.file_id')
             ->join('shares AS s', 'sf.share_id', '=', 's.id')
             ->where('s.id', $shareID)
-            ->whereRaw("local_files.public_path LIKE ( l.public_path ||
+            ->whereRaw(
+                "local_files.public_path LIKE ( l.public_path ||
                                 CASE WHEN l.public_path <> '' THEN '/' ELSE '' END ||
-                                l.filename || '%')")
+                                l.filename || '%')"
+            )
             ->limit(1);
     }
 }

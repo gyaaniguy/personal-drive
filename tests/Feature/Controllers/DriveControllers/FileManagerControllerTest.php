@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Controllers\DriveControllers;
+namespace Tests\Feature\Controllers\DriveControllers;
 
 use App\Models\LocalFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -18,11 +18,13 @@ class FileManagerControllerTest extends BaseFeatureTest
 
         $response = $this->get(route('drive', ['path' => '']));
 
-        $response->assertInertia(fn(Assert $page) => $page->component('Drive/DriveHome')
-            ->has('files')
-            ->where('path', '/drive')
-            ->where('token', csrf_token())
-            ->count('files', 4));
+        $response->assertInertia(
+            fn(Assert $page) => $page->component('Drive/DriveHome')
+                ->has('files')
+                ->where('path', '/drive')
+                ->where('token', csrf_token())
+                ->count('files', 4)
+        );
     }
 
     public function test_index_returns_files_for_given_sub_path()
@@ -31,11 +33,13 @@ class FileManagerControllerTest extends BaseFeatureTest
 
         $response = $this->get(route('drive', ['path' => 'foo/bar']));
 
-        $response->assertInertia(fn(Assert $page) => $page->component('Drive/DriveHome')
-            ->has('files')
-            ->where('path', '/drive/foo/bar')
-            ->where('token', csrf_token())
-            ->count('files', 2));
+        $response->assertInertia(
+            fn(Assert $page) => $page->component('Drive/DriveHome')
+                ->has('files')
+                ->where('path', '/drive/foo/bar')
+                ->where('token', csrf_token())
+                ->count('files', 2)
+        );
     }
 
     protected function setUp(): void

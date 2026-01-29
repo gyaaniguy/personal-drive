@@ -118,10 +118,12 @@ class LocalFileStatsService
 
     public function updateFileStats(LocalFile $localFile, SplFileInfo $file): void
     {
-        $localFile->update([
+        $localFile->update(
+            [
             'size' => $file->getSize(),
             'is_dir' => $file->isDir(),
             'file_type' => $this->getFileType($file),
-        ]);
+            ]
+        );
     }
 }

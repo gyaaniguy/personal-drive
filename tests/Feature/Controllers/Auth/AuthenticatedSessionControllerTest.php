@@ -25,16 +25,20 @@ class AuthenticatedSessionControllerTest extends BaseFeatureTest
     {
         $this->makeUser();
 
-        $this->post(route('logout'), [
+        $this->post(
+            route('logout'), [
             '_token' => csrf_token(),
-        ]);
-        $response = $this->post('/login', [
+            ]
+        );
+        $response = $this->post(
+            '/login', [
             'username' => 'testuser',
             'password' => 'wronggpassword',
-        ]);
+            ]
+        );
         $this->assertGuest();
         $response->assertSessionHas('message', 'Please check the form for errors.');
-//        $response->assertRedirect('/login');
+        //        $response->assertRedirect('/login');
     }
 
     protected function setUp(): void

@@ -1,6 +1,8 @@
 <?php
+namespace Tests\Unit\Services;
 
 use Illuminate\Foundation\Testing\RefreshDatabase;
+use Mockery;
 use PHPUnit\Framework\TestCase;
 use App\Services\UploadService;
 use Illuminate\Filesystem\Filesystem;

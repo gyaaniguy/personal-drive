@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Services;
+namespace Tests\Feature\Services;
 
 use App\Models\Setting;
 use App\Services\FileOperationsService;
@@ -33,18 +33,20 @@ class UploadServiceFeatureTest extends BaseFeatureTest
         $filePath = $this->tempRootDir . '/sub/test.txt';
         file_put_contents($filePath, 'dummy');
 
-//        $this->pathService->shouldReceive('getTempStorageDirPath')->andReturn($this->tempRootDir);
-//        $this->pathService->shouldReceive('getStorageFolderPath')->andReturn($this->targetDir);
-        $this->statsService->shouldReceive('getFileItemDetails')->andReturn([
+        //        $this->pathService->shouldReceive('getTempStorageDirPath')->andReturn($this->tempRootDir);
+        //        $this->pathService->shouldReceive('getStorageFolderPath')->andReturn($this->targetDir);
+        $this->statsService->shouldReceive('getFileItemDetails')->andReturn(
+            [
             'filename' => 'test.txt', 'public_path' => 'upload-storage', 'private_path' => 'upload-storage',
             'file_type' => 'text', 'is_dir' => '0', 'size' => '11', 'user_id' => 1,
-        ]);
+            ]
+        );
         $this->statsService->shouldReceive('updateFileStats')->andReturnNull();
         $this->thumbService->shouldReceive('genThumbnailsForFileIds')->andReturn(1);
 
 
         $this->uploadService->syncTempToStorage();
-//        $this->uploadService->syncFileToStorage($file, $this->tempRootDir, $this->targetDir);
+        //        $this->uploadService->syncFileToStorage($file, $this->tempRootDir, $this->targetDir);
 
         $this->assertFileExists($this->targetDir . '/sub/test.txt');
         $this->assertFileDoesNotExist($filePath);

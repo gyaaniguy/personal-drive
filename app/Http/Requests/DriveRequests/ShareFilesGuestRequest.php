@@ -17,9 +17,11 @@ class ShareFilesGuestRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge([
+        $this->merge(
+            [
             'slug' => $this->input('slug', '') ?: $this->route('slug', ''),
             'path' => $this->input('path', '') ?: $this->route('path', ''),
-        ]);
+            ]
+        );
     }
 }

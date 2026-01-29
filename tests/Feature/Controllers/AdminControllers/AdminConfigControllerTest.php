@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Controllers\AdminControllers;
+namespace Tests\Feature\Controllers\AdminControllers;
 
 use App\Models\Setting;
 use App\Services\FileOperationsService;
@@ -23,13 +23,15 @@ class AdminConfigControllerTest extends BaseFeatureTest
         $response->assertInertia(
             fn($page) => $page
                 ->component('Admin/Config')
-                ->hasAll([
+                ->hasAll(
+                    [
                     'storage_path',
                     'php_max_upload_size',
                     'php_post_max_size',
                     'php_max_file_uploads',
                     'setupMode',
-                ])
+                    ]
+                )
         );
     }
 

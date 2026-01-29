@@ -31,14 +31,18 @@ class SharedFileTest extends TestCase
         $this->assertTrue($result);
 
         // Assert that the shared files were inserted into the database
-        $this->assertDatabaseHas('shared_files', [
+        $this->assertDatabaseHas(
+            'shared_files', [
             'share_id' => $share->id,
             'file_id' => $localFile1->id,
-        ]);
-        $this->assertDatabaseHas('shared_files', [
+            ]
+        );
+        $this->assertDatabaseHas(
+            'shared_files', [
             'share_id' => $share->id,
             'file_id' => $localFile2->id,
-        ]);
+            ]
+        );
     }
 
     public function test_get_file_ids_returns_correct_array()
@@ -52,10 +56,12 @@ class SharedFileTest extends TestCase
         $method->setAccessible(true);
         $result = $method->invoke(null, $shareId, $mockLocalFile);
 
-        $this->assertEquals([
+        $this->assertEquals(
+            [
             'share_id' => $shareId,
             'file_id' => 200,
-        ], $result);
+            ], $result
+        );
     }
 
     public function test_share_relationship()

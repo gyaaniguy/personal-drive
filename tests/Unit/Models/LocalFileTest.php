@@ -146,9 +146,11 @@ class LocalFileTest extends TestCase
     {
         $user = User::factory()->create();
         LocalFile::factory()->create(['public_path' => '/root', 'filename' => 'z_file.txt', 'user_id' => $user->id]);
-        $file2 = LocalFile::factory()->create([
+        $file2 = LocalFile::factory()->create(
+            [
             'public_path' => '/root', 'filename' => 'a_file.txt', 'user_id' => $user->id
-        ]);
+            ]
+        );
         LocalFile::factory()->create(['public_path' => '/other', 'user_id' => $user->id]);
 
         $files = LocalFile::getFilesForPublicPath('/root');
@@ -225,11 +227,13 @@ class LocalFileTest extends TestCase
     public function test_get_for_file_obj_returns_correct_file()
     {
         $user = User::factory()->create();
-        $localFile = LocalFile::factory()->create([
+        $localFile = LocalFile::factory()->create(
+            [
             'filename' => 'test.txt',
             'public_path' => '/test/path',
             'user_id' => $user->id
-        ]);
+            ]
+        );
 
         $mockSplFileInfo = Mockery::mock(SplFileInfo::class);
         $mockSplFileInfo->shouldReceive('getFilename')->andReturn('test.txt');
@@ -246,33 +250,41 @@ class LocalFileTest extends TestCase
         $sharedFile = SharedFile::factory()->create(['file_id' => $localFile->id, 'share_id' => $share->id]);
 
         $this->assertInstanceOf(Collection::class, $localFile->fresh()->sharedFiles);
-        $this->assertTrue($localFile->fresh()->sharedFiles->where('share_id', $sharedFile->share_id)->where(
-            'file_id',
-            $sharedFile->file_id
-        )->isNotEmpty());
+        $this->assertTrue(
+            $localFile->fresh()->sharedFiles->where('share_id', $sharedFile->share_id)->where(
+                'file_id',
+                $sharedFile->file_id
+            )->isNotEmpty()
+        );
     }
 
     public function test_delete_using_public_path_deletes_correct_files()
     {
         $user = User::factory()->create();
-        $parentDir = LocalFile::factory()->create([
+        $parentDir = LocalFile::factory()->create(
+            [
             'filename' => 'parent_dir',
             'is_dir' => true,
             'public_path' => '/root',
             'user_id' => $user->id
-        ]);
-        $childFile = LocalFile::factory()->create([
+            ]
+        );
+        $childFile = LocalFile::factory()->create(
+            [
             'filename' => 'child_file.txt',
             'is_dir' => false,
             'public_path' => '/root/parent_dir',
             'user_id' => $user->id
-        ]);
-        $otherFile = LocalFile::factory()->create([
+            ]
+        );
+        $otherFile = LocalFile::factory()->create(
+            [
             'filename' => 'other_file.txt',
             'is_dir' => false,
             'public_path' => '/root',
             'user_id' => $user->id
-        ]);
+            ]
+        );
 
         $parentDir->deleteUsingPublicPath();
 
@@ -282,20 +294,24 @@ class LocalFileTest extends TestCase
 
     public function test_get_public_pathname_returns_correct_path()
     {
-        $localFile = LocalFile::factory()->make([
+        $localFile = LocalFile::factory()->make(
+            [
             'public_path' => '/my/folder',
             'filename' => 'my_file.doc',
-        ]);
+            ]
+        );
         $this->assertEquals('/my/folder' . DS . 'my_file.doc', $localFile->getPublicPathPlusName());
     }
 
     public function test_is_valid_file_returns_false_for_directory()
     {
-        $localFile = LocalFile::factory()->make([
+        $localFile = LocalFile::factory()->make(
+            [
             'private_path' => '/tmp',
             'filename' => 'valid_dir',
             'is_dir' => true,
-        ]);
+            ]
+        );
 
         // Mock global functions
         $mockIsFile = Mockery::mock('alias:is_file');
@@ -308,10 +324,12 @@ class LocalFileTest extends TestCase
 
     public function test_get_private_pathname_for_file_returns_correct_path()
     {
-        $localFile = LocalFile::factory()->make([
+        $localFile = LocalFile::factory()->make(
+            [
             'private_path' => '/private/folder',
             'filename' => 'secret.txt',
-        ]);
+            ]
+        );
         $this->assertEquals(
             '/private/folder' . DS . 'secret.txt',
             $localFile->getPrivatePathNameForFile()
@@ -320,11 +338,13 @@ class LocalFileTest extends TestCase
 
     public function test_is_valid_dir_returns_false_for_file()
     {
-        $localFile = LocalFile::factory()->make([
+        $localFile = LocalFile::factory()->make(
+            [
             'private_path' => '/tmp',
             'filename' => 'valid_file.txt',
             'is_dir' => false,
-        ]);
+            ]
+        );
 
         // Mock global functions
         Mockery::mock('alias:is_dir')

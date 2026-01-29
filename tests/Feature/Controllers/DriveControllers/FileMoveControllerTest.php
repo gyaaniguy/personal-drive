@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Controllers\DriveControllers;
+namespace Tests\Feature\Controllers\DriveControllers;
 
 use App\Models\LocalFile;
 use App\Services\PathService;
@@ -20,11 +20,13 @@ class FileMoveControllerTest extends BaseFeatureTest
     public function test_move_file_non_existent()
     {
         $testPath = 'bar';
-        $response = $this->post(route('drive.move-files'), [
+        $response = $this->post(
+            route('drive.move-files'), [
             '_token' => csrf_token(),
             'fileList' => [(string) Str::ulid()],
             'path' => $testPath
-        ]);
+            ]
+        );
         $response->assertSessionHas('status', false);
         $response->assertSessionHas('message', 'Could not find any valid files to move');
     }
@@ -88,11 +90,13 @@ class FileMoveControllerTest extends BaseFeatureTest
 
     public function postMoveFiles(array $fileIds, string $path): TestResponse
     {
-        return $this->post(route('drive.move-files'), [
+        return $this->post(
+            route('drive.move-files'), [
             '_token' => csrf_token(),
             'fileList' => $fileIds,
             'path' => $path
-        ]);
+            ]
+        );
     }
 
     public function setupUploadBeforeMove(): string

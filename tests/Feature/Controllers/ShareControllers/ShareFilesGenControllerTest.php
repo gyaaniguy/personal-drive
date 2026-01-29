@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Controllers\ShareControllers;
+namespace Tests\Feature\Controllers\ShareControllers;
 
 use App\Exceptions\PersonalDriveExceptions\ShareFileException;
 use App\Models\LocalFile;
@@ -35,9 +35,11 @@ class ShareFilesGenControllerTest extends BaseFeatureTest
         $this->createShare($toShareFileIds, $password, $expiry, $slug);
         $response = $this->createShare($toShareFileIds, '', 0, $slug);
 
-        $response->assertSessionHasErrors([
+        $response->assertSessionHasErrors(
+            [
             'slug' => 'The slug has already been taken.',
-        ]);
+            ]
+        );
         $shares = Share::all();
         $this->assertCount(1, $shares);
     }

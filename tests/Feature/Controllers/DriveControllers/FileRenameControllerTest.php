@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Controllers\DriveControllers;
+namespace Tests\Feature\Controllers\DriveControllers;
 
 use App\Models\LocalFile;
 use App\Services\FileOperationsService;
@@ -44,11 +44,13 @@ class FileRenameControllerTest extends BaseFeatureTest
 
     public function postRename(string $ulid, string $filename): TestResponse
     {
-        return $this->post(route('drive.rename'), [
+        return $this->post(
+            route('drive.rename'), [
             '_token' => csrf_token(),
             'id' => $ulid,
             'filename' => $filename,
-        ]);
+            ]
+        );
     }
 
     public function test_rename_folder_success()

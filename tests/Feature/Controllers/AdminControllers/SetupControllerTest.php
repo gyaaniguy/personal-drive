@@ -30,9 +30,11 @@ class SetupControllerTest extends BaseFeatureTest
     {
         $this->makeUserUsingSetup();
 
-        $this->partialMock(FileOperationsService::class, function ($mock) {
-            $mock->shouldReceive('isWritable')->andReturn(false);
-        });
+        $this->partialMock(
+            FileOperationsService::class, function ($mock) {
+                $mock->shouldReceive('isWritable')->andReturn(false);
+            }
+        );
         $response = $this->setStoragePath('/asdf/tmp/sdf');
         $response->assertSessionHas('status', false);
         $response->assertSessionHas(
@@ -46,15 +48,19 @@ class SetupControllerTest extends BaseFeatureTest
     {
         $this->makeUserUsingSetup();
 
-        $this->post(route('logout'), [
+        $this->post(
+            route('logout'), [
             '_token' => csrf_token(),
-        ]);
+            ]
+        );
 
-        $response = $this->post(route('login'), [
+        $response = $this->post(
+            route('login'), [
             '_token' => csrf_token(),
             'username' => 'testuser',
             'password' => 'password',
-        ]);
+            ]
+        );
 
         $this->assertAuthenticated();
         $response->assertRedirect(route('drive'));
@@ -62,14 +68,18 @@ class SetupControllerTest extends BaseFeatureTest
 
     public function test_update_fails_if_user_creation_fails()
     {
-        $this->withoutMiddleware([
+        $this->withoutMiddleware(
+            [
             ValidateCsrfToken::class,
             PreventSetupAccess::class,
-        ]);
-        $response = $this->post(route('setup.account'), [
+            ]
+        );
+        $response = $this->post(
+            route('setup.account'), [
             'username' => '',
             'password' => '$2y$12$DLhiW11mI9/afaOrf5tYROW2YG6VOP4F4THjoPQD8kTCzW9aelKMK',
-        ]);
+            ]
+        );
 
         $this->assertDatabaseCount('users', 0);
         $this->assertGuest();

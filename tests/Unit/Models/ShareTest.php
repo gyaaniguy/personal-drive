@@ -81,10 +81,12 @@ class ShareTest extends TestCase
         $sharedFile = SharedFile::factory()->create(['share_id' => $share->id, 'file_id' => $localFile->id]);
 
         $this->assertCount(1, $share->fresh()->sharedFiles);
-        $this->assertTrue($share->fresh()->sharedFiles->where('share_id', $sharedFile->share_id)->where(
-            'file_id',
-            $sharedFile->file_id
-        )->isNotEmpty());
+        $this->assertTrue(
+            $share->fresh()->sharedFiles->where('share_id', $sharedFile->share_id)->where(
+                'file_id',
+                $sharedFile->file_id
+            )->isNotEmpty()
+        );
     }
 
     // Note: getFilenamesByPath is complex due to raw DB query.

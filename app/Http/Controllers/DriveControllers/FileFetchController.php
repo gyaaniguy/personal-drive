@@ -46,13 +46,15 @@ class FileFetchController extends Controller
         $file = $this->handleHashRequest($request);
         $filePrivatePathName = $file->getPrivatePathNameForFile();
         if ($file->file_type === 'text') {
-            response()->stream(function () use ($filePrivatePathName) {
-                readfile($filePrivatePathName);
-            }, 200, [
+            response()->stream(
+                function () use ($filePrivatePathName) {
+                    readfile($filePrivatePathName);
+                }, 200, [
                 'Cache-Control' => 'no-store, no-cache, must-revalidate, max-age=0',
                 'Pragma' => 'no-cache',
                 'Content-Type' => 'text/plain',
-            ])->send();
+                ]
+            )->send();
         } else {
             $this->streamFile($filePrivatePathName);
         }

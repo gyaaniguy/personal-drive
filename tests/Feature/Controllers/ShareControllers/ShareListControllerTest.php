@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Controllers\ShareControllers;
+namespace Tests\Feature\Controllers\ShareControllers;
 
 use App\Exceptions\PersonalDriveExceptions\ShareFileException;
 use App\Models\LocalFile;

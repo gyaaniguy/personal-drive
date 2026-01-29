@@ -7,15 +7,15 @@ use App\Models\Setting;
 class PathService
 {
 
-//    public function getTempStorageDirPath(): string
-//    {
-//        $storagePath = Setting::getStoragePath();;
-//        if (!$storagePath) {
-//            return '';
-//        }
-//
-//        return $storagePath . DS . "temp_storage";
-//    }
+    //    public function getTempStorageDirPath(): string
+    //    {
+    //        $storagePath = Setting::getStoragePath();;
+    //        if (!$storagePath) {
+    //            return '';
+    //        }
+    //
+    //        return $storagePath . DS . "temp_storage";
+    //    }
 
 
     public function getPlusContentRoot(string $publicPath, string $fileName = ''): string

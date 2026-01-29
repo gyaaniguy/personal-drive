@@ -16,10 +16,12 @@ class FileManagerController extends Controller
 
         $files = LocalFile::getFilesForPublicPath($path);
 
-        return Inertia::render('Drive/DriveHome', [
+        return Inertia::render(
+            'Drive/DriveHome', [
             'files' => $files,
             'path' => '/drive' . ($path ? '/' . $path : ''),
             'token' => csrf_token(),
-        ]);
+            ]
+        );
     }
 }

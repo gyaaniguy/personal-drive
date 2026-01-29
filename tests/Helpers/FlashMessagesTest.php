@@ -1,6 +1,6 @@
 <?php
 
-namespace Helpers;
+namespace Tests\Helpers;
 
 use App\Traits\FlashMessages;
 use Illuminate\Http\RedirectResponse;

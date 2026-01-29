@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Controllers\DriveControllers;
+namespace Tests\Feature\Controllers\DriveControllers;
 
 use App\Models\LocalFile;
 use Illuminate\Foundation\Testing\RefreshDatabase;
@@ -21,19 +21,23 @@ class FileSaveControllerTest extends BaseFeatureTest
         $file = LocalFile::where('filename', $fileName)->first();
         $response = $this->postSave($file->id, 'New content');
 
-        $response->assertExactJson([
+        $response->assertExactJson(
+            [
             'status' => false,
             'message' => 'File is not a text file',
-        ]);
+            ]
+        );
     }
 
     private function postSave(string $id, string $content): TestResponse
     {
-        $response = $this->post(route('drive.save-file'), [
+        $response = $this->post(
+            route('drive.save-file'), [
             '_token' => csrf_token(),
             'id' => $id,
             'content' => $content,
-        ]);
+            ]
+        );
         return $response;
     }
 
@@ -41,10 +45,12 @@ class FileSaveControllerTest extends BaseFeatureTest
     {
         $response = $this->postSave((string) Str::ulid(), 'Original content');
 
-        $response->assertExactJson([
+        $response->assertExactJson(
+            [
             'status' => false,
             'message' => 'Could not find file',
-        ]);
+            ]
+        );
     }
 
     public function test_update_succeeds_for_text_file()
@@ -55,10 +61,12 @@ class FileSaveControllerTest extends BaseFeatureTest
         $privatePathFile = $file->getPrivatePathNameForFile();
         $this->assertEquals('', file_get_contents($privatePathFile));
         $response = $this->postSave($file->id, 'New content');
-        $response->assertExactJson([
+        $response->assertExactJson(
+            [
             'status' => true,
             'message' => 'File saved successfully',
-        ]);
+            ]
+        );
         $this->assertEquals('New content', file_get_contents($privatePathFile));
     }
 
@@ -70,16 +78,20 @@ class FileSaveControllerTest extends BaseFeatureTest
         $file->file_type = 'empty';
         $file->save();
 
-        $response = $this->postJson(route('drive.save-file'), [
+        $response = $this->postJson(
+            route('drive.save-file'), [
             '_token' => csrf_token(),
             'id' => (string) $file->id,
             'content' => 'Initial content',
-        ]);
+            ]
+        );
 
-        $response->assertJson([
+        $response->assertJson(
+            [
             'status' => true,
             'message' => 'File saved successfully',
-        ]);
+            ]
+        );
     }
 
     protected function setUp(): void

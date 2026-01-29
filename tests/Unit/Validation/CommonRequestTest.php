@@ -366,7 +366,7 @@ class CommonRequestTest extends TestCase
         $validator = Validator::make(['itemName' => 'aux'], ['itemName' => $rules]);
         $this->assertTrue($validator->passes(), 'Windows reserved device name aux is not blocked by regex and should pass.');
 
-// --- Edge Character Tests ---
+        // --- Edge Character Tests ---
         $validator = Validator::make(['itemName' => '.'], ['itemName' => $rules]);
         $this->assertFalse($validator->passes(), 'Single dot should fail validation.');
 

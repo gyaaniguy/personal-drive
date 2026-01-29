@@ -24,10 +24,12 @@ class UploadControllerTest extends BaseFeatureTest
     public function test_store_returns_error_when_no_files_uploaded()
     {
         $this->assertAuthenticated();
-        $response = $this->post(route('drive.upload'), [
+        $response = $this->post(
+            route('drive.upload'), [
             '_token' => csrf_token(),
             'path' => '/some/path',
-        ]);
+            ]
+        );
         $response->assertSessionHasErrors(['files' => 'The files field is required.']);
     }
 
@@ -63,15 +65,18 @@ class UploadControllerTest extends BaseFeatureTest
 
     public function createItem(string $fileName, string $testPath = '', bool $isFile = true): TestResponse
     {
-        return $this->post(route('drive.create-item'), [
+        return $this->post(
+            route('drive.create-item'), [
             '_token' => csrf_token(),
             'itemName' => $fileName,
             'path' => $testPath,
             'isFile' => $isFile,
-        ]);
+            ]
+        );
     }
 
-    public function test_create_folder_fail(){
+    public function test_create_folder_fail()
+    {
         $fileOptsMock = $this->mockFileOperations();
 
         $fileOptsMock->shouldReceive('makeFolder')->withAnyArgs()->andReturn(false);
@@ -125,12 +130,14 @@ class UploadControllerTest extends BaseFeatureTest
     {
         $testPath = '';
         $testFolder = 'TestFolder';
-        $response = $this->post(route('drive.create-item'), [
+        $response = $this->post(
+            route('drive.create-item'), [
             '_token' => csrf_token(),
             'itemName' => $testFolder,
             'path' => $testPath,
             'isFile' => false,
-        ]);
+            ]
+        );
 
         $response->assertSessionHas('status', true);
         $response->assertSessionHas('message', 'Created folder successfully');
@@ -146,11 +153,13 @@ class UploadControllerTest extends BaseFeatureTest
         $this->uploadMultipleFiles($testPath, [$fileName1, $fileName2]);
         $files[] = UploadedFile::fake()->create($fileName3, 100);
 
-        $response = $this->post(route('drive.upload'), [
+        $response = $this->post(
+            route('drive.upload'), [
             '_token' => csrf_token(),
             'files' => $files,
             'path' => $testPath
-        ]);
+            ]
+        );
 
         $response->assertSessionHas('status', false);
         $response->assertSessionHas('message', fn($value) => str_contains($value, 'Conflicts'));
@@ -165,11 +174,13 @@ class UploadControllerTest extends BaseFeatureTest
         $this->uploadMultipleFiles($testPath, [$fileName1, $fileName2]);
         $files[] = UploadedFile::fake()->create($fileName3, 100);
 
-        $response = $this->post(route('drive.upload'), [
+        $response = $this->post(
+            route('drive.upload'), [
             '_token' => csrf_token(),
             'files' => $files,
             'path' => $testPath
-        ]);
+            ]
+        );
 
         $response->assertSessionHas('status', false);
         $response->assertSessionHas('message', fn($value) => str_contains($value, 'Conflicts'));
@@ -194,10 +205,12 @@ class UploadControllerTest extends BaseFeatureTest
     {
         $this->uploadDuplicates();
 
-        $response = $this->post(route('drive.abort-replace'), [
+        $response = $this->post(
+            route('drive.abort-replace'), [
             '_token' => csrf_token(),
             'action' => 'overwrite'
-        ]);
+            ]
+        );
 
         $response->assertSessionHas('status', true);
         $response->assertSessionHas('message', 'Overwritten successfully');
@@ -215,12 +228,20 @@ class UploadControllerTest extends BaseFeatureTest
         $response->assertSessionHas('message', fn($value) => str_contains($value, 'Duplicates Detected'));
         $this->tempRootDir = $this->uploadService->getTempStorageDir();
 
-        $this->assertTrue(collect(array_merge($files, $files1))->every(fn($file) => Storage::disk('local')->exists(
-            CONTENT_SUBDIR . DS . $testPath . DS . $file
-        )));
-        $this->assertTrue(collect(array_intersect($files1, $files))->every(fn($file) => Storage::disk('local')->exists(
-            $this->tempRootDir . DS . $testPath . DS . $file
-        )));
+        $this->assertTrue(
+            collect(array_merge($files, $files1))->every(
+                fn($file) => Storage::disk('local')->exists(
+                    CONTENT_SUBDIR . DS . $testPath . DS . $file
+                )
+            )
+        );
+        $this->assertTrue(
+            collect(array_intersect($files1, $files))->every(
+                fn($file) => Storage::disk('local')->exists(
+                    $this->tempRootDir . DS . $testPath . DS . $file
+                )
+            )
+        );
         return $response;
     }
 
@@ -228,10 +249,12 @@ class UploadControllerTest extends BaseFeatureTest
     {
         $this->uploadDuplicates();
 
-        $response = $this->post(route('drive.abort-replace'), [
+        $response = $this->post(
+            route('drive.abort-replace'), [
             '_token' => csrf_token(),
             'action' => 'abort'
-        ]);
+            ]
+        );
 
         $response->assertSessionHas('status', true);
         $response->assertSessionHas('message', 'Aborted Overwrite');

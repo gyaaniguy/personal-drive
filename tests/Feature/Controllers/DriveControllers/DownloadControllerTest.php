@@ -23,9 +23,11 @@ class DownloadControllerTest extends BaseFeatureTest
     {
         $firstFile = LocalFile::getByName('ace.txt')->firstOrFail();
 
-        $response = $this->post('/download-files', [
+        $response = $this->post(
+            '/download-files', [
             'fileList' => [$firstFile->id],
-        ]);
+            ]
+        );
 
         $response->assertStatus(200);
         $response->assertHeader('Content-Disposition', 'attachment; filename=ace.txt');
@@ -35,22 +37,28 @@ class DownloadControllerTest extends BaseFeatureTest
     {
         $firstFile = LocalFile::getByName('ace.txt')->firstOrFail();
 
-        $response = $this->post('/download-files', [
+        $response = $this->post(
+            '/download-files', [
             'fileList' => ["01kd2195rfbxe1pbavxwefk9wt"],
-        ]);
-        $response->assertJson([
+            ]
+        );
+        $response->assertJson(
+            [
             'status' => false,
             'message' => 'Could not find files to download',
-        ]);
+            ]
+        );
     }
 
     public function test_index_downloads_multiple_files_as_zip(): void
     {
-        $fileIds = LocalFile::all()->slice(0,2)->pluck('id')->toArray();
+        $fileIds = LocalFile::all()->slice(0, 2)->pluck('id')->toArray();
 
-        $response = $this->post('/download-files', [
+        $response = $this->post(
+            '/download-files', [
             'fileList' => $fileIds,
-        ]);
+            ]
+        );
 
         $response->assertStatus(200);
         $this->assertStringContainsString('.zip', $response->headers->get('Content-Disposition'));

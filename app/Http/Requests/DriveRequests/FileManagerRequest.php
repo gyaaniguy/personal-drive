@@ -14,8 +14,10 @@ class FileManagerRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge([
+        $this->merge(
+            [
             'path' => $this->route('path'),
-        ]);
+            ]
+        );
     }
 }

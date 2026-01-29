@@ -1,19 +1,9 @@
 <?php
 
-namespace Feature\Controllers\ShareControllers;
+namespace Tests\Feature\Controllers\ShareControllers;
 
-use App\Exceptions\PersonalDriveExceptions\ShareFileException;
 use App\Models\LocalFile;
 use App\Models\Share;
-use App\Models\SharedFile;
-use App\Services\LocalFileStatsService;
-use App\Services\PathService;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Illuminate\Support\Carbon;
-use Illuminate\Support\Facades\Hash;
-use Illuminate\Support\Str;
-use Illuminate\Testing\TestResponse;
-use Mockery;
 use Tests\Feature\BaseFeatureTest;
 
 class ShareGuestControllerTest extends BaseFeatureTest
@@ -78,9 +68,13 @@ class ShareGuestControllerTest extends BaseFeatureTest
 
 
         $response = $this->get(route('drive.fetch-file', ['id' => $allFiles[1], 'slug' => $slug]));
-        $response->assertRedirect(route('rejected', [
-            'message' => 'Could not find file to send'
-        ]));
+        $response->assertRedirect(
+            route(
+                'rejected', [
+                'message' => 'Could not find file to send'
+                ]
+            )
+        );
     }
 
     public function test_share_download_success()
@@ -100,10 +94,12 @@ class ShareGuestControllerTest extends BaseFeatureTest
                 ->where('slug', $slug)
         );
 
-        $response = $this->post('/download-files', [
+        $response = $this->post(
+            '/download-files', [
             'fileList' => [$toShareFileIds[0]],
             'slug'   => $slug,
-        ]);
+            ]
+        );
 
         $response->assertStatus(200);
         $response->assertHeader('Content-Disposition', 'attachment; filename=ace.txt');
@@ -113,7 +109,7 @@ class ShareGuestControllerTest extends BaseFeatureTest
     {
         $slug = 'test-slug';
         list($toShareFileIds) = $this->getDataForMakingShare();
-        $this->createShare(array_slice($toShareFileIds,0,2), 'password', 7, $slug);
+        $this->createShare(array_slice($toShareFileIds, 0, 2), 'password', 7, $slug);
         $this->logout();
 
         $this->postCheckPassword($slug, 'password');
@@ -128,16 +124,20 @@ class ShareGuestControllerTest extends BaseFeatureTest
 
         $allFiles = LocalFile::all()->pluck('id')->toArray();
 
-        $response = $this->post('/download-files', [
+        $response = $this->post(
+            '/download-files', [
             'fileList' => [$allFiles[3]],
             'slug'   => $slug,
-        ]);
+            ]
+        );
 
         $response->assertStatus(200);
-        $response->assertJson([
+        $response->assertJson(
+            [
             'status' => false,
             'message' => 'Error: authorization issue',
-        ]);
+            ]
+        );
     }
 
     public function test_get_post_password_with_invalid_slug()
@@ -170,13 +170,12 @@ class ShareGuestControllerTest extends BaseFeatureTest
         $slug2 = 'test-slug2';
         $this->createMultipleShares([$slug, $slug1]);
         list($toShareFileIds, $password) = $this->getDataForMakingShare('', 2, 4);
-        unset($toShareFileIds[2]);
+        unset($toShareFileIds[3]);
         $filesObj = LocalFile::getByIds($toShareFileIds)->get();
         $filesObj = LocalFile::modifyFileCollectionForGuest($filesObj);
 
         $filesObjBar = LocalFile::getByPublicPathLikeSearch('bar')->get();
         $filesObjBar = LocalFile::modifyFileCollectionForGuest($filesObjBar);
-//        var_dump($filesObj,$filesObjBar1);
         $this->createShare($toShareFileIds, $password, 13, $slug2);
         $this->logout();
 
@@ -241,18 +240,18 @@ class ShareGuestControllerTest extends BaseFeatureTest
         $response->assertRedirect(route('login', ['slug' => 'no-such-share']));
     }
 
-//    public function test_share_download_with_invalid_files()
-//    {
-//        $slug = 'test-slug';
-//        $slug1 = 'test-slug1';
-//        list($toShareFileIds, $password) = $this->getDataForMakingShare('', 2, 3);
-//        $this->createShare($toShareFileIds, $password, 13, $slug);
-//        $this->logout();
-//        $response = $this->postCheckPassword('test-slug', 'password');
-//
-//        $response->assertSessionHas('status', false);
-//        $response->assertSessionHas('message', 'Wrong password');
-//    }
+    //    public function test_share_download_with_invalid_files()
+    //    {
+    //        $slug = 'test-slug';
+    //        $slug1 = 'test-slug1';
+    //        list($toShareFileIds, $password) = $this->getDataForMakingShare('', 2, 3);
+    //        $this->createShare($toShareFileIds, $password, 13, $slug);
+    //        $this->logout();
+    //        $response = $this->postCheckPassword('test-slug', 'password');
+    //
+    //        $response->assertSessionHas('status', false);
+    //        $response->assertSessionHas('message', 'Wrong password');
+    //    }
 
     protected function setUp(): void
     {

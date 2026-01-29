@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Controllers\DriveControllers;
+namespace Tests\Feature\Controllers\DriveControllers;
 
 use App\Http\Controllers\DriveControllers\FileFetchController;
 use App\Models\LocalFile;
@@ -33,9 +33,13 @@ class FileFetchControllerTest extends BaseFeatureTest
     public function test_index_fail()
     {
         $response = $this->get(route('drive.fetch-file', ['id' => (string)Str::ulid()]));
-        $response->assertRedirect(route('rejected', [
-            'message' => 'Could not find file to send'
-        ]));
+        $response->assertRedirect(
+            route(
+                'rejected', [
+                'message' => 'Could not find file to send'
+                ]
+            )
+        );
     }
 
     protected function setUp(): void

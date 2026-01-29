@@ -31,13 +31,15 @@ class ShareFilesGuestController
         }
         $files = LocalFile::modifyFileCollectionForGuest($files, $share->public_path);
 
-        return Inertia::render('Drive/ShareFilesGuestHome', [
+        return Inertia::render(
+            'Drive/ShareFilesGuestHome', [
             'files' => $files,
             'path' => '/shared/' . $slug . ($path ? '/' . $path : ''),
             'token' => csrf_token(),
             'guest' => 'on',
             'slug' => $slug,
-        ]);
+            ]
+        );
     }
 
     public function passwordPage(ShareFilesGuestRequest $request): Response

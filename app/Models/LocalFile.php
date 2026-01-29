@@ -61,10 +61,12 @@ class LocalFile extends Model
 
     public static function modifyFileCollectionForDrive(Collection $fileItems): Collection
     {
-        return $fileItems->map(function ($item) {
-            $item->sizeText = self::getItemSizeText($item);
-            return $item;
-        });
+        return $fileItems->map(
+            function ($item) {
+                $item->sizeText = self::getItemSizeText($item);
+                return $item;
+            }
+        );
     }
 
     public static function getItemSizeText($item): string
@@ -74,14 +76,16 @@ class LocalFile extends Model
 
     public static function modifyFileCollectionForGuest(Collection $fileItems, string $publicPath = ''): Collection
     {
-        return $fileItems->map(function ($item) use ($publicPath) {
-            $item->sizeText = self::getItemSizeText($item);
-            if ($publicPath) {
-                $item->public_path = substr($item->getPublicPath(), strlen($publicPath));
-            }
+        return $fileItems->map(
+            function ($item) use ($publicPath) {
+                $item->sizeText = self::getItemSizeText($item);
+                if ($publicPath) {
+                    $item->public_path = substr($item->getPublicPath(), strlen($publicPath));
+                }
 
-            return $item;
-        });
+                return $item;
+            }
+        );
     }
 
     public function getPublicPath(): string

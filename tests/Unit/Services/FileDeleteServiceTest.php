@@ -20,10 +20,12 @@ class FileDeleteServiceTest extends TestCase
     public function testIsDeletableDirectory()
     {
         $file = $this->createMock(LocalFile::class);
-        $file->method('__get')->willReturnMap([
+        $file->method('__get')->willReturnMap(
+            [
             ['is_dir', 1],
             ['private_path', $this->tempDir],
-        ]);
+            ]
+        );
 
         $result = $this->fileDeleteService->isDeletableDirectory($file, sys_get_temp_dir());
         $this->assertTrue($result);
@@ -32,10 +34,12 @@ class FileDeleteServiceTest extends TestCase
     public function testIsDeletableDirectoryFalseWhenNotDirectory()
     {
         $file = $this->createMock(LocalFile::class);
-        $file->method('__get')->willReturnMap([
+        $file->method('__get')->willReturnMap(
+            [
             ['is_dir', 0],
             ['private_path', $this->tempDir],
-        ]);
+            ]
+        );
 
         $result = $this->fileDeleteService->isDeletableDirectory($file, sys_get_temp_dir());
         $this->assertFalse($result);
@@ -44,10 +48,12 @@ class FileDeleteServiceTest extends TestCase
     public function testIsDeletableFile()
     {
         $file = $this->createMock(LocalFile::class);
-        $file->method('__get')->willReturnMap([
+        $file->method('__get')->willReturnMap(
+            [
             ['is_dir', 0],
             ['private_path', $this->tempDir],
-        ]);
+            ]
+        );
 
         $result = $this->fileDeleteService->isDeletableFile($file);
         $this->assertTrue($result);
@@ -56,10 +62,12 @@ class FileDeleteServiceTest extends TestCase
     public function testIsDeletableFileFalseWhenDirectory()
     {
         $file = $this->createMock(LocalFile::class);
-        $file->method('__get')->willReturnMap([
+        $file->method('__get')->willReturnMap(
+            [
             ['is_dir', 1],
             ['private_path', $this->tempDir],
-        ]);
+            ]
+        );
 
         $result = $this->fileDeleteService->isDeletableFile($file);
         $this->assertFalse($result);
@@ -85,11 +93,13 @@ class FileDeleteServiceTest extends TestCase
 
     public function testDeleteFilesDeletesFile()
     {
-        $file1 = LocalFile::factory()->create([
+        $file1 = LocalFile::factory()->create(
+            [
             'private_path' => $this->tempDir,
             'filename' => $this->tempFile,
             'is_dir' => 0,
-        ]);
+            ]
+        );
 
         $builder = LocalFile::whereIn('id', [$file1->id]);
         $this->assertFileExists($this->tempDir . $this->tempFile);
@@ -102,11 +112,13 @@ class FileDeleteServiceTest extends TestCase
     {
         $tempSubDir = 'testSubDir';
         @mkdir($this->tempDir . $tempSubDir);
-        $dir = LocalFile::factory()->create([
+        $dir = LocalFile::factory()->create(
+            [
             'private_path' => $this->tempDir,
             'filename' => $tempSubDir,
             'is_dir' => 1,
-        ]);
+            ]
+        );
 
         $this->assertFileExists($this->tempDir . $this->tempFile);
 

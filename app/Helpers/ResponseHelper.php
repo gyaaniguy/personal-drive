@@ -8,9 +8,11 @@ class ResponseHelper
 {
     public static function json(string $message, bool $status = true): JsonResponse
     {
-        return response()->json([
+        return response()->json(
+            [
             'status' => $status,
             'message' => $message,
-        ]);
+            ]
+        );
     }
 }

@@ -23,17 +23,19 @@ class SetupController extends Controller
     {
         Artisan::call('migrate:fresh', ['--force' => true]);
         try {
-            $user = User::create([
+            $user = User::create(
+                [
                 'username' => $request->username,
                 'is_admin' => 1,
                 'password' => bcrypt($request->password),
-            ]);
+                ]
+            );
             $message = 'Created User successfully';
             $status = true;
-//            $request->session()->invalidate();
-//            config(['session.driver' => 'database']);
+            //            $request->session()->invalidate();
+            //            config(['session.driver' => 'database']);
             Auth::login($user, true);
-//            $request->session()->regenerate();
+            //            $request->session()->regenerate();
         }
         catch (Exception) {
             $status = false;

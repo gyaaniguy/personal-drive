@@ -1,6 +1,6 @@
 <?php
 
-namespace Feature\Controllers\ShareControllers;
+namespace Tests\Feature\Controllers\ShareControllers;
 
 use App\Exceptions\PersonalDriveExceptions\ShareFileException;
 use App\Models\LocalFile;
@@ -25,10 +25,12 @@ class ShareModControllerTest extends BaseFeatureTest
 
     public function test_pause_fail()
     {
-        $response = $this->post(route('drive.share-pause'), [
+        $response = $this->post(
+            route('drive.share-pause'), [
             '_token' => csrf_token(),
             'id' => rand(1000000, 232324234234),
-        ]);
+            ]
+        );
         $response->assertSessionHas('status', false);
         $response->assertSessionHas('message', 'Error! could not find share');
     }
@@ -43,10 +45,12 @@ class ShareModControllerTest extends BaseFeatureTest
 
     public function deleteShare(int $id): TestResponse
     {
-        return $this->post(route('drive.share-delete'), [
+        return $this->post(
+            route('drive.share-delete'), [
             '_token' => csrf_token(),
             'id' => $id,
-        ]);
+            ]
+        );
     }
 
     public function test_delete_success()
@@ -97,10 +101,12 @@ class ShareModControllerTest extends BaseFeatureTest
 
     public function pauseShare(mixed $slug1Id): TestResponse
     {
-        return $this->post(route('drive.share-pause'), [
+        return $this->post(
+            route('drive.share-pause'), [
             '_token' => csrf_token(),
             'id' => $slug1Id
-        ]);
+            ]
+        );
     }
 
     protected function setUp(): void

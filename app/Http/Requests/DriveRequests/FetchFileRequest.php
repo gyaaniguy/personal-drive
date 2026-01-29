@@ -17,9 +17,11 @@ class FetchFileRequest extends FormRequest
 
     protected function prepareForValidation(): void
     {
-        $this->merge([
+        $this->merge(
+            [
             'id' => $this->route('id'),
             'slug' => $this->route('slug'),
-        ]);
+            ]
+        );
     }
 }

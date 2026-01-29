@@ -40,11 +40,13 @@ class BaseFeatureTest extends TestCase
 
     public function postUpload(array $files, string $testPath): TestResponse
     {
-        $response = $this->post(route('drive.upload'), [
+        $response = $this->post(
+            route('drive.upload'), [
             '_token' => csrf_token(),
             'files' => $files,
             'path' => $testPath
-        ]);
+            ]
+        );
 
         $response->assertSessionHas('status', true);
         $this->assertFilesExist($files, $testPath);
@@ -54,18 +56,24 @@ class BaseFeatureTest extends TestCase
 
     public function assertFilesExist(array $files, string $testPath): void
     {
-        $this->assertTrue(collect($files)->every(fn($file) => Storage::disk('local')->exists(
-            CONTENT_SUBDIR . DS . ($testPath ? $testPath . DS : '') . $file->getClientOriginalPath()
-        )));
+        $this->assertTrue(
+            collect($files)->every(
+                fn($file) => Storage::disk('local')->exists(
+                    CONTENT_SUBDIR . DS . ($testPath ? $testPath . DS : '') . $file->getClientOriginalPath()
+                )
+            )
+        );
     }
 
     public function postCheckPassword(string $slug, string $password): TestResponse
     {
-        return $this->post(route('shared.check-password'), [
+        return $this->post(
+            route('shared.check-password'), [
             '_token' => csrf_token(),
             'slug' => $slug,
             'password' => $password,
-        ]);
+            ]
+        );
     }
 
     public function uploadFile(
@@ -85,7 +93,8 @@ class BaseFeatureTest extends TestCase
         return $response;
     }
 
-    protected function uploadImage(string $fileName){
+    protected function uploadImage(string $fileName)
+    {
         $file = UploadedFile::fake()->image($fileName);
 
         return $this->postUpload([$file], '');
@@ -96,10 +105,12 @@ class BaseFeatureTest extends TestCase
         $storagePath = $this->getFakeLocalStoragePath($storagePath);
 
         $this->get(route('admin-config', ['setupMode' => '1']));
-        return $this->post(route('admin-config.update'), [
+        return $this->post(
+            route('admin-config.update'), [
             '_token' => csrf_token(),
             'storage_path' => $storagePath
-        ]);
+            ]
+        );
     }
 
     public function getFakeLocalStoragePath(string $storagePath): string
@@ -109,9 +120,11 @@ class BaseFeatureTest extends TestCase
 
     public function logout(): void
     {
-        $this->post(route('logout'), [
+        $this->post(
+            route('logout'), [
             '_token' => csrf_token(),
-        ]);
+            ]
+        );
     }
 
     public function getSlugId(string $slug): mixed
@@ -177,10 +190,12 @@ class BaseFeatureTest extends TestCase
         $response = $this->setupAccountPost();
         $this->assertAuthenticated();
 
-        $this->assertDatabaseHas('users', [
+        $this->assertDatabaseHas(
+            'users', [
             'username' => 'testuser',
             'is_admin' => 1,
-        ]);
+            ]
+        );
 
         $response->assertRedirect(route('admin-config', ['setupMode' => true]));
         $response->assertSessionHas('status', true);
@@ -189,20 +204,24 @@ class BaseFeatureTest extends TestCase
 
     public function setupAccountPost($password = 'password'): TestResponse
     {
-        return $this->post(route('setup.account'), [
+        return $this->post(
+            route('setup.account'), [
             '_token' => csrf_token(),
             'username' => 'testuser',
             'password' => $password,
-        ]);
+            ]
+        );
     }
 
     protected function makeUser(bool $isAdmin = true): User
     {
-        $user = User::create([
+        $user = User::create(
+            [
             'username' => 'testuser',
             'is_admin' => $isAdmin,
             'password' => 'password',
-        ]);
+            ]
+        );
         $this->actingAs($user);
         $this->withoutMiddleware(ValidateCsrfToken::class);
 

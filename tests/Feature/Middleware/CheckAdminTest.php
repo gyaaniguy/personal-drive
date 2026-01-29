@@ -1,10 +1,9 @@
 <?php
 
-namespace Tests\Feature;
+namespace Tests\Feature\Middleware;
 
 use App\Models\User;
-use Illuminate\Foundation\Testing\RefreshDatabase;
-use Tests\TestCase;
+use Tests\Feature\BaseFeatureTest;
 
 class CheckAdminTest extends BaseFeatureTest
 {
@@ -26,8 +25,12 @@ class CheckAdminTest extends BaseFeatureTest
         $response = $this->get('/admin-config');
 
         $response->assertStatus(302);
-        $response->assertRedirect(route('rejected', [
-            'message' => 'You do not have admin access'
-        ]));
+        $response->assertRedirect(
+            route(
+                'rejected', [
+                'message' => 'You do not have admin access'
+                ]
+            )
+        );
     }
 }

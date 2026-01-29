@@ -37,12 +37,14 @@ class HandleGuestShareMiddlewareTest extends BaseFeatureTest
 
     public function test_redirects_to_login_if_share_is_expired()
     {
-        $share = Share::factory()->create([
+        $share = Share::factory()->create(
+            [
             'enabled' => true,
             'expiry' => 1, // 1 day expiry
             'created_at' => now()->subDays(2), // Created 2 days ago, so expired
             'slug' => 'expired-slug',
-        ]);
+            ]
+        );
 
         $response = $this->get(route('shared', ['slug' => 'expired-slug']));
         $response->assertStatus(302);
@@ -51,12 +53,14 @@ class HandleGuestShareMiddlewareTest extends BaseFeatureTest
 
     public function test_redirects_to_password_page_if_share_requires_password_and_not_authenticated()
     {
-        $share = Share::factory()->create([
+        $share = Share::factory()->create(
+            [
             'password' => 'password',
             'slug' => 'test-slug',
             'created_at' => now(),
             'expiry' => 1,
-        ]);
+            ]
+        );
 
         $response = $this->get(route('shared', ['slug' => 'test-slug']));
 
@@ -66,12 +70,14 @@ class HandleGuestShareMiddlewareTest extends BaseFeatureTest
 
     public function test_allows_request_if_share_does_not_require_password()
     {
-        $share = Share::factory()->create([
+        $share = Share::factory()->create(
+            [
             'password' => null, // No password required
             'slug' => 'test-slug',
             'created_at' => now(),
             'expiry' => 1,
-        ]);
+            ]
+        );
 
         $response = $this->get(route('shared', ['slug' => 'test-slug']));
 
@@ -80,12 +86,14 @@ class HandleGuestShareMiddlewareTest extends BaseFeatureTest
 
     public function test_allows_request_if_share_requires_password_and_is_authenticated()
     {
-        $share = Share::factory()->create([
+        $share = Share::factory()->create(
+            [
             'password' => 'password',
             'slug' => 'test-slug',
             'created_at' => now(),
             'expiry' => 1,
-        ]);
+            ]
+        );
 
         Session::put('shared_test-slug_authenticated', true);
         Session::put('share_id', $share->id);

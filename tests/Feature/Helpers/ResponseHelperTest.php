@@ -1,4 +1,5 @@
 <?php
+namespace Tests\Feature\Helpers;
 
 use App\Helpers\ResponseHelper;
 use Illuminate\Http\JsonResponse;
@@ -12,10 +13,12 @@ class ResponseHelperTest extends BaseFeatureTest
         $response = ResponseHelper::json('Success message');
 
         $this->assertInstanceOf(JsonResponse::class, $response);
-        $this->assertSame([
+        $this->assertSame(
+            [
             'status' => true,
             'message' => 'Success message',
-        ], $response->getData(true));
+            ], $response->getData(true)
+        );
     }
 
     public function test_returns_failed_json_response()
@@ -23,9 +26,11 @@ class ResponseHelperTest extends BaseFeatureTest
         $response = ResponseHelper::json('Error message', false);
 
         $this->assertInstanceOf(JsonResponse::class, $response);
-        $this->assertSame([
+        $this->assertSame(
+            [
             'status' => false,
             'message' => 'Error message',
-        ], $response->getData(true));
+            ], $response->getData(true)
+        );
     }
 }

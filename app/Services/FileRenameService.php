@@ -42,7 +42,7 @@ class FileRenameService
     public function updateDirChildrenRecursively(LocalFile $file, string $newFilename): void
     {
         $dirPublicPathname = $file->getPublicPathPlusName();
-        $newFolderPublicPath = $file->getPublicPathPlusName($newFilename) ;
+        $newFolderPublicPath = $file->getPublicPathPlusName($newFilename);
         LocalFile::getByPublicPathLikeSearch($dirPublicPathname)
             ->chunk(
                 100,
@@ -64,9 +64,11 @@ class FileRenameService
                     foreach ($updates as $update) {
                         DB::table('local_files')
                             ->where('id', $update['id'])
-                            ->update([
+                            ->update(
+                                [
                                 'public_path' => $update['public_path'], 'private_path' => $update['private_path']
-                            ]);
+                                ]
+                            );
                     }
                 }
             );

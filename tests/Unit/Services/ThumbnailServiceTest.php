@@ -37,12 +37,16 @@ class ThumbnailServiceTest extends TestCase
 
     public function test_generate_thumbnails_for_image_returns_count()
     {
-        $file = LocalFile::factory()->make([
+        $file = LocalFile::factory()->make(
+            [
             'file_type' => 'image',
-        ]);
-        $file1 = LocalFile::factory()->make([
+            ]
+        );
+        $file1 = LocalFile::factory()->make(
+            [
             'file_type' => 'pdf',
-        ]);
+            ]
+        );
         $pathService = Mockery::mock(PathService::class);
         $uploadService = Mockery::mock(FileOperationsService::class);
         $service = Mockery::mock(ThumbnailService::class, [$pathService, $uploadService])

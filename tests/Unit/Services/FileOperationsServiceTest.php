@@ -63,10 +63,10 @@ class FileOperationsServiceTest extends TestCase
     protected function setUp(): void
     {
         $adapter = new InMemoryFilesystemAdapter();
-//        $this->fs = new Filesystem($adapter);
+        //        $this->fs = new Filesystem($adapter);
 
-//
-//        $mockPathService->shouldReceive('getStorageFolderPath')->andReturn('ignored');
+        //
+        //        $mockPathService->shouldReceive('getStorageFolderPath')->andReturn('ignored');
 
         $this->fs = Mockery::mock(Filesystem::class);
 
