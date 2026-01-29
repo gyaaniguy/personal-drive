@@ -176,11 +176,13 @@ To run behind a Http proxy, configure to allow trusted headers and specify the i
 
 ### Disable Authentication, login.
 
-!!! BE CAREFUL WITH THIS !!!   
-After setup, add `DISABLE_AUTH=true` to .env to disable login. 
+Your application will be accessible by anyone without any credentials
+ !!! BE CAREFUL WITH THIS !!!   
 
->If its on a public site, your application will be accessible by anyone  
+After setup, add `DISABLE_AUTH=true` to .env to disable login.  
+
 > Only use this option if you know what you are doing
+> 'create account' on setup will still be required
 
 ---
 
