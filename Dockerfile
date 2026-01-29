@@ -1,7 +1,7 @@
 #--------------------------------------------------------------------------
 # Stage 1: Build Stage (Builder)
 #--------------------------------------------------------------------------
-    FROM php:8.4-apache AS builder
+    FROM php:8.2-apache AS builder
 
     # Set working directory
     WORKDIR /var/www/html/personal-drive
@@ -57,7 +57,7 @@
     #--------------------------------------------------------------------------
     # Stage 2: Final Stage
     #--------------------------------------------------------------------------
-    FROM php:8.4-apache
+    FROM php:8.2-apache
 
     # Set working directory
     WORKDIR /var/www/html/personal-drive
