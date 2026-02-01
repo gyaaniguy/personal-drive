@@ -10,7 +10,7 @@ class CreateItemRequest extends FormRequest
     public function rules(): array
     {
         return [
-            'itemName' => [CommonRequest::itemNameRule()],
+            'itemName' => CommonRequest::itemNameRule(),
             'path' => CommonRequest::pathRules(),
             'isFile' => 'boolean',
         ];
