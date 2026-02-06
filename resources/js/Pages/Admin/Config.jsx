@@ -1,9 +1,11 @@
 import Header from "@/Pages/Drive/Layouts/Header.jsx";
 import { router } from "@inertiajs/react";
 import { useState } from "react";
-import AlertBox from "@/Pages/Drive/Components/AlertBox.jsx";
 import RefreshButton from "@/Pages/Drive/Components/RefreshButton.jsx";
 import { useLocalStorageBool } from "@/Pages/Drive/Hooks/useLocalStorageBool.jsx";
+import CreateItemModal from "@/Pages/Drive/Components/CreateFolderModal.jsx";
+import ToggleTwoFactorModal from "@/Pages/Admin/Components/ToggleTwoFactorModal.jsx";
+import AlertBox from "@/Pages/Drive/Components/AlertBox.jsx";
 
 export default function AdminConfig({
     storage_path,
@@ -11,6 +13,7 @@ export default function AdminConfig({
     php_post_max_size,
     php_max_file_uploads,
     setupMode,
+    twoFactorStatus
 }) {
     const [formData, setFormData] = useState({
         storage_path:
@@ -19,7 +22,7 @@ export default function AdminConfig({
         php_post_max_size: php_post_max_size,
         php_max_file_uploads: php_max_file_uploads,
     });
-
+    const [isTwoFaModalOpen, setIsTwoFaModalOpen] = useState(false);
     const [videoAutoplay, setVideoAutoplay] =
         useLocalStorageBool("videoAutoplay");
     const [audioAutoplay, setAudioAutoplay] =
@@ -39,6 +42,9 @@ export default function AdminConfig({
         router.post("/admin-config/update", formData);
     }
 
+    function handleToggle2FaStatusButton() {
+        setIsTwoFaModalOpen(true);
+    }
     function handleVideoAutoplayToggle() {
         localStorage.setItem("videoAutoplay", JSON.stringify(!videoAutoplay));
         setVideoAutoplay(!videoAutoplay);
@@ -115,6 +121,29 @@ export default function AdminConfig({
                             </div>
                         </form>
 
+                        <div>
+                            <h2 className=" text-blue-200 text-2xl font-bold mt-2 mb-2 ">
+                                Security
+                            </h2>
+                            <ToggleTwoFactorModal
+                                isTwoFaModalOpen={isTwoFaModalOpen}
+                                setIsTwoFaModalOpen={setIsTwoFaModalOpen}
+                                twoFactorStatus={twoFactorStatus}
+                            />
+                            <div className="flex flex-col space-y-2">
+                                <div>
+                                    <button
+                                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800 "
+                                        onClick={handleToggle2FaStatusButton}
+                                    >
+                                        {twoFactorStatus === '1' &&
+                                            "Two factor authentication - DISABLE"}
+                                        {twoFactorStatus === '0' &&
+                                            "Two factor authentication - ENABLE"}
+                                    </button>
+                                </div>
+                            </div>
+                        </div>
                         <div>
                             <h2 className=" text-blue-200 text-2xl font-bold mt-2 mb-2 ">
                                 Media Settings

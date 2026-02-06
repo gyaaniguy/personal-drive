@@ -56,7 +56,7 @@ class AdminConfigControllerTest extends BaseFeatureTest
 
     public function test_update_setting_fail()
     {
-        $this->settingMock->shouldReceive('updateSetting')->withAnyArgs()->andReturn(false);
+        $this->settingMock->shouldReceive('updateStoragePath')->withAnyArgs()->andReturn(false);
         $response = $this->updateStoragePost(false);
         $this->assertSessionHas($response, 'Failed to save storage path setting');
     }

@@ -71,7 +71,7 @@ class UploadServiceFeatureTest extends BaseFeatureTest
             $this->filesystem
         );
         $targetDir = sys_get_temp_dir() . '/upload-storage';
-        Setting::updateSetting('storage_path', $targetDir);
+        Setting::updateStoragePath($targetDir);
 
         $this->tempRootDir = $this->uploadService->setTempStorageDirAbs();
         $this->targetDir = $this->pathService->getStorageFolderPath();

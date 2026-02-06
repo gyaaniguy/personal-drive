@@ -20,6 +20,9 @@ class User extends Authenticatable
         'username',
         'is_admin',
         'password',
+        'secret',
+        'google2fa_secret',
+        'google2fa_enabled'
     ];
 
     /**
@@ -39,5 +42,25 @@ class User extends Authenticatable
             'email_verified_at' => 'datetime',
             'password' => 'hashed',
         ];
+    }
+
+    public function getTwoFactorStatus(): string
+    {
+        return $this->google2fa_enabled;
+    }
+
+    public function getTwoFactorSecret(): string
+    {
+        return $this->google2fa_secret ?? '';
+    }
+
+    public function setTwoFactorSecret(string $secret): bool
+    {
+        return $this->update(['google2fa_secret' => $secret]);
+    }
+
+    public function setTwoFactorStatus(bool $status): bool
+    {
+        return $this->update(['google2fa_enabled' => $status]);
     }
 }

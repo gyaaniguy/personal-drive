@@ -22,7 +22,7 @@ class SettingTest extends TestCase
     {
         $key = 'test_key';
         $value = 'test_value';
-        $result = Setting::updateSetting($key, $value);
+        $result = Setting::setSettingByKeyName($key, $value);
 
         $this->assertTrue($result);
         $this->assertDatabaseHas(
@@ -40,7 +40,7 @@ class SettingTest extends TestCase
         $newValue = 'new_value';
 
         Setting::create(['key' => $key, 'value' => $oldValue]);
-        $result = Setting::updateSetting($key, $newValue);
+        $result = Setting::setSettingByKeyName($key, $newValue);
 
         $this->assertTrue($result);
         $this->assertDatabaseHas(

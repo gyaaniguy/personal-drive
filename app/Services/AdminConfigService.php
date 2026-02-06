@@ -4,11 +4,11 @@ namespace App\Services;
 
 use App\Models\Setting;
 use Exception;
+use PragmaRX\Google2FAQRCode\Google2FA;
 
 class AdminConfigService
 {
     protected FileOperationsService $fileOperationsService;
-
     private Setting $setting;
 
     public function __construct(
@@ -48,7 +48,7 @@ class AdminConfigService
 
     public function updateSetting(string $storagePath): bool
     {
-        $res = $this->setting->updateSetting('storage_path', $storagePath);
+        $res = $this->setting->updateStoragePath($storagePath);
         if ($res) {
             $this->fileOperationsService->setFilesystem(null);
         }

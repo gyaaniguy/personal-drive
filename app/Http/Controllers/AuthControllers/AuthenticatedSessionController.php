@@ -1,6 +1,6 @@
 <?php
 
-namespace App\Http\Controllers\Auth;
+namespace App\Http\Controllers\AuthControllers;
 
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Auth\LoginRequest;
@@ -28,9 +28,9 @@ class AuthenticatedSessionController extends Controller
         $request->authenticate();
 
         if (Auth::user()->getTwoFactorStatus()) {
-            Auth::logout();
             $request->session()->put('twoFactorUserId', Auth::user()->id);
-            return redirect()->route('2fa.index');
+            Auth::logout();
+            return redirect()->route('login.two-factor-index');
         }
 
         $request->session()->regenerate();

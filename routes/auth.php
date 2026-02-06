@@ -1,7 +1,7 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
-use App\Http\Controllers\Auth\PasswordController;
+use App\Http\Controllers\AuthControllers\AuthenticatedSessionController;
+use App\Http\Controllers\AuthControllers\PasswordController;
 use Illuminate\Support\Facades\Route;
 
 Route::middleware(['throttle:login','guest'])->group(function () {

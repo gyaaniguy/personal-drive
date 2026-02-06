@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\AdminControllers;
+use App\Http\Controllers\AuthControllers;
 use App\Http\Controllers\DriveControllers;
 use App\Http\Controllers\ShareControllers;
 use App\Http\Middleware\CheckAdmin;
@@ -10,6 +11,7 @@ use App\Http\Middleware\HandleAuthOrGuestMiddleware;
 use App\Http\Middleware\HandleGuestShareMiddleware;
 use App\Http\Middleware\OptionalAuth;
 use App\Http\Middleware\PreventSetupAccess;
+use App\Http\Middleware\TwoFactorGuest;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Route;
 use Inertia\Inertia;
@@ -20,6 +22,19 @@ Route::middleware([OptionalAuth::class, 'web', 'auth', CheckAdmin::class])->grou
         '/admin-config/update',
         [AdminControllers\AdminConfigController::class, 'update']
     )->name('admin-config.update');
+    Route::post(
+        '/admin-config/toggle-two-factor',
+        [AdminControllers\AdminConfigController::class, 'twoFactorGenerate']
+    )->name('admin-config.toggle-two-factor');
+    Route::post(
+        '/admin-config/two-factor-code-enable',
+        [AdminControllers\AdminConfigController::class, 'twoFactorCodeEnable']
+    )->name('admin-config.two-factor-code-enable');
+
+    Route::post(
+        '/admin-config/two-factor-code-disable',
+        [AdminControllers\AdminConfigController::class, 'twoFactorCodeDisable']
+    )->name('admin-config.two-factor-code-disable');
     // Drive routes
     Route::get('/drive/{path?}', [DriveControllers\FileManagerController::class, 'index'])
         ->where('path', '.*')
@@ -58,6 +73,16 @@ Route::middleware([OptionalAuth::class, 'web', 'auth', CheckAdmin::class])->grou
         ->name('drive.shares-all');
 });
 
+Route::middleware([TwoFactorGuest::class])->group(callback: function () {
+    Route::get(
+        '/login/twoFactor/index',
+        [AuthControllers\TwoFactorController::class, 'index']
+    )->name('login.two-factor-index');
+    Route::post(
+        '/login/twoFactor/check',
+        [AuthControllers\TwoFactorController::class, 'store']
+    )->name('login.two-factor-check');
+});
 
 // admin or shared
 Route::post('/download-files', [DriveControllers\DownloadController::class, 'index'])
