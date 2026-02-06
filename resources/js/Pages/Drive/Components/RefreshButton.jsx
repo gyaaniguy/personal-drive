@@ -9,20 +9,23 @@ export default function RefreshButton() {
     const [isLoading, setIsLoading] = useState(false);
 
     async function handleClick(e) {
+
         e.preventDefault();
-        setIsLoading(true);
-        router.post(
-            "/resync",
-            {},
-            {
-                preserveState: true,
-                preserveScroll: true,
-                only: ["files", "flash"],
-                onFinish: () => {
-                    setIsLoading(false);
+        if (confirm("Confirm re-index. This will remove all existing shares.")) {
+            setIsLoading(true);
+            router.post(
+                "/resync",
+                {},
+                {
+                    preserveState: true,
+                    preserveScroll: true,
+                    only: ["files", "flash"],
+                    onFinish: () => {
+                        setIsLoading(false);
+                    },
                 },
-            },
-        );
+            );
+        }
     }
 
     return (
