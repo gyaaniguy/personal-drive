@@ -23,9 +23,9 @@ Route::middleware([OptionalAuth::class, 'web', 'auth', CheckAdmin::class])->grou
         [AdminControllers\AdminConfigController::class, 'update']
     )->name('admin-config.update');
     Route::post(
-        '/admin-config/toggle-two-factor',
-        [AdminControllers\AdminConfigController::class, 'twoFactorGenerate']
-    )->name('admin-config.toggle-two-factor');
+        '/admin-config/two-factor-qr',
+        [AdminControllers\AdminConfigController::class, 'twoFactorGetQr']
+    )->name('admin-config.two-factor-qr');
     Route::post(
         '/admin-config/two-factor-code-enable',
         [AdminControllers\AdminConfigController::class, 'twoFactorCodeEnable']

@@ -32,21 +32,21 @@ class TwoFactorService
     {
         return $this->totp->getQRCodeInline(
             config('app.name'),
-            'admin',
+            Auth::user()->username,
             $secret
         );
     }
 
     public function isTwoFactorEnabled(): bool
     {
-        return $this->getStatus() === '1';
+        return $this->getStatus();
     }
 
-    public function setStatus(bool $status): string
+    public function setStatus(bool $status): bool
     {
         return Auth::user()->setTwoFactorStatus($status);
     }
-    public function getStatus(): string
+    public function getStatus(): bool
     {
         return Auth::user()->getTwoFactorStatus();
     }
@@ -55,7 +55,7 @@ class TwoFactorService
         return Auth::user()->getTwoFactorSecret();
     }
 
-    public function setSecret(string $secret): string
+    public function setSecret(string $secret): bool
     {
         return Auth::user()->setTwoFactorSecret($secret);
     }

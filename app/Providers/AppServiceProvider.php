@@ -39,9 +39,8 @@ class AppServiceProvider extends ServiceProvider
                 config(['session.driver' => 'file']);
             }
         } catch (QueryException | PDOException $e) {
-            if (
-                str_contains($e->getMessage(), 'readonly database') ||
-                str_contains(
+            if (str_contains($e->getMessage(), 'readonly database') 
+                || str_contains(
                     $e->getMessage(),
                     'open database'
                 )

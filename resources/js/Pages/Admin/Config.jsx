@@ -136,9 +136,9 @@ export default function AdminConfig({
                                         className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800 "
                                         onClick={handleToggle2FaStatusButton}
                                     >
-                                        {twoFactorStatus === '1' &&
+                                        {twoFactorStatus &&
                                             "Two factor authentication - DISABLE"}
-                                        {twoFactorStatus === '0' &&
+                                        {!twoFactorStatus &&
                                             "Two factor authentication - ENABLE"}
                                     </button>
                                 </div>

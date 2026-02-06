@@ -3,6 +3,7 @@ import Modal from "../../Drive/Components/Modal.jsx";
 import {router} from "@inertiajs/react";
 import axios from "axios";
 import { usePage } from "@inertiajs/react";
+import TextInput from "@/Components/TextInput.jsx";
 
 const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorStatus = false}) => {
     let { flash, errors } = usePage().props;
@@ -13,11 +14,10 @@ const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorS
 
     useEffect(() => {
         const generateQr = async () => {
-            if (!isTwoFaModalOpen || twoFactorStatus === '1') return;
+            if (!isTwoFaModalOpen || twoFactorStatus ) return;
 
             const response = await axios.post(
-                route("admin-config.toggle-two-factor"),
-                {twoFactorStatus: twoFactorStatus}
+                route("admin-config.two-factor-qr"),
             );
             setQrSvg(response.data.message);
             console.log(response.data);
@@ -36,7 +36,7 @@ const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorS
         const formData = {};
         formData["code"] = twoFactorCode;
         router.post(
-            route(twoFactorStatus === '1' ? "admin-config.two-factor-code-disable" : "admin-config.two-factor-code-enable"),
+            route(twoFactorStatus ? "admin-config.two-factor-code-disable" : "admin-config.two-factor-code-enable"),
             formData,
             {
                 preserveState: true,
@@ -44,10 +44,7 @@ const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorS
                 // only: ["flash"],
                 onSuccess: (page) => {
                     setTwoFactorCode("");
-                    console.log('page.props ', page.props);
-                    console.log('page.props.status ', page.props.status);
                     if (page.props.flash.status){
-                        console.log('page.props.status')
                         handleCloseModal();
                     }
 
@@ -56,7 +53,7 @@ const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorS
         );
     };
 
-    let title = (twoFactorStatus === '1' ? 'Disable' : 'Enable') + `Two factor authentication`;
+    let title = (twoFactorStatus ? 'Disable' : 'Enable') + `Two factor authentication`;
     return (
         <Modal
             isOpen={isTwoFaModalOpen}
@@ -64,12 +61,12 @@ const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorS
             title={title}
             classes="max-w-md"
         >
-            {!qrSvg && twoFactorStatus === '0' &&
+            {!qrSvg && !twoFactorStatus &&
                 <div className="space-y-4"> Loading Qr code ..</div>
             }
-            { ( twoFactorStatus === '1' || (twoFactorStatus === '0' && qrSvg ) )  &&
+            { ( twoFactorStatus || (!twoFactorStatus && qrSvg ) )  &&
                 <div className="space-y-4">
-                    {twoFactorStatus === '0' &&
+                    {!twoFactorStatus &&
                         <div>
                             Scan QR in Authenticator App like "Google Authenticator"
                             <div
@@ -88,13 +85,16 @@ const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorS
                             >
                                 Auth Code:
                             </label>
-                            <input
-                                type="text"
+
+                            <TextInput
                                 id="code"
+                                type="code"
+                                name="code"
                                 value={twoFactorCode}
+                                className="mt-1 block w-full p-2  border"
+                                autoComplete=""
+                                isFocused={true}
                                 onChange={(e) => setTwoFactorCode(e.target.value)}
-                                className="mt-1 block w-full rounded-md border-gray-300 shadow-sm focus:border-blue-300 focus:ring focus:ring-blue-200 focus:ring-opacity-50 bg-gray-800"
-                                required
                             />
                         </div>
                         <button

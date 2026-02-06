@@ -44,9 +44,9 @@ class User extends Authenticatable
         ];
     }
 
-    public function getTwoFactorStatus(): string
+    public function getTwoFactorStatus(): bool
     {
-        return $this->google2fa_enabled;
+        return $this->google2fa_enabled ?? false;
     }
 
     public function getTwoFactorSecret(): string

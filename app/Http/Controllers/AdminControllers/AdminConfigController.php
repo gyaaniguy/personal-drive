@@ -5,7 +5,6 @@ namespace App\Http\Controllers\AdminControllers;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\AdminRequests\AdminConfigRequest;
-use App\Http\Requests\AdminRequests\ToggleTwoFactorRequest;
 use App\Http\Requests\AdminRequests\TwoFactorCodeCheckRequest;
 use App\Models\LocalFile;
 use App\Models\Setting;
@@ -72,13 +71,8 @@ class AdminConfigController extends Controller
 
         return redirect()->back();
     }
-    public function twoFactorGenerate(ToggleTwoFactorRequest $request): JsonResponse
+    public function twoFactorGetQr(): JsonResponse
     {
-        $twoFactorStatus = $request->validated('twoFactorStatus') ;
-        if ($twoFactorStatus != $this->twoFactorService->getStatus()) {
-            return ResponseHelper::json('Error: Already ' . ($twoFactorStatus ? ' Disabled ' : ' Enabled '), false);
-        }
-
         if ($this->twoFactorService->isTwoFactorEnabled()) {
             $twoFactorSecret = $this->twoFactorService->getSecret();
         } else {

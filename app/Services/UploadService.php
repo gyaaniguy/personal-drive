@@ -88,9 +88,8 @@ class UploadService
     {
         $targetPath = str_replace($sourceRoot, $targetRoot, $tempFileSplInfo->getPathname());
 
-        if (
-            $this->filesystem->exists($targetPath) &&
-            $this->isFileFolderMisMatch($tempFileSplInfo->getPathname(), $targetPath)
+        if ($this->filesystem->exists($targetPath) 
+            && $this->isFileFolderMisMatch($tempFileSplInfo->getPathname(), $targetPath)
         ) {
             return;
         }
@@ -131,9 +130,8 @@ class UploadService
         if (!$tempDirFullPath) {
             return true;
         }
-        if (
-            $this->filesystem->exists($tempDirFullPath) &&
-            $this->filesystem->isDirectory($tempDirFullPath)
+        if ($this->filesystem->exists($tempDirFullPath) 
+            && $this->filesystem->isDirectory($tempDirFullPath)
         ) {
             Session::forget($this->tempUuid);
             Session::forget($this->tempUuidTime);

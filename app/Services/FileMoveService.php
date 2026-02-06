@@ -59,9 +59,8 @@ class FileMoveService
         $itemPathName =  $localFile->getFullPathFromContentRoot();
         $itemPublicDestPathName = $localFile->getFullPathFromContentRoot('', $desPublicPath);
 
-        if (
-            !$this->fileOperationsService->fileExists($itemPathName) &&
-            !$this->fileOperationsService->directoryExists($itemPathName)
+        if (!$this->fileOperationsService->fileExists($itemPathName) 
+            && !$this->fileOperationsService->directoryExists($itemPathName)
         ) {
             return;
         }

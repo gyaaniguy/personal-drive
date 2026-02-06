@@ -7,6 +7,7 @@ use App\Http\Requests\AdminRequests\TwoFactorCodeCheckRequest;
 use App\Services\AdminConfigService;
 use App\Services\LocalFileStatsService;
 use App\Services\TwoFactorService;
+use App\Traits\FlashMessages;
 use Illuminate\Http\Request;
 use App\Models\User;
 use Illuminate\Support\Facades\Auth;
@@ -15,6 +16,8 @@ use PragmaRX\Google2FA\Google2FA;
 
 class TwoFactorController extends Controller
 {
+    use FlashMessages;
+
     protected TwoFactorService $twoFactorService;
 
     protected LocalFileStatsService $localFileStatsService;
@@ -45,6 +48,6 @@ class TwoFactorController extends Controller
             return redirect()->intended(route('drive', absolute: false));
         }
 
-        return back()->withErrors(['code' => 'The provided two-factor code was invalid.']);
+        return $this->error('Incorrect OTP. Please try again');
     }
 }
