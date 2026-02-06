@@ -6,7 +6,7 @@ import TextInput from "@/Components/TextInput";
 import GuestLayout from "@/Pages/Drive/Layouts/GuestLayout";
 import { Head, useForm } from "@inertiajs/react";
 
-export default function Login({ status }) {
+export default function TowFactorCheck({ status }) {
     const { data, setData, post, processing, errors, reset } = useForm({
         code: "",
         remember: false,
@@ -49,21 +49,6 @@ export default function Login({ status }) {
 
                     <InputError message={errors.code} className="mt-2" />
                 </div>
-
-                {/*<div className="mt-4 block">*/}
-                {/*    <label className="flex items-center">*/}
-                {/*        <Checkbox*/}
-                {/*            name="remember"*/}
-                {/*            checked={data.remember}*/}
-                {/*            onChange={(e) =>*/}
-                {/*                setData("remember", e.target.checked)*/}
-                {/*            }*/}
-                {/*        />*/}
-                {/*        <span className="ms-2 text-sm text-gray-400">*/}
-                {/*            Trust Device for 30 days*/}
-                {/*        </span>*/}
-                {/*    </label>*/}
-                {/*</div>*/}
 
                 <div className="mt-4 flex items-center justify-end">
                     <PrimaryButton className="ms-4" disabled={processing}>
