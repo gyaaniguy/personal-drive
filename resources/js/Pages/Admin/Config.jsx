@@ -1,20 +1,21 @@
 import Header from "@/Pages/Drive/Layouts/Header.jsx";
-import { router } from "@inertiajs/react";
-import { useState } from "react";
+import {router} from "@inertiajs/react";
+import {useState} from "react";
 import RefreshButton from "@/Pages/Drive/Components/RefreshButton.jsx";
-import { useLocalStorageBool } from "@/Pages/Drive/Hooks/useLocalStorageBool.jsx";
+import ToggleRow from "@/Components/ToggleRow.jsx";
+import {useLocalStorageBool} from "@/Pages/Drive/Hooks/useLocalStorageBool.jsx";
 import CreateItemModal from "@/Pages/Drive/Components/CreateFolderModal.jsx";
 import ToggleTwoFactorModal from "@/Pages/Admin/Components/ToggleTwoFactorModal.jsx";
 import AlertBox from "@/Pages/Drive/Components/AlertBox.jsx";
 
 export default function AdminConfig({
-    storage_path,
-    php_max_upload_size,
-    php_post_max_size,
-    php_max_file_uploads,
-    setupMode,
-    twoFactorStatus
-}) {
+                                        storage_path,
+                                        php_max_upload_size,
+                                        php_post_max_size,
+                                        php_max_file_uploads,
+                                        setupMode,
+                                        twoFactorStatus
+                                    }) {
     const [formData, setFormData] = useState({
         storage_path:
             storage_path || "/var/www/html/personal-drive-storage-folder",
@@ -45,6 +46,7 @@ export default function AdminConfig({
     function handleToggle2FaStatusButton() {
         setIsTwoFaModalOpen(true);
     }
+
     function handleVideoAutoplayToggle() {
         localStorage.setItem("videoAutoplay", JSON.stringify(!videoAutoplay));
         setVideoAutoplay(!videoAutoplay);
@@ -65,59 +67,56 @@ export default function AdminConfig({
 
     return (
         <>
-            {!setupMode && <Header />}
+            {!setupMode && <Header/>}
 
             <div className="p-1 sm:p-4 space-y-4 max-w-7xl mx-auto text-gray-200  bg-gray-800 ">
-                <h2 className="text-center text-4xl font-semibold text-gray-300 my-12 mb-32">
+                <h2 className="text-center text-4xl font-semibold text-gray-300 my-12 mb-20">
                     Admin Settings
                 </h2>
                 <main className="mx-auto max-w-7xl ">
-                    <AlertBox />
+                    <AlertBox/>
 
-                    <div className="max-w-3xl mx-auto bg-blue-900/15 p-4 md:p-12 min-h-[500px] flex flex-col gap-y-20 ">
+
+
+
+                    <div className="max-w-3xl mx-auto bg-blue-900/15 p-4 md:p-12 min-h-[500px] flex flex-col gap-y-8 md:gap-y-20 ">
                         <form
-                            className="flex flex-col justify-between gap-y-6"
+                            className="flex flex-col justify-between gap-y-3 md:gap-y-6"
                             onSubmit={handleSubmit}
                         >
-                            <div>
-                                <div className="m-1 flex flex-col mx-auto items-start gap-y-5 w-full">
-                                    <label
-                                        htmlFor="storage_path"
-                                        className="block text-blue-200 text-xl font-bold "
-                                    >
-                                        Storage Path:
-                                    </label>
-                                    <div className="  mt-1">
-                                        <p className=" mb-1 ">
-                                            Set the local folder where your
-                                            files will be stored.
-                                        </p>
-                                        <p className="text-sm text-gray-400">
-                                            - Root Path of all files
-                                            <br />
-                                            - Changing will NOT move files !
-                                            <br />
-                                            - Files will be stored in a
-                                            subFolder
-                                            <br />- All Shares will get reset !
-                                        </p>
-                                    </div>
+                            <div className="space-y-4">
 
-                                    <input
-                                        type="text"
-                                        id="storage_path"
-                                        name="storage_path"
-                                        value={formData.storage_path}
-                                        onChange={handleChange}
-                                        className="w-full  text-gray-200 bg-blue-900 border border-blue-900 rounded-md focus:border-indigo-500 focus:ring-indigo-500 "
-                                    />
+                                <h2 className=" text-blue-200 text-2xl font-bold mt-2 mb-2 ">Storage Path</h2>
+
+                                <div className="bg-slate-900/50 p-2 md:p-4 rounded-lg border border-blue-900/30">
+
+                                    <p className=" mb-4 ">
+                                        Set the local folder where your
+                                        files will be stored.
+                                    </p>
+                                    <div className="flex items-center gap-2 bg-blue-950 p-0 md:p-2 rounded border border-blue-800">
+                                        <span className="text-blue-400 hidden md:inline">📁</span>
+                                        <input
+                                            className="bg-transparent w-full text-gray-300 outline-none border-0"
+                                            value={formData.storage_path}
+                                            onChange={handleChange}
+                                        />
+                                    </div>
+                                    <ul className="mt-4 space-y-1 text-xs text-gray-400">
+                                        <li>• Root directory for all application data</li>
+                                        <li>• Changing this <span className="text-orange-400 font-bold">will not move</span> existing files</li>
+                                        <li>• <span className="text-red-400">Warning:</span> All active shares will be reset</li>
+                                    </ul>
+
+
+                                    <div className="flex justify-center mt-3 md:mt-6">
+                                        <button
+                                            className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800 ">
+                                            {setupMode && "Set Root Folder"}
+                                            {!setupMode && "Update Settings"}
+                                        </button>
+                                    </div>
                                 </div>
-                            </div>
-                            <div className="flex justify-center mt-1">
-                                <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800 ">
-                                    {setupMode && "Set Root Folder"}
-                                    {!setupMode && "Update Settings"}
-                                </button>
                             </div>
                         </form>
 
@@ -130,18 +129,25 @@ export default function AdminConfig({
                                 setIsTwoFaModalOpen={setIsTwoFaModalOpen}
                                 twoFactorStatus={twoFactorStatus}
                             />
-                            <div className="flex flex-col space-y-2">
-                                <div>
+                            <div className="flex items-center justify-between w-full max-w-sm py-3">
+                                <span className="text-gray-200 text-lg font-semibold">Two factor authentication</span>
+
+                                {twoFactorStatus &&
                                     <button
-                                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800 "
                                         onClick={handleToggle2FaStatusButton}
+                                        className="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-green-400 text-sm font-bold rounded border border-gray-500"
                                     >
-                                        {twoFactorStatus &&
-                                            "Two factor authentication - DISABLE"}
-                                        {!twoFactorStatus &&
-                                            "Two factor authentication - ENABLE"}
+                                        ENABLED ❯
                                     </button>
-                                </div>
+                                }
+                                {!twoFactorStatus &&
+                                    <button
+                                        onClick={handleToggle2FaStatusButton}
+                                        className="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-red-400 text-sm font-bold rounded border border-gray-500"
+                                    >
+                                        DISABLED ❯
+                                    </button>
+                                }
                             </div>
                         </div>
                         <div>
@@ -149,43 +155,44 @@ export default function AdminConfig({
                                 Media Settings
                             </h2>
                             <div className="flex flex-col space-y-2">
+                                <ToggleRow
+                                    label="Autoplay Videos"
+                                    enabled={videoAutoplay}
+                                    onToggle={handleVideoAutoplayToggle}
+                                />
+                                <ToggleRow
+                                    label="Autoplay Audios"
+                                    enabled={audioAutoplay}
+                                    onToggle={handleAudioAutoplayToggle}
+                                />
+                                <ToggleRow
+                                    label="Save Position of Audios"
+                                    enabled={audioSavePos}
+                                    onToggle={handleAudioSavePosToggle}
+                                />
+                            </div>
+                        </div>
+
+
+                        <div className="rounded-lg max-w-xl">
+                            <h2 className="text-blue-200 text-lg font-bold">Refresh Database</h2>
+
+                            <div className="border border-blue-900/50 bg-slate-800/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div>
-                                    <button
-                                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800 "
-                                        onClick={handleVideoAutoplayToggle}
-                                    >
-                                        {videoAutoplay &&
-                                            "Videos - DISABLE Autoplay"}
-                                        {!videoAutoplay &&
-                                            "Videos - ENABLE Autoplay"}
-                                    </button>
+                                    <p className="text-sm text-slate-400 mt-1">
+                                        Full system reset: Reindexes files and regenerates thumbnails.
+                                    </p>
                                 </div>
-                                <div>
-                                    <button
-                                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800 "
-                                        onClick={handleAudioAutoplayToggle}
-                                    >
-                                        {audioAutoplay &&
-                                            "Audios - DISABLE Autoplay"}
-                                        {!audioAutoplay &&
-                                            "Audios - ENABLE Autoplay "}
-                                    </button>
-                                </div>
-                                <div>
-                                    <button
-                                        className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800 "
-                                        onClick={handleAudioSavePosToggle}
-                                    >
-                                        {audioSavePos &&
-                                            "Audios - DISABLE Save Postion"}
-                                        {!audioSavePos &&
-                                            "Audios - ENABLE Save Postion"}
-                                    </button>
+                                <div className="flex flex-col items-end gap-2">
+                                    <RefreshButton />
+                                    <span className="text-[10px] text-red-400 font-bold uppercase tracking-wider">
+        ⚠️ Removes all shares
+      </span>
                                 </div>
                             </div>
                         </div>
 
-                        <div>
+                        <div className="overflow-x-scroll">
                             <h2 className=" text-blue-200 text-2xl font-bold mt-2 mb-2 ">
                                 Increase upload limits
                             </h2>
@@ -223,7 +230,7 @@ export default function AdminConfig({
                             <p className="text-lg text-blue-200 mt-10 mb-5 font-bold">
                                 Instructions for various apps :
                             </p>
-                            <div className="flex flex-col text-gray-300">
+                            <div className="flex flex-col text-gray-300 ">
                                 <div>
                                     <span className="font-bold text-lg text-gray-100">
                                         {" "}
@@ -293,16 +300,6 @@ php_value max_file_uploads 10000`}
                             </div>
                         </div>
 
-                        <div className="  ">
-                            <h2 className=" text-blue-200 text-xl font-bold mb-2 ">
-                                Refresh Database and cancel all Shares{" "}
-                            </h2>
-                            <p className="mb-4">
-                                'Reset' option. This will reindex all files,
-                                remove all shares, regenerate thumbnail
-                            </p>
-                            <RefreshButton />
-                        </div>
                     </div>
                 </main>
             </div>
