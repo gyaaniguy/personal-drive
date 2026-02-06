@@ -27,6 +27,12 @@ class AuthenticatedSessionController extends Controller
     {
         $request->authenticate();
 
+        if (Auth::user()->getTwoFactorStatus()) {
+            Auth::logout();
+            $request->session()->put('twoFactorUserId', Auth::user()->id);
+            return redirect()->route('2fa.index');
+        }
+
         $request->session()->regenerate();
 
         return redirect(route('drive', absolute: false));
