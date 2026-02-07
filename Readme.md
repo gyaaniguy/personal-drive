@@ -66,6 +66,7 @@
 - Move files
 - Config option to disable authentication
 - Config options to run behind a http proxy (reverse proxy)
+- Two Factor Authentication powered by TOTP protocol. Ex: Google Authentication
 
 ---
 
@@ -74,7 +75,7 @@
 - 🔑 Sudo access for setting permissions.
 - 👤 Webserver username (if not www-data)
 - 📁 Files for upload
-- 👥 Friends to share files with
+- 👥 Friends to share files with (Optional)
 
 ---
 
@@ -236,7 +237,6 @@ max_file_uploads = 10000
 ---
 
 ## Todo:
-As of 18 April 2025, I have added several 'intermediate' level features. The next order of business is to ensure the app is bug-free and secure. Once I am satisfied with it, I'll have a v1 release.
 
 #### Future Plans
 These are just thoughts. Can't make any promises.

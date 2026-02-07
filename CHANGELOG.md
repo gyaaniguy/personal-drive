@@ -2,16 +2,18 @@
 
 ## Not versioned changes
 
+- Bug fixes
 - Html viewer
 - Mobile Layout fixes and improvements
 - Other UI improvements
 - Audio player
-- Audiobook feaatures: save position automatically, multiple rewind buttons
+- Audiobook features: save position automatically, multiple rewind buttons
 - Stream line settings for autoplaying media
 - Improve setup.sh for better permission handling
 - Security: Guests could view admin files. I added robust checks on several endpoints.
 - Support running behind reverse proxies by adding configurable/optional trusted proxies
 - Support no auth mode
+- Two Factor Authentication powered by TOTP protocol. Ex: Google Authenticator
 
 ## [v1.0.0] - 2025-08-07
 
