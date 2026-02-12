@@ -74,7 +74,7 @@ const ListView = ({
                     path !== "/drive")) && (
                 <div>
                     <Link
-                        className="cursor-pointer hover:bg-gray-700 p-4 px-8 w-full block"
+                        className="cursor-pointer hover:bg-gray-700 p-1 md:p-4 px-8 w-full block"
                         title="Go Up"
                         href={
                             path

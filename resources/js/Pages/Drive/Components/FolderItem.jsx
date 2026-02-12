@@ -23,7 +23,7 @@ const FolderItem = React.memo(function FolderItem({
     setFileToRename,
 }) {
     return (
-        <div className={`flex items-center hover:bg-gray-900 justify-between`}>
+        <div className={`flex items-center md:hover:bg-gray-900 justify-between`}>
             <Link
                 href={
                     (isSearch
