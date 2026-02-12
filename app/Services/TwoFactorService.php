@@ -20,7 +20,7 @@ class TwoFactorService
         $this->setting = $setting;
         $this->totp = $totp;
     }
-    public function twoFactorCodeCheck(string $secret, string $code): bool
+    public function twoFactorCodeCheck(string $code, string $secret): bool
     {
         return $this->totp->verify($secret, $code);
     }

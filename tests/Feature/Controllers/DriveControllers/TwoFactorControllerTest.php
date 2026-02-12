@@ -58,11 +58,11 @@ class TwoFactorControllerTest extends BaseFeatureTest
         $google2FA = Mockery::mock(Google2FA::class);
 
         $google2FA->shouldReceive('verify')
-            ->with('123456', Mockery::any())
+            ->with( Mockery::any(), '123456')
             ->andReturn(true);
 
         $google2FA->shouldReceive('verify')
-            ->with('000000', Mockery::any())
+            ->with( Mockery::any(), '000000')
             ->andReturn(false);
 
         return $google2FA;
