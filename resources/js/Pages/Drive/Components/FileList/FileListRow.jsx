@@ -32,7 +32,7 @@ const FileListRow = React.memo(function FileListRow({
                     onChange={() => {}}
                 />
             </div>
-            <div className="w-full overflow-hidden">
+            <div className="w-full overflow-hidden truncate">
                 {file.is_dir ? (
                     <FolderItem
                         file={file}
@@ -68,10 +68,10 @@ const FileListRow = React.memo(function FileListRow({
                     />
                 )}
             </div>
-            <div className="p-1 sm:p-2 md:p-4 text-right w-28 md:w-44 text-gray-400 text-xs md:text-sm">
+            <div className="p-1 sm:p-2 md:p-4 text-right w-20 sm:w-28 md:w-44 text-gray-400 text-xs md:text-sm ">
                 {file.sizeText}
             </div>
-            <div className="p-1 sm:p-2 md:p-4 text-right w-28 md:w-44 text-gray-400 text-xs md:text-sm">
+            <div className="p-1 sm:p-2 md:p-4 text-right w-16 sm:w-28 md:w-44 text-gray-400 text-xs md:text-sm ">
                 {file.file_type}
             </div>
         </div>

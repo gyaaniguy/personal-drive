@@ -190,7 +190,7 @@ const FileBrowserSection = memo(({ files, path, token, isAdmin, slug }) => {
     }, [selectedFiles]);
 
     return (
-        <div className="min-h-screen rounded-md px-1 md:px-4 ">
+        <div className="min-h-screen rounded-md">
             <ShareModal
                 isShareModalOpen={isShareModalOpen}
                 setIsShareModalOpen={setIsShareModalOpen}
@@ -259,7 +259,7 @@ const FileBrowserSection = memo(({ files, path, token, isAdmin, slug }) => {
                         )}
                         <div className="flex">
                             <button
-                                className={`p-2 mx-1 rounded-md ${currentViewMode === "TileViewOne" ? "bg-gray-900 border border-gray-600" : "bg-gray-600"} hover:bg-gray-500 active:bg-gray-800`}
+                                className={`p-2 mx-1 rounded-md ${currentViewMode === "TileViewOne" ? "bg-gray-900 border border-blue-300" : "bg-gray-600"} hover:bg-gray-500 active:bg-gray-800`}
                                 onClick={() =>
                                     handleViewModeClick("TileViewOne")
                                 }
@@ -267,7 +267,8 @@ const FileBrowserSection = memo(({ files, path, token, isAdmin, slug }) => {
                                 <Grid className="w-5 h-5" />
                             </button>
                             <button
-                                className={`p-2 ml-1 rounded-md ${currentViewMode === "ListView" ? "bg-gray-900 border border-gray-600" : "bg-gray-600"} hover:bg-gray-500 active:bg-gray-800`}
+                                className={`p-2 ml-1 text-white rounded-md ${currentViewMode === "ListView" ? "bg-gray-900 border border-blue-300" : "bg-gray-600"} hover:bg-gray-500 active:bg-gray-800 text-ellipsis
+`}
                                 onClick={() => handleViewModeClick("ListView")}
                             >
                                 <List className="w-5 h-5" />
