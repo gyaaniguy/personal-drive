@@ -79,7 +79,7 @@ export default function AdminConfig({
 
 
 
-                    <div className="max-w-3xl mx-auto bg-blue-900/15 p-4 md:p-12 min-h-[500px] flex flex-col gap-y-8 md:gap-y-20 ">
+                    <div className="max-w-3xl mx-auto bg-blue-900/15 p-2 md:p-12 min-h-[500px] flex flex-col gap-y-8 md:gap-y-20 ">
                         <form
                             className="flex flex-col justify-between gap-y-3 md:gap-y-6"
                             onSubmit={handleSubmit}
@@ -130,12 +130,12 @@ export default function AdminConfig({
                                 twoFactorStatus={twoFactorStatus}
                             />
                             <div className="flex items-center justify-between w-full max-w-sm py-3">
-                                <span className="text-gray-200 text-lg font-semibold">Two factor authentication</span>
+                                <span className="text-gray-200 text-lg md:font-semibold">Two factor authentication</span>
 
                                 {twoFactorStatus &&
                                     <button
                                         onClick={handleToggle2FaStatusButton}
-                                        className="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-green-400 text-sm font-bold rounded border border-gray-500"
+                                        className="px-2 md:px-3 py-1 bg-gray-700 hover:bg-gray-600 text-green-400 text-sm font-bold rounded border border-gray-500"
                                     >
                                         ENABLED ❯
                                     </button>
@@ -143,7 +143,7 @@ export default function AdminConfig({
                                 {!twoFactorStatus &&
                                     <button
                                         onClick={handleToggle2FaStatusButton}
-                                        className="px-3 py-1 bg-gray-700 hover:bg-gray-600 text-red-400 text-sm font-bold rounded border border-gray-500"
+                                        className="px-2 md:px-3 py-1 bg-gray-700 hover:bg-gray-600 text-red-400 text-sm font-bold rounded border border-gray-500"
                                     >
                                         DISABLED ❯
                                     </button>
@@ -179,7 +179,7 @@ export default function AdminConfig({
 
                             <div className="border border-blue-900/50 bg-slate-800/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
                                 <div>
-                                    <p className="text-sm text-slate-400 mt-1">
+                                    <p className="text-sm text-slate-400 mt-1 p-2">
                                         Full system reset: Reindexes files and regenerates thumbnails.
                                     </p>
                                 </div>

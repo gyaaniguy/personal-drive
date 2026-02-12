@@ -39,7 +39,7 @@ const TileViewOne = ({
         <div className="w-full flex flex-col flex-wrap ">
             <div className=" text-center flex items-center gap-x-2 justify-between mb-6 text-sm text-gray-400 ">
                 <div
-                    className="text-center bg-gray-900/50 hover:bg-gray-700 hover:cursor-pointer flex items-center gap-x-2 p-1 md:p-3 "
+                    className="text-center bg-gray-900/50 hover:bg-gray-700 hover:cursor-pointer flex items-center gap-x-2 p-1 md:p-3 whitespace-nowrap"
                     onClick={(e) => handleSelectAllToggle(filesCopy)}
                 >
                     <input
@@ -53,7 +53,7 @@ const TileViewOne = ({
                 <div className="hover:cursor-pointer flex items-center gap-x-2">
                     <label></label>
                     <button
-                        className={`p-1 rounded-md bg-gray-700 hover:bg-gray-600  ${sortDetails.key === "filename" ? "bg-gray-900 border border-gray-500/80 text-blue-400" : ""}`}
+                        className={`flex items-center p-1 rounded-md bg-gray-700 hover:bg-gray-600  ${sortDetails.key === "filename" ? "bg-gray-900 border border-gray-500/80 text-blue-400" : ""}`}
                         onClick={(e) => handleSortClick(e, "filename")}
                     >
                         Name{" "}
@@ -62,7 +62,7 @@ const TileViewOne = ({
                         />
                     </button>
                     <button
-                        className={`p-1 rounded-md bg-gray-700 hover:bg-gray-600  ${sortDetails.key === "file_type" ? "bg-gray-900 border border-gray-500/80  text-blue-400" : ""}`}
+                        className={`flex items-center p-1 rounded-md bg-gray-700 hover:bg-gray-600  ${sortDetails.key === "file_type" ? "bg-gray-900 border border-gray-500/80  text-blue-400" : ""}`}
                         onClick={(e) => handleSortClick(e, "file_type")}
                     >
                         Type{" "}
@@ -71,7 +71,7 @@ const TileViewOne = ({
                         />
                     </button>
                     <button
-                        className={`p-1 rounded-md bg-gray-700 hover:bg-gray-600  ${sortDetails.key === "size" ? "bg-gray-900 border border-gray-500/80 text-blue-400" : ""}`}
+                        className={`flex items-center p-1 rounded-md bg-gray-700 hover:bg-gray-600  ${sortDetails.key === "size" ? "bg-gray-900 border border-gray-500/80 text-blue-400" : ""}`}
                         onClick={(e) => handleSortClick(e, "size")}
                     >
                         Size{" "}
@@ -81,7 +81,8 @@ const TileViewOne = ({
                     </button>
                 </div>
             </div>
-            <div className="w-full flex flex-wrap gap-1 sm:gap-3 md:gap-5">
+            {/*<div className="w-full flex flex-wrap gap-1 sm:gap-3 md:gap-5 justify-start">*/}
+                <div class="w-full grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(270px,1fr))] gap-1 sm:gap-3 md:gap-5">
                 {filesCopy.map((file) => (
                     <FileTileViewCard
                         key={file.id}

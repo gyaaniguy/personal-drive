@@ -51,7 +51,7 @@ const ListView = ({
                 </div>
                 <div
                     onClick={(e) => handleSortClick(e, "size")}
-                    className={`p-1 px-1 md:p-2 md:px-4 w-28 md:w-44 hover:bg-gray-900  hover:cursor-pointer text-right ${sortDetails.key === "size" ? "text-blue-400" : ""}`}
+                    className={`flex items-center justify-end p-1 px-1 md:p-2 md:px-4 w-28 md:w-44 hover:bg-gray-900  hover:cursor-pointer text-right ${sortDetails.key === "size" ? "text-blue-400" : ""}`}
                 >
                     <span>Size</span>
                     <SortIcon
@@ -60,7 +60,7 @@ const ListView = ({
                 </div>
                 <div
                     onClick={(e) => handleSortClick(e, "file_type")}
-                    className={`p-1 px-1 md:p-2 md:px-4 w-28 md:w-44 hover:bg-gray-900  hover:cursor-pointer text-right ${sortDetails.key === "file_type" ? "text-blue-400" : ""}`}
+                    className={`flex items-center justify-end p-1 px-1 md:p-2 md:px-4 w-28 md:w-44 hover:bg-gray-900  hover:cursor-pointer text-right ${sortDetails.key === "file_type" ? "text-blue-400" : ""}`}
                 >
                     <span>Type</span>
                     <SortIcon
