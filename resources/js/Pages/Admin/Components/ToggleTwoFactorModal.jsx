@@ -68,7 +68,7 @@ const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorS
                 <>
                     {!twoFactorStatus && <>
                         <div className="mb-4">
-                            Scan below QR in any TOTP Authenticator application. Example: "Google Authenticator"
+                            Scan the QR code using any TOTP authenticator app (e.g., Google Authenticator)
                         </div>
                         <div className="flex justify-center items-center"
                             dangerouslySetInnerHTML={{__html: qrSvg}}

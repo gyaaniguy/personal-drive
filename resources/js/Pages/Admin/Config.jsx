@@ -143,7 +143,7 @@ export default function AdminConfig({
                                 {!twoFactorStatus &&
                                     <button
                                         onClick={handleToggle2FaStatusButton}
-                                        className="px-2 md:px-3 py-1 bg-gray-700 hover:bg-gray-600 text-red-400 text-sm font-bold rounded border border-gray-500"
+                                        className="px-2 md:px-3 py-1 bg-gray-700 hover:bg-gray-600 text-red-400 text-sm font-bold rounded border border-gray-500 whitespace-nowrap"
                                     >
                                         DISABLED ❯
                                     </button>
@@ -151,7 +151,7 @@ export default function AdminConfig({
                             </div>
                         </div>
                         <div>
-                            <h2 className=" text-blue-200 text-2xl font-bold mt-2 mb-2 ">
+                            <h2 className=" text-blue-200 text-2xl md:font-semibold mt-2 mb-2 ">
                                 Media Settings
                             </h2>
                             <div className="flex flex-col space-y-2">
@@ -177,9 +177,9 @@ export default function AdminConfig({
                         <div className="rounded-lg max-w-xl">
                             <h2 className="text-blue-200 text-lg font-bold">Refresh Database</h2>
 
-                            <div className="border border-blue-900/50 bg-slate-800/30 flex flex-col md:flex-row md:items-center justify-between gap-4">
+                            <div className="border border-blue-900/50 bg-slate-800/30 flex flex-col md:flex-row md:items-center justify-between gap-4  p-2">
                                 <div>
-                                    <p className="text-sm text-slate-400 mt-1 p-2">
+                                    <p className="text-sm text-slate-400 mt-1">
                                         Full system reset: Reindexes files and regenerates thumbnails.
                                     </p>
                                 </div>
