@@ -2,9 +2,13 @@
 
 namespace App\Services;
 
+use App\Exceptions\PersonalDriveExceptions\TwoFactorException;
 use App\Models\Setting;
 use Exception;
 use Illuminate\Support\Facades\Auth;
+use PragmaRX\Google2FA\Exceptions\IncompatibleWithGoogleAuthenticatorException;
+use PragmaRX\Google2FA\Exceptions\InvalidCharactersException;
+use PragmaRX\Google2FA\Exceptions\SecretKeyTooShortException;
 use PragmaRX\Google2FAQRCode\Google2FA;
 
 class TwoFactorService
@@ -22,7 +26,11 @@ class TwoFactorService
     }
     public function twoFactorCodeCheck(string $code, string $secret): bool
     {
-        return $this->totp->verify($code, $secret);
+        try {
+            return $this->totp->verify($code, $secret);
+        } catch (Exception $e) {
+            throw TwoFactorException::couldNotValidate($e->getMessage());
+        }
     }
     public function generateTwoFactorSecret(): string
     {
