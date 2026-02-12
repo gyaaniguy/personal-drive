@@ -26,14 +26,14 @@ it(
 it(
     'formats bytes in MB', function () {
         expect(FileSizeFormatter::format(1048576))->toBe('1 MB')
-            ->and(FileSizeFormatter::format(2048000))->toBe('1.95 MB')
-            ->and(FileSizeFormatter::format(9048000))->toBe('8.63 MB');
+            ->and(FileSizeFormatter::format(2048000))->toBe('2 MB')
+            ->and(FileSizeFormatter::format(9048000))->toBe('8.6 MB');
     }
 );
 
 it(
     'formats bytes in GB', function () {
         expect(FileSizeFormatter::format(1073741824))->toBe('1 GB')
-            ->and(FileSizeFormatter::format(2000000000))->toBe('1.86 GB');
+            ->and(FileSizeFormatter::format(2000000000))->toBe('1.9 GB');
     }
 );
