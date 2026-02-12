@@ -22,7 +22,7 @@ class TwoFactorService
     }
     public function twoFactorCodeCheck(string $code, string $secret): bool
     {
-        return $this->totp->verify($secret, $code);
+        return $this->totp->verify($code, $secret);
     }
     public function generateTwoFactorSecret(): string
     {
