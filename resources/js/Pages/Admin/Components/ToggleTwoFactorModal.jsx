@@ -61,54 +61,57 @@ const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorS
             title={title}
             classes="max-w-md"
         >
+            {!qrSvg && twoFactorStatus &&
+                <div className="space-y-4 text-gray-400"> Enter the One Time Password (OTP) shown in the authenticator application that you previously added</div>
+            }
             {!qrSvg && !twoFactorStatus &&
                 <div className="space-y-4"> Loading Qr code ..</div>
             }
             {(twoFactorStatus || (!twoFactorStatus && qrSvg)) &&
                 <>
-                    {!twoFactorStatus && <>
-                        <div className="mb-4">
-                            Scan the QR code using any TOTP authenticator app (e.g., Google Authenticator)
-                        </div>
-                        <div className="flex justify-center items-center"
-                            dangerouslySetInnerHTML={{__html: qrSvg}}
-                        />
-                    </>
-            }
-            <form
-                onSubmit={handleSubmit}
-                className=" text-gray-300"
-            >
-                <div className="flex my-5 items-center justify-center gap-3">
-                    <label
-                        htmlFor="code"
-                        className=" text-sm font-medium"
+                    {!twoFactorStatus &&
+                        <>
+                            <div className="mb-4">
+                                Scan the QR code using any TOTP authenticator app (e.g., Google Authenticator)
+                            </div>
+                            <div className="flex justify-center items-center"
+                                dangerouslySetInnerHTML={{__html: qrSvg}}
+                            />
+                        </>
+                    }
+                    <form
+                        onSubmit={handleSubmit}
+                        className=" text-gray-300"
                     >
-                        Auth Code:
-                    </label>
+                        <div className="flex my-5 items-center justify-center gap-3">
+                            <label
+                                htmlFor="code"
+                                className=" text-sm font-medium"
+                            >
+                                OTP:
+                            </label>
 
-                    <TextInput
-                        id="code"
-                        type="code"
-                        name="code"
-                        value={twoFactorCode}
-                        className="bg-gray-700/90 border border-gray-300 rounded-md p-1 md:p-2 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500  w-28 sm:w-44 md:w-52"
-                        isFocused={true}
-                        onChange={(e) => setTwoFactorCode(e.target.value)}
-                    />
-                </div>
-                <button
-                    type="submit"
-                    className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
-                >
-                    Submit
-                </button>
-            </form>
-        </>
-}
-</Modal>
-)
-    ;
+                            <TextInput
+                                id="code"
+                                type="code"
+                                name="code"
+                                value={twoFactorCode}
+                                className="bg-gray-700/90 border border-gray-300 rounded-md p-1 md:p-2 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500  w-28 sm:w-44 md:w-52"
+                                isFocused={true}
+                                onChange={(e) => setTwoFactorCode(e.target.value)}
+                            />
+                        </div>
+                        <button
+                            type="submit"
+                            className="w-full bg-blue-500 hover:bg-blue-600 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline"
+                        >
+                            Submit
+                        </button>
+                    </form>
+                </>
+            }
+        </Modal>
+    );
 };
 
 export default ToggleTwoFactorModal;
