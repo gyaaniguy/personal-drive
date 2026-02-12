@@ -26,7 +26,7 @@ class TwoFactorService
     }
     public function generateTwoFactorSecret(): string
     {
-        return $this->totp->generateSecretKey();
+        return $this->totp->generateSecretKey(32);
     }
     public function generateQr(string $secret): string
     {
