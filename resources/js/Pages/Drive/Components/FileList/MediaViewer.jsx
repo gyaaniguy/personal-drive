@@ -118,9 +118,9 @@ const MediaViewer = ({
                     previewAbleFiles.current[currentFileIndex].prev && (
                         <button
                             onClick={prevClick}
-                            className={`absolute ${isActive ? "block" : "hidden"} left-8 sm:left-16  top-1/2   p-2 rounded-full hover:bg-gray-500 bg-gray-500  opacity-60  focus:outline-none z-50`}
+                            className={`absolute ${isActive ? "block" : "hidden"} left-2 md:left-8 sm:left-16  top-3/4 p-1 md:p-2 rounded-full hover:bg-gray-500 bg-gray-500  opacity-60  focus:outline-none z-50`}
                         >
-                            <ChevronLeft className="text-white h-8 w-8 rounded-full" />
+                            <ChevronLeft className="text-white h-4 w-4 md:h-8 md:w-8 rounded-full" />
                         </button>
                     )}
 
@@ -129,9 +129,9 @@ const MediaViewer = ({
                     previewAbleFiles.current[currentFileIndex].next && (
                         <button
                             onClick={nextClick}
-                            className={`absolute ${isActive ? "block" : "hidden"}  right-8 sm:right-16  top-1/2   p-2 rounded-full hover:bg-gray-500 bg-gray-500  opacity-60  focus:outline-none z-50`}
+                            className={`absolute ${isActive ? "block" : "hidden"}  right-2 md:right-8 sm:right-16  top-3/4 p-1 md:p-2 rounded-full hover:bg-gray-500 bg-gray-500  opacity-60  focus:outline-none z-50`}
                         >
-                            <ChevronRight className="text-white h-8 w-8 rounded-full" />
+                            <ChevronRight className="text-white h-4 w-4 md:h-8 md:w-8 rounded-full" />
                         </button>
                     )}
                 {selectedid &&

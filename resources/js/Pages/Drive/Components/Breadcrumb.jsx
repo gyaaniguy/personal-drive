@@ -22,19 +22,18 @@ export default function Breadcrumb({ path, isAdmin }) {
                         {isAdmin && (
                             <li className="flex items-center min-w-0 ">
                                 <Link
-                                    className="hover:bg-gray-600 p-2 rounded-md inline-flex w-auto bg-gray-700  active:bg-gray-900 "
+                                    className="hover:bg-gray-600 p-1 rounded-md inline-flex w-auto bg-gray-700  active:bg-gray-900 "
                                     href="/drive"
                                     preserveScroll
                                 >
                                     <HomeIcon
-                                        className={`text-gray-400 inline`}
-                                        size={22}
+                                        className={`text-gray-400 inline h-3 w-3 md:w-6 md:h-6`}
                                     />
                                     <span className={``}></span>
                                 </Link>
                                 {links.length > 0 && path && (
                                     <ChevronRight
-                                        className="w-4 h-4 text-gray-400 mr-1 md:mx-2"
+                                        className="h-2 w-2 md:w-4 md:h-4 text-gray-400 mx-1 md:mx-2"
                                         aria-hidden="true"
                                     />
                                 )}
@@ -59,7 +58,7 @@ export default function Breadcrumb({ path, isAdmin }) {
                                             {link.name}
                                         </Link>
                                         <ChevronRight
-                                            className="w-4 h-4 text-gray-400 mr-1 md:mx-2"
+                                            className="h-2 w-2 md:w-4 md:h-4 text-gray-400 mx-1 md:mx-2"
                                             aria-hidden="true"
                                         />
                                     </>

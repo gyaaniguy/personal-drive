@@ -23,7 +23,7 @@ const VideoPlayer = ({ id, slug }) => {
                 key={id}
                 controls
                 autoPlay={videoAutoplay}
-                className="max-w-2xl rounded-lg shadow-lg max-h-[90vh]"
+                className="max-w-full rounded-lg shadow-lg max-h-[90vh]"
             >
                 <source src={src} type="video/mp4" />
                 Your browser does not support the video tag.

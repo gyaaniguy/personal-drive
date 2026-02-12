@@ -39,7 +39,7 @@ const Modal = ({
                             </button>
                         </div>
                     )}
-                    <div className="p-4 max-h-[90vh] overflow-y-auto">
+                    <div className="p-1 md:p-4 max-h-[90vh] overflow-y-auto">
                         {children}
                     </div>
                 </div>
