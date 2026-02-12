@@ -98,7 +98,7 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
             </div>
 
             {/* Action Buttons */}
-            <div className="justify-between absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full px-1 md:px-3 mb-1 md:mb-2 opacity-70 group-hover:flex hidden ">
+            <div className="justify-between absolute bottom-0 left-1/2 transform -translate-x-1/2 w-full px-1 md:px-3 mb-1 md:mb-2 opacity-70 md:group-hover:flex hidden ">
                 {isAdmin && (
                     <div className="flex-1">
                         <DeleteButton

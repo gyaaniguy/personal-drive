@@ -33,7 +33,7 @@ const FileItem = React.memo(function FileItem({
                     {(isSearch ? file.public_path + "/" : "") + file.filename}
                 </span>
             </div>
-            <div className="flex">
+            <div className="hidden md:flex">
                 {isAdmin && (
                     <DeleteButton
                         classes="hidden group-hover:block mr-2  z-10"

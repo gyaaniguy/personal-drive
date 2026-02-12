@@ -45,7 +45,7 @@ const FolderItem = React.memo(function FolderItem({
                 </div>
             </Link>
 
-            <div className="flex gap-x-1">
+            <div className="hidden md:flex gap-x-1">
                 {isAdmin && (
                     <DeleteButton
                         classes="hidden group-hover:block mr-2  z-10"
