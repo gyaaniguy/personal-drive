@@ -42,6 +42,7 @@ class AdminConfigController extends Controller
         $setupMode = (bool) $request->query('setupMode');
         $storagePath = Setting::getStoragePath();
         $twoFactorStatus = $this->twoFactorService->getStatus();
+        $show_two_factor_option = !config('app.disable_auth') ;
 
         return Inertia::render(
             'Admin/Config',
@@ -52,6 +53,7 @@ class AdminConfigController extends Controller
             'php_max_file_uploads' => $this->adminConfigService->getPhpMaxFileUploads(),
             'setupMode' => $setupMode,
             'twoFactorStatus' => $twoFactorStatus,
+            'show_two_factor_option' => $show_two_factor_option
             ]
         );
     }

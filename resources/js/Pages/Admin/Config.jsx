@@ -14,7 +14,8 @@ export default function AdminConfig({
                                         php_post_max_size,
                                         php_max_file_uploads,
                                         setupMode,
-                                        twoFactorStatus
+                                        twoFactorStatus,
+                                        show_two_factor_option
                                     }) {
     const [formData, setFormData] = useState({
         storage_path:
@@ -120,36 +121,38 @@ export default function AdminConfig({
                             </div>
                         </form>
 
-                        <div>
-                            <h2 className=" text-blue-200 text-2xl font-bold mt-2 mb-2 ">
-                                Security
-                            </h2>
-                            <ToggleTwoFactorModal
-                                isTwoFaModalOpen={isTwoFaModalOpen}
-                                setIsTwoFaModalOpen={setIsTwoFaModalOpen}
-                                twoFactorStatus={twoFactorStatus}
-                            />
-                            <div className="flex items-center justify-between w-full max-w-sm py-3">
-                                <span className="text-gray-200 text-lg md:font-semibold">Two factor authentication</span>
+                        {show_two_factor_option &&
+                            <div>
+                                <h2 className=" text-blue-200 text-2xl font-bold mt-2 mb-2 ">
+                                    Security
+                                </h2>
+                                <ToggleTwoFactorModal
+                                    isTwoFaModalOpen={isTwoFaModalOpen}
+                                    setIsTwoFaModalOpen={setIsTwoFaModalOpen}
+                                    twoFactorStatus={twoFactorStatus}
+                                />
+                                <div className="flex items-center justify-between w-full max-w-sm py-3">
+                                    <span className="text-gray-200 text-lg md:font-semibold">Two factor authentication</span>
 
-                                {twoFactorStatus &&
-                                    <button
-                                        onClick={handleToggle2FaStatusButton}
-                                        className="px-2 md:px-3 py-1 bg-gray-700 hover:bg-gray-600 text-green-400 text-sm font-bold rounded border border-gray-500"
-                                    >
-                                        ENABLED ❯
-                                    </button>
-                                }
-                                {!twoFactorStatus &&
-                                    <button
-                                        onClick={handleToggle2FaStatusButton}
-                                        className="px-2 md:px-3 py-1 bg-gray-700 hover:bg-gray-600 text-red-400 text-sm font-bold rounded border border-gray-500 whitespace-nowrap"
-                                    >
-                                        DISABLED ❯
-                                    </button>
-                                }
+                                    {twoFactorStatus &&
+                                        <button
+                                            onClick={handleToggle2FaStatusButton}
+                                            className="px-2 md:px-3 py-1 bg-gray-700 hover:bg-gray-600 text-green-400 text-sm font-bold rounded border border-gray-500"
+                                        >
+                                            ENABLED ❯
+                                        </button>
+                                    }
+                                    {!twoFactorStatus &&
+                                        <button
+                                            onClick={handleToggle2FaStatusButton}
+                                            className="px-2 md:px-3 py-1 bg-gray-700 hover:bg-gray-600 text-red-400 text-sm font-bold rounded border border-gray-500 whitespace-nowrap"
+                                        >
+                                            DISABLED ❯
+                                        </button>
+                                    }
+                                </div>
                             </div>
-                        </div>
+                        }
                         <div>
                             <h2 className=" text-blue-200 text-2xl md:font-semibold mt-2 mb-2 ">
                                 Media Settings
