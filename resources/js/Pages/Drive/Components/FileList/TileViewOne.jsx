@@ -82,7 +82,7 @@ const TileViewOne = ({
                 </div>
             </div>
             {/*<div className="w-full flex flex-wrap gap-1 sm:gap-3 md:gap-5 justify-start">*/}
-                <div class="w-full grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(270px,1fr))] gap-1 sm:gap-3 md:gap-5">
+                <div className="w-full grid grid-cols-[repeat(auto-fill,minmax(150px,1fr))] md:grid-cols-[repeat(auto-fill,minmax(270px,1fr))] gap-1 sm:gap-3 md:gap-5">
                 {filesCopy.map((file) => (
                     <FileTileViewCard
                         key={file.id}
