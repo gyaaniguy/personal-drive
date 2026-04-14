@@ -35,7 +35,7 @@ export default function AdminConfig({
     function handleChange(e) {
         setFormData((oldValues) => ({
             ...oldValues,
-            [e.target.id]: e.target.value,
+            [e.target.name]: e.target.value,
         }));
     }
 
@@ -101,6 +101,8 @@ export default function AdminConfig({
                                             className="bg-transparent w-full text-gray-300 outline-none border-0"
                                             value={formData.storage_path}
                                             onChange={handleChange}
+                                            name="storage_path"
+                                            id="storage_path"
                                         />
                                     </div>
                                     <ul className="mt-4 space-y-1 text-xs text-gray-400">
