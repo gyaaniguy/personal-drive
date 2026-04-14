@@ -30,7 +30,7 @@ export default function SearchBar({ handleSearch }) {
 
                 <button
                     onClick={(e) => handleSearch(e, searchValue)}
-                    className="bg-blue-700 text-gray-200 font-bold p-1 md:p-2 text-sm md:text-base rounded hover:bg-blue-600 active:bg-blue-800"
+                    className="bg-blue-700 text-gray-200 font-bold p-1 md:p-2 text-sm md:text-base rounded hover:bg-blue-600 active:bg-blue-800 text-sm md:text-base"
                 >
                     Search
                 </button>

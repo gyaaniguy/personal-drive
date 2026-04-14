@@ -13,8 +13,8 @@ export default function ShareFilesGuestHome({ files, path, token, slug }) {
     const [statusMessage, setStatusMessage] = useState("");
 
     return (
-        <div className="max-w-7xl mx-autobg-gray-800 text-gray-200">
-            <div className="my-12 p-5">
+        <div className="max-w-7xl mx-autobg-gray-800 text-gray-200 px-2 md:px-0">
+            <div className="my-6 p-5">
                 <div className="rounded-md gap-x-2 flex items-start relative ">
                     <AlertBox message={statusMessage} />
                 </div>

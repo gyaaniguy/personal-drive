@@ -7,17 +7,13 @@ export default function Header() {
     const { handleSearch } = useSearchUtil();
     return (
         <div className="bg-gray-900">
-            <nav className="bg-gray-800">
+            <nav className="bg-gray-800 px-2 md:px-0">
                 <div className="mx-auto max-w-7xl pr-1 md:px-6 ">
                     <div className="flex h-16 justify-between ">
-                        <div className="space-x-1 md:space-x-4 sm:space-x-8 sm:-my-px pr-1 sm:pr-3 flex">
-                            <NavLink href={route("drive")}>
-                                <img
-                                    src="/img/logo.png"
-                                    alt="Logo"
-                                    className="hidden md:inline-block w-16  "
-                                />
-                            </NavLink>
+                        <div className="space-x-1 sm:space-x-4 md:space-x-8 sm:-my-px pr-1 sm:pr-3 flex">
+                            <a class="flex items-center justify-center hidden md:flex" href="/drive">
+                                <img src="/img/logo.png" alt="Logo" class="h-1/2 object-contain"/>
+                            </a>
                             <NavLink
                                 href={route("drive")}
                                 active={route().current("drive")}
@@ -42,7 +38,7 @@ export default function Header() {
                         </div>
 
                         <div className="flex gap-x-1 sm:gap-x-2 items-center">
-                            <SearchBar handleSearch={handleSearch} />
+                            <SearchBar handleSearch={handleSearch}/>
 
                             <div className="">
                                 <div className="relative group text-gray-300">
