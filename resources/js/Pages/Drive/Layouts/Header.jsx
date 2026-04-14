@@ -7,7 +7,7 @@ export default function Header() {
     const { handleSearch } = useSearchUtil();
     return (
         <div className="bg-gray-900">
-            <nav className="bg-gray-800 px-2 md:px-0">
+            <nav className="bg-gray-800">
                 <div className="mx-auto max-w-7xl pr-1 md:px-6 ">
                     <div className="flex h-16 justify-between ">
                         <div className="space-x-1 sm:space-x-4 md:space-x-8 sm:-my-px pr-1 sm:pr-3 flex">

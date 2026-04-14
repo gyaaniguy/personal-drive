@@ -30,13 +30,13 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
 
     return (
         <div
-            className={`group relative overflow-hidden rounded-lg border border-gray-800 bg-gray-900/50 px-2 md:px-3 p-1 md:p-3 transition-all duration-200 hover:border-gray-700 hover:shadow-lg h-[150px]   md:h-[270px] flex flex-col justify-between  ${isSelected ? "bg-gray-950" : ""} `}
+            className={`group relative overflow-hidden rounded-lg border border-gray-800 bg-gray-900/50 px-2 md:px-3 p-1 md:p-3 transition-all duration-200 hover:border-gray-700 hover:shadow-lg min-h-[150px] md:min-h-[270px] flex flex-col h-full gap-2 pb-1 ${isSelected ? "bg-gray-950" : ""} `}
         >
-            <div className="">
+            <div className="flex flex-col gap-1">
                 {/* Filename and Checkbox Header */}
-                <div className="flex items-center justify-between relative">
+                <div className="flex items-start justify-between gap-2">
                     <h3
-                        className=" font-medium truncate max-w-[120px]  md:max-w-[200px] text-sm text-gray-400 mb-3 mt-1 overflow-hidden"
+                        className=" font-medium truncate max-w-[120px]  md:max-w-[200px] text-sm text-gray-400 pb-0  overflow-hidden"
                         title={
                             (isSearch ? file.public_path + "/" : "") +
                             file.filename
@@ -46,13 +46,13 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
                             file.filename}
                     </h3>
                     <div
-                        className="hover:bg-gray-600 p-2 pb-3 pl-3 cursor-pointer absolute -right-2 -top-2"
+                        className="hover:bg-gray-600 p-1 cursor-pointer flex items-center "
                         onClick={() => handlerSelectFile(file)}
                     >
                         <input
                             type="checkbox"
                             checked={isSelected}
-                            className="h-4 w-4 rounded border-gray-600 bg-gray-700 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-900"
+                            className="h-3 w-3 rounded border-gray-600 bg-gray-700 text-blue-500 focus:ring-blue-500 focus:ring-offset-gray-900"
                             onChange={() => {}}
                         />
                     </div>
@@ -60,23 +60,24 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
 
                 {/* File Icon */}
                 {file.is_dir === 0 && (
-                    <div
-                        className="flex cursor-pointer justify-center items-center transition-transform duration-200  "
-                        onClick={() => handleFileClick(file)}
+                    <div className="flex-1 flex items-center justify-center min-h-0 cursor-pointer"
+                         onClick={() => handleFileClick(file)}
                     >
-                        <div className="flex items-center justify-center md:h-[220px] md:w-[250px] w-[130px] h-[100px]">
-                            {file.has_thumbnail &&
-                            !file.filename.endsWith(".svg") ? (
-                                <img src={imageSrc} alt="Thumbnail" />
-                            ) : (
-                                <File className="text-gray-400 group-hover:text-gray-300 md:w-[180px] w-[90px] h-[90px] md:h-[180px] " />
-                            )}
-                        </div>
+                        {file.has_thumbnail && !file.filename.endsWith(".svg") ? (
+                            <img
+                                src={imageSrc}
+                                alt="Thumbnail"
+                                className="object-contain max-h-full max-w-full"
+                            />
+                        ) : (
+                            <File className="text-gray-400 group-hover:text-gray-300 w-24 h-24 md:w-40 md:h-40" />
+                        )}
                     </div>
+                
                 )}
 
                 {file.is_dir === 1 && (
-                    <div className="flex justify-center pb-3 transition-transform duration-200">
+                    <div className="flex justify-center pb-3 transition-transform duration-200 h-full">
                         <Link
                             href={
                                 (isSearch
