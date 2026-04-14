@@ -31,7 +31,7 @@ const ListView = ({
     }
 
     return (
-        <div className="w-full">
+        <div className="">
             <hr className=" text-gray-500 border-gray-600" />
             <div className="flex items-center justify-between text-gray-400 border-b border-b-gray-600 w-full text-xs md:text-sm">
                 <div
