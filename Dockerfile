@@ -92,8 +92,9 @@
     # Create external storage directory link target and set permissions
     RUN mkdir -p storage/framework/{sessions,views,cache} storage/logs bootstrap/cache \
         && mkdir /var/www/html/personal-drive-storage-folder \
-        && chown -R www-data:www-data storage bootstrap/cache database /var/www/html/personal-drive-storage-folder \
-        && chmod -R 770 storage bootstrap/cache database
+        && chown -R www-data:www-data storage bootstrap/cache database /var/www/html/personal-drive-storage-folder public \
+        && chmod -R 770 storage bootstrap/cache database \
+        && chmod -R 755 public
 
     # Enable Apache modules
     RUN a2enmod rewrite
