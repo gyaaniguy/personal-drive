@@ -52,7 +52,7 @@ const DownloadButton = ({
             NProgress.start();
 
             response = await axios({
-                url: isAdmin ? "/download-files" : "/download-guest-files",
+                url: "/download-files",
                 method: "POST",
                 responseType: "blob",
                 data: formData,
