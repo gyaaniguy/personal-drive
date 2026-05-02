@@ -38,6 +38,13 @@ class PathService
 
     public function cleanDrivePublicPath(string $path): string
     {
-        return preg_replace('#^/drive(/|$)#', '', $path);
+
+        if ($path === '/drive') {
+            return '';
+        }
+        if (str_starts_with($path, '/drive/')) {
+            return substr($path, 7); // remove "/drive/"
+        }
+        return $path;
     }
 }

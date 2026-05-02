@@ -44,19 +44,18 @@ class DownloadController
         return $this->downloadValidFiles($localFiles);
     }
 
-    public function downloadValidFiles(Collection $localFiles): JsonResponse|BinaryFileResponse
+    public function downloadValidFiles(Collection $localFiles): BinaryFileResponse|JsonResponse
     {
         try {
             $downloadFilePath = $this->downloadService->generateDownloadPath($localFiles);
             if (!file_exists($downloadFilePath)) {
                 return ResponseHelper::json('Perhaps trying to download empty dir ? ', false);
             }
-
             return Response::download(
                 $downloadFilePath,
                 basename($downloadFilePath),
                 ['Content-Disposition' => 'attachment; filename="' . basename($downloadFilePath) . '"']
-            );
+            )->deleteFileAfterSend();
         } catch (Exception $e) {
             return ResponseHelper::json($e->getMessage(), false);
         }

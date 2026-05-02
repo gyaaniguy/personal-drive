@@ -27,7 +27,7 @@ class TwoFactorService
     public function twoFactorCodeCheck(string $code, string $secret): bool
     {
         try {
-            return $this->totp->verify($code, $secret);
+            return $this->totp->verify($code, $secret) === true ;
         } catch (Exception $e) {
             throw TwoFactorException::couldNotValidate($e->getMessage());
         }

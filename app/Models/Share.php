@@ -58,9 +58,7 @@ class Share extends Model
             ->get();
     }
 
-    /**
-     * @method static Builder|Share whereBySlug(string $slug)
-     */
+
     public static function whereBySlug(string $slug): Builder
     {
         return Share::where('slug', $slug);

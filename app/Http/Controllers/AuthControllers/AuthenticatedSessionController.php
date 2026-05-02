@@ -27,9 +27,13 @@ class AuthenticatedSessionController extends Controller
     public function store(LoginRequest $request): RedirectResponse
     {
         $request->authenticate();
+        $user = Auth::user();
 
-        if (Auth::user()->getTwoFactorStatus()) {
-            $request->session()->put('twoFactorUserId', Auth::user()->id);
+        if (!$user) {
+            return redirect()->route('login', ['message' => 'Could not login']);
+        }
+        if ($user->getTwoFactorStatus()) {
+            $request->session()->put('twoFactorUserId', $user->id);
             Auth::logout();
             return redirect()->route('login.two-factor-index');
         }
