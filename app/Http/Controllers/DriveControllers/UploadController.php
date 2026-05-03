@@ -80,7 +80,13 @@ class UploadController extends Controller
 
         $conflictsDetected = $successfulUploads = $duplicatesDetected = 0;
         foreach ($files as $file) {
-            $fileNameWithUploadedPath = $file->getClientOriginalPath();
+            $fileNameWithUploadedPath = $this->pathService->sanitizeUploadPath($file->getClientOriginalPath());
+            $sanitizeFileName = $this->pathService->sanitizeFileName($file->getClientOriginalName());
+
+            if ($fileNameWithUploadedPath === '' || $sanitizeFileName === '') {
+                continue;
+            }
+
             $destinationFullPath = $privatePath . $fileNameWithUploadedPath;
             $tempDirFullPath = dirname(
                 $this->uploadService->getTempStorageDirAbs() . DS . ($publicPath ? $publicPath . DS : '') . $fileNameWithUploadedPath
@@ -89,7 +95,7 @@ class UploadController extends Controller
             $relativeBasePath = $this->pathService->getPlusContentRoot($publicPath);
             $relativeDestinationPath = $relativeBasePath . $fileNameWithUploadedPath;
 
-            if ($this->fileOperationsService->directoryExists($relativeDestinationPath) 
+            if ($this->fileOperationsService->directoryExists($relativeDestinationPath)
                 || $this->fileOperationsService->pathExistsAsFile(
                     $relativeBasePath,
                     dirname($fileNameWithUploadedPath)
@@ -122,9 +128,10 @@ class UploadController extends Controller
         if (!$this->fileOperationsService->directoryExists($publicPath)) {
             $this->fileOperationsService->makeFolder($publicPath);
         }
+        $sanitizeFileName = $this->pathService->sanitizeFileName($file->getClientOriginalName());
         try {
-            if ($file->move($destinationDir, $file->getClientOriginalName())) {
-                chmod($destinationDir . DS . $file->getClientOriginalName(), 0640);
+            if ($file->move($destinationDir, $sanitizeFileName)) {
+                chmod($destinationDir . DS . $sanitizeFileName, 0640);
                 $successfulUploads++;
             }
         } catch (Error) {
@@ -140,12 +147,12 @@ class UploadController extends Controller
         $isFile = $request->validated('isFile');
         $publicPath = $this->pathService->cleanDrivePublicPath($publicPath);
         $privatePath = $this->pathService->genPrivatePathFromPublic($publicPath);
-        if ($isFile 
+        if ($isFile
             && !$this->fileOperationsService->makeFile($this->pathService->getPlusContentRoot($publicPath, $itemName))
         ) {
             return $this->error('Create file failed');
         }
-        if (!$isFile 
+        if (!$isFile
             && !$this->fileOperationsService->makeFolder($this->pathService->getPlusContentRoot($publicPath, $itemName))
         ) {
             return $this->error('Create folder failed');

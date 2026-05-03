@@ -8,6 +8,13 @@ use Illuminate\Validation\Rules\Password;
 
 class CommonRequest extends FormRequest
 {
+    // Block filesystem dangerous chars and control characters
+    public const SAFE_CHARS_REGEX = '/^[^\x00-\x1f\x7f-\x9f<>\"|?*\x{200B}\x{200C}\x{200D}]+$/u';
+    // Prevent just . or space
+    public const DOTS_OR_SPACES_REGEX = '/^[\/\. ]+$/u';
+    // Prevent directory traversal (`..` as a segment or the whole name)
+    public const TRAVERSAL_REGEX = '/(^|[\/\\\\])\.\.([\/\\\\]|$)/';
+
     public static function shareSlugRules(): array
     {
         return [
@@ -19,12 +26,9 @@ class CommonRequest extends FormRequest
     {
         return [
             'string',
-            // Block filesystem dangerous chars and control characters
-            'regex:/^[^\x00-\x1f\x7f-\x9f<>\"|?*\x{200B}\x{200C}\x{200D}]+$/u',
-            // Prevent just  . or space
-            'not_regex:/^[\/\. ]+$/u',
-            // Prevent directory traversal (`..` as a segment or the whole name)
-            'not_regex:/(^|[\/\\\\])\.\.([\/\\\\]|$)/',
+            'regex:' . self::SAFE_CHARS_REGEX,
+            'not_regex:' . self::DOTS_OR_SPACES_REGEX,
+            'not_regex:' . self::TRAVERSAL_REGEX,
         ];
     }
 
