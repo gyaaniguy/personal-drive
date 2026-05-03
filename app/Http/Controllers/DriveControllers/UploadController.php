@@ -95,7 +95,8 @@ class UploadController extends Controller
             $relativeBasePath = $this->pathService->getPlusContentRoot($publicPath);
             $relativeDestinationPath = $relativeBasePath . $fileNameWithUploadedPath;
 
-            if ($this->fileOperationsService->directoryExists($relativeDestinationPath)
+            if (
+                $this->fileOperationsService->directoryExists($relativeDestinationPath)
                 || $this->fileOperationsService->pathExistsAsFile(
                     $relativeBasePath,
                     dirname($fileNameWithUploadedPath)

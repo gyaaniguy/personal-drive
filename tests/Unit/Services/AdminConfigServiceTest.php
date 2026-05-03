@@ -47,4 +47,49 @@ class AdminConfigServiceTest extends TestCase
         Mockery::close();
         parent::tearDown();
     }
+
+    public function test_update_storage_path_catch_returns_error_with_exception_message(): void
+    {
+        $exception = new \Exception('disk failure');
+
+        $this->setting
+            ->shouldReceive('updateStoragePath')
+            ->once()
+            ->andThrow($exception);
+
+        $result = $this->adminConfigService->updateStoragePath('/tmp/storage');
+
+        $this->assertFalse($result['status']);
+        $this->assertSame('An unexpected error occurred: disk failure', $result['message']);
+    }
+
+    public function test_update_storage_path_catch_returns_false_status(): void
+    {
+        $this->setting
+            ->shouldReceive('updateStoragePath')
+            ->once()
+            ->andThrow(new \Exception('any error'));
+
+        $result = $this->adminConfigService->updateStoragePath('/tmp/storage');
+
+        $this->assertArrayHasKey('status', $result);
+        $this->assertArrayHasKey('message', $result);
+        $this->assertFalse($result['status']);
+    }
+
+    public function test_update_storage_path_catch_concat_includes_prefix_and_message(): void
+    {
+        $this->setting
+            ->shouldReceive('updateStoragePath')
+            ->once()
+            ->andThrow(new \Exception('specific detail'));
+
+        $result = $this->adminConfigService->updateStoragePath('/tmp/storage');
+
+        $message = $result['message'];
+        $this->assertStringContainsString('An unexpected error occurred: ', $message);
+        $this->assertStringContainsString('specific detail', $message);
+        $this->assertStringStartsWith('An unexpected error occurred: ', $message);
+        $this->assertStringEndsWith('specific detail', $message);
+    }
 }
