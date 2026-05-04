@@ -73,7 +73,7 @@ class ThumbnailService
     /**
      * @throws ThumbnailException
      */
-    private function handleVideo(LocalFile $file): bool
+    protected function handleVideo(LocalFile $file): bool
     {
         $privateFilePath = $file->getPrivatePathNameForFile();
 
@@ -107,7 +107,7 @@ class ThumbnailService
     }
 
 
-    private function resizeImage(string $privateFilePath, string $fullFileThumbnailPath): bool
+    protected function resizeImage(string $privateFilePath, string $fullFileThumbnailPath): bool
     {
         try {
             Image::useImageDriver(ImageDriver::Gd)->loadFile($privateFilePath)

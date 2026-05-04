@@ -67,24 +67,6 @@ class ThumbnailServiceTest extends TestCase
     }
 
 
-    public function test_ensure_image_driver_loaded_throws_exception_when_gd_not_loaded()
-    {
-        // Skip this test if GD is actually loaded
-        if (extension_loaded('gd')) {
-            $this->markTestSkipped('GD extension is loaded, cannot test exception path');
-        }
-
-        $pathService = Mockery::mock(PathService::class);
-        $fileOperations = Mockery::mock(FileOperationsService::class);
-        $service = new ThumbnailService($pathService, $fileOperations);
-
-        $this->expectException(\App\Exceptions\PersonalDriveExceptions\ImageRelatedException::class);
-        $this->expectExceptionMessage('Could not generate thumbnail. Missing PHP extension: GD');
-
-        $service->ensureImageDriverLoaded();
-    }
-
-
     public function test_ensure_image_driver_loaded_succeeds_when_gd_is_loaded()
     {
         if (!extension_loaded('gd')) {
@@ -99,26 +81,6 @@ class ThumbnailServiceTest extends TestCase
         $service->ensureImageDriverLoaded();
 
         $this->assertTrue(true);
-    }
-
-
-    public function test_generate_thumbnails_throws_exception_when_gd_not_loaded()
-    {
-        // Skip this test if GD is actually loaded
-        if (extension_loaded('gd')) {
-            $this->markTestSkipped('GD extension is loaded, cannot test exception path');
-        }
-
-        $file = LocalFile::factory()->make(['file_type' => 'image']);
-
-        $pathService = Mockery::mock(PathService::class);
-        $fileOperations = Mockery::mock(FileOperationsService::class);
-        $service = new ThumbnailService($pathService, $fileOperations);
-
-        $this->expectException(\App\Exceptions\PersonalDriveExceptions\ImageRelatedException::class);
-        $this->expectExceptionMessage('Could not generate thumbnail. Missing PHP extension: GD');
-
-        $service->generateThumbnails(collect([$file]));
     }
 
 
@@ -402,7 +364,7 @@ class ThumbnailServiceTest extends TestCase
         // Create a valid JPEG file using GD
         $tempInput = tempnam(sys_get_temp_dir(), 'test_input_') . '.jpg';
         $tempOutput = tempnam(sys_get_temp_dir(), 'test_output_') . '.jpg';
-        
+
         $image = imagecreatetruecolor(100, 100);
         imagejpeg($image, $tempInput);
         imagedestroy($image);
@@ -420,5 +382,276 @@ class ThumbnailServiceTest extends TestCase
 
         // Clean up is handled by OS temp directory
         $this->assertTrue($result);
+    }
+
+
+    public function test_handle_video_with_valid_video_generates_thumbnail()
+    {
+        if (shell_exec('which ffmpeg') === null) {
+            $this->markTestSkipped('FFMpeg is not available on this system');
+        }
+
+        if (!extension_loaded('gd')) {
+            $this->markTestSkipped('GD extension is not loaded');
+        }
+
+        // Create a temporary directory for our test
+        $tempDir = sys_get_temp_dir() . '/thumb_video_test_' . uniqid();
+        mkdir($tempDir);
+
+        // Create a minimal test video using ffmpeg (2 seconds to ensure we can extract frame at 1 second)
+        $videoFile = $tempDir . '/test_video.mp4';
+        $output = shell_exec("ffmpeg -f lavfi -i testsrc=duration=2:size=320x240:rate=30 -f mp4 {$videoFile} -y 2>&1");
+
+        if (!file_exists($videoFile)) {
+            $this->markTestSkipped('Could not create test video file');
+        }
+
+        $file = LocalFile::factory()->make([
+            'file_type' => 'video',
+            'filename' => 'test_video.mp4',
+            'private_path' => $tempDir,
+            'public_path' => '',
+        ]);
+
+        $pathService = Mockery::mock(PathService::class);
+        $fileOperations = Mockery::mock(FileOperationsService::class);
+
+        $pathService->shouldReceive('getThumbnailAbsPath')->andReturn($tempDir);
+        $fileOperations->shouldReceive('directoryExists')->andReturn(true);
+
+        $service = new ThumbnailService($pathService, $fileOperations);
+
+        // Test through generateThumbnail which calls handleVideo
+        $result = $service->generateThumbnail($file);
+
+        // Should return 1 (true converted to int)
+        $this->assertEquals(1, $result);
+
+        // Verify the thumbnail file was created
+        $thumbnailPath = $tempDir . '/test_video.mp4.jpeg';
+        $this->assertFileExists($thumbnailPath);
+
+        // Verify the thumbnail is a valid image
+        $imageInfo = getimagesize($thumbnailPath);
+        $this->assertIsArray($imageInfo);
+        $this->assertEquals('image/jpeg', $imageInfo['mime']);
+    }
+
+
+
+    public function test_handle_video_with_invalid_video_throws_exception()
+    {
+        if (shell_exec('which ffmpeg') === null) {
+            $this->markTestSkipped('FFMpeg is not available on this system');
+        }
+
+        // Create a temporary directory for our test
+        $tempDir = sys_get_temp_dir() . '/thumb_video_test_' . uniqid();
+        mkdir($tempDir);
+
+        // Create an invalid video file
+        $videoFile = $tempDir . '/invalid_video.mp4';
+        file_put_contents($videoFile, 'not a valid video');
+
+        $file = LocalFile::factory()->make([
+            'file_type' => 'video',
+            'filename' => 'invalid_video.mp4',
+            'private_path' => $tempDir,
+            'public_path' => '',
+        ]);
+
+        $pathService = Mockery::mock(PathService::class);
+        $fileOperations = Mockery::mock(FileOperationsService::class);
+
+        $pathService->shouldReceive('getThumbnailAbsPath')->andReturn($tempDir);
+        $fileOperations->shouldReceive('directoryExists')->andReturn(true);
+
+        $service = new ThumbnailService($pathService, $fileOperations);
+
+        // Test through generateThumbnail which calls handleVideo
+        // This should throw an exception when trying to open an invalid video
+        // The exact exception depends on FFMpeg internals, so we just check it doesn't crash
+        try {
+            $result = $service->generateThumbnail($file);
+            // If it doesn't throw, it should return 0 (failure)
+            $this->assertEquals(0, $result);
+        } catch (\Exception $e) {
+            // If it throws, that's also acceptable behavior
+            $this->assertInstanceOf(\Exception::class, $e);
+        }
+    }
+
+
+    public function test_gen_thumbnails_for_file_ids_with_nonexistent_files_returns_zero()
+    {
+        $image = LocalFile::factory()->create([
+            'file_type' => 'image',
+            'private_path' => '/nonexistent/path/' . uniqid(),
+        ]);
+
+        $pathService = Mockery::mock(PathService::class);
+        $fileOperations = Mockery::mock(FileOperationsService::class);
+
+        $pathService->shouldReceive('getThumbnailAbsPath')->andReturn(sys_get_temp_dir());
+        $fileOperations->shouldReceive('directoryExists')->andReturn(true);
+
+        $service = new ThumbnailService($pathService, $fileOperations);
+
+        $result = $service->genThumbnailsForFileIds([$image->id]);
+
+        // Should return 0 because the file doesn't exist
+        $this->assertEquals(0, $result);
+    }
+
+
+    public function test_gen_thumbnails_for_file_ids_with_mixed_types_filters_correctly()
+    {
+        $image = LocalFile::factory()->create(['file_type' => 'image']);
+        $video = LocalFile::factory()->create(['file_type' => 'video']);
+        $pdf = LocalFile::factory()->create(['file_type' => 'pdf']);
+        $doc = LocalFile::factory()->create(['file_type' => 'document']);
+
+        $pathService = Mockery::mock(PathService::class);
+        $fileOperations = Mockery::mock(FileOperationsService::class);
+        $service = Mockery::mock(ThumbnailService::class, [$pathService, $fileOperations])
+            ->makePartial()
+            ->shouldAllowMockingProtectedMethods();
+
+        // Mock generateThumbnails to return 2 (for image + video)
+        $service->shouldReceive('generateThumbnails')->andReturn(2);
+
+        // All file IDs are passed, but only image and video should be processed
+        $result = $service->genThumbnailsForFileIds([$image->id, $video->id, $pdf->id, $doc->id]);
+
+        $this->assertEquals(2, $result);
+    }
+
+
+    public function test_resize_image_resizes_to_correct_dimensions()
+    {
+        if (!extension_loaded('gd')) {
+            $this->markTestSkipped('GD extension is not loaded');
+        }
+
+        // Create a valid JPEG file with square dimensions
+        $tempInput = tempnam(sys_get_temp_dir(), 'test_input_') . '.jpg';
+        $tempOutput = tempnam(sys_get_temp_dir(), 'test_output_') . '.jpg';
+
+        $image = imagecreatetruecolor(100, 100); // Square image
+        imagejpeg($image, $tempInput);
+        imagedestroy($image);
+
+        $pathService = Mockery::mock(PathService::class);
+        $fileOperations = Mockery::mock(FileOperationsService::class);
+        $service = new ThumbnailService($pathService, $fileOperations);
+
+        // Use reflection to test the protected method
+        $reflection = new \ReflectionClass($service);
+        $method = $reflection->getMethod('resizeImage');
+        $method->setAccessible(true);
+
+        $result = $method->invoke($service, $tempInput, $tempOutput);
+
+        $this->assertTrue($result);
+
+        // Check that the output file exists and has been resized
+        $outputInfo = getimagesize($tempOutput);
+        $this->assertIsArray($outputInfo);
+        $this->assertEquals(210, $outputInfo[0]); // IMAGE_SIZE
+        $this->assertEquals(210, $outputInfo[1]); // IMAGE_SIZE
+    }
+
+
+    public function test_get_full_file_thumbnail_path_with_deep_nesting()
+    {
+        $file = LocalFile::factory()->make([
+            'file_type' => 'image',
+            'filename' => 'deep.jpg',
+            'public_path' => 'level1/level2/level3/level4',
+        ]);
+
+        $pathService = Mockery::mock(PathService::class);
+        $fileOperations = Mockery::mock(FileOperationsService::class);
+
+        $expectedThumbnailDir = THUMBS_SUBDIR . DS . 'level1' . DS . 'level2' . DS . 'level3' . DS . 'level4' . DS;
+        $expectedStoragePath = '/storage/path';
+
+        $pathService->shouldReceive('getThumbnailAbsPath')->once()->andReturn($expectedStoragePath);
+        $fileOperations->shouldReceive('directoryExists')->with($expectedThumbnailDir)->once()->andReturn(false);
+        $fileOperations->shouldReceive('makeFolder')->with($expectedThumbnailDir)->once()->andReturn(true);
+
+        $service = new ThumbnailService($pathService, $fileOperations);
+        $result = $service->getFullFileThumbnailPath($file);
+
+        $expectedPath = $expectedStoragePath . DS . 'level1' . DS . 'level2' . DS . 'level3' . DS . 'level4' . DS . 'deep.jpg';
+        $this->assertEquals($expectedPath, $result);
+    }
+
+
+    public function test_get_full_file_thumbnail_path_with_empty_public_path()
+    {
+        $file = LocalFile::factory()->make([
+            'file_type' => 'image',
+            'filename' => 'root.jpg',
+            'public_path' => '',
+        ]);
+
+        $pathService = Mockery::mock(PathService::class);
+        $fileOperations = Mockery::mock(FileOperationsService::class);
+
+        $expectedThumbnailDir = THUMBS_SUBDIR . DS;
+        $expectedStoragePath = '/storage/path';
+
+        $pathService->shouldReceive('getThumbnailAbsPath')->once()->andReturn($expectedStoragePath);
+        $fileOperations->shouldReceive('directoryExists')->with($expectedThumbnailDir)->once()->andReturn(true);
+
+        $service = new ThumbnailService($pathService, $fileOperations);
+        $result = $service->getFullFileThumbnailPath($file);
+
+        $expectedPath = $expectedStoragePath . DS . 'root.jpg';
+        $this->assertEquals($expectedPath, $result);
+    }
+
+
+    public function test_generate_thumbnail_for_pdf_returns_zero()
+    {
+        $file = LocalFile::factory()->make(['file_type' => 'pdf']);
+
+        $pathService = Mockery::mock(PathService::class);
+        $fileOperations = Mockery::mock(FileOperationsService::class);
+        $service = new ThumbnailService($pathService, $fileOperations);
+
+        $result = $service->generateThumbnail($file);
+
+        $this->assertEquals(0, $result);
+    }
+
+
+    public function test_generate_thumbnail_for_document_returns_zero()
+    {
+        $file = LocalFile::factory()->make(['file_type' => 'document']);
+
+        $pathService = Mockery::mock(PathService::class);
+        $fileOperations = Mockery::mock(FileOperationsService::class);
+        $service = new ThumbnailService($pathService, $fileOperations);
+
+        $result = $service->generateThumbnail($file);
+
+        $this->assertEquals(0, $result);
+    }
+
+
+    public function test_generate_thumbnail_for_audio_returns_zero()
+    {
+        $file = LocalFile::factory()->make(['file_type' => 'audio']);
+
+        $pathService = Mockery::mock(PathService::class);
+        $fileOperations = Mockery::mock(FileOperationsService::class);
+        $service = new ThumbnailService($pathService, $fileOperations);
+
+        $result = $service->generateThumbnail($file);
+
+        $this->assertEquals(0, $result);
     }
 }

@@ -50,25 +50,6 @@ class CommonRequestTest extends TestCase
         $validator = Validator::make(['path' => '/var/www/../naughty'], ['path' => $rules]);
         $this->assertFalse($validator->passes(), 'A path with invalid characters should fail validation.');
 
-        // --- Existing tests ---
-        $validator = Validator::make(['path' => 'd:/documents folder/storage'], ['path' => $rules]);
-        $this->assertTrue($validator->passes(), 'Windows valid path should pass validation.');
-
-        $validator = Validator::make(['path' => '/valid/path'], ['path' => $rules]);
-        $this->assertTrue($validator->passes(), 'The valid path should pass validation.');
-
-        $validator = Validator::make(['path' => str_repeat('a', 513)], ['path' => $rules]);
-        $this->assertFalse($validator->passes(), 'A path exceeding 512 characters should fail validation.');
-
-        $validator = Validator::make(['path' => null], ['path' => $rules]);
-        $this->assertTrue($validator->passes(), 'A null path should pass validation as it is nullable.');
-
-        $validator = Validator::make(['path' => 'invalid|path'], ['path' => $rules]);
-        $this->assertFalse($validator->passes(), 'A path with invalid characters should fail validation.');
-
-        $validator = Validator::make(['path' => '/var/www/../naughty'], ['path' => $rules]);
-        $this->assertFalse($validator->passes(), 'A path with invalid characters should fail validation.');
-
         // --- Added from old ValidPathTest ---
         $validator = Validator::make(['path' => 'valid/path/to/file.txt'], ['path' => $rules]);
         $this->assertTrue($validator->passes(), 'A valid relative path should pass.');
