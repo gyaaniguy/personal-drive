@@ -12,6 +12,7 @@ use SplFileInfo;
 
 class LocalFileStatsService
 {
+    private static ?int $userId = null;
     private PathService $pathService;
 
     public function __construct(PathService $pathService)
@@ -42,15 +43,15 @@ class LocalFileStatsService
             'is_dir' => $isDir ? 1 : 0,
             'public_path' => $publicPath,
             'private_path' => $privatePath,
-            'size' => $file->isDir() ? '' : $file->getSize(),
-            'user_id' => auth()->user()->id,
-            'file_type' => $this->getFileType($file)
+            'size' => $isDir ? '' : $file->getSize(),
+            'user_id' => self::$userId ??= auth()->user()->id,
+            'file_type' => $this->getFileType($file, $isDir)
         ];
     }
 
-    private function getFileType(SplFileInfo $item): string
+    private function getFileType(SplFileInfo $item, bool $isDir): string
     {
-        if ($item->isDir()) {
+        if ($isDir) {
             return 'folder';
         }
         $mimeType = mime_content_type($item->getPathname()) ?: '';
@@ -143,7 +144,7 @@ class LocalFileStatsService
             [
                 'size' => $file->getSize(),
                 'is_dir' => $file->isDir(),
-                'file_type' => $this->getFileType($file),
+                'file_type' => $this->getFileType($file, $file->isDir()),
             ]
         );
     }
