@@ -76,9 +76,9 @@ class UploadService
         if (!$this->isValidDirectory($storageDir) || !$this->isValidDirectory($tempDir)) {
             return false;
         }
-
+        $rootPathLen = $this->pathService->getRootPathLen();
         foreach ($this->filesystem->allFiles($tempDir) as $file) {
-            if (!$this->syncFileToStorage($file, $tempDir, $storageDir)) {
+            if (!$this->syncFileToStorage($file, $tempDir, $storageDir, $rootPathLen)) {
                 return false;
             }
         }
@@ -93,7 +93,7 @@ class UploadService
             $this->filesystem->isDirectory($path);
     }
 
-    public function syncFileToStorage(SplFileInfo $tempFileSplInfo, string $sourceRoot, string $targetRoot): bool
+    public function syncFileToStorage(SplFileInfo $tempFileSplInfo, string $sourceRoot, string $targetRoot, int $rootPathLen): bool
     {
         $targetPath = Str::replaceFirst($sourceRoot, $targetRoot, $tempFileSplInfo->getPathname());
 
@@ -114,7 +114,7 @@ class UploadService
         $newFile = new SplFileInfo($targetPath, dirname($targetPath), basename($targetPath));
 
         if (!$existingFile) {
-            $itemDetails = $this->localFileStatsService->getFileItemDetails($newFile);
+            $itemDetails = $this->localFileStatsService->getFileItemDetails($newFile, $rootPathLen);
             $existingFile = LocalFile::updateOrCreate($itemDetails);
         } else {
             $this->localFileStatsService->updateFileStats($existingFile, $newFile);
@@ -256,7 +256,7 @@ class UploadService
         if (!$tempDirFullPath) {
             return true;
         }
-        if ($this->filesystem->exists($tempDirFullPath) 
+        if ($this->filesystem->exists($tempDirFullPath)
             && $this->filesystem->isDirectory($tempDirFullPath)
         ) {
             Session::forget($this->tempUuid);

@@ -275,8 +275,9 @@ class LocalFileStatsServiceTest extends TestCase
 
         $user = User::factory()->create();
         Auth::shouldReceive('user')->andReturn($user);
+        $rootPathLen = strlen($storagePath)+1;
 
-        $result = $this->service->getFileItemDetails($item);
+        $result = $this->service->getFileItemDetails($item, $rootPathLen);
 
         // Kills DecrementInteger (+0): would give 'ubdir/deep' instead of 'subdir/deep'
         // Kills IncrementInteger (+2): would give 'bdir/deep' instead of 'subdir/deep'
@@ -302,7 +303,7 @@ class LocalFileStatsServiceTest extends TestCase
         $user = User::factory()->create();
         Auth::shouldReceive('user')->andReturn($user);
 
-        $result = $this->service->getFileItemDetails($item);
+        $result = $this->service->getFileItemDetails($item, strlen($storagePath)+1);
 
         // Top-level file: private_path == storagePath, substr from rootPathLen gives ''
         $this->assertEquals('', $result['public_path']);

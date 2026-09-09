@@ -109,8 +109,9 @@ class LocalFileStatsService
                 }
             );
         }
+        $rootPathLen = $this->pathService->getRootPathLen();
         return $items
-            ->map(fn($item) => $this->getFileItemDetails($item))
+            ->map(fn($item) => $this->getFileItemDetails($item, $rootPathLen))
             ->chunk($batchSize)
             ->sum(fn($chunk) => LocalFile::insertRows($chunk->all()));
     }
@@ -129,9 +130,8 @@ class LocalFileStatsService
         );
     }
 
-    public function getFileItemDetails(SplFileInfo $item): array
+    public function getFileItemDetails(SplFileInfo $item, int $rootPathLen): array
     {
-        $rootPathLen = strlen($this->pathService->getStorageFolderPath()) + 1;
         $privatePath = $item->getPath();
         $publicPath = substr($privatePath, $rootPathLen);
         return $this->getSplFileStats($item->getFilename(), $item->isDir(), $publicPath, $privatePath, $item);

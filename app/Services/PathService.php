@@ -36,6 +36,10 @@ class PathService
     {
         return Setting::getStoragePath() . DS . CONTENT_SUBDIR;
     }
+    public function getRootPathLen(): int
+    {
+        return strlen($this->getStorageFolderPath()) + 1;
+    }
 
     /**
      * Verify that an absolute target path resolves inside the configured storage root.

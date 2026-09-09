@@ -69,7 +69,7 @@ class UploadServiceFeatureTest extends BaseFeatureTest
         $this->thumbService->shouldReceive('genThumbnailsForFileIds')->andReturn(1);
 
         $file = new SplFileInfo($filePath, dirname($filePath), basename($filePath));
-        $this->uploadService->syncFileToStorage($file, $this->tempRootDir, $this->targetDir);
+        $this->uploadService->syncFileToStorage($file, $this->tempRootDir, $this->targetDir, $this->pathService->getRootPathLen());
 
         $this->assertFileExists($this->targetDir . DS . $relativePath);
     }
