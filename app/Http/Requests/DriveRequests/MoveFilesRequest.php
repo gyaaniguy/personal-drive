@@ -9,6 +9,9 @@ class MoveFilesRequest extends FormRequest
 {
     public function rules(): array
     {
-        return array_merge(CommonRequest::fileListRules(), ['path' => CommonRequest::pathRules()]);
+        return array_merge(
+            CommonRequest::fileListRules(),
+            ['path' => array_merge(['required'], CommonRequest::baseNameRule(), ['max:512'])]
+        );
     }
 }

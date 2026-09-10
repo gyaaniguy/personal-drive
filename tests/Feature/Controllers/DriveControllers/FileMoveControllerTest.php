@@ -31,6 +31,17 @@ class FileMoveControllerTest extends BaseFeatureTest
         $response->assertSessionHas('message', 'Could not find any valid files to move');
     }
 
+    public function test_move_without_path_is_rejected_as_validation_error_not_server_error(): void
+    {
+        $response = $this->post(
+            route('drive.move-files'), [
+            '_token' => csrf_token(),
+            'fileList' => [(string) Str::ulid()],
+            ]
+        );
+        $response->assertSessionHasErrors('path');
+    }
+
 
     public function test_move_folders_exists_fail()
     {

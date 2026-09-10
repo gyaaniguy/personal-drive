@@ -399,7 +399,7 @@ const FileBrowserSection = memo(({ files, path, token, isAdmin, slug, folderExis
                             )}
                         </div>
                     )}
-                    {cutFiles.size > 0 && (
+                    {cutFiles.size > 0 && path && (
                         <PasteButton
                             onPaste={handlePasteFiles} // Example paste handler
                         />
