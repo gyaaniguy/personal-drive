@@ -26,9 +26,7 @@ const FavoriteButton = ({
                 fill={isFavorite ? "currentColor" : "none"}
                 aria-hidden="true"
             />
-            {!classes && (
-                <span className="hidden lg:inline">Star</span>
-            )}
+            {!classes && <span className="hidden lg:inline">Star</span>}
         </Button>
     );
 };

@@ -12,7 +12,9 @@ class ShareFilesModController extends Controller
 {
     use FlashMessages;
 
-    public function __construct(private ShareService $shareService) {}
+    public function __construct(private ShareService $shareService)
+    {
+    }
 
     public function delete(ShareFilesModRequest $request): RedirectResponse
     {

@@ -9,9 +9,12 @@ export default function RefreshButton() {
     const [isLoading, setIsLoading] = useState(false);
 
     async function handleClick(e) {
-
         e.preventDefault();
-        if (confirm("Confirm re-index. This will remove all existing shares. Favorites are kept.")) {
+        if (
+            confirm(
+                "Confirm re-index. This will remove all existing shares. Favorites are kept.",
+            )
+        ) {
             setIsLoading(true);
             router.post(
                 "/resync",

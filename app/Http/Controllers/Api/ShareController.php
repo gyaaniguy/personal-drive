@@ -17,7 +17,8 @@ class ShareController extends Controller
 
     public function __construct(
         private ShareService $shareService,
-    ) {}
+    ) {
+    }
 
     public function index(ListSharesRequest $request): JsonResponse
     {

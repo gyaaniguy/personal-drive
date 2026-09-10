@@ -8,5 +8,4 @@ class TwoFactorException extends PersonalDriveException
     {
         return new self('Could not validate two-factor code');
     }
-
 }

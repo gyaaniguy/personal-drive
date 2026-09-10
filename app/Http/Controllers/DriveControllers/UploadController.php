@@ -14,7 +14,6 @@ use App\Traits\FlashMessages;
 use Illuminate\Http\RedirectResponse;
 use Illuminate\Support\Facades\Redirect;
 
-
 class UploadController extends Controller
 {
     use FlashMessages;

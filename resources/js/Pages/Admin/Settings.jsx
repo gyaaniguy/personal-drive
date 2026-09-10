@@ -24,7 +24,7 @@ export default function Settings({
     api_sections = [],
     flash = {},
 }) {
-    const [activeTab, setActiveTab] = useState('config');
+    const [activeTab, setActiveTab] = useState("config");
 
     function switchTab(tab) {
         setActiveTab(tab);
@@ -58,9 +58,13 @@ export default function Settings({
                 <main className="mx-auto max-w-7xl">
                     <AlertBox />
 
-                    <div className={`max-w-3xl mx-auto min-h-[500px] flex flex-col gap-y-8 md:gap-y-20 ${
-                        activeTab === "tokens" ? "" : "bg-blue-900/15 p-2 md:p-12"
-                    }`}>
+                    <div
+                        className={`max-w-3xl mx-auto min-h-[500px] flex flex-col gap-y-8 md:gap-y-20 ${
+                            activeTab === "tokens"
+                                ? ""
+                                : "bg-blue-900/15 p-2 md:p-12"
+                        }`}
+                    >
                         {activeTab === "config" && (
                             <ConfigTab
                                 storage_path={storage_path}

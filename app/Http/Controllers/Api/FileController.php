@@ -39,15 +39,14 @@ class FileController extends Controller
     protected FileSaveService $fileSaveService;
 
     public function __construct(
-        PathService           $pathService,
+        PathService $pathService,
         LocalFileStatsService $localFileStatsService,
-        UploadService         $uploadService,
-        FileDeleteService     $fileDeleteService,
-        FileMoveService       $fileMoveService,
-        FileRenameService     $fileRenameService,
-        FileSaveService       $fileSaveService,
-    )
-    {
+        UploadService $uploadService,
+        FileDeleteService $fileDeleteService,
+        FileMoveService $fileMoveService,
+        FileRenameService $fileRenameService,
+        FileSaveService $fileSaveService,
+    ) {
         $this->pathService = $pathService;
         $this->localFileStatsService = $localFileStatsService;
         $this->uploadService = $uploadService;

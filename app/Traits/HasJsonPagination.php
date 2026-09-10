@@ -25,7 +25,8 @@ trait HasJsonPagination
                 'per_page' => $paginator->perPage(),
                 'total' => $paginator->total(),
                 ],
-                ], $extra
+                ],
+                $extra
             )
         );
     }

@@ -42,9 +42,7 @@ const DeleteButton = ({
             title="Delete selected files"
         >
             <Trash2Icon className={`text-red-500 w-4 h-4`} />
-            {!classes && (
-                <span className={`hidden lg:inline`}>Delete</span>
-            )}
+            {!classes && <span className={`hidden lg:inline`}>Delete</span>}
         </Button>
     );
 };

@@ -13,8 +13,9 @@ class CheckSetup
 {
     public function handle(Request $request, Closure $next): Response|RedirectResponse
     {
-        if ((!Schema::hasTable('users') 
-            || DB::table('users')->count() === 0) 
+        if (
+            (!Schema::hasTable('users')
+            || DB::table('users')->count() === 0)
             && !$request->is('setup*', 'error')
         ) {
             return redirect('/setup/account');

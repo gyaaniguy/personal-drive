@@ -36,7 +36,8 @@ class FileOperationsService
         }
         // $src/$dest are relative to the adapter root ($this->basePath).
         // Never let a move resolve outside the storage root through a symlink.
-        if (!$this->isPathWithinStorageRoot($this->basePath . DS . $dest)
+        if (
+            !$this->isPathWithinStorageRoot($this->basePath . DS . $dest)
             || !$this->isPathWithinStorageRoot($this->basePath . DS . $src)
         ) {
             throw FileMoveException::invalidDestinationPath();

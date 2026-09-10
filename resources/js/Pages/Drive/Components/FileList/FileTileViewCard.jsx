@@ -1,6 +1,6 @@
 import React from "react";
-import {File, Folder} from "lucide-react";
-import {Link} from "@inertiajs/react";
+import { File, Folder } from "lucide-react";
+import { Link } from "@inertiajs/react";
 import DeleteButton from "@/Pages/Drive/Components/DeleteButton.jsx";
 import FavoriteButton from "@/Pages/Drive/Components/FavoriteButton.jsx";
 import DownloadButton from "@/Pages/Drive/Components/DownloadButton.jsx";
@@ -44,9 +44,13 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
                 <div className="flex items-start justify-between gap-2">
                     <h3
                         className="font-medium truncate max-w-[120px] md:max-w-[200px] text-sm text-gray-400 pb-0 overflow-hidden"
-                        title={(isSearch ? file.public_path + "/" : "") + file.filename}
+                        title={
+                            (isSearch ? file.public_path + "/" : "") +
+                            file.filename
+                        }
                     >
-                        {(isSearch ? file.public_path + "/" : "") + file.filename}
+                        {(isSearch ? file.public_path + "/" : "") +
+                            file.filename}
                     </h3>
                     <div
                         className="hover:bg-gray-600 p-1 cursor-pointer flex items-center"
@@ -68,7 +72,8 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
                             className="flex items-center justify-center w-full h-full cursor-pointer"
                             onClick={() => handleFileClick(file)}
                         >
-                            {file.has_thumbnail && !file.filename.endsWith(".svg") ? (
+                            {file.has_thumbnail &&
+                            !file.filename.endsWith(".svg") ? (
                                 <img
                                     src={imageSrc}
                                     alt="Thumbnail"
@@ -77,29 +82,30 @@ const FileTileViewCard = React.memo(function FileTileViewCard({
                                     className="object-contain max-h-full max-w-full"
                                 />
                             ) : (
-                                <File className="text-gray-400 group-hover:text-gray-300 w-24 h-24 md:w-40 md:h-40"/>
+                                <File className="text-gray-400 group-hover:text-gray-300 w-24 h-24 md:w-40 md:h-40" />
                             )}
                         </div>
                     ) : (
                         <Link
                             href={
                                 (isSearch
-                                    ? "/drive/" + (file.public_path ? file.public_path + "/" : "")
+                                    ? "/drive/" +
+                                      (file.public_path
+                                          ? file.public_path + "/"
+                                          : "")
                                     : path + "/") + file.filename
                             }
                             className="flex items-center justify-center w-full h-full transition-transform duration-200"
                             preserveScroll
                         >
-                            <Folder className="text-yellow-600 w-20 h-20 md:w-36 md:h-36"/>
+                            <Folder className="text-yellow-600 w-20 h-20 md:w-36 md:h-36" />
                         </Link>
                     )}
                 </div>
             </div>
 
             {/* Action Buttons - Hidden by default, shown on hover */}
-            <div
-                className="absolute bottom-0 left-1/2 hidden w-full -translate-x-1/2 justify-between bg-gray-900/90 px-1 py-1 opacity-70 md:mb-2 md:px-3 md:group-hover:flex md:group-focus-within:flex"
-            >
+            <div className="absolute bottom-0 left-1/2 hidden w-full -translate-x-1/2 justify-between bg-gray-900/90 px-1 py-1 opacity-70 md:mb-2 md:px-3 md:group-hover:flex md:group-focus-within:flex">
                 {isAdmin && (
                     <div className="flex-1">
                         <DeleteButton

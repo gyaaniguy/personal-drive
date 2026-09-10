@@ -26,9 +26,7 @@ const ShowShareModalButton = ({
             onClick={(e) => handleShareButton(e)}
         >
             <Share2Icon className={`text-blue-500  h-4 w-4`} />
-            {!classes && (
-                <span className={`hidden lg:inline`}>Share</span>
-            )}
+            {!classes && <span className={`hidden lg:inline`}>Share</span>}
         </Button>
     );
 };

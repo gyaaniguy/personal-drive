@@ -193,5 +193,4 @@ class LocalFile extends Model
     {
         return !$this->isValidFile() && !$this->isValidDir();
     }
-
 }

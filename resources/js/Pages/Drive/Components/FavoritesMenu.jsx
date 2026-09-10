@@ -11,7 +11,6 @@ const FavoritesMenu = ({
     setIsShareModalOpen,
     setFilesToShare,
     setStatusMessage,
-    statusMessage,
     setAlertStatus,
 }) => {
     const [isOpen, setIsOpen] = useState(false);
@@ -56,7 +55,10 @@ const FavoritesMenu = ({
                 onClick={() => setIsOpen((open) => !open)}
                 aria-label="Favorites"
             >
-                <Star className="h-4 w-4 fill-current text-yellow-300" aria-hidden="true" />
+                <Star
+                    className="h-4 w-4 fill-current text-yellow-300"
+                    aria-hidden="true"
+                />
                 <span className="hidden md:inline">Fav</span>
             </button>
 
@@ -93,11 +95,15 @@ const FavoritesMenu = ({
                                         <button
                                             type="button"
                                             className="min-w-0 flex-1 rounded-md px-1 py-2 text-left focus:outline-none focus-visible:ring-2 focus-visible:ring-yellow-400"
-                                            onClick={() => onOpenFavorite(localFile)}
+                                            onClick={() =>
+                                                onOpenFavorite(localFile)
+                                            }
                                         >
                                             <span className="flex min-w-0 items-center gap-x-1">
                                                 <span className="truncate-left min-w-0 text-xs text-gray-400">
-                                                    /{compactPath && `${compactPath}/`}
+                                                    /
+                                                    {compactPath &&
+                                                        `${compactPath}/`}
                                                 </span>
                                                 <span className="shrink-0 text-sm text-gray-100">
                                                     {localFile.filename}
@@ -108,17 +114,27 @@ const FavoritesMenu = ({
                                             <DownloadButton
                                                 isAdmin={true}
                                                 classes="h-7 w-7  justify-center"
-                                                selectedFiles={new Set([localFile.id])}
-                                                setStatusMessage={setStatusMessage}
+                                                selectedFiles={
+                                                    new Set([localFile.id])
+                                                }
+                                                setStatusMessage={
+                                                    setStatusMessage
+                                                }
                                                 setAlertStatus={setAlertStatus}
                                                 aria-label={`Download ${localFile.filename}`}
                                                 title={`Download ${localFile.filename}`}
                                             />
                                             <ShowShareModalButton
                                                 classes="h-7 w-7 justify-center"
-                                                setIsShareModalOpen={setIsShareModalOpen}
-                                                setFilesToShare={setFilesToShare}
-                                                filesToShare={new Set([localFile.id])}
+                                                setIsShareModalOpen={
+                                                    setIsShareModalOpen
+                                                }
+                                                setFilesToShare={
+                                                    setFilesToShare
+                                                }
+                                                filesToShare={
+                                                    new Set([localFile.id])
+                                                }
                                                 aria-label={`Share ${localFile.filename}`}
                                                 title={`Share ${localFile.filename}`}
                                             />
@@ -126,12 +142,18 @@ const FavoritesMenu = ({
                                                 type="button"
                                                 className="flex h-7 w-7 items-center justify-center rounded-md text-red-300 hover:bg-red-950 focus:outline-none focus-visible:ring-2 focus-visible:ring-red-400"
                                                 onClick={(event) =>
-                                                    handleRemove(event, favorite.id)
+                                                    handleRemove(
+                                                        event,
+                                                        favorite.id,
+                                                    )
                                                 }
                                                 aria-label={`Remove ${localFile.filename} from favorites`}
                                                 title="Remove favorite"
                                             >
-                                                <X className="h-5 w-5" aria-hidden="true" />
+                                                <X
+                                                    className="h-5 w-5"
+                                                    aria-hidden="true"
+                                                />
                                             </button>
                                         </div>
                                     </li>

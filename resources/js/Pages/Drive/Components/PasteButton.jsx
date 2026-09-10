@@ -11,9 +11,7 @@ const PasteButton = ({ classes, onPaste }) => {
             title="Paste files"
         >
             <ClipboardCopyIcon className={`text-orange-500  w-4 h-4`} />
-            {!classes && (
-                <span className={`hidden lg:inline`}>Paste</span>
-            )}
+            {!classes && <span className={`hidden lg:inline`}>Paste</span>}
         </Button>
     );
 };

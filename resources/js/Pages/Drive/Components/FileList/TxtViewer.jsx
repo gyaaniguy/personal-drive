@@ -76,7 +76,8 @@ const TxtViewer = ({
         } catch (err) {
             console.error("Error saving file:", err);
             setSavedMessage(
-                "Error: " + (err.response?.data?.message || "Could not save file"),
+                "Error: " +
+                    (err.response?.data?.message || "Could not save file"),
             );
         } finally {
             setIsSaving(false);
@@ -92,7 +93,9 @@ const TxtViewer = ({
 
     const discardChanges = () => {
         if (editedContent !== content) {
-            if (!window.confirm("Unsaved changes will be lost. Show preview?")) {
+            if (
+                !window.confirm("Unsaved changes will be lost. Show preview?")
+            ) {
                 return;
             }
         }
@@ -159,7 +162,9 @@ const TxtViewer = ({
                 <div
                     className={`prose prose-invert w-[90vw] md:w-[70vw] ${isAdmin ? "cursor-pointer" : ""}`}
                     dangerouslySetInnerHTML={{
-                        __html: sanitizeHtml(marked.parse(content || "Empty File")),
+                        __html: sanitizeHtml(
+                            marked.parse(content || "Empty File"),
+                        ),
                     }}
                     onClick={startEditing}
                 />

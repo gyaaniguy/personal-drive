@@ -11,8 +11,15 @@ export default function Header() {
                 <div className="mx-auto max-w-7xl pr-1 md:px-6 ">
                     <div className="flex h-16 justify-between ">
                         <div className="space-x-1 sm:space-x-4 md:space-x-8 sm:-my-px pr-1 sm:pr-3 flex">
-                            <a className="flex items-center justify-center hidden md:flex" href="/drive">
-                                <img src="/img/logo.png" alt="Logo" className="h-1/2 object-contain"/>
+                            <a
+                                className="flex items-center justify-center hidden md:flex"
+                                href="/drive"
+                            >
+                                <img
+                                    src="/img/logo.png"
+                                    alt="Logo"
+                                    className="h-1/2 object-contain"
+                                />
                             </a>
                             <NavLink
                                 href={route("drive")}
@@ -38,7 +45,7 @@ export default function Header() {
                         </div>
 
                         <div className="flex gap-x-1 sm:gap-x-2 items-center">
-                            <SearchBar handleSearch={handleSearch}/>
+                            <SearchBar handleSearch={handleSearch} />
 
                             <div className="">
                                 <div className="relative group text-gray-300">

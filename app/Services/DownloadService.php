@@ -29,10 +29,10 @@ class DownloadService
 
     public function createZipFile(Collection $localFiles): string
     {
-        $outputZipPath = '/tmp'.DS.
-            'personal_drive_'.uniqid('', true).'_'.now()->format('Y_m_d').'.zip';
+        $outputZipPath = '/tmp' . DS .
+            'personal_drive_' . uniqid('', true) . '_' . now()->format('Y_m_d') . '.zip';
 
-        $zip = new ZipArchive;
+        $zip = new ZipArchive();
 
         if ($zip->open($outputZipPath, ZipArchive::CREATE | ZipArchive::OVERWRITE) !== true) {
             throw FetchFileException::couldNotZip();

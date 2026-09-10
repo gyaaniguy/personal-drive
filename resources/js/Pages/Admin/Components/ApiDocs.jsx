@@ -20,7 +20,9 @@ function ParamsTable({ params, title }) {
     if (!params || params.length === 0) return null;
     return (
         <div>
-            <h4 className="text-gray-300 text-sm font-semibold mb-2">{title}</h4>
+            <h4 className="text-gray-300 text-sm font-semibold mb-2">
+                {title}
+            </h4>
             <div className="overflow-x-auto">
                 <table className="w-full text-sm">
                     <thead>
@@ -42,9 +44,13 @@ function ParamsTable({ params, title }) {
                                 </td>
                                 <td className="py-1.5 pr-4">
                                     {p.required ? (
-                                        <span className="text-yellow-400 text-xs">required</span>
+                                        <span className="text-yellow-400 text-xs">
+                                            required
+                                        </span>
                                     ) : (
-                                        <span className="text-gray-500 text-xs">optional</span>
+                                        <span className="text-gray-500 text-xs">
+                                            optional
+                                        </span>
                                     )}
                                 </td>
                                 <td className="py-1.5 text-xs text-gray-400">
@@ -83,7 +89,9 @@ function EndpointCard({ endpoint }) {
 
             {endpoint.response && (
                 <div>
-                    <h4 className="text-gray-300 text-sm font-semibold mb-2">Response</h4>
+                    <h4 className="text-gray-300 text-sm font-semibold mb-2">
+                        Response
+                    </h4>
                     <pre className="bg-blue-950 border border-blue-800 rounded p-3 text-xs text-gray-300 overflow-x-auto whitespace-pre-wrap">
                         {endpoint.response}
                     </pre>
@@ -92,7 +100,9 @@ function EndpointCard({ endpoint }) {
 
             {endpoint.curl && (
                 <div>
-                    <h4 className="text-gray-300 text-sm font-semibold mb-2">Example</h4>
+                    <h4 className="text-gray-300 text-sm font-semibold mb-2">
+                        Example
+                    </h4>
                     <pre className="bg-blue-950 border border-blue-800 rounded p-3 text-xs text-green-300 overflow-x-auto whitespace-pre-wrap">
                         {endpoint.curl}
                     </pre>
@@ -114,7 +124,9 @@ export default function ApiDocs({ sections = [] }) {
         const onScroll = () => {
             if (clickedRef.current) return;
             for (const section of sections) {
-                const el = document.getElementById(epId(section.endpoints[0]?.title));
+                const el = document.getElementById(
+                    epId(section.endpoints[0]?.title),
+                );
                 if (el && el.getBoundingClientRect().top <= 120) {
                     setOpenSection(section.title);
                 }
@@ -131,7 +143,9 @@ export default function ApiDocs({ sections = [] }) {
         setOpenSection(next);
         if (next) {
             const section = sections.find((s) => s.title === next);
-            const el = document.getElementById(epId(section?.endpoints[0]?.title));
+            const el = document.getElementById(
+                epId(section?.endpoints[0]?.title),
+            );
             el?.scrollIntoView({ behavior: "smooth", block: "start" });
         }
     };
@@ -139,12 +153,18 @@ export default function ApiDocs({ sections = [] }) {
     return (
         <div className="bg-slate-900/50 p-4 md:p-6 rounded-lg border border-blue-900/30">
             <div className="mb-6">
-                <h3 className="text-blue-300 text-lg font-semibold mb-2">Authentication</h3>
-                <p className="text-gray-400 text-sm mb-2">Include your token in every request:</p>
+                <h3 className="text-blue-300 text-lg font-semibold mb-2">
+                    Authentication
+                </h3>
+                <p className="text-gray-400 text-sm mb-2">
+                    Include your token in every request:
+                </p>
                 <div className="bg-blue-950 p-3 rounded border border-blue-800 text-sm font-mono text-gray-300">
                     Authorization: Bearer {"<your-token>"}
                 </div>
-                <p className="text-gray-500 text-xs mt-2">Rate limit: 100 requests per minute per token.</p>
+                <p className="text-gray-500 text-xs mt-2">
+                    Rate limit: 100 requests per minute per token.
+                </p>
             </div>
 
             <div className="flex gap-6 relative">
@@ -162,12 +182,19 @@ export default function ApiDocs({ sections = [] }) {
                                 >
                                     {section.title}
                                 </button>
-                                <div className={`grid transition-all duration-200 ${openSection === section.title ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}>
+                                <div
+                                    className={`grid transition-all duration-200 ${openSection === section.title ? "grid-rows-[1fr]" : "grid-rows-[0fr]"}`}
+                                >
                                     <ul className="space-y-0.5 ml-1 border-l border-blue-900/40 pl-2 mt-0.5 mb-2 overflow-hidden">
                                         {section.endpoints.map((ep) => (
                                             <li key={ep.title}>
-                                                <a href={`#${epId(ep.title)}`} className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-200 py-0.5">
-                                                    <MethodBadge method={ep.method} />
+                                                <a
+                                                    href={`#${epId(ep.title)}`}
+                                                    className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-200 py-0.5"
+                                                >
+                                                    <MethodBadge
+                                                        method={ep.method}
+                                                    />
                                                     <span>{ep.title}</span>
                                                 </a>
                                             </li>
@@ -182,11 +209,18 @@ export default function ApiDocs({ sections = [] }) {
                 <div className="flex-1 min-w-0 space-y-8">
                     {sections.map((section) => (
                         <div key={section.title} id={epId(section.title)}>
-                            <h3 className="text-blue-300 text-lg font-semibold mb-1">{section.title}</h3>
-                            <p className="text-gray-400 text-sm mb-4">{section.description}</p>
+                            <h3 className="text-blue-300 text-lg font-semibold mb-1">
+                                {section.title}
+                            </h3>
+                            <p className="text-gray-400 text-sm mb-4">
+                                {section.description}
+                            </p>
                             <div className="space-y-4">
                                 {section.endpoints.map((ep) => (
-                                    <EndpointCard key={ep.title} endpoint={ep} />
+                                    <EndpointCard
+                                        key={ep.title}
+                                        endpoint={ep}
+                                    />
                                 ))}
                             </div>
                         </div>

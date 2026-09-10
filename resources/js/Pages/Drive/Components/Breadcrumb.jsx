@@ -17,7 +17,10 @@ export default function Breadcrumb({ path, isAdmin }) {
     return (
         <>
             {links.length > 0 && (
-                <nav aria-label="Breadcrumb" className="w-full min-w-0 text-xs sm:flex-1 md:text-sm">
+                <nav
+                    aria-label="Breadcrumb"
+                    className="w-full min-w-0 text-xs sm:flex-1 md:text-sm"
+                >
                     <ol className="flex  h-10 pr-2 w-full ">
                         {isAdmin && (
                             <li className="flex items-center min-w-0 ">
@@ -40,7 +43,10 @@ export default function Breadcrumb({ path, isAdmin }) {
                             </li>
                         )}
                         {links.map((link, index) => (
-                            <li key={index} className="flex items-center min-w-0">
+                            <li
+                                key={index}
+                                className="flex items-center min-w-0"
+                            >
                                 {index === links.length - 1 ? (
                                     <span
                                         className="text-gray-400 font-medium  whitespace-nowrap truncate"

@@ -32,10 +32,10 @@ class LocalFileStatsService
     }
 
     public function getSplFileStats(
-        string      $itemName,
-        bool        $isDir,
-        string      $publicPath,
-        string      $privatePath,
+        string $itemName,
+        bool $isDir,
+        string $publicPath,
+        string $privatePath,
         SplFileInfo $file
     ): array {
         return [

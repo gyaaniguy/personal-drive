@@ -17,8 +17,9 @@ const useThumbnailGenerator = (files, path) => {
                     if (window.location.pathname !== path) return;
                     const remainingIds = idsReversed.slice(BATCH_SIZE);
                     if (remainingIds.length > 0) {
-                        window.setTimeout(() =>
-                            generateThumbnails(remainingIds), 0
+                        window.setTimeout(
+                            () => generateThumbnails(remainingIds),
+                            0,
                         );
                     }
                 },

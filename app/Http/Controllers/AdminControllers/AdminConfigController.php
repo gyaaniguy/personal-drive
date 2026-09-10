@@ -26,7 +26,7 @@ class AdminConfigController extends Controller
 
     public function __construct(
         AdminConfigService $adminConfigService,
-        TwoFactorService   $twoFactorService
+        TwoFactorService $twoFactorService
     ) {
         $this->adminConfigService = $adminConfigService;
         $this->twoFactorService = $twoFactorService;

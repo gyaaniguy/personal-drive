@@ -6,7 +6,7 @@ const ReplaceAbort = ({
     setIsReplaceAbortModalOpen,
     onResolved,
 }) => {
-    const { data, setData, post } = useForm({ action: "" });
+    const { setData, post } = useForm({ action: "" });
 
     const forceReloadImages = () => {
         document.querySelectorAll("img").forEach((img) => {

@@ -33,7 +33,11 @@ export default function TowFactorCheck({ status }) {
 
             <form onSubmit={submit}>
                 <div>
-                    <InputLabel htmlFor="code" value="Enter OTP shown in authenticator app" className="text-center my-4"/>
+                    <InputLabel
+                        htmlFor="code"
+                        value="Enter OTP shown in authenticator app"
+                        className="text-center my-4"
+                    />
 
                     <TextInput
                         id="code"

@@ -79,11 +79,7 @@ const useUploadQueue = () => {
 
     useEffect(() => {
         void navigator.locks.query().then(({ held }) => {
-            if (
-                held.some(
-                    (lock) => lock.name === "personal-drive-upload",
-                )
-            ) {
+            if (held.some((lock) => lock.name === "personal-drive-upload")) {
                 return;
             }
 

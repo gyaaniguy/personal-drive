@@ -12,5 +12,4 @@ class TwoFactorCodeCheckRequest extends FormRequest
             'code' => ['required', 'numeric']
         ];
     }
-
 }

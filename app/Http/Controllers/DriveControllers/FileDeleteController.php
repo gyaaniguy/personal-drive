@@ -46,12 +46,11 @@ class FileDeleteController extends Controller
             return $this->error($this->buildDelFailureMessage($result));
         }
 
-        $message = "Deleted ".count($result['deleted'])." files";
+        $message = "Deleted " . count($result['deleted']) . " files";
         if (count($result['unreadable']) || count($result['readonly'])) {
             $message .= '. ' . $this->buildDelFailureMessage($result);
         }
 
         return $this->success($message);
     }
-
 }

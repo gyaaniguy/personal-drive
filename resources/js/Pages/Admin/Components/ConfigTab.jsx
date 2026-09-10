@@ -15,15 +15,19 @@ export default function ConfigTab({
     show_two_factor_option,
 }) {
     const [formData, setFormData] = useState({
-        storage_path: storage_path || "/var/www/html/personal-drive-storage-folder",
+        storage_path:
+            storage_path || "/var/www/html/personal-drive-storage-folder",
         php_max_upload_size,
         php_post_max_size,
         php_max_file_uploads,
     });
     const [isTwoFaModalOpen, setIsTwoFaModalOpen] = useState(false);
-    const [videoAutoplay, toggleVideoAutoplay] = useLocalStorageToggle("videoAutoplay");
-    const [audioAutoplay, toggleAudioAutoplay] = useLocalStorageToggle("audioAutoplay");
-    const [audioSavePos, toggleAudioSavePos] = useLocalStorageToggle("audioSavePosition");
+    const [videoAutoplay, toggleVideoAutoplay] =
+        useLocalStorageToggle("videoAutoplay");
+    const [audioAutoplay, toggleAudioAutoplay] =
+        useLocalStorageToggle("audioAutoplay");
+    const [audioSavePos, toggleAudioSavePos] =
+        useLocalStorageToggle("audioSavePosition");
 
     function handleChange(e) {
         setFormData((old) => ({
@@ -49,7 +53,8 @@ export default function ConfigTab({
                     </h2>
                     <div className="bg-slate-900/50 p-2 md:p-4 rounded-lg border border-blue-900/30">
                         <p className="mb-4">
-                            Set the local folder where your files will be stored.
+                            Set the local folder where your files will be
+                            stored.
                         </p>
                         <div className="flex items-center gap-2 bg-blue-950 p-0 md:p-2 rounded border border-blue-800">
                             <span className="text-blue-400 hidden md:inline">
@@ -79,7 +84,9 @@ export default function ConfigTab({
                         </ul>
                         <div className="flex justify-center mt-3 md:mt-6">
                             <button className="px-4 py-2 bg-blue-600 text-white rounded-md hover:bg-blue-700 active:bg-blue-800">
-                                {setupMode ? "Set Root Folder" : "Update Settings"}
+                                {setupMode
+                                    ? "Set Root Folder"
+                                    : "Update Settings"}
                             </button>
                         </div>
                     </div>

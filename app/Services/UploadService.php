@@ -101,7 +101,8 @@ class UploadService
             return false;
         }
 
-        if ($this->filesystem->exists($targetPath)
+        if (
+            $this->filesystem->exists($targetPath)
             && $this->isFileFolderMisMatch($tempFileSplInfo->getPathname(), $targetPath)
         ) {
             return true;
@@ -167,9 +168,17 @@ class UploadService
         foreach ($files as $file) {
             $result = $this->processSingleFile($file, $privatePath, $publicPath, $tempReady, $swallowErrors);
 
-            if ($result === 'skip') continue;
-            if ($result === 'conflict') { $conflicts[] = $this->pathService->sanitizeUploadPath($file->getClientOriginalPath()); continue; }
-            if ($result === 'duplicate') { $duplicates++; continue; }
+            if ($result === 'skip') {
+                continue;
+            }
+            if ($result === 'conflict') {
+                $conflicts[] = $this->pathService->sanitizeUploadPath($file->getClientOriginalPath());
+                continue;
+            }
+            if ($result === 'duplicate') {
+                $duplicates++;
+                continue;
+            }
             $successful++;
         }
 
@@ -192,7 +201,9 @@ class UploadService
         $relativeDestinationPath = $relativeBasePath . $sanitizedPath;
 
         if ($this->isPathConflict($relativeDestinationPath, $relativeBasePath, $sanitizedPath)) {
-            if ($tempReady) $this->uploadToTemp($sanitizedPath, $file, $publicPath);
+            if ($tempReady) {
+                $this->uploadToTemp($sanitizedPath, $file, $publicPath);
+            }
             return 'conflict';
         }
 
@@ -252,11 +263,13 @@ class UploadService
     }
 
     public function cleanOldTempFiles(): bool
-    {        $tempDirFullPath = $this->getTempStorageDirAbs();
+    {
+        $tempDirFullPath = $this->getTempStorageDirAbs();
         if (!$tempDirFullPath) {
             return true;
         }
-        if ($this->filesystem->exists($tempDirFullPath)
+        if (
+            $this->filesystem->exists($tempDirFullPath)
             && $this->filesystem->isDirectory($tempDirFullPath)
         ) {
             Session::forget($this->tempUuid);

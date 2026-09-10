@@ -44,7 +44,8 @@ class FileMoveService
             if ($localFile->isValidDir() && str_starts_with($destination, rtrim($source, DS) . DS)) {
                 throw FileMoveException::cannotMoveIntoItself();
             }
-            if (isset($destinations[$destination])
+            if (
+                isset($destinations[$destination])
                 || $this->fileOperationsService->fileExists($destination)
                 || $this->fileOperationsService->directoryExists($destination)
             ) {
@@ -82,7 +83,8 @@ class FileMoveService
         $itemPathName = $localFile->getFullPathFromContentRoot();
         $itemPublicDestPathName = $localFile->getFullPathFromContentRoot('', $desPublicPath);
 
-        if (!$this->fileOperationsService->fileExists($itemPathName)
+        if (
+            !$this->fileOperationsService->fileExists($itemPathName)
             && !$this->fileOperationsService->directoryExists($itemPathName)
         ) {
             return false;

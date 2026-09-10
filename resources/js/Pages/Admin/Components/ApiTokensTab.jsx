@@ -38,7 +38,7 @@ export default function ApiTokensTab({ tokens, api_sections, flash }) {
                     setErrors(err);
                     setProcessing(false);
                 },
-            }
+            },
         );
     }
 
@@ -79,7 +79,9 @@ export default function ApiTokensTab({ tokens, api_sections, flash }) {
                         </button>
                     </form>
                     {errors.name && (
-                        <p className="text-red-400 text-sm mt-2">{errors.name}</p>
+                        <p className="text-red-400 text-sm mt-2">
+                            {errors.name}
+                        </p>
                     )}
                 </div>
             </div>
@@ -91,7 +93,9 @@ export default function ApiTokensTab({ tokens, api_sections, flash }) {
                 </h2>
                 <div className="bg-slate-900/50 p-2 md:p-4 rounded-lg border border-blue-900/30">
                     {tokens.length === 0 ? (
-                        <p className="text-gray-400 text-sm">No API tokens yet.</p>
+                        <p className="text-gray-400 text-sm">
+                            No API tokens yet.
+                        </p>
                     ) : (
                         <div className="overflow-x-auto">
                             <table className="w-full text-sm">
@@ -120,13 +124,13 @@ export default function ApiTokensTab({ tokens, api_sections, flash }) {
                                             </td>
                                             <td className="py-2 pr-4 text-gray-400">
                                                 {new Date(
-                                                    token.created_at
+                                                    token.created_at,
                                                 ).toLocaleDateString()}
                                             </td>
                                             <td className="py-2 pr-4 text-gray-400">
                                                 {token.last_used_at
                                                     ? new Date(
-                                                          token.last_used_at
+                                                          token.last_used_at,
                                                       ).toLocaleDateString()
                                                     : "Never"}
                                             </td>

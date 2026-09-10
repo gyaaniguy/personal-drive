@@ -4,7 +4,6 @@ import Button from "./Generic/Button.jsx";
 import NProgress from "nprogress";
 
 const DownloadButton = ({
-    isAdmin,
     setSelectedFiles,
     selectedFiles,
     classes,
@@ -107,9 +106,7 @@ const DownloadButton = ({
                 <>
                     <DownloadIcon className="text-center text-green-500  w-4 h-4" />{" "}
                     {!classes && (
-                        <span className="hidden lg:inline">
-                            Download
-                        </span>
+                        <span className="hidden lg:inline">Download</span>
                     )}
                 </>
             )}

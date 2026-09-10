@@ -12,7 +12,9 @@ class ShareFilesGenController extends Controller
 {
     use FlashMessages;
 
-    public function __construct(private ShareService $shareService) {}
+    public function __construct(private ShareService $shareService)
+    {
+    }
 
     public function index(ShareFilesGenRequest $request): RedirectResponse
     {

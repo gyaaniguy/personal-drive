@@ -1,13 +1,14 @@
-import {useEffect, useState} from "react";
+import { useEffect, useState } from "react";
 import Modal from "../../Drive/Components/Modal.jsx";
-import {router} from "@inertiajs/react";
+import { router } from "@inertiajs/react";
 import axios from "axios";
-import {usePage} from "@inertiajs/react";
 import TextInput from "@/Components/TextInput.jsx";
 
-const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorStatus = false}) => {
-    let {flash, errors} = usePage().props;
-
+const ToggleTwoFactorModal = ({
+    isTwoFaModalOpen,
+    setIsTwoFaModalOpen,
+    twoFactorStatus = false,
+}) => {
     const [qrSvg, setQrSvg] = useState("");
     const [twoFactorCode, setTwoFactorCode] = useState("");
 
@@ -19,14 +20,13 @@ const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorS
                 route("admin-config.two-factor-qr"),
             );
             setQrSvg(response.data.message);
-
         };
         generateQr();
     }, [isTwoFaModalOpen, twoFactorStatus]);
 
     function handleCloseModal() {
-        setQrSvg('');
-        setIsTwoFaModalOpen(false)
+        setQrSvg("");
+        setIsTwoFaModalOpen(false);
     }
 
     const handleSubmit = async (e) => {
@@ -34,7 +34,11 @@ const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorS
         const formData = {};
         formData["code"] = twoFactorCode;
         router.post(
-            route(twoFactorStatus ? "admin-config.two-factor-code-disable" : "admin-config.two-factor-code-enable"),
+            route(
+                twoFactorStatus
+                    ? "admin-config.two-factor-code-disable"
+                    : "admin-config.two-factor-code-enable",
+            ),
             formData,
             {
                 preserveState: true,
@@ -45,13 +49,13 @@ const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorS
                     if (page.props.flash.status) {
                         handleCloseModal();
                     }
-
                 },
-            }
+            },
         );
     };
 
-    let title = (twoFactorStatus ? 'Disable' : 'Enable') + ` Two factor authentication`;
+    let title =
+        (twoFactorStatus ? "Disable" : "Enable") + ` Two factor authentication`;
     return (
         <Modal
             isOpen={isTwoFaModalOpen}
@@ -59,28 +63,31 @@ const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorS
             title={title}
             classes="max-w-md"
         >
-            {!qrSvg && twoFactorStatus &&
-                <div className="space-y-4 text-gray-400"> Enter the One Time Password (OTP) shown in the authenticator application that you previously added</div>
-            }
-            {!qrSvg && !twoFactorStatus &&
+            {!qrSvg && twoFactorStatus && (
+                <div className="space-y-4 text-gray-400">
+                    {" "}
+                    Enter the One Time Password (OTP) shown in the authenticator
+                    application that you previously added
+                </div>
+            )}
+            {!qrSvg && !twoFactorStatus && (
                 <div className="space-y-4"> Loading Qr code ..</div>
-            }
-            {(twoFactorStatus || (!twoFactorStatus && qrSvg)) &&
+            )}
+            {(twoFactorStatus || (!twoFactorStatus && qrSvg)) && (
                 <>
-                    {!twoFactorStatus &&
+                    {!twoFactorStatus && (
                         <>
                             <div className="mb-4">
-                                Scan the QR code using any TOTP authenticator app (e.g., Google Authenticator)
+                                Scan the QR code using any TOTP authenticator
+                                app (e.g., Google Authenticator)
                             </div>
-                            <div className="flex justify-center items-center"
-                                dangerouslySetInnerHTML={{__html: qrSvg}}
+                            <div
+                                className="flex justify-center items-center"
+                                dangerouslySetInnerHTML={{ __html: qrSvg }}
                             />
                         </>
-                    }
-                    <form
-                        onSubmit={handleSubmit}
-                        className=" text-gray-300"
-                    >
+                    )}
+                    <form onSubmit={handleSubmit} className=" text-gray-300">
                         <div className="flex my-5 items-center justify-center gap-3">
                             <label
                                 htmlFor="code"
@@ -96,7 +103,9 @@ const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorS
                                 value={twoFactorCode}
                                 className="bg-gray-700/90 border border-gray-300 rounded-md p-1 md:p-2 sm:pr-8 focus:outline-none focus:ring-2 focus:ring-blue-500  w-28 sm:w-44 md:w-52"
                                 isFocused={true}
-                                onChange={(e) => setTwoFactorCode(e.target.value)}
+                                onChange={(e) =>
+                                    setTwoFactorCode(e.target.value)
+                                }
                             />
                         </div>
                         <button
@@ -107,7 +116,7 @@ const ToggleTwoFactorModal = ({isTwoFaModalOpen, setIsTwoFaModalOpen, twoFactorS
                         </button>
                     </form>
                 </>
-            }
+            )}
         </Modal>
     );
 };

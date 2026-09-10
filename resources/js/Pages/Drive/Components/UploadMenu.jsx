@@ -13,7 +13,6 @@ import UploadQueueDialog from "@/Pages/Drive/Components/UploadQueueDialog.jsx";
 import useUploadQueue from "@/Pages/Drive/Hooks/useUploadQueue.jsx";
 
 const UploadMenu = ({ path, setStatusMessage, files }) => {
-
     const [isMenuOpen, setIsMenuOpen] = useState(false);
     const [isReplaceAbortModalOpen, setIsReplaceAbortModalOpen] =
         useState(false);

@@ -1,7 +1,13 @@
 import Header from "@/Pages/Drive/Layouts/Header.jsx";
 import FileBrowserSection from "@/Pages/Drive/Components/FileBrowserSection.jsx";
 
-export default function DriveHome({ files, path, token, folderExists, favorites = [] }) {
+export default function DriveHome({
+    files,
+    path,
+    token,
+    folderExists,
+    favorites = [],
+}) {
     return (
         <>
             <Header />
