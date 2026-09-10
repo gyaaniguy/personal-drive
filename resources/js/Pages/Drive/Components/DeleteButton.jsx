@@ -9,13 +9,13 @@ const DeleteButton = ({
     setSelectAllToggle,
 }) => {
     const confirmAndDelete = (e) => {
+        e.stopPropagation();
         if (window.confirm("Confirm Deletion?")) {
-            deleteFilesComponentHandler(e);
+            deleteFilesComponentHandler();
         }
     };
 
-    async function deleteFilesComponentHandler(e) {
-        e.stopPropagation();
+    async function deleteFilesComponentHandler() {
         router.post(
             "/delete-files",
             {
