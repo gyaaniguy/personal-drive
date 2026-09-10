@@ -21,6 +21,7 @@ use App\Services\UploadService;
 use App\Traits\FlashMessages;
 use App\Traits\HasJsonPagination;
 use Illuminate\Http\JsonResponse;
+use Illuminate\Pagination\LengthAwarePaginator;
 use Illuminate\Support\Facades\Log;
 use Exception;
 
@@ -65,11 +66,24 @@ class FileController extends Controller
 
         $perPage = $request->validated('per_page', 50);
 
-        $paginator = LocalFile::getFilesForPublicPath($path)
-            ->paginate($perPage);
+        // Disk is truth, the index is a cache. Rows whose file is gone must be
+        // dropped BEFORE paginating: filtering after a DB slice leaves `total`
+        // and `last_page` describing phantom rows and can hand back an empty
+        // page while later pages still hold files.
+        // ponytail: loads the whole folder to filter it (~15ms per 5k rows, measured).
+        // If that ever bites, reconcile the path against disk once and page in SQL.
+        $files = LocalFile::modifyFileCollectionForDrive(
+            LocalFile::getFilesForPublicPath($path)->get()
+        );
 
-        $files = LocalFile::modifyFileCollectionForDrive($paginator->getCollection());
-        $paginator->setCollection($files->values());
+        $currentPage = LengthAwarePaginator::resolveCurrentPage();
+
+        $paginator = new LengthAwarePaginator(
+            $files->forPage($currentPage, $perPage)->values(),
+            $files->count(),
+            $perPage,
+            $currentPage
+        );
 
         return $this->paginateJson($paginator, 'files', ['path' => $pathEcho]);
     }
