@@ -12,7 +12,7 @@ use SplFileInfo;
 
 class LocalFileStatsService
 {
-    private static ?int $userId = null;
+    private ?int $userId = null;
     private PathService $pathService;
 
     public function __construct(PathService $pathService)
@@ -44,7 +44,7 @@ class LocalFileStatsService
             'public_path' => $publicPath,
             'private_path' => $privatePath,
             'size' => $isDir ? '' : $file->getSize(),
-            'user_id' => self::$userId ??= auth()->user()->id,
+            'user_id' => $this->userId ??= auth()->user()->id,
             'file_type' => $this->getFileType($file, $isDir)
         ];
     }
