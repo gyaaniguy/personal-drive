@@ -9,8 +9,10 @@ parameters:
     # Level 10 is the highest level
     level: 5
 
-    # Laravel/phpstan has no generics for un-parameterized Eloquent Collection/Builder,
-    # so element access degrades to the base Model. Ignore that known limitation category.
+    # Larastan can't carry generics through un-parameterized Eloquent Collection/Builder,
+    # so elements degrade to the base Model. Ignore that whole generics-degradation category.
     ignoreErrors:
         - '#Access to an undefined property Illuminate\\Database\\Eloquent\\Model::#'
         - '#Call to an undefined method Illuminate\\Database\\Eloquent\\Model::#'
+        - '#Illuminate\\Database\\Eloquent\\Model given#'
+        - '#\$callback of method Illuminate\\Support\\Collection<.+>::#'
