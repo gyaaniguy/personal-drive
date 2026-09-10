@@ -25,6 +25,7 @@ class SearchFilesControllerTest extends BaseFeatureTest
                 ->where('searchResults', true)
                 ->has('files')
                 ->count('files', 1)
+                ->has('favorites')
         );
     }
 
