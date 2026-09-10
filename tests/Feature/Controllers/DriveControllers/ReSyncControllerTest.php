@@ -2,6 +2,7 @@
 
 namespace Tests\Feature\Controllers\DriveControllers;
 
+use App\Models\Favorite;
 use App\Models\LocalFile;
 use App\Models\Share;
 use App\Models\SharedFile;
@@ -40,6 +41,20 @@ class ReSyncControllerTest extends BaseFeatureTest
         $this->assertCount(8, $allFiles);
         $files = $this->getFilesForFileNames($fileNames);
         $this->assertFilesExist($files, $testPath);
+    }
+
+    public function test_resync_preserves_favorites_by_repointing_to_new_rows(): void
+    {
+        $this->uploadMultipleFiles('', ['bar/1.txt', 'foo/ace.txt']);
+        $favFile = LocalFile::where('filename', 'ace.txt')->firstOrFail();
+        Favorite::create(['user_id' => auth()->id(), 'local_file_id' => $favFile->id]);
+
+        $this->post(route('resync'), ['_token' => csrf_token()])
+            ->assertSessionHas('status', true);
+
+        $newFavFile = LocalFile::where('filename', 'ace.txt')->firstOrFail();
+        $this->assertDatabaseHas('favorites', ['local_file_id' => $newFavFile->id]);
+        $this->assertDatabaseMissing('favorites', ['local_file_id' => $favFile->id]);
     }
 
     public function test_no_files_sync()

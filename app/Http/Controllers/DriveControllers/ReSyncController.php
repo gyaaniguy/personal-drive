@@ -3,6 +3,7 @@
 namespace App\Http\Controllers\DriveControllers;
 
 use App\Http\Controllers\Controller;
+use App\Models\Favorite;
 use App\Models\LocalFile;
 use App\Models\Share;
 use App\Services\LocalFileStatsService;
@@ -28,9 +29,13 @@ class ReSyncController extends Controller
         try {
             $filesUpdated = DB::transaction(
                 function (): int {
+                    $favorites = Favorite::snapshotPaths();
                     LocalFile::clearTable();
                     Share::truncate();
-                    return $this->localFileStatsService->generateStats();
+                    $count = $this->localFileStatsService->generateStats();
+                    Favorite::restorePaths($favorites);
+
+                    return $count;
                 }
             );
         } catch (UnexpectedValueException) {

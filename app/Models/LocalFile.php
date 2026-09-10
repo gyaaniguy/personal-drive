@@ -62,6 +62,12 @@ class LocalFile extends Model
         self::truncate();
     }
 
+    public static function keyedByPath(): Collection
+    {
+        return self::get(['id', 'public_path', 'filename'])
+            ->keyBy(fn ($f) => $f->public_path . "\0" . $f->filename);
+    }
+
     public static function getFilesForPublicPath(string $publicPath): Builder
     {
         return self::where('public_path', $publicPath)
