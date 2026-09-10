@@ -566,10 +566,10 @@ class AdvancedFileLifecycleTest extends BaseFeatureTest
             'path' => 'private',
         ])->assertSessionHas('status', true);
 
-        $this->assertDatabaseMissing('local_files', ['id' => $child->id]);
+        $this->assertDatabaseHas('local_files', ['id' => $child->id, 'public_path' => 'private']);
         $this->assertDatabaseMissing('local_files', ['filename' => 'child.txt', 'public_path' => 'shared']);
         $moved = LocalFile::where('filename', 'child.txt')->where('public_path', 'private')->firstOrFail();
-        $this->assertNotSame($child->id, $moved->id);
+        $this->assertSame($child->id, $moved->id);
         Storage::disk('local')->assertMissing(CONTENT_SUBDIR . '/shared/child.txt');
         Storage::disk('local')->assertExists(CONTENT_SUBDIR . '/private/child.txt');
         $this->assertSame('private child bytes', Storage::disk('local')->get(CONTENT_SUBDIR . '/private/child.txt'));

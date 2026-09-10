@@ -775,8 +775,8 @@ class FileApiTest extends BaseFeatureTest
             'destination' => 'move-db-dest',
         ], $this->authHeaders())->assertOk();
 
-        // Old record deleted
-        $this->assertDatabaseMissing('local_files', ['id' => $originalId]);
+        // Row preserved (same id) with updated path
+        $this->assertDatabaseHas('local_files', ['id' => $originalId, 'public_path' => 'move-db-dest']);
         // New record exists with updated path
         $newFile = LocalFile::where('filename', 'db-move.txt')->first();
         $this->assertNotNull($newFile);
@@ -1717,7 +1717,7 @@ class FileApiTest extends BaseFeatureTest
         $response->assertStatus(422);
     }
 
-    public function test_move_file_updates_source_removed_from_db(): void
+    public function test_move_file_updates_source_path_in_db(): void
     {
         $this->postJson('/api/v1/files/create', [
             'name' => 'src-path',
@@ -1737,7 +1737,7 @@ class FileApiTest extends BaseFeatureTest
             'destination' => 'dst-path',
         ], $this->authHeaders())->assertOk();
 
-        $this->assertDatabaseMissing('local_files', ['id' => $oldId]);
+        $this->assertDatabaseHas('local_files', ['id' => $oldId, 'public_path' => 'dst-path']);
         $newFile = LocalFile::where('filename', 'track-me.txt')->first();
         $this->assertEquals('dst-path', $newFile->public_path);
     }
