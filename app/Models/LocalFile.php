@@ -74,15 +74,16 @@ class LocalFile extends Model
             ->orderBy('filename', 'desc');
     }
 
-    public static function modifyFileCollectionForDrive(Collection $fileItems): Collection
+    public static function modifyFileCollectionForDrive(Collection $fileItems): \Illuminate\Support\Collection
     {
         return $fileItems->filter(
             fn ($item) => file_exists($item->getPrivatePathNameForFile())
         )->map(
             function ($item) {
-                $item->sizeText = self::getItemSizeText($item);
-                $item->date = filemtime($item->getPrivatePathNameForFile());
-                return $item;
+                return array_merge($item->toArray(), [
+                    'sizeText' => self::getItemSizeText($item),
+                    'date' => filemtime($item->getPrivatePathNameForFile()),
+                ]);
             }
         )->values();
     }
@@ -92,19 +93,21 @@ class LocalFile extends Model
         return $item->size || $item->is_dir ? FileSizeFormatter::format((int) $item->size) : '0 KB';
     }
 
-    public static function modifyFileCollectionForGuest(Collection $fileItems, string $publicPath = ''): Collection
+    public static function modifyFileCollectionForGuest(Collection $fileItems, string $publicPath = ''): \Illuminate\Support\Collection
     {
         return $fileItems->filter(
             fn ($item) => file_exists($item->getPrivatePathNameForFile())
         )->map(
             function ($item) use ($publicPath) {
-                $item->sizeText = self::getItemSizeText($item);
-                $item->date = filemtime($item->getPrivatePathNameForFile());
+                $data = array_merge($item->toArray(), [
+                    'sizeText' => self::getItemSizeText($item),
+                    'date' => filemtime($item->getPrivatePathNameForFile()),
+                ]);
                 if ($publicPath) {
-                    $item->public_path = substr($item->getPublicPath(), strlen($publicPath));
+                    $data['public_path'] = substr($item->getPublicPath(), strlen($publicPath));
                 }
 
-                return $item;
+                return $data;
             }
         )->values();
     }

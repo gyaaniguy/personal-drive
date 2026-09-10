@@ -164,7 +164,7 @@ class LocalFileTest extends BaseFeatureTest
         $modified = LocalFile::modifyFileCollectionForDrive($collection);
 
         $this->assertCount(1, $modified);
-        $this->assertEquals('existing.txt', $modified->first()->filename);
+        $this->assertEquals('existing.txt', $modified->first()['filename']);
         $this->assertTrue(array_is_list(json_decode($modified->toJson(), true)));
     }
 
@@ -175,8 +175,8 @@ class LocalFileTest extends BaseFeatureTest
         $collection = new Collection([$file]);
 
         $modifiedCollection = LocalFile::modifyFileCollectionForDrive($collection);
-        $this->assertNotEmpty($modifiedCollection->first()->sizeText);
-        $this->assertNotNull($modifiedCollection->first()->date);
+        $this->assertNotEmpty($modifiedCollection->first()['sizeText']);
+        $this->assertNotNull($modifiedCollection->first()['date']);
     }
 
     public function test_get_item_size_text_formats_size()
@@ -204,7 +204,7 @@ class LocalFileTest extends BaseFeatureTest
         $modified = LocalFile::modifyFileCollectionForGuest($collection, '/shared');
 
         $this->assertCount(1, $modified);
-        $this->assertEquals('existing.txt', $modified->first()->filename);
+        $this->assertEquals('existing.txt', $modified->first()['filename']);
         $this->assertTrue(array_is_list(json_decode($modified->toJson(), true)));
     }
 
@@ -217,8 +217,8 @@ class LocalFileTest extends BaseFeatureTest
         $collection = new Collection([$file]);
 
         $modifiedCollection = LocalFile::modifyFileCollectionForGuest($collection, '/shared');
-        $this->assertEquals('folder/', $modifiedCollection->first()->public_path);
-        $this->assertNotNull($modifiedCollection->first()->date);
+        $this->assertEquals('folder/', $modifiedCollection->first()['public_path']);
+        $this->assertNotNull($modifiedCollection->first()['date']);
 
     }
 

@@ -95,10 +95,10 @@ class FileController extends Controller
             return ResponseHelper::json('File not found', false, 404);
         }
 
-        $file->sizeText = LocalFile::getItemSizeText($file);
-        $file->date = filemtime($file->getPrivatePathNameForFile());
-
-        return response()->json(['file' => $file]);
+        return response()->json(['file' => array_merge($file->toArray(), [
+            'sizeText' => LocalFile::getItemSizeText($file),
+            'date' => filemtime($file->getPrivatePathNameForFile()),
+        ])]);
     }
 
     public function upload(UploadFilesRequest $request): JsonResponse
@@ -246,12 +246,13 @@ class FileController extends Controller
         }
 
         $file->refresh();
-        $file->sizeText = LocalFile::getItemSizeText($file);
-        $file->date = filemtime($file->getPrivatePathNameForFile());
 
         return response()->json([
             'message' => 'File renamed',
-            'file' => $file,
+            'file' => array_merge($file->toArray(), [
+                'sizeText' => LocalFile::getItemSizeText($file),
+                'date' => filemtime($file->getPrivatePathNameForFile()),
+            ]),
         ]);
     }
 
