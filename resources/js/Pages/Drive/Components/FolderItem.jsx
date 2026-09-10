@@ -37,7 +37,7 @@ const FolderItem = React.memo(function FolderItem({
                                     .map(encodeURIComponent)
                                     .join("/") + "/"
                               : "")
-                        : path.split("/").map(encodeURIComponent).join("/") +
+                        : (path ?? "").split("/").map(encodeURIComponent).join("/") +
                           "/") + encodeURIComponent(file.filename)
                 }
                 className={`min-w-0 flex-1 ${isSelected ? "bg-blue-100" : ""}`}
