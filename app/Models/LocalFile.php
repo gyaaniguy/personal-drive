@@ -78,7 +78,7 @@ class LocalFile extends Model
                 $item->date = filemtime($item->getPrivatePathNameForFile());
                 return $item;
             }
-        );
+        )->values();
     }
 
     public static function getItemSizeText($item): string
@@ -100,7 +100,7 @@ class LocalFile extends Model
 
                 return $item;
             }
-        );
+        )->values();
     }
 
     public function getPublicPath(): string

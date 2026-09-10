@@ -160,11 +160,12 @@ class LocalFileTest extends BaseFeatureTest
 
         unlink($ghost->getPrivatePathNameForFile());
 
-        $collection = new Collection([$existing, $ghost]);
+        $collection = new Collection([$ghost, $existing]);
         $modified = LocalFile::modifyFileCollectionForDrive($collection);
 
         $this->assertCount(1, $modified);
         $this->assertEquals('existing.txt', $modified->first()->filename);
+        $this->assertTrue(array_is_list(json_decode($modified->toJson(), true)));
     }
 
     public function test_modify_file_collection_for_drive_adds_size_text()
@@ -199,11 +200,12 @@ class LocalFileTest extends BaseFeatureTest
 
         unlink($ghost->getPrivatePathNameForFile());
 
-        $collection = new Collection([$existing, $ghost]);
+        $collection = new Collection([$ghost, $existing]);
         $modified = LocalFile::modifyFileCollectionForGuest($collection, '/shared');
 
         $this->assertCount(1, $modified);
         $this->assertEquals('existing.txt', $modified->first()->filename);
+        $this->assertTrue(array_is_list(json_decode($modified->toJson(), true)));
     }
 
     public function test_modify_file_collection_for_guest_modifies_public_path()
