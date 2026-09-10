@@ -65,6 +65,26 @@ class FileManagerControllerTest extends BaseFeatureTest
         );
     }
 
+    public function test_index_resolves_folder_named_with_hash()
+    {
+        $storagePath = Storage::disk('local')->path('alternate');
+        Setting::updateStoragePath($storagePath);
+        app(FileOperationsService::class)->setFilesystem(null);
+
+        $this->post(route('drive.create-item'), [
+            '_token' => csrf_token(),
+            'itemName' => 'h#sh',
+            'path' => '',
+            'isFile' => false,
+        ])->assertSessionHas('status', true);
+        $response = $this->get(route('drive', ['path' => 'h#sh']));
+
+        $response->assertInertia(
+            fn(Assert $page) => $page->where('path', '/drive/h#sh')
+                ->where('folderExists', true)
+        );
+    }
+
     public function test_index_marks_missing_folder()
     {
         $response = $this->get(route('drive', ['path' => 'missing']));

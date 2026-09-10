@@ -9,7 +9,7 @@ export default function Breadcrumb({ path, isAdmin }) {
         pathArr.shift();
         pathArr.shift();
         for (let link of pathArr) {
-            rootLink += "/" + link;
+            rootLink += "/" + encodeURIComponent(link);
             links.push({ name: link, href: rootLink });
         }
     }
