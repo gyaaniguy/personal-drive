@@ -35,7 +35,7 @@ class AppServiceProvider extends ServiceProvider
             URL::forceScheme('https');
         }
         try {
-            if (!Schema::hasTable('sessions')) {
+            if (!$this->app->runningUnitTests() && !Schema::hasTable('sessions')) {
                 config(['session.driver' => 'file']);
             }
         } catch (QueryException | PDOException $e) {
