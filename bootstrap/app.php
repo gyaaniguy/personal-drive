@@ -62,6 +62,9 @@ return Application::configure(basePath: dirname(__DIR__))
         ]);
     })
     ->withExceptions(function (Exceptions $exceptions) {
+        // Business exceptions are shown to the user (flash + redirect) below; they
+        // are expected user-input outcomes, not server faults, so don't log them.
+        $exceptions->dontReport(PersonalDriveException::class);
         $exceptions->render(function (Throwable $e) {
             // API routes return JSON errors
             if (request()->is('api/*')) {
