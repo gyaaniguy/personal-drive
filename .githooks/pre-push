@@ -1,0 +1,3 @@
+#!/usr/bin/env bash
+# Runs the full local CI before every push. Bypass once with: git push --no-verify
+exec "$(git rev-parse --show-toplevel)/check.sh"
