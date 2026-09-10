@@ -115,6 +115,7 @@ const MediaViewer = ({
         if (keepEditing()) {
             return;
         }
+        setIsInEditMode(false);
         setIsModalOpen(false);
     }
 
