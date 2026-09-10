@@ -297,6 +297,11 @@ const FileBrowserSection = memo(
 
             if (url.includes("search-files")) {
                 setIsSearch(true);
+                // A selection made before searching must not stay active on the
+                // results page, or a bulk action would hit off-screen pre-search
+                // files (wrong-target delete). Clear it when entering search.
+                setSelectedFiles(new Set());
+                setSelectAllToggle(false);
             }
         }, [files]);
 
