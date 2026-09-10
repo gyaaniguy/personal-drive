@@ -105,14 +105,14 @@ class LocalFileStatsService
         $items = collect($this->createFileIterator($privatePath));
         if ($destinationFullPaths) {
             $items = $items->filter(
-                function ($item) use ($destinationFullPaths) {
+                function (SplFileInfo $item) use ($destinationFullPaths) {
                     return in_array($item->getPathname(), $destinationFullPaths);
                 }
             );
         }
         $rootPathLen = $this->pathService->getRootPathLen();
         return $items
-            ->map(fn($item) => $this->getFileItemDetails($item, $rootPathLen))
+            ->map(fn (SplFileInfo $item) => $this->getFileItemDetails($item, $rootPathLen))
             ->chunk($batchSize)
             ->sum(fn($chunk) => LocalFile::insertRows($chunk->all()));
     }

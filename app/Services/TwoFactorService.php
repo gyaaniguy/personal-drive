@@ -3,7 +3,6 @@
 namespace App\Services;
 
 use App\Exceptions\PersonalDriveExceptions\TwoFactorException;
-use App\Models\Setting;
 use Exception;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Log;
@@ -14,15 +13,12 @@ use PragmaRX\Google2FAQRCode\Google2FA;
 
 class TwoFactorService
 {
-    private Setting $setting;
     private Google2FA $totp;
 
 
     public function __construct(
-        Setting $setting,
         Google2FA $totp
     ) {
-        $this->setting = $setting;
         $this->totp = $totp;
     }
     public function twoFactorCodeCheck(string $code, string $secret): bool

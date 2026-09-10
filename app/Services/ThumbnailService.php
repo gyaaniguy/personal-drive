@@ -85,6 +85,9 @@ class ThumbnailService
         try {
             $ffmpeg = FFMpeg::create();
             $video = $ffmpeg->open($privateFilePath);
+            if (!$video instanceof \FFMpeg\Media\Video) {
+                return false;
+            }
             $video->frame(TimeCode::fromSeconds(1))->save($fullFileThumbnailPath);
             return $this->resizeImage($fullFileThumbnailPath, $fullFileThumbnailPath);
         } catch (ExecutableNotFoundException $e) {

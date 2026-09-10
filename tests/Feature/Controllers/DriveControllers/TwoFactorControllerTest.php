@@ -4,7 +4,6 @@ namespace Tests\Feature\Controllers\DriveControllers;
 
 use App\Exceptions\PersonalDriveExceptions\TwoFactorException;
 use App\Http\Middleware\HandleGuestShareMiddleware;
-use App\Models\Setting;
 use App\Models\User;
 use App\Services\TwoFactorService;
 use Illuminate\Support\Facades\Auth;
@@ -95,7 +94,7 @@ class TwoFactorControllerTest extends BaseFeatureTest
             ->once()
             ->with('123456', 'internal-secret')
             ->andThrow(new RuntimeException('Secret at /srv/private/two-factor.key is unreadable'));
-        $service = new TwoFactorService(Mockery::mock(Setting::class), $google2FA);
+        $service = new TwoFactorService($google2FA);
 
         try {
             $service->twoFactorCodeCheck('123456', 'internal-secret');
