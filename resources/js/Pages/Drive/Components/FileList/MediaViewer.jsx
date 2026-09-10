@@ -79,7 +79,7 @@ const MediaViewer = ({
                 nextClick();
             }
             if (event.key === "Escape") {
-                setIsModalOpen(false);
+                onCloseModal();
             }
         },
         [prevClick, nextClick, isEditingRef, isFocusedRef],
