@@ -37,7 +37,7 @@ class FileSaveService
         }
 
         try {
-            if (file_put_contents($privatePathFile, $content) === false) {
+            if (file_put_contents($privatePathFile, $content, LOCK_EX) === false) {
                 return ['success' => false, 'message' => 'Could not save file'];
             }
 

@@ -89,7 +89,7 @@ class FileSaveControllerTest extends BaseFeatureTest
         $privatePathFile = $file->getPrivatePathNameForFile();
         $this->assertEquals('', file_get_contents($privatePathFile));
         $response = $this->postSave($file->id, 'New content');
-        $response->assertExactJson(
+        $response->assertOk()->assertExactJson(
             [
             'status' => true,
             'message' => 'File saved successfully',
@@ -109,7 +109,7 @@ class FileSaveControllerTest extends BaseFeatureTest
 
         $response = $this->postSave($file->id, 'New content');
 
-        $response->assertExactJson([
+        $response->assertStatus(422)->assertExactJson([
             'status' => false,
             'message' => 'Could not save file',
         ]);

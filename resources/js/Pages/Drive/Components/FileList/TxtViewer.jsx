@@ -60,26 +60,24 @@ const TxtViewer = ({
     const saveChanges = async (contentToSave = editedContent) => {
         setIsSaving(true);
         try {
-            const response = await axios.post(`/save-file`, {
+            await axios.post(`/save-file`, {
                 id: previewFile.id,
                 content: contentToSave,
             });
             setContent(contentToSave);
-            setTimeout(() => setSavedMessage(""), 3000);
             isEditingRef.current = false;
             isFocusedRef.current = false;
             if (textareaRef.current) {
                 textareaRef.current.blur();
             }
-            if (response.data?.message.includes("success")) {
-                setSavedMessage("Changes saved successfully!");
-                let src = "/fetch-file/" + previewFile.id;
-                appendParamsToTxtFileUrl(src);
-            } else {
-                setSavedMessage("Error: " + response.data?.message);
-            }
+            setSavedMessage("Changes saved successfully!");
+            setTimeout(() => setSavedMessage(""), 3000);
+            appendParamsToTxtFileUrl("/fetch-file/" + previewFile.id);
         } catch (err) {
             console.error("Error saving file:", err);
+            setSavedMessage(
+                "Error: " + (err.response?.data?.message || "Could not save file"),
+            );
         } finally {
             setIsSaving(false);
         }
