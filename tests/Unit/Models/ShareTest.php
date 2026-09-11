@@ -47,6 +47,37 @@ class ShareTest extends TestCase
         Carbon::setTestNow(null);
     }
 
+    public function test_share_created_without_expiry_is_permanent_and_listed(): void
+    {
+        // Regression: omitting expiry stored '' and getAllUnExpiredQuery only
+        // treated NULL as permanent, so the share vanished from the listing.
+        $share = Share::add('no-expiry-slug');
+
+        $this->assertNull($share->fresh()->getRawOriginal('expiry'), 'empty expiry must persist as NULL, not ""');
+        $this->assertTrue(
+            Share::getAllUnExpired()->contains('slug', 'no-expiry-slug'),
+            'a share with no expiry must appear in the unexpired list'
+        );
+    }
+
+    public function test_legacy_empty_string_expiry_row_is_still_listed(): void
+    {
+        // Rows written before the fix stored '' — the read side must recover them.
+        \Illuminate\Support\Facades\DB::table('shares')->insert([
+            'slug' => 'legacy-empty',
+            'password' => '',
+            'expiry' => '',
+            'public_path' => '',
+            'created_at' => now(),
+            'updated_at' => now(),
+        ]);
+
+        $this->assertTrue(
+            Share::getAllUnExpired()->contains('slug', 'legacy-empty'),
+            'legacy "" expiry rows must be treated as permanent'
+        );
+    }
+
     public function test_where_by_slug_returns_correct_share()
     {
         $share = Share::add('find-me');
