@@ -28,21 +28,22 @@ ask_for_value() {
 
 # echo "You can change these values if needed."
 # Ask the user to confirm or change the web server user and group
+CURRENT_USER=$(ask_for_value "Enter the owner user for app files" "$CURRENT_USER")
 WEB_GROUP=$(ask_for_value "Enter the web server group" "$WEB_GROUP")
 
-echo "Setting up environment file..."
-cp .env.example .env
+if [ -f .env ]; then
+    echo "Existing .env found - keeping it (APP_KEY preserved)."
+else
+    echo "Setting up environment file..."
+    cp .env.example .env
 
-# Ask for APP_URL   
-APP_URL=$(ask_for_value "Enter the application URL (leave empty to skip)" "")
-if [ -n "$APP_URL" ]; then
-    sed -i "s|^APP_URL=.*|APP_URL=$APP_URL|" .env
+    # Ask for APP_URL
+    APP_URL=$(ask_for_value "Enter the application URL (leave empty to skip)" "")
+    if [ -n "$APP_URL" ]; then
+        sed -i "s|^APP_URL=.*|APP_URL=$APP_URL|" .env
+    fi
 fi
 
-# Check if the directory exists before creating it
-if [ ! -d "database/db" ]; then
-    mkdir database/db
-fi
 echo "Installing composer dependencies..."
 composer install --no-interaction --prefer-dist
 
@@ -50,8 +51,12 @@ echo "Installing npm dependencies..."
 npm install && npm run build
 
 
-echo "Generating application key..."
-php artisan key:generate --force
+if grep -q '^APP_KEY=..*$' .env; then
+    echo "APP_KEY already set - keeping it."
+else
+    echo "Generating application key..."
+    php artisan key:generate --force
+fi
 
 # Set permissions
 echo "Attempting to change ownership to $CURRENT_USER:$WEB_GROUP..."
@@ -69,9 +74,8 @@ else
 fi
 
 
-echo "Clearing and caching config..."
+echo "Clearing config cache..."
 php artisan config:clear
-php artisan config:cache
 
 echo "Setup complete!"
 

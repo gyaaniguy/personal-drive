@@ -21,4 +21,7 @@ npx eslint resources/js
 step "JS tests"
 npm run test:js
 
+step "Install smoke test (setup.sh in a container)"
+./tests/install/smoke.sh
+
 printf '\n\033[1;32m✓ all checks passed\033[0m\n'

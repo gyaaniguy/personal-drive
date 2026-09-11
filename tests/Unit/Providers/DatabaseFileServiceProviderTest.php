@@ -47,7 +47,7 @@ class DatabaseFileServiceProviderTest extends TestCase
             ->once();
 
         File::shouldReceive('chmod')
-            ->with('/fake/path/database.sqlite', 0776)
+            ->with('/fake/path/database.sqlite', 0775)
             ->once();
 
         (new DatabaseFileServiceProvider($this->app))->boot();
@@ -75,5 +75,22 @@ class DatabaseFileServiceProviderTest extends TestCase
 
         (new DatabaseFileServiceProvider($this->app))->boot();
         $this->addToAssertionCount(1);
+    }
+
+    public function test_boot_really_creates_file_with_group_writable_permissions()
+    {
+        $dir = sys_get_temp_dir().'/pd-dbtest-'.uniqid();
+        $path = $dir.'/database.sqlite';
+
+        Config::set('database.default', 'sqlite');
+        Config::set('database.connections.sqlite.database', $path);
+
+        (new DatabaseFileServiceProvider($this->app))->boot();
+
+        $this->assertFileExists($path);
+        $this->assertSame('0775', substr(sprintf('%o', fileperms($path)), -4));
+
+        unlink($path);
+        rmdir($dir);
     }
 }
