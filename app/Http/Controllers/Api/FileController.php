@@ -90,6 +90,7 @@ class FileController extends Controller
         $publicPath = $request->validated('path') ?? '';
         $publicPath = $this->pathService->cleanDrivePublicPath($publicPath);
         $privatePath = $this->pathService->genPrivatePathFromPublic($publicPath);
+        $overwrite = $request->boolean('overwrite');
 
         if (!$files) {
             return ResponseHelper::json('No files uploaded', false, 422);
@@ -103,7 +104,7 @@ class FileController extends Controller
             $privatePath,
             $publicPath,
             swallowErrors: true,
-            overwrite: $request->boolean('overwrite'),
+            overwrite: $overwrite,
         );
 
         $this->localFileStatsService->generateStats($publicPath, $files);
