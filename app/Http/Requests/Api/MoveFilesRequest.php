@@ -7,11 +7,6 @@ use Illuminate\Foundation\Http\FormRequest;
 
 class MoveFilesRequest extends FormRequest
 {
-    public function authorize(): bool
-    {
-        return true;
-    }
-
     public function rules(): array
     {
         return array_merge(CommonRequest::fileListRules(), [

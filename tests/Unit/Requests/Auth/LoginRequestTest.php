@@ -25,11 +25,6 @@ class LoginRequestTest extends TestCase
         $this->request = new LoginRequest();
     }
 
-    public function test_authorize_returns_true()
-    {
-        $this->assertTrue($this->request->authorize());
-    }
-
     public function test_rules_returns_validation_rules()
     {
         $rules = $this->request->rules();
