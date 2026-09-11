@@ -159,14 +159,14 @@ class UploadService
     /**
      * @return array{successful: int, duplicates: int, conflicts: array<string>}
      */
-    public function processFileUpload(array $files, string $privatePath, string $publicPath, bool $useTempForConflicts = false, bool $swallowErrors = false): array
+    public function processFileUpload(array $files, string $privatePath, string $publicPath, bool $useTempForConflicts = false, bool $swallowErrors = false, bool $overwrite = true): array
     {
         $conflicts = [];
         $successful = $duplicates = 0;
         $tempReady = $useTempForConflicts ? $this->setTempStorageDirAbs() : '';
 
         foreach ($files as $file) {
-            $result = $this->processSingleFile($file, $privatePath, $publicPath, $tempReady, $swallowErrors);
+            $result = $this->processSingleFile($file, $privatePath, $publicPath, $tempReady, $swallowErrors, $overwrite);
 
             if ($result === 'skip') {
                 continue;
@@ -188,7 +188,7 @@ class UploadService
     /**
      * @return string 'ok'|'skip'|'conflict'|'duplicate'
      */
-    private function processSingleFile(mixed $file, string $privatePath, string $publicPath, string $tempReady, bool $swallowErrors): string
+    private function processSingleFile(mixed $file, string $privatePath, string $publicPath, string $tempReady, bool $swallowErrors, bool $overwrite = true): string
     {
         $sanitizedPath = $this->pathService->sanitizeUploadPath($file->getClientOriginalPath());
         $sanitizedName = $this->pathService->sanitizeFileName($file->getClientOriginalName());
@@ -207,9 +207,13 @@ class UploadService
             return 'conflict';
         }
 
+        // Existing same-name file: stage to temp for the web confirm-flow, or
+        // skip it when the caller opted out of overwriting (stateless API default).
         $destinationFullPath = $privatePath . $sanitizedPath;
-        if ($tempReady && file_exists($destinationFullPath)) {
-            $this->uploadToTemp($sanitizedPath, $file, $publicPath);
+        if (file_exists($destinationFullPath) && ($tempReady || !$overwrite)) {
+            if ($tempReady) {
+                $this->uploadToTemp($sanitizedPath, $file, $publicPath);
+            }
             return 'duplicate';
         }
 

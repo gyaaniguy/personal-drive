@@ -13,6 +13,7 @@ class UploadFilesRequest extends FormRequest
             'files' => 'required|array',
             'files.*' => 'required|file',
             'path' => CommonRequest::pathRules(),
+            'overwrite' => 'nullable|boolean',
         ];
     }
 

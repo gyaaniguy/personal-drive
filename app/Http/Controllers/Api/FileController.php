@@ -98,14 +98,23 @@ class FileController extends Controller
             return ResponseHelper::json('Could not find storage path', false, 422);
         }
 
-        $result = $this->uploadService->processFileUpload($files, $privatePath, $publicPath, swallowErrors: true);
+        $result = $this->uploadService->processFileUpload(
+            $files,
+            $privatePath,
+            $publicPath,
+            swallowErrors: true,
+            overwrite: $request->boolean('overwrite'),
+        );
 
         $this->localFileStatsService->generateStats($publicPath, $files);
 
         $message = $result['successful'] > 0
             ? 'Files uploaded: ' . $result['successful'] . ' out of ' . count($files)
-            : 'Some/All files upload failed';
+            : ($result['duplicates'] > 0 ? 'No new files uploaded' : 'Some/All files upload failed');
 
+        if ($result['duplicates'] > 0) {
+            $message .= ' (Skipped ' . $result['duplicates'] . ' existing; send overwrite=1 to replace)';
+        }
         if ($result['conflicts']) {
             $message .= ' (Conflicts: ' . $this->uploadService->summarizeConflicts($result['conflicts']) . ')';
         }
@@ -115,6 +124,8 @@ class FileController extends Controller
         return response()->json([
             'message' => $message,
             'files' => $newFiles->values(),
+            'skipped' => $result['duplicates'],
+            'conflicts' => $result['conflicts'],
         ]);
     }
 
