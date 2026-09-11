@@ -56,8 +56,8 @@ class ShareModControllerTest extends BaseFeatureTest
 
     public function test_anonymous_guest_cannot_pause_existing_share()
     {
-        $this->createMultipleShares(['anonymous-pause-share']);
-        $shareId = $this->getSlugId('anonymous-pause-share');
+        $this->createMultipleShares(['anon-pause-share']);
+        $shareId = $this->getSlugId('anon-pause-share');
         $this->logout();
 
         $this->pauseShare($shareId)
@@ -68,8 +68,8 @@ class ShareModControllerTest extends BaseFeatureTest
 
     public function test_anonymous_guest_cannot_delete_existing_share()
     {
-        $this->createMultipleShares(['anonymous-delete-share']);
-        $shareId = $this->getSlugId('anonymous-delete-share');
+        $this->createMultipleShares(['anon-delete-share']);
+        $shareId = $this->getSlugId('anon-delete-share');
         $this->logout();
 
         $this->deleteShare($shareId)
@@ -80,8 +80,8 @@ class ShareModControllerTest extends BaseFeatureTest
 
     public function test_non_admin_cannot_pause_existing_share()
     {
-        $this->createMultipleShares(['non-admin-pause-share']);
-        $shareId = $this->getSlugId('non-admin-pause-share');
+        $this->createMultipleShares(['na-pause-share']);
+        $shareId = $this->getSlugId('na-pause-share');
         $this->actingAs(User::factory()->create(['is_admin' => false]));
 
         $this->pauseShare($shareId)
@@ -92,8 +92,8 @@ class ShareModControllerTest extends BaseFeatureTest
 
     public function test_non_admin_cannot_delete_existing_share()
     {
-        $this->createMultipleShares(['non-admin-delete-share']);
-        $shareId = $this->getSlugId('non-admin-delete-share');
+        $this->createMultipleShares(['na-delete-share']);
+        $shareId = $this->getSlugId('na-delete-share');
         $this->actingAs(User::factory()->create(['is_admin' => false]));
 
         $this->deleteShare($shareId)

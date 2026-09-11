@@ -37,17 +37,13 @@ class FileSaveControllerTest extends BaseFeatureTest
         $this->post(
             route('drive.create-item'), [
             '_token' => csrf_token(),
-            'name' => $dirName,
+            'itemName' => $dirName,
             'path' => '',
-            'type' => 'folder',
+            'isFile' => false,
             ]
         );
 
-        $dir = LocalFile::where('filename', $dirName)->first();
-        if (!$dir) {
-            $this->assertTrue(true); // Skip if directory wasn't created
-            return;
-        }
+        $dir = LocalFile::where('filename', $dirName)->firstOrFail();
         $response = $this->postSave($dir->id, 'New content');
 
         $response->assertJson(

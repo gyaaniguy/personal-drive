@@ -62,8 +62,8 @@ class FileOperationsServiceTest extends TestCase
         $service = $this->createServiceWithNoFilesystem();
 
         // Should return void without throwing - kills line 45 FalseToTrue + RemoveEarlyReturn
+        $this->expectNotToPerformAssertions();
         $service->move('src.txt', 'dest.txt');
-        $this->assertTrue(true);
     }
 
     public function testMakeFileReturnsFalseWhenMakeFileSystemFails(): void
@@ -206,7 +206,7 @@ class FileOperationsServiceTest extends TestCase
                 $service->move('escape/outside.txt', 'dest.txt');
                 $this->fail('Expected FileMoveException to be thrown');
             } catch (FileMoveException $e) {
-                $this->assertTrue(true);
+                // Expected; the post-conditions below prove nothing escaped.
             }
 
             // The outside file must remain untouched and nothing lands in the root.

@@ -83,6 +83,16 @@ class ShareFilesGenControllerTest extends BaseFeatureTest
         $this->assertEmpty($share->password);
         $this->assertEmpty($share->expiry);
     }
+
+    public function test_share_rejects_slug_with_invalid_characters(): void
+    {
+        list($toShareFileIds) = $this->getDataForMakingShare();
+
+        $response = $this->createShare($toShareFileIds, '', -1, 'a/b ..c');
+
+        $response->assertSessionHasErrors('slug');
+        $this->assertDatabaseCount('shares', 0);
+    }
     public function test_share_rejects_file_missing_from_storage(): void
     {
         $file = LocalFile::getByName('ace.txt')->firstOrFail();

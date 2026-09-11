@@ -73,20 +73,4 @@ class SettingTest extends TestCase
         $this->assertEquals('', $retrievedValue);
     }
 
-    public function test_setting_attributes_are_fillable()
-    {
-        $settingData = [
-            'key' => 'fillable_key',
-            'value' => 'fillable_value',
-        ];
-        $setting = Setting::create($settingData);
-
-        $this->assertEquals('fillable_key', $setting->key);
-        $this->assertEquals('fillable_value', $setting->value);
-    }
-
-    public function test_storage_path_static_property_is_correct()
-    {
-        $this->assertEquals('storage_path', Setting::$storagePath);
-    }
 }

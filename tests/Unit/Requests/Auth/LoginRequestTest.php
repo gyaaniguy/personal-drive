@@ -116,9 +116,9 @@ class LoginRequestTest extends TestCase
         ]);
         $this->request->server->set('REMOTE_ADDR', '127.0.0.1');
 
-        // Should not throw exception
+        // Below threshold: must complete without throwing a rate-limit exception.
+        $this->expectNotToPerformAssertions();
         $this->request->ensureIsNotRateLimited();
-        $this->assertTrue(true); // Assert that we got here without exception
     }
 
     public function test_ensure_is_not_rate_limited_when_threshold_exceeded()

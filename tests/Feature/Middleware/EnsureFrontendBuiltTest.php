@@ -57,14 +57,8 @@ class EnsureFrontendBuiltTest extends TestCase
 
         $response = $this->get(route('setup.account'));
 
-        // Should not redirect to error
-        if ($response->isRedirect()) {
-            $location = $response->headers->get('Location');
-            $this->assertStringNotContainsString('/error', $location);
-        } else {
-            // If not a redirect, the test passes (middleware allowed the request)
-            $this->assertTrue(true);
-        }
+        // Manifest present: request must not be bounced to the error page.
+        $this->assertStringNotContainsString('/error', (string) $response->headers->get('Location'));
     }
 
     public function test_post_does_not_redirect_to_error_when_manifest_exists()
@@ -78,14 +72,8 @@ class EnsureFrontendBuiltTest extends TestCase
             'password' => 'password',
         ]);
 
-        // Should not redirect to error
-        if ($response->isRedirect()) {
-            $location = $response->headers->get('Location');
-            $this->assertStringNotContainsString('/error', $location);
-        } else {
-            // If not a redirect, the test passes (middleware allowed the request)
-            $this->assertTrue(true);
-        }
+        // Manifest present: request must not be bounced to the error page.
+        $this->assertStringNotContainsString('/error', (string) $response->headers->get('Location'));
     }
 
     public function test_redirects_to_error_for_get_when_manifest_missing()

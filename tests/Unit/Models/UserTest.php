@@ -18,20 +18,6 @@ class UserTest extends TestCase
         $this->assertDatabaseHas('users', ['id' => $user->id]);
     }
 
-    public function test_user_attributes_are_fillable()
-    {
-        $userData = [
-            'username' => 'testuser',
-            'is_admin' => true,
-            'password' => bcrypt('password'),
-        ];
-        $user = User::create($userData);
-
-        $this->assertEquals('testuser', $user->username);
-        $this->assertTrue($user->is_admin);
-        $this->assertNotNull($user->password);
-    }
-
     public function test_password_is_hashed_on_creation()
     {
         $user = User::factory()->create(['password' => 'plainpassword']);

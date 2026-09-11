@@ -62,13 +62,8 @@ class CheckSetupTest extends TestCase
 
         $response = $this->get('/setup/account');
 
-        // Should not redirect to /setup/account (already there)
-        if ($response->isRedirect()) {
-            $this->assertStringNotContainsString('/setup/account', $response->getTargetUrl() ?? '');
-        } else {
-            // If not a redirect, request was successful
-            $this->assertTrue(true);
-        }
+        // Already on setup: middleware must not redirect back to /setup/account.
+        $this->assertStringNotContainsString('/setup/account', (string) $response->headers->get('Location'));
     }
 
     public function test_allows_access_to_error_route_even_when_users_empty()
@@ -111,13 +106,8 @@ class CheckSetupTest extends TestCase
 
         $response = $this->get('/setup/account');
 
-        // Should not redirect to /setup/account (already there)
-        if ($response->isRedirect()) {
-            $this->assertStringNotContainsString('/setup/account', $response->getTargetUrl() ?? '');
-        } else {
-            // If not a redirect, request was successful
-            $this->assertTrue(true);
-        }
+        // Already on setup: middleware must not redirect back to /setup/account.
+        $this->assertStringNotContainsString('/setup/account', (string) $response->headers->get('Location'));
     }
 
     public function test_nested_setup_routes_are_allowed()

@@ -982,8 +982,8 @@ class FileApiTest extends BaseFeatureTest
             $response = $this->get("/api/v1/files/{$file->id}/download", [
                 'Authorization' => 'Bearer ' . $otherToken,
             ]);
-            // StreamedResponse means download succeeded (200)
-            $this->assertTrue(true);
+            // App has no per-user isolation: the download currently succeeds.
+            $response->assertOk();
         } catch (\Symfony\Component\HttpKernel\Exception\HttpException $e) {
             $this->assertContains($e->getStatusCode(), [403, 404]);
         }

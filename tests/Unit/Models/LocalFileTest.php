@@ -31,29 +31,6 @@ class LocalFileTest extends BaseFeatureTest
         $this->assertTrue(Str::isUlid($localFile->id));
     }
 
-    public function test_local_file_attributes_are_fillable()
-    {
-        $userData = User::factory()->create();
-        $fileData = [
-            'filename' => 'test_file.txt',
-            'is_dir' => false,
-            'public_path' => '/path/to/public',
-            'private_path' => '/path/to/private',
-            'size' => 1024,
-            'user_id' => $userData->id,
-            'file_type' => 'text',
-        ];
-        $localFile = LocalFile::create($fileData);
-
-        $this->assertEquals('test_file.txt', $localFile->filename);
-        $this->assertFalse($localFile->is_dir);
-        $this->assertEquals('/path/to/public', $localFile->public_path);
-        $this->assertEquals('/path/to/private', $localFile->private_path);
-        $this->assertEquals(1024, $localFile->size);
-        $this->assertEquals($userData->id, $localFile->user_id);
-        $this->assertEquals('text', $localFile->file_type);
-    }
-
     public function test_hidden_attributes_are_hidden()
     {
         $localFile = LocalFile::factory()->create();

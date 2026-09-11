@@ -78,9 +78,8 @@ class ThumbnailServiceTest extends TestCase
         $service = new ThumbnailService($pathService, $fileOperations);
 
         // Should not throw any exception
+        $this->expectNotToPerformAssertions();
         $service->ensureImageDriverLoaded();
-
-        $this->assertTrue(true);
     }
 
 
