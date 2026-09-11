@@ -89,8 +89,10 @@
     # Copy Apache config
     COPY docker/apache.conf /etc/apache2/sites-available/000-default.conf
 
-    # Create external storage directory link target and set permissions
-    RUN mkdir -p storage/framework/{sessions,views,cache} storage/logs bootstrap/cache \
+    # Create external storage directory link target and set permissions.
+    # a+rX: COPY inherits the build umask, which can hide files from Apache.
+    RUN chmod -R a+rX /var/www/html/personal-drive \
+        && mkdir -p storage/framework/{sessions,views,cache} storage/logs bootstrap/cache \
         && mkdir /var/www/html/personal-drive-storage-folder \
         && chown -R www-data:www-data storage bootstrap/cache database /var/www/html/personal-drive-storage-folder public \
         && chmod -R 770 storage bootstrap/cache database \
