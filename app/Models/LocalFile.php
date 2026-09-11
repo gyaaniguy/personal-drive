@@ -88,6 +88,13 @@ class LocalFile extends Model
         )->values();
     }
 
+    public static function filesForDrive(string $publicPath): \Illuminate\Support\Collection
+    {
+        return self::modifyFileCollectionForDrive(
+            self::getFilesForPublicPath($publicPath)->get()
+        );
+    }
+
     public static function getItemSizeText($item): string
     {
         return $item->size || $item->is_dir ? FileSizeFormatter::format((int) $item->size) : '0 KB';

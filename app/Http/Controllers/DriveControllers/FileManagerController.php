@@ -16,9 +16,7 @@ class FileManagerController extends Controller
     {
         $path = $request->validated('path') ?? '';
 
-        $files = LocalFile::modifyFileCollectionForDrive(
-            LocalFile::getFilesForPublicPath($path)->get()
-        );
+        $files = LocalFile::filesForDrive($path);
 
         return Inertia::render(
             'Drive/DriveHome',

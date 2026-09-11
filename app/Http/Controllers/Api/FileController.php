@@ -71,9 +71,7 @@ class FileController extends Controller
         // page while later pages still hold files.
         // ponytail: loads the whole folder to filter it (~15ms per 5k rows, measured).
         // If that ever bites, reconcile the path against disk once and page in SQL.
-        $files = LocalFile::modifyFileCollectionForDrive(
-            LocalFile::getFilesForPublicPath($path)->get()
-        );
+        $files = LocalFile::filesForDrive($path);
 
         $currentPage = LengthAwarePaginator::resolveCurrentPage();
 
@@ -127,9 +125,7 @@ class FileController extends Controller
             $message .= ' (Conflicts: ' . $this->uploadService->summarizeConflicts($result['conflicts']) . ')';
         }
 
-        $newFiles = LocalFile::modifyFileCollectionForDrive(
-            LocalFile::getFilesForPublicPath($publicPath)->get()
-        );
+        $newFiles = LocalFile::filesForDrive($publicPath);
 
         return response()->json([
             'message' => $message,
@@ -218,10 +214,8 @@ class FileController extends Controller
 
         $this->fileMoveService->moveFiles($fileIds, $destination);
 
-        $newFiles = LocalFile::modifyFileCollectionForDrive(
-            LocalFile::getFilesForPublicPath(
-                $this->pathService->cleanDrivePublicPath($destination)
-            )->get()
+        $newFiles = LocalFile::filesForDrive(
+            $this->pathService->cleanDrivePublicPath($destination)
         );
         return response()->json([
             'message' => 'Files moved',
