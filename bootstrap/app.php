@@ -47,6 +47,9 @@ return Application::configure(basePath: dirname(__DIR__))
             "Illuminate\Http\Middleware\TrustProxies",
             "App\Http\Middleware\TrustProxies"
         );
+        // The editor save endpoints store verbatim file content; trimming would
+        // silently drop leading/trailing whitespace and trailing newlines.
+        $middleware->trimStrings(except: ['content']);
         $middleware->priority([
             OptionalAuth::class,
             Authenticate::class,
