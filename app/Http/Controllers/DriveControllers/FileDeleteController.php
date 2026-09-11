@@ -15,20 +15,11 @@ class FileDeleteController extends Controller
 {
     use FlashMessages;
 
-    protected LocalFileStatsService $localFileStatsService;
-
-    protected PathService $pathService;
-
-    protected FileDeleteService $fileDeleteService;
-
     public function __construct(
-        LocalFileStatsService $localFileStatsService,
-        PathService $pathService,
-        FileDeleteService $fileDeleteService
+        protected LocalFileStatsService $localFileStatsService,
+        protected PathService $pathService,
+        protected FileDeleteService $fileDeleteService,
     ) {
-        $this->localFileStatsService = $localFileStatsService;
-        $this->pathService = $pathService;
-        $this->fileDeleteService = $fileDeleteService;
     }
 
     public function deleteFiles(FileDeleteRequest $request): RedirectResponse

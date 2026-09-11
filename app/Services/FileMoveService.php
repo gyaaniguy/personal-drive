@@ -7,18 +7,11 @@ use App\Models\LocalFile;
 
 class FileMoveService
 {
-    protected PathService $pathService;
-    protected LocalFileStatsService $localFileStatsService;
-    protected FileOperationsService $fileOperationsService;
-
     public function __construct(
-        PathService $pathService,
-        LocalFileStatsService $localFileStatsService,
-        FileOperationsService $fileOperationsService,
+        protected PathService $pathService,
+        protected LocalFileStatsService $localFileStatsService,
+        protected FileOperationsService $fileOperationsService,
     ) {
-        $this->pathService = $pathService;
-        $this->localFileStatsService = $localFileStatsService;
-        $this->fileOperationsService = $fileOperationsService;
     }
 
     public function moveFiles(array $fileKeyArray, string $destinationInputPath): bool

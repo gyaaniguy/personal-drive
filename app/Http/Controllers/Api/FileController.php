@@ -30,30 +30,15 @@ class FileController extends Controller
     use HasJsonPagination;
     use FlashMessages;
 
-    protected PathService $pathService;
-    protected LocalFileStatsService $localFileStatsService;
-    protected UploadService $uploadService;
-    protected FileDeleteService $fileDeleteService;
-    protected FileMoveService $fileMoveService;
-    protected FileRenameService $fileRenameService;
-    protected FileSaveService $fileSaveService;
-
     public function __construct(
-        PathService $pathService,
-        LocalFileStatsService $localFileStatsService,
-        UploadService $uploadService,
-        FileDeleteService $fileDeleteService,
-        FileMoveService $fileMoveService,
-        FileRenameService $fileRenameService,
-        FileSaveService $fileSaveService,
+        protected PathService $pathService,
+        protected LocalFileStatsService $localFileStatsService,
+        protected UploadService $uploadService,
+        protected FileDeleteService $fileDeleteService,
+        protected FileMoveService $fileMoveService,
+        protected FileRenameService $fileRenameService,
+        protected FileSaveService $fileSaveService,
     ) {
-        $this->pathService = $pathService;
-        $this->localFileStatsService = $localFileStatsService;
-        $this->uploadService = $uploadService;
-        $this->fileDeleteService = $fileDeleteService;
-        $this->fileMoveService = $fileMoveService;
-        $this->fileRenameService = $fileRenameService;
-        $this->fileSaveService = $fileSaveService;
     }
 
     public function index(ListFilesRequest $request): JsonResponse

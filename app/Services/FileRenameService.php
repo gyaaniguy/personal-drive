@@ -8,15 +8,10 @@ use Illuminate\Support\Facades\DB;
 
 class FileRenameService
 {
-    protected FileOperationsService $fileOperationsService;
-    private PathService $pathService;
-
     public function __construct(
-        PathService $pathService,
-        FileOperationsService $fileOperationsService,
+        protected PathService $pathService,
+        protected FileOperationsService $fileOperationsService,
     ) {
-        $this->pathService = $pathService;
-        $this->fileOperationsService = $fileOperationsService;
     }
 
     public function renameFile(LocalFile $file, string $newFilename): void

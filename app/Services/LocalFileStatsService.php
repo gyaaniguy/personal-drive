@@ -13,11 +13,9 @@ use SplFileInfo;
 class LocalFileStatsService
 {
     private ?int $userId = null;
-    private PathService $pathService;
 
-    public function __construct(PathService $pathService)
+    public function __construct(private PathService $pathService)
     {
-        $this->pathService = $pathService;
     }
 
     public function addItemPathStat(string $itemName, string $privatePath, string $publicPath, bool $isDir): void

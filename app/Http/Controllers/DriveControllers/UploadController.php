@@ -18,21 +18,12 @@ class UploadController extends Controller
 {
     use FlashMessages;
 
-    protected PathService $pathService;
-    protected UploadService $uploadService;
-    protected LocalFileStatsService $localFileStatsService;
-    protected FileSaveService $fileSaveService;
-
     public function __construct(
-        PathService $pathService,
-        LocalFileStatsService $localFileStatsService,
-        UploadService $uploadService,
-        FileSaveService $fileSaveService,
+        protected PathService $pathService,
+        protected LocalFileStatsService $localFileStatsService,
+        protected UploadService $uploadService,
+        protected FileSaveService $fileSaveService,
     ) {
-        $this->localFileStatsService = $localFileStatsService;
-        $this->pathService = $pathService;
-        $this->uploadService = $uploadService;
-        $this->fileSaveService = $fileSaveService;
     }
 
     public function store(UploadRequest $request): RedirectResponse
