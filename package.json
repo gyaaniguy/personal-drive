@@ -4,7 +4,8 @@
     "scripts": {
         "build": "vite build",
         "dev": "vite",
-        "test:js": "node --test resources/js/lib/sanitizeHtml.test.js"
+        "test:js": "node --test resources/js/lib/sanitizeHtml.test.js",
+        "lint:fix": "eslint --fix resources/js"
     },
     "devDependencies": {
         "@eslint/js": "^9.25.0",

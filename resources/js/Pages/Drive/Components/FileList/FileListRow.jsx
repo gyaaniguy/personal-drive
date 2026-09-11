@@ -33,8 +33,7 @@ const FileListRow = React.memo(function FileListRow({
     favoriteFileIds,
     onAddFavorite,
 }) {
-    const sizeText =
-        file.size || file.is_dir ? formatBytes(file.size) : "0 KB";
+    const sizeText = file.size || file.is_dir ? formatBytes(file.size) : "0 KB";
     const [sizeValue, sizeUnit] = sizeText.split(" ");
     return (
         <tr className="group cursor-pointer hover:bg-gray-700">
