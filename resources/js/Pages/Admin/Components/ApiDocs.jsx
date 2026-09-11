@@ -65,6 +65,23 @@ function ParamsTable({ params, title }) {
     );
 }
 
+const REF_RE = /(File object|Pagination)/g;
+function linkifyResponse(text) {
+    return text.split(REF_RE).map((part, i) =>
+        part === "File object" || part === "Pagination" ? (
+            <a
+                key={i}
+                href={`#${epId(part)}`}
+                className="text-blue-400 underline hover:text-blue-300"
+            >
+                {part}
+            </a>
+        ) : (
+            part
+        ),
+    );
+}
+
 function EndpointCard({ endpoint }) {
     return (
         <div
@@ -75,12 +92,18 @@ function EndpointCard({ endpoint }) {
                 <h4 className="text-blue-200 text-base font-semibold mb-1">
                     {endpoint.title}
                 </h4>
-                <div className="flex items-center gap-3 flex-wrap">
-                    <MethodBadge method={endpoint.method} />
-                    <code className="text-sm text-gray-300 font-mono break-all">
-                        {endpoint.url}
-                    </code>
-                </div>
+                {(endpoint.method || endpoint.url) && (
+                    <div className="flex items-center gap-3 flex-wrap">
+                        {endpoint.method && (
+                            <MethodBadge method={endpoint.method} />
+                        )}
+                        {endpoint.url && (
+                            <code className="text-sm text-gray-300 font-mono break-all">
+                                {endpoint.url}
+                            </code>
+                        )}
+                    </div>
+                )}
             </div>
 
             <p className="text-gray-400 text-sm">{endpoint.description}</p>
@@ -93,7 +116,7 @@ function EndpointCard({ endpoint }) {
                         Response
                     </h4>
                     <pre className="bg-blue-950 border border-blue-800 rounded p-3 text-xs text-gray-300 overflow-x-auto whitespace-pre-wrap">
-                        {endpoint.response}
+                        {linkifyResponse(endpoint.response)}
                     </pre>
                 </div>
             )}
@@ -192,9 +215,11 @@ export default function ApiDocs({ sections = [] }) {
                                                     href={`#${epId(ep.title)}`}
                                                     className="flex items-center gap-1.5 text-xs text-gray-400 hover:text-gray-200 py-0.5"
                                                 >
-                                                    <MethodBadge
-                                                        method={ep.method}
-                                                    />
+                                                    {ep.method && (
+                                                        <MethodBadge
+                                                            method={ep.method}
+                                                        />
+                                                    )}
                                                     <span>{ep.title}</span>
                                                 </a>
                                             </li>

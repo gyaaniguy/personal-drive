@@ -93,7 +93,7 @@ class FileApiTest extends BaseFeatureTest
 
         $response->assertOk()
             ->assertJsonPath('file.filename', 'showme.txt')
-            ->assertJsonStructure(['file' => ['id', 'filename', 'sizeText', 'date']]);
+            ->assertJsonStructure(['file' => ['id', 'filename', 'size', 'date']]);
     }
 
     public function test_show_nonexistent_file_returns_404(): void
@@ -339,7 +339,7 @@ class FileApiTest extends BaseFeatureTest
 
     // ─── List Files (additional) ───
 
-    public function test_list_files_includes_size_text_and_date(): void
+    public function test_list_files_includes_size_and_date(): void
     {
         $this->uploadFile('', 'size-test.txt', 100);
         $file = LocalFile::where('filename', 'size-test.txt')->first();
@@ -349,9 +349,11 @@ class FileApiTest extends BaseFeatureTest
         $response->assertOk();
         $files = $response->json('files');
         $this->assertNotEmpty($files);
-        $this->assertArrayHasKey('sizeText', $files[0]);
+        $this->assertArrayHasKey('size', $files[0]);
+        $this->assertArrayNotHasKey('sizeText', $files[0]);
         $this->assertArrayHasKey('date', $files[0]);
-        $this->assertNotEmpty($files[0]['sizeText']);
+        $this->assertIsInt($files[0]['size']);
+        $this->assertEquals($file->size, $files[0]['size']);
         $this->assertIsNumeric($files[0]['date']);
     }
 
@@ -403,7 +405,7 @@ class FileApiTest extends BaseFeatureTest
 
     // ─── Show File (additional) ───
 
-    public function test_show_file_includes_size_text(): void
+    public function test_show_file_includes_size(): void
     {
         $this->uploadFile('', 'size-show.txt', 100);
         $file = LocalFile::where('filename', 'size-show.txt')->first();
@@ -411,7 +413,9 @@ class FileApiTest extends BaseFeatureTest
         $response = $this->getJson("/api/v1/files/{$file->id}", $this->authHeaders());
 
         $response->assertOk();
-        $this->assertNotEmpty($response->json('file.sizeText'));
+        $response->assertJsonMissingPath('file.sizeText');
+        $this->assertIsInt($response->json('file.size'));
+        $this->assertEquals($file->size, $response->json('file.size'));
     }
 
     public function test_show_file_includes_date(): void
@@ -1290,7 +1294,7 @@ class FileApiTest extends BaseFeatureTest
         $this->assertEquals(10240, $file->size);
     }
 
-    public function test_save_updates_size_text_in_response(): void
+    public function test_save_updates_size_in_response(): void
     {
         $this->uploadFile('', 'size-text-save.txt', 1);
         $file = LocalFile::where('filename', 'size-text-save.txt')->first();

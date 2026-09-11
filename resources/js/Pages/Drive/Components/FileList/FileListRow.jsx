@@ -2,6 +2,17 @@ import FileItem from "../FileItem.jsx";
 import FolderItem from "../FolderItem.jsx";
 import React from "react";
 
+// Mirrors the old server-side getItemSizeText: KB/KB/MB/GB, matches FileSizeFormatter.
+function formatBytes(bytes) {
+    if (bytes === 0) return "";
+    if (bytes < 1024) return "1 KB";
+    const units = ["KB", "KB", "MB", "GB"];
+    let i = 0;
+    for (; bytes >= 1024; i++) bytes /= 1024;
+    const rounded = i < 2 ? Math.round(bytes) : Math.round(bytes * 10) / 10;
+    return `${rounded} ${units[i]}`;
+}
+
 const FileListRow = React.memo(function FileListRow({
     file,
     isSearch,
@@ -22,7 +33,9 @@ const FileListRow = React.memo(function FileListRow({
     favoriteFileIds,
     onAddFavorite,
 }) {
-    const [sizeValue, sizeUnit] = file.sizeText.split(" ");
+    const sizeText =
+        file.size || file.is_dir ? formatBytes(file.size) : "0 KB";
+    const [sizeValue, sizeUnit] = sizeText.split(" ");
     return (
         <tr className="group cursor-pointer hover:bg-gray-700">
             <td

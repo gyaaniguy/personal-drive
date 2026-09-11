@@ -91,7 +91,7 @@ export default function ApiTokensTab({ tokens, api_sections, flash }) {
                 <h2 className="text-blue-200 text-2xl font-bold mt-2 mb-2">
                     Existing Tokens
                 </h2>
-                <div className="bg-slate-900/50 p-2 md:p-4 rounded-lg border border-blue-900/30">
+                <div className="bg-slate-900/50 p-2 md:px-4 rounded-lg border border-blue-900/30">
                     {tokens.length === 0 ? (
                         <p className="text-gray-400 text-sm">
                             No API tokens yet.

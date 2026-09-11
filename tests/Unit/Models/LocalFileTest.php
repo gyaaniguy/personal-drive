@@ -145,24 +145,16 @@ class LocalFileTest extends BaseFeatureTest
         $this->assertTrue(array_is_list(json_decode($modified->toJson(), true)));
     }
 
-    public function test_modify_file_collection_for_drive_adds_size_text()
+    public function test_modify_file_collection_for_drive_includes_size_and_date()
     {
         $this->uploadMultipleFiles('', ['file.txt']);
         $file = LocalFile::where('filename', 'file.txt')->firstOrFail();
         $collection = new Collection([$file]);
 
         $modifiedCollection = LocalFile::modifyFileCollectionForDrive($collection);
-        $this->assertNotEmpty($modifiedCollection->first()['sizeText']);
+        $this->assertArrayHasKey('size', $modifiedCollection->first());
+        $this->assertArrayNotHasKey('sizeText', $modifiedCollection->first());
         $this->assertNotNull($modifiedCollection->first()['date']);
-    }
-
-    public function test_get_item_size_text_formats_size()
-    {
-        $file = LocalFile::factory()->make(['size' => 2048, 'is_dir' => false]);
-        $this->assertEquals('2 KB', LocalFile::getItemSizeText($file));
-
-        $dir = LocalFile::factory()->make(['size' => 0, 'is_dir' => true]);
-        $this->assertEquals('', LocalFile::getItemSizeText($dir));
     }
 
     public function test_modify_file_collection_for_guest_excludes_missing_files()

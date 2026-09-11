@@ -59,7 +59,7 @@ export default function Settings({
                     <AlertBox />
 
                     <div
-                        className={`max-w-3xl mx-auto min-h-[500px] flex flex-col gap-y-8 md:gap-y-20 ${
+                        className={`max-w-3xl mx-auto min-h-[500px] flex flex-col gap-y-8 md:gap-y-12 ${
                             activeTab === "tokens"
                                 ? ""
                                 : "bg-blue-900/15 p-2 md:p-12"

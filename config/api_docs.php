@@ -45,10 +45,10 @@ return [
                     ],
                     'body' => null,
                     'response' => '{
-  "files": [...],
-  "links": { "first": "...", "last": "...", "prev": "...", "next": "..." },
-  "meta": { "current_page": 1, "last_page": 1, "per_page": 50, "total": 10 },
-  "path": ""
+  "files": [ File object, ... ],
+  "links": { ... },
+  "meta":  { ... },
+  "path": "Documents"
 }',
                     'curl' => 'curl -s "https://your-domain.com/api/v1/files?path=Documents&per_page=20" \\
   -H "Authorization: Bearer <your-token>"',
@@ -61,14 +61,7 @@ return [
                     'params' => [],
                     'body' => null,
                     'response' => '{
-  "file": {
-    "id": "01HXYZ...",
-    "filename": "photo.jpg",
-    "public_path": "Documents",
-    "is_dir": false,
-    "sizeText": "2.4 MB",
-    "date": 1693500000
-  }
+  "file": File object
 }',
                     'curl' => 'curl -s "https://your-domain.com/api/v1/files/01HXYZ..." \\
   -H "Authorization: Bearer <your-token>"',
@@ -85,7 +78,7 @@ return [
                     ],
                     'response' => '{
   "message": "Files uploaded: 2 out of 2",
-  "files": [...]
+  "files": [ File object, ... ]
 }',
                     'curl' => 'curl -s -X POST "https://your-domain.com/api/v1/files/upload" \\
   -H "Authorization: Bearer <your-token>" \\
@@ -106,7 +99,7 @@ return [
                     ],
                     'response' => '{
   "message": "Folder created",
-  "file": { "id": "...", "filename": "New Folder", ... }
+  "file": File object
 }',
                     'curl' => 'curl -s -X POST "https://your-domain.com/api/v1/files/create" \\
   -H "Authorization: Bearer <your-token>" \\
@@ -150,7 +143,7 @@ return [
                     ],
                     'response' => '{
   "message": "Files moved",
-  "files": [...]
+  "files": [ File object, ... ]
 }',
                     'curl' => '# Move to root
 curl -s -X POST "https://your-domain.com/api/v1/files/move" \\
@@ -181,7 +174,7 @@ curl -s -X POST "https://your-domain.com/api/v1/files/move" \\
                     ],
                     'response' => '{
   "message": "File renamed",
-  "file": { "id": "...", "filename": "new-name.jpg", ... }
+  "file": File object
 }',
                     'curl' => 'curl -s -X POST "https://your-domain.com/api/v1/files/01HXYZ.../rename" \\
   -H "Authorization: Bearer <your-token>" \\
@@ -199,7 +192,7 @@ curl -s -X POST "https://your-domain.com/api/v1/files/move" \\
                     ],
                     'response' => '{
   "message": "File saved",
-  "file": { "id": "...", "filename": "notes.txt", ... }
+  "file": File object
 }',
                     'curl' => 'curl -s -X POST "https://your-domain.com/api/v1/files/01HXYZ.../save" \\
   -H "Authorization: Bearer <your-token>" \\
@@ -223,9 +216,9 @@ curl -s -X POST "https://your-domain.com/api/v1/files/move" \\
                     ],
                     'body' => null,
                     'response' => '{
-  "files": [...],
-  "links": { "first": "...", "last": "...", "prev": "...", "next": "..." },
-  "meta": { "current_page": 1, "last_page": 1, "per_page": 50, "total": 3 }
+  "files": [ File object, ... ],
+  "links": { ... },
+  "meta":  { ... }
 }',
                     'curl' => 'curl -s "https://your-domain.com/api/v1/search?q=vacation" \\
   -H "Authorization: Bearer <your-token>"',
@@ -358,6 +351,44 @@ curl -s -X POST "https://your-domain.com/api/v1/files/move" \\
 }',
                     'curl' => 'curl -s -X POST "https://your-domain.com/api/v1/shares/1/toggle" \\
   -H "Authorization: Bearer <your-token>"',
+                ],
+            ],
+        ],
+        [
+            'title' => 'Objects',
+            'description' => 'Shared response shapes referenced throughout this documentation. Endpoints below return these objects rather than repeating the full shape each time.',
+            'endpoints' => [
+                [
+                    'title' => 'File object',
+                    'description' => 'Returned by every file/folder endpoint, standalone as "file" or inside a "files" array. "size" is the raw byte count (integer); format it client-side. "date" is the last-modified time as a Unix timestamp (seconds). Folders have "is_dir": true and "size": 0.',
+                    'response' => '{
+  "id": "01HXYZ...",
+  "filename": "photo.jpg",
+  "is_dir": false,
+  "public_path": "Documents",
+  "size": 2516582,
+  "created_at": "2024-01-15T10:30:00.000000Z",
+  "updated_at": "2024-01-15T10:30:00.000000Z",
+  "date": 1693500000
+}',
+                ],
+                [
+                    'title' => 'Pagination',
+                    'description' => 'List endpoints (files, search, favorites, shares) return standard Laravel pagination alongside the data array. "links" holds page URLs (null when absent), "meta" holds page counters. Request a specific page with ?page=N and set page size with ?per_page=N.',
+                    'response' => '{
+  "links": {
+    "first": "https://your-domain.com/api/v1/files?page=1",
+    "last":  "https://your-domain.com/api/v1/files?page=3",
+    "prev":  null,
+    "next":  "https://your-domain.com/api/v1/files?page=2"
+  },
+  "meta": {
+    "current_page": 1,
+    "last_page": 3,
+    "per_page": 50,
+    "total": 120
+  }
+}',
                 ],
             ],
         ],
