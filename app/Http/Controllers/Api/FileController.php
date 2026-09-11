@@ -79,7 +79,6 @@ class FileController extends Controller
         }
 
         return response()->json(['file' => array_merge($file->toArray(), [
-            'sizeText' => LocalFile::getItemSizeText($file),
             'date' => filemtime($file->getPrivatePathNameForFile()),
         ])]);
     }
@@ -241,7 +240,6 @@ class FileController extends Controller
         return response()->json([
             'message' => 'File renamed',
             'file' => array_merge($file->toArray(), [
-                'sizeText' => LocalFile::getItemSizeText($file),
                 'date' => filemtime($file->getPrivatePathNameForFile()),
             ]),
         ]);

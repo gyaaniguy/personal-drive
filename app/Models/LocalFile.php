@@ -2,7 +2,6 @@
 
 namespace App\Models;
 
-use App\Helpers\FileSizeFormatter;
 use Illuminate\Database\Eloquent\Builder;
 use Illuminate\Database\Eloquent\Collection;
 use Illuminate\Database\Eloquent\Concerns\HasUlids;
@@ -81,7 +80,6 @@ class LocalFile extends Model
         )->map(
             function ($item) {
                 return array_merge($item->toArray(), [
-                    'sizeText' => self::getItemSizeText($item),
                     'date' => filemtime($item->getPrivatePathNameForFile()),
                 ]);
             }
@@ -95,11 +93,6 @@ class LocalFile extends Model
         );
     }
 
-    public static function getItemSizeText($item): string
-    {
-        return $item->size || $item->is_dir ? FileSizeFormatter::format((int) $item->size) : '0 KB';
-    }
-
     public static function modifyFileCollectionForGuest(Collection $fileItems, string $publicPath = ''): \Illuminate\Support\Collection
     {
         return $fileItems->filter(
@@ -107,7 +100,6 @@ class LocalFile extends Model
         )->map(
             function ($item) use ($publicPath) {
                 $data = array_merge($item->toArray(), [
-                    'sizeText' => self::getItemSizeText($item),
                     'date' => filemtime($item->getPrivatePathNameForFile()),
                 ]);
                 if ($publicPath) {
