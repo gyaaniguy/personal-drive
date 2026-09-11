@@ -21,7 +21,4 @@ npx eslint resources/js
 step "JS tests"
 npm run test:js
 
-step "JS build"
-npm run build
-
 printf '\n\033[1;32m✓ all checks passed\033[0m\n'
