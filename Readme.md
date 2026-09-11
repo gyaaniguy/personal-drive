@@ -204,9 +204,31 @@ PHP code follows PSR-12 standard.
 
 ### Extensive Testing. 
 
-90% coverage has been achieved. This includes testing for various scenarios and branches.
+Tests cover various scenarios and branches. Live coverage:
 
-[![codecov](https://codecov.io/github/gyaaniguy/personal-drive/branch/main/graph/badge.svg?token=DYLKB4SZVD)](https://codecov.io/github/gyaaniguy/personal-drive)
+![coverage](coverage.svg)
+
+### Running the checks
+
+`./check.sh` runs everything locally - phpcs (PSR-12), phpstan, Pest, eslint, JS tests, and an install smoke test. 
+CI: The pre-push hook in `.githooks/pre-push` runs it before every push; bypass once with `git push --no-verify`.
+
+### Test installation scritps
+
+`tests/install/smoke.sh` proves a fresh install still produces a working app. Needs Docker.
+
+```bash
+./tests/install/smoke.sh          # regular install: runs setup.sh as a non-root
+                                  # user in a bare container, serves it with
+                                  # Apache as www-data, creates the admin
+                                  # account over HTTP, then re-runs setup.sh
+                                  # to confirm a second run is harmless
+./tests/install/smoke.sh docker   # builds this repo's Dockerfile, runs it with
+                                  # the volumes from the instructions above, and
+                                  # restarts it to confirm data survives
+```
+
+The regular-install mode is part of `check.sh`. Docker mode is manual - it rebuilds the image and takes a few minutes.
 
 For local development, you may want to disable HTTPS. Change these in `.env`:
 ```env

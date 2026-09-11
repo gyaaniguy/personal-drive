@@ -21,6 +21,9 @@
 - Support running behind reverse proxies by adding configurable/optional trusted proxies
 - Support no auth mode
 - Two Factor Authentication powered by TOTP protocol. Ex: Google Authenticator
+- Safer setup: re-running `setup.sh` keeps your `.env` and `APP_KEY`, and later `.env` edits apply without clearing caches
+- Search, move, and resync fixes: favorites and shares survive moves, search no longer breaks in subfolders, awkward file names handled
+- Automated install testing for both the script and Docker install paths, plus a local check script run before every push
 
 ## [v1.0.0] - 2025-08-07
 
@@ -40,7 +43,7 @@
 - Permissions and upload error handling
 
 ### Notes
-- Extensive testing with 90%+ code coverage
+- Extensive testing with 94% code coverage
 
 ### Planned for v2
 - Encryption

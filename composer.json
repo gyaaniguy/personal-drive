@@ -39,6 +39,7 @@
     },
     "require-dev": {
         "barryvdh/laravel-debugbar": "^3.14",
+        "bushlanov-dev/php-coverage-badger": "^2.1",
         "fakerphp/faker": "^1.23",
         "larastan/larastan": "^3.6",
         "laravel/boost": "^1.0",

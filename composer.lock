@@ -4,7 +4,7 @@
         "Read more about it at https://getcomposer.org/doc/01-basic-usage.md#installing-dependencies",
         "This file is @generated automatically"
     ],
-    "content-hash": "1cb79794f67efa1cab2775a133d2b9cc",
+    "content-hash": "83b3cf8140825c5ff5fc06f4d69845c8",
     "packages": [
         {
             "name": "bacon/bacon-qr-code",
@@ -7279,6 +7279,51 @@
                 }
             ],
             "time": "2026-01-08T08:02:38+00:00"
+        },
+        {
+            "name": "bushlanov-dev/php-coverage-badger",
+            "version": "2.1.0",
+            "source": {
+                "type": "git",
+                "url": "https://github.com/BushlanovDev/php-coverage-badger.git",
+                "reference": "b891877c94696f338f3226ea394b8017270fca7c"
+            },
+            "dist": {
+                "type": "zip",
+                "url": "https://api.github.com/repos/BushlanovDev/php-coverage-badger/zipball/b891877c94696f338f3226ea394b8017270fca7c",
+                "reference": "b891877c94696f338f3226ea394b8017270fca7c",
+                "shasum": ""
+            },
+            "require": {
+                "ext-simplexml": "*",
+                "php": ">=7.0"
+            },
+            "bin": [
+                "bin/php-coverage-badger"
+            ],
+            "type": "library",
+            "notification-url": "https://packagist.org/downloads/",
+            "license": [
+                "MIT"
+            ],
+            "authors": [
+                {
+                    "name": "Joseph Schilz",
+                    "email": "joseph@schilz.org",
+                    "homepage": "https://www.schilz.org"
+                },
+                {
+                    "name": "Marco Pivetta",
+                    "email": "ocramius@gmail.com",
+                    "homepage": "http://ocramius.github.com"
+                }
+            ],
+            "description": "Create a code coverage badge from a PHPUnit Clover XML file.",
+            "homepage": "https://github.com/BushlanovDev/php-coverage-badge",
+            "support": {
+                "source": "https://github.com/BushlanovDev/php-coverage-badger/tree/2.1.0"
+            },
+            "time": "2025-08-24T17:24:56+00:00"
         },
         {
             "name": "doctrine/deprecations",

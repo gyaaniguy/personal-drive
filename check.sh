@@ -12,8 +12,9 @@ vendor/bin/phpcs -n --standard=PSR12 app/
 step "PHP static analysis (phpstan)"
 vendor/bin/phpstan analyse --no-progress
 
-step "PHP tests (pest)"
-php artisan test
+step "PHP tests (pest) + coverage badge"
+XDEBUG_MODE=coverage php artisan test --coverage-clover=coverage.xml
+XDEBUG_MODE=off vendor/bin/php-coverage-badger coverage.xml coverage.svg
 
 step "JS lint (eslint)"
 npx eslint resources/js
