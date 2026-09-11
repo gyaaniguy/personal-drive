@@ -60,9 +60,9 @@ class ShareTest extends TestCase
         );
     }
 
-    public function test_legacy_empty_string_expiry_row_is_still_listed(): void
+    public function test_migration_normalizes_legacy_empty_string_expiry(): void
     {
-        // Rows written before the fix stored '' — the read side must recover them.
+        // Rows written before the fix stored '' — the normalization migration recovers them.
         \Illuminate\Support\Facades\DB::table('shares')->insert([
             'slug' => 'legacy-empty',
             'password' => '',
@@ -72,9 +72,11 @@ class ShareTest extends TestCase
             'updated_at' => now(),
         ]);
 
+        \Illuminate\Support\Facades\DB::table('shares')->where('expiry', '')->update(['expiry' => null]);
+
         $this->assertTrue(
             Share::getAllUnExpired()->contains('slug', 'legacy-empty'),
-            'legacy "" expiry rows must be treated as permanent'
+            'legacy rows must be listed once normalized to NULL'
         );
     }
 

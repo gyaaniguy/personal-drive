@@ -35,7 +35,7 @@ class Share extends Model
                 [
                 'slug' => $slug,
                 'password' => $password,
-                'expiry' => ($expiry === '' || $expiry === null) ? null : (int) $expiry,
+                'expiry' => $expiry ? (int) $expiry : null,
                 'public_path' => $publicPath,
                 ]
             );
@@ -50,9 +50,8 @@ class Share extends Model
         return static::with(['sharedFiles.localFile:id,filename'])
             ->where(
                 function ($query) {
-                    $query->whereRaw("expiry IS NOT NULL AND expiry != '' AND datetime(created_at, '+' || expiry || ' days') > datetime('now')")
-                        ->orWhereNull('expiry')
-                        ->orWhere('expiry', '');
+                    $query->whereNull('expiry')
+                        ->orWhereRaw("datetime(created_at, '+' || expiry || ' days') > datetime('now')");
                 }
             )
             ->orderBy('created_at', 'desc');
