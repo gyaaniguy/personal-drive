@@ -149,6 +149,19 @@ class ApiPolishTest extends BaseFeatureTest
         $response->assertHeader('X-RateLimit-Remaining');
     }
 
+    public function test_api_returns_429_not_500_when_rate_limit_exceeded(): void
+    {
+        // api limiter is 100/min. The 101st request must be a clean 429,
+        // not a generic 500 (native ThrottleRequestsException must be mapped).
+        $response = null;
+        for ($i = 0; $i < 101; $i++) {
+            $response = $this->getJson('/api/v1/files', $this->authHeaders());
+        }
+
+        $response->assertStatus(429)
+            ->assertJson(['message' => 'Too many requests']);
+    }
+
     // ─── Auth Requirements ───
 
     public function test_all_api_routes_require_sanctum_token_or_session_auth(): void
