@@ -12,7 +12,7 @@
 - Improved responsive mobile layout and drive controls
 - Audio player
 - Audiobook features: save position automatically, multiple rewind buttons
-- Stream line settings for autoplaying media
+- Streamline settings for autoplaying media
 - Improve setup.sh for better permission handling
 - Better error messages for failed move/download and conflict uploads
 - Show total shares count

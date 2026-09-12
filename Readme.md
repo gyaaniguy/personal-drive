@@ -17,6 +17,7 @@
 - [Development](#development)
 - [Troubleshooting](#troubleshooting)
 - [Todo](#todo)
+- [Shelved](#shelved)
 - [Screenshots](#screenshots)
 
 ---
@@ -45,7 +46,7 @@
   - A sharing control panel to pause and delete existing shares
 - Media player and slideshow:
   - Play and view images, videos and audios
-  - Preview text and PDF files
+  - Preview text, HTML and PDF files
   - Keyboard shortcuts available during slideshow: Left, Right, Escape
   - Audiobook support, by adding rewind and save position
 - Files are indexed
@@ -69,7 +70,7 @@
 - Favorite files and folders for quick access
 - Config option to disable authentication
 - Config options to run behind a http proxy (reverse proxy)
-- Two Factor Authentication powered by TOTP protocol. Ex: Google Authentication
+- Two Factor Authentication powered by TOTP protocol. Ex: Google Authenticator
 - Password-protected file upload (client-side AES-256 encrypted zip)
 
 ---
@@ -213,7 +214,7 @@ Tests cover various scenarios and branches. Live coverage:
 `./check.sh` runs everything locally - phpcs (PSR-12), phpstan, Pest, eslint, JS tests, and an install smoke test. 
 CI: The pre-push hook in `.githooks/pre-push` runs it before every push; bypass once with `git push --no-verify`.
 
-### Test installation scritps
+### Test installation scripts
 
 `tests/install/smoke.sh` proves a fresh install still produces a working app. Needs Docker.
 
@@ -266,10 +267,15 @@ max_file_uploads = 10000
 
 #### Future Plans
 These are just thoughts. Can't make any promises.
-- Feature: Encryption. Vital, so the host can't read our files
 - Feature: Improve search. Maybe in-content search, folder-specific. Maybe a special 'Notes' mode
 - Feature: Collaboration. Perhaps a checkbox that allows guests to upload?
-- Feature: More previewable files - doc, docx, ppt. Unsure if this will be feasible.
+
+---
+
+## Shelved:
+Features we looked into but appear unfeasible. Not on the roadmap for now.
+- Encryption: full at-rest encryption so the host can't read your files. Partially done - Upload files as client-side encrypted zips.
+- More previewable files - doc, docx, ppt.
 
 ---
 
