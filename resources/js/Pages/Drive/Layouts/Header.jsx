@@ -65,7 +65,7 @@ export default function Header() {
                                             />
                                         </svg>
                                     </button>
-                                    <div className="absolute z-20 top-10 translate-x-[-80%] bg-gray-900 min-w-[80px]  peer-focus:visible peer-focus:opacity-100 opacity-0 invisible duration-200 p-1 border border-dimmed border-gray-800 text-center">
+                                    <div className="absolute z-20 top-10 translate-x-[-80%] bg-gray-900 min-w-[80px]  group-focus-within:visible group-focus-within:opacity-100 opacity-0 invisible duration-200 p-1 border border-dimmed border-gray-800 text-center">
                                         <div className=" cursor-pointer  hover:text-link rounded-md">
                                             <Link
                                                 method="post"
