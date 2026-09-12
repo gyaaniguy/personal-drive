@@ -266,6 +266,8 @@ const FileBrowserSection = memo(
             sortDetails.key = key;
             sortDetails.order = sortDirectionToSet === "desc" ? "asc" : "desc";
             localStorage.setItem("sortDetails", JSON.stringify(sortDetails));
+            // The viewer's prev/next chain must follow the displayed order.
+            previewAbleFiles.current = getPrevieAbleFiles(sortedFiles);
             return sortedFiles;
         }
 

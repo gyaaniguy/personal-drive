@@ -85,15 +85,20 @@ const MediaViewer = ({
         [prevClick, nextClick, isEditingRef, isFocusedRef],
     );
 
+    // The listener is bound once per open; route it through a ref so it always
+    // sees the current render's prev/next (index) instead of the open-time closure.
+    const keyHandlerRef = useRef(handleKeyDown);
+    keyHandlerRef.current = handleKeyDown;
     useEffect(() => {
         if ("ontouchstart" in window || navigator.maxTouchPoints > 0) {
             setIsActive(true);
             return;
         }
-        window.addEventListener("keydown", handleKeyDown);
+        const onKeyDown = (e) => keyHandlerRef.current(e);
+        window.addEventListener("keydown", onKeyDown);
         window.addEventListener("mousemove", handleMouseMove);
         return () => {
-            window.removeEventListener("keydown", handleKeyDown);
+            window.removeEventListener("keydown", onKeyDown);
             window.removeEventListener("mousemove", handleMouseMove);
         };
     }, [isModalOpen]);
