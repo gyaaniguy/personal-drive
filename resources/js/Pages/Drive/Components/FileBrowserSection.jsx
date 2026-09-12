@@ -465,7 +465,7 @@ const FileBrowserSection = memo(
                     </div>
                 </div>
 
-                {previewFile && (
+                {previewFile && isPreviewModalOpen && (
                     <MediaViewer
                         previewFile={previewFile}
                         isModalOpen={isPreviewModalOpen}
