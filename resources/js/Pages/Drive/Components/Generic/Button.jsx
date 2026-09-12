@@ -3,7 +3,7 @@ const Button = ({ onClick, classes, size = "default", children, ...props }) => {
 
     return (
         <button
-            className={`min-h-7 min-w-9 rounded-md px-2 py-1 inline-flex items-center justify-center gap-1 ${sizeClasses} ${classes}`}
+            className={`min-h-7 min-w-7 rounded-md px-1 md:px-2 py-1 inline-flex items-center justify-center gap-1 ${sizeClasses} ${classes}`}
             onClick={onClick}
             {...props}
         >
