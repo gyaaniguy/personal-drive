@@ -79,7 +79,10 @@ const FEATURES = [
         where: "Share dialog / Shares page",
         points: [
             ["Public links", "generate a URL for any file or folder"],
-            ["Password & expiry", "lock a link; auto-expires in 7 days by default"],
+            [
+                "Password & expiry",
+                "lock a link; auto-expires in 7 days by default",
+            ],
             ["Custom slug", "choose a readable URL instead of a random one"],
             ["Manage links", "review or revoke active links anytime"],
         ],
@@ -93,7 +96,10 @@ const FEATURES = [
         where: "Config tab",
         points: [
             ["Two-factor auth", "optional TOTP for admin login, set on Config"],
-            ["Private by password", "password-locked uploads and shares stay private"],
+            [
+                "Private by password",
+                "password-locked uploads and shares stay private",
+            ],
         ],
     },
     {
