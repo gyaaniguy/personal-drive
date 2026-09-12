@@ -26,6 +26,7 @@ import RenameModal from "@/Pages/Drive/Components/FileList/RenameModal.jsx";
 import CutButton from "./CutButton.jsx";
 import PasteButton from "./PasteButton.jsx";
 import { CutFilesContext } from "../../../Contexts/CutFilesContext.jsx";
+import GoToFolder from "@/Pages/Drive/Components/GoToFolder.jsx";
 
 const FileBrowserSection = memo(
     ({ files, path, token, isAdmin, slug, folderExists, favorites = [] }) => {
@@ -350,6 +351,7 @@ const FileBrowserSection = memo(
 
         return (
             <div className="min-h-screen rounded-md">
+                {isAdmin && <GoToFolder />}
                 <ShareModal
                     isShareModalOpen={isShareModalOpen}
                     setIsShareModalOpen={setIsShareModalOpen}

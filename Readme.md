@@ -60,6 +60,7 @@
 - Responsive layout for mobile devices
 - Fast sort, even for thousands of files
 - Breadcrumb navigation
+- Go-to-folder quick navigation: press Ctrl+G, type a folder name, and jump straight to any matching folder
 - Rename functionality
 - Drag and drop to upload files and folders
 - Duplicate detection and overwriting/abort option

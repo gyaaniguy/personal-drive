@@ -7,6 +7,7 @@ use App\Http\Requests\DriveRequests\SearchRequest;
 use App\Models\LocalFile;
 use App\Services\FavoriteService;
 use Inertia\Inertia;
+use Illuminate\Http\JsonResponse;
 use Inertia\Response;
 
 class SearchFilesController extends Controller
@@ -27,5 +28,12 @@ class SearchFilesController extends Controller
             'searchResults' => true,
             ]
         );
+    }
+
+    public function folders(SearchRequest $request): JsonResponse
+    {
+        $folders = LocalFile::searchFolders($request->validated('query'));
+
+        return response()->json($folders);
     }
 }

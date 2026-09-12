@@ -2,6 +2,7 @@
 
 ## Not versioned changes
 
+- Go-to-folder quick navigation (Ctrl+G): type a folder name to filter and jump to any folder by keyboard
 - Password-protected file upload (client-side AES-256 encrypted zip)
 - Upload queue with per-upload progress reporting
 - Favorites for files and folders, with a dedicated Favorites menu

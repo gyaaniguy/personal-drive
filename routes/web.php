@@ -57,6 +57,7 @@ Route::middleware([OptionalAuth::class, 'web', 'auth', CheckAdmin::class])->grou
     Route::post('/gen-thumbs', [DriveControllers\ThumbnailController::class, 'update']);
     Route::post('/search-files', [DriveControllers\SearchFilesController::class, 'index'])->name('drive.search');
     Route::get('/search-files', fn() => redirect('/drive'));
+    Route::get('/search-folders', [DriveControllers\SearchFilesController::class, 'folders'])->name('drive.search-folders');
     Route::post('/rename-file', [DriveControllers\FileRenameController::class, 'index'])->name('drive.rename');
     Route::post(
         '/abort-replace',

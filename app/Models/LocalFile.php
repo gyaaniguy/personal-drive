@@ -122,6 +122,17 @@ class LocalFile extends Model
             ->where('user_id', auth()->user()->id);
     }
 
+    public static function searchFolders(string $searchQuery): array
+    {
+        return self::searchFiles($searchQuery)
+            ->where('is_dir', 1)
+            ->orderBy('public_path')
+            ->orderBy('filename')
+            ->get()
+            ->map(fn ($f) => $f->getPublicPathPlusName())
+            ->all();
+    }
+
     public static function getIdsByLikePublicPath(string $search): array
     {
         return self::getByPublicPathLikeSearch($search)->pluck('id')->toArray();
