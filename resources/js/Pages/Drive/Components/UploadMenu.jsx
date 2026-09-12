@@ -114,7 +114,7 @@ const UploadMenu = ({ path, setStatusMessage, files }) => {
                     type="button"
                     aria-expanded={isMenuOpen}
                     aria-label="New"
-                    className="inline-flex justify-center min-h-9 min-w-9 items-center gap-x-1 rounded bg-blue-700 p-1 text-sm font-bold text-white hover:bg-blue-600 active:bg-blue-800"
+                    className="inline-flex justify-center min-h-7 min-w-7 items-center gap-x-1 rounded bg-blue-700 p-1 text-sm font-bold text-white hover:bg-blue-600 active:bg-blue-800"
                     onClick={() => {
                         setIsMenuOpen(!isMenuOpen);
                     }}
