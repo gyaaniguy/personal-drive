@@ -10,8 +10,8 @@ export default function ApiTokensTab({ tokens, api_sections, flash }) {
     const [errors, setErrors] = useState({});
 
     useEffect(() => {
-        if (flash?.plain_text_token) {
-            setCreatedToken(flash.plain_text_token);
+        if (flash?.more_info?.plain_text_token) {
+            setCreatedToken(flash.more_info.plain_text_token);
             setShowTokenModal(true);
         }
     }, [flash]);
@@ -26,7 +26,7 @@ export default function ApiTokensTab({ tokens, api_sections, flash }) {
             { name: tokenName },
             {
                 onSuccess: (page) => {
-                    const plain = page.props.flash?.plain_text_token;
+                    const plain = page.props.flash?.more_info?.plain_text_token;
                     if (plain) {
                         setCreatedToken(plain);
                         setShowTokenModal(true);
