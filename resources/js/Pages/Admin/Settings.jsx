@@ -3,7 +3,7 @@ import { useState } from "react";
 import AlertBox from "@/Pages/Drive/Components/AlertBox.jsx";
 import ConfigTab from "@/Pages/Admin/Components/ConfigTab.jsx";
 import ApiTokensTab from "@/Pages/Admin/Components/ApiTokensTab.jsx";
-import UploadLimitsDocs from "@/Pages/Admin/Components/UploadLimitsDocs.jsx";
+import DocsTab from "@/Pages/Admin/Components/DocsTab.jsx";
 
 const TABS = [
     ["config", "Config"],
@@ -86,14 +86,12 @@ export default function Settings({
                         )}
 
                         {activeTab === "docs" && (
-                            <div className="space-y-8">
-                                <UploadLimitsDocs
-                                    php_max_upload_size={php_max_upload_size}
-                                    php_post_max_size={php_post_max_size}
-                                    php_max_file_uploads={php_max_file_uploads}
-                                    server_configs={server_configs}
-                                />
-                            </div>
+                            <DocsTab
+                                php_max_upload_size={php_max_upload_size}
+                                php_post_max_size={php_post_max_size}
+                                php_max_file_uploads={php_max_file_uploads}
+                                server_configs={server_configs}
+                            />
                         )}
                     </div>
                 </main>
