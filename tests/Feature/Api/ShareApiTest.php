@@ -482,6 +482,38 @@ class ShareApiTest extends BaseFeatureTest
         $response->assertStatus(422);
     }
 
+    public function test_create_share_with_url_hostile_slug_returns_422(): void
+    {
+        $files = $this->createTestFiles();
+        $fileIds = array_map(fn($f) => (string) $f->id, $files);
+
+        foreach (['frag#z', 'pct%zz'] as $slug) {
+            $response = $this->postJson('/api/v1/shares', [
+                'fileList' => $fileIds,
+                'slug' => $slug,
+            ], $this->authHeaders());
+
+            $response->assertStatus(422);
+        }
+
+        $this->assertDatabaseCount('shares', 0);
+    }
+
+    public function test_create_share_with_negative_expiry_returns_422(): void
+    {
+        $files = $this->createTestFiles();
+        $fileIds = array_map(fn($f) => (string) $f->id, $files);
+
+        $response = $this->postJson('/api/v1/shares', [
+            'fileList' => $fileIds,
+            'slug' => 'neg-expiry',
+            'expiry' => -5,
+        ], $this->authHeaders());
+
+        $response->assertStatus(422);
+        $this->assertDatabaseCount('shares', 0);
+    }
+
     public function test_list_shares_empty(): void
     {
         $response = $this->getJson('/api/v1/shares', $this->authHeaders());

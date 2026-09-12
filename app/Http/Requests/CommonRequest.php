@@ -17,7 +17,7 @@ class CommonRequest extends FormRequest
     public static function shareSlugRules(): array
     {
         return [
-              ...self::baseNameRule(), 'not_regex:/[ :\/\\\\]/u', 'max:20'
+            'string', 'alpha_dash', 'max:20',
         ];
     }
 

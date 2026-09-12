@@ -26,6 +26,12 @@ class CommonRequestTest extends TestCase
 
         $validator = Validator::make(['slug' => 'valid_slug123'], ['slug' => $rules]);
         $this->assertTrue($validator->passes(), 'A valid slug with underscores and numbers should pass validation.');
+
+        $validator = Validator::make(['slug' => 'has#frag'], ['slug' => $rules]);
+        $this->assertFalse($validator->passes(), "A slug with '#' must fail — un-encoded it becomes a URL fragment.");
+
+        $validator = Validator::make(['slug' => 'has%zz'], ['slug' => $rules]);
+        $this->assertFalse($validator->passes(), "A slug with '%' must fail — un-encoded it breaks the share link.");
     }
 
     public function testPathRules()

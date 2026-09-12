@@ -14,7 +14,7 @@ class CreateShareRequest extends FormRequest
             [
                 'slug' => ['nullable', 'unique:shares', ...CommonRequest::shareSlugRules()],
                 'password' => CommonRequest::sharePasswordRules(),
-                'expiry' => ['nullable', 'integer'],
+                'expiry' => ['nullable', 'integer', 'min:0'],
             ]
         );
     }
