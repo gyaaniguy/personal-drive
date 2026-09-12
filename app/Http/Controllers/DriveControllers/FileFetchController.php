@@ -67,7 +67,7 @@ class FileFetchController extends Controller
         }
 
         $mimeType = mime_content_type($filePrivatePathName) ?: '';
-        $streamInline = in_array($file->file_type, ['video', 'audio', 'pdf'], true)
+        $streamInline = in_array($file->file_type, ['video', 'audio', 'pdf', 'html'], true)
             || ($file->file_type === 'image' && $mimeType !== 'image/svg+xml');
 
         $headers = ['X-Content-Type-Options' => 'nosniff'];
