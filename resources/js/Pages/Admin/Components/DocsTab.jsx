@@ -83,15 +83,23 @@ function FeaturesDocs() {
                             ["←", "Previous image/video in the media viewer"],
                             ["→", "Next image/video in the media viewer"],
                             ["Esc", "Close the media viewer or an open menu"],
-                            ["Ctrl + Enter", "Save changes while editing a text file"],
+                            [
+                                "Ctrl + Enter",
+                                "Save changes while editing a text file",
+                            ],
                         ].map(([keys, desc], i) => (
-                            <tr key={keys} className={`align-middle ${i % 2 ? "bg-blue-500/5" : ""}`}>
+                            <tr
+                                key={keys}
+                                className={`align-middle ${i % 2 ? "bg-blue-500/5" : ""}`}
+                            >
                                 <td className="py-1 pr-4 whitespace-nowrap">
                                     <kbd className="inline-block rounded border border-gray-500 bg-gray-800 px-2 py-0.5 font-mono text-sm text-blue-200">
                                         {keys}
                                     </kbd>
                                 </td>
-                                <td className="py-1 font-mono text-sm">{desc}</td>
+                                <td className="py-1 font-mono text-sm">
+                                    {desc}
+                                </td>
                             </tr>
                         ))}
                     </tbody>
