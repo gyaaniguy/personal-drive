@@ -112,7 +112,7 @@ class ShareModControllerTest extends BaseFeatureTest
 
         $response = $this->deleteShare($slug1Id);
         $response->assertSessionHas('status', true);
-        $response->assertSessionHas('message', 'Successfully deleted share');
+        $response->assertSessionHas('message', 'Share deleted');
         $response = $this->deleteShare($slug1Id);
         $response->assertSessionHas('status', false);
         $response->assertSessionHas('message', 'Error! could not delete share');

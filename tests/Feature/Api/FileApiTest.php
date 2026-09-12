@@ -290,7 +290,7 @@ class FileApiTest extends BaseFeatureTest
         ], $this->authHeaders());
 
         $response->assertOk()
-            ->assertJsonPath('message', 'File saved');
+            ->assertJsonPath('message', 'File saved successfully');
 
         $this->assertEquals('Hello API', file_get_contents($file->getPrivatePathNameForFile()));
     }
@@ -1287,7 +1287,7 @@ class FileApiTest extends BaseFeatureTest
         ], $this->authHeaders());
 
         $response->assertOk()
-            ->assertJsonPath('message', 'File saved');
+            ->assertJsonPath('message', 'File saved successfully');
 
         $this->assertEquals($content, file_get_contents($file->getPrivatePathNameForFile()));
         $file->refresh();

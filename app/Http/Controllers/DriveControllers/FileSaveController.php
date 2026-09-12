@@ -23,6 +23,6 @@ class FileSaveController extends Controller
             $request->validated('content')
         );
 
-        return ResponseHelper::json($result['message'], $result['success'], $result['success'] ? 200 : 422);
+        return ResponseHelper::json($result['message'], $result['success'], $result['code']);
     }
 }

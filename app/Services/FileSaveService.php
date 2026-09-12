@@ -16,38 +16,41 @@ class FileSaveService
     ) {
     }
 
+    /**
+     * @return array{success: bool, message: string, code: int, file?: LocalFile}
+     */
     public function save(string $id, string $content): array
     {
         $localFile = LocalFile::getById($id);
         if (!$localFile) {
-            return ['success' => false, 'message' => 'Could not find file'];
+            return ['success' => false, 'message' => 'Could not find file', 'code' => 404];
         }
 
         if ($localFile->file_type !== 'text' && $localFile->file_type !== 'empty') {
-            return ['success' => false, 'message' => 'File is not a text file'];
+            return ['success' => false, 'message' => 'File is not a text file', 'code' => 422];
         }
 
         $privatePathFile = $localFile->getPrivatePathNameForFile();
         if (!$privatePathFile) {
-            return ['success' => false, 'message' => 'Could not find file'];
+            return ['success' => false, 'message' => 'Could not find file', 'code' => 404];
         }
 
         if (!is_file($privatePathFile) || !is_writable($privatePathFile)) {
-            return ['success' => false, 'message' => 'Could not save file'];
+            return ['success' => false, 'message' => 'Could not save file', 'code' => 422];
         }
 
         try {
             if (file_put_contents($privatePathFile, $content, LOCK_EX) === false) {
-                return ['success' => false, 'message' => 'Could not save file'];
+                return ['success' => false, 'message' => 'Could not save file', 'code' => 422];
             }
 
             $this->localFileStatsService->updateFileStats($localFile, new SplFileInfo($privatePathFile));
 
-            return ['success' => true, 'message' => 'File saved successfully', 'file' => $localFile];
+            return ['success' => true, 'message' => 'File saved successfully', 'code' => 200, 'file' => $localFile];
         } catch (Exception $e) {
             Log::error('Failed to save file', ['exception' => $e, 'file_id' => $id]);
 
-            return ['success' => false, 'message' => 'Could not save file'];
+            return ['success' => false, 'message' => 'Could not save file', 'code' => 422];
         }
     }
 

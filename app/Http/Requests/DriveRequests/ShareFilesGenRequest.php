@@ -14,7 +14,7 @@ class ShareFilesGenRequest extends FormRequest
             [
             'slug' => ['nullable', 'unique:shares', ...CommonRequest::shareSlugRules()],
             'password' => CommonRequest::sharePasswordRules(),
-            'expiry' => 'nullable|integer|min:0',
+            'expiry' => ['nullable', 'integer', 'min:0'],
             ]
         );
     }

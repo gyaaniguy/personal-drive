@@ -9,7 +9,7 @@ class FileManagerRequest extends FormRequest
 {
     public function rules(): array
     {
-        return ['path' => ['nullable', ...CommonRequest::pathRules()]];
+        return ['path' => CommonRequest::pathRules()];
     }
 
     protected function prepareForValidation(): void

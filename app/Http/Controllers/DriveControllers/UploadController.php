@@ -6,7 +6,6 @@ use App\Http\Controllers\Controller;
 use App\Http\Requests\DriveRequests\CreateItemRequest;
 use App\Http\Requests\DriveRequests\ReplaceAbortRequest;
 use App\Http\Requests\DriveRequests\UploadRequest;
-use App\Services\LocalFileStatsService;
 use App\Services\PathService;
 use App\Services\FileSaveService;
 use App\Services\UploadService;
@@ -20,7 +19,6 @@ class UploadController extends Controller
 
     public function __construct(
         protected PathService $pathService,
-        protected LocalFileStatsService $localFileStatsService,
         protected UploadService $uploadService,
         protected FileSaveService $fileSaveService,
     ) {
@@ -28,41 +26,23 @@ class UploadController extends Controller
 
     public function store(UploadRequest $request): RedirectResponse
     {
-        $files = $request->validated('files') ?? [];
-        $publicPath = $request->validated('path') ?? '';
-        $publicPath = $this->pathService->cleanDrivePublicPath($publicPath);
-        $privatePath = $this->pathService->genPrivatePathFromPublic($publicPath);
-
-        if (!$files) {
-            return $this->error('File upload failed. No files uploaded');
-        }
-        if (!$privatePath) {
-            return $this->error('File upload failed. Could not find storage path');
-        }
-
-        $result = $this->uploadService->processFileUpload($files, $privatePath, $publicPath, true);
-
-        $conflictsMessage = '';
-        if ($result['conflicts']) {
-            $conflictsMessage = 'Conflicts: ' . $this->uploadService->summarizeConflicts($result['conflicts'])
-                . ' cannot overwrite folders' . $this->uploadService->conflictRemainder($result['conflicts']);
-        }
+        $files = $request->validated('files');
+        $result = $this->uploadService->upload($files, $request->validated('path') ?? '', useTempForConflicts: true, swallowErrors: false, overwrite: true);
+        $conflictsMessage = $this->uploadService->conflictsMessage($result['conflicts']);
 
         if ($result['duplicates'] > 0) {
             session([
                 'new_file_copied_num' => $result['successful'],
                 'duplicate_files_num' => $result['duplicates'],
             ]);
-            $this->localFileStatsService->generateStats($publicPath, $files);
-            return $this->success('Duplicates Detected' . ($conflictsMessage ? ' (' . $conflictsMessage . ')' : ''), ['replaceAbort' => true]);
+            return $this->success('Duplicates Detected' . $conflictsMessage, ['replaceAbort' => true]);
         }
 
         if ($result['successful'] > 0) {
-            $this->localFileStatsService->generateStats($publicPath, $files);
-            return $this->success('Files uploaded: ' . $result['successful'] . ' out of ' . count($files) . ($conflictsMessage ? ' (' . $conflictsMessage . ')' : ''));
+            return $this->success('Files uploaded: ' . $result['successful'] . ' out of ' . count($files) . $conflictsMessage);
         }
 
-        return $this->error('Some/All Files upload failed' . ($conflictsMessage ? ' (' . $conflictsMessage . ')' : ''));
+        return $this->error('Some/All Files upload failed' . $conflictsMessage);
     }
 
     public function createItem(CreateItemRequest $request): RedirectResponse

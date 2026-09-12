@@ -11,7 +11,7 @@ class ListFilesRequest extends FormRequest
     {
         return [
             'path' => CommonRequest::pathRules(),
-            'per_page' => ['nullable', 'integer', 'min:1', 'max:100'],
+            'per_page' => CommonRequest::perPageRules(),
         ];
     }
 }

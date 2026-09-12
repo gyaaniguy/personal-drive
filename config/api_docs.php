@@ -70,15 +70,18 @@ return [
                     'method' => 'POST',
                     'url' => '/api/v1/files/upload',
                     'title' => 'Upload Files',
-                    'description' => 'Upload one or more files. Use multipart/form-data. Files with name conflicts are saved to a temp directory.',
+                    'description' => 'Upload one or more files. Use multipart/form-data. Existing files with the same name are skipped unless overwrite=1. A file whose path collides with a folder (or vice versa) is reported in conflicts and not written.',
                     'params' => [],
                     'body' => [
                         ['name' => 'files[]', 'type' => 'file[]', 'required' => true, 'description' => 'One or more files to upload.'],
                         ['name' => 'path', 'type' => 'string', 'required' => false, 'description' => 'Destination directory path. Root if omitted.'],
+                        ['name' => 'overwrite', 'type' => 'boolean', 'required' => false, 'description' => 'Replace existing files with the same name. Default false (skip).'],
                     ],
                     'response' => '{
-  "message": "Files uploaded: 2 out of 2",
-  "files": [ File object, ... ]
+  "message": "Files uploaded: 1 out of 2 (Skipped 1 existing; send overwrite=1 to replace)",
+  "files": [ File object, ... ],
+  "skipped": 1,
+  "conflicts": []
 }',
                     'curl' => 'curl -s -X POST "https://your-domain.com/api/v1/files/upload" \\
   -H "Authorization: Bearer <your-token>" \\
@@ -191,7 +194,7 @@ curl -s -X POST "https://your-domain.com/api/v1/files/move" \\
                         ['name' => 'content', 'type' => 'string', 'required' => true, 'description' => 'New file content.'],
                     ],
                     'response' => '{
-  "message": "File saved",
+  "message": "File saved successfully",
   "file": File object
 }',
                     'curl' => 'curl -s -X POST "https://your-domain.com/api/v1/files/01HXYZ.../save" \\

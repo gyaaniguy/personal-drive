@@ -157,6 +157,42 @@ class UploadService
     }
 
     /**
+     * Shared web/API entry: resolves paths, uploads, refreshes the index.
+     *
+     * @return array{successful: int, duplicates: int, conflicts: array<string>, publicPath: string}
+     */
+    public function upload(array $files, string $publicPath, bool $useTempForConflicts, bool $swallowErrors, bool $overwrite): array
+    {
+        $publicPath = $this->pathService->cleanDrivePublicPath($publicPath);
+        $privatePath = $this->pathService->genPrivatePathFromPublic($publicPath);
+        if (!$privatePath) {
+            throw UploadFileException::noStoragePath();
+        }
+
+        $result = $this->processFileUpload(
+            $files,
+            $privatePath,
+            $publicPath,
+            useTempForConflicts: $useTempForConflicts,
+            swallowErrors: $swallowErrors,
+            overwrite: $overwrite,
+        );
+        $this->localFileStatsService->generateStats($publicPath, $files);
+
+        return $result + ['publicPath' => $publicPath];
+    }
+
+    public function conflictsMessage(array $conflicts): string
+    {
+        if (!$conflicts) {
+            return '';
+        }
+
+        return ' (Conflicts: ' . $this->summarizeConflicts($conflicts)
+            . ' cannot overwrite folders' . $this->conflictRemainder($conflicts) . ')';
+    }
+
+    /**
      * @return array{successful: int, duplicates: int, conflicts: array<string>}
      */
     public function processFileUpload(array $files, string $privatePath, string $publicPath, bool $useTempForConflicts = false, bool $swallowErrors = false, bool $overwrite = true): array

@@ -21,7 +21,7 @@ class ShareFilesModController extends Controller
         $result = $this->shareService->delete($request->validated('id'));
 
         return $result['success']
-            ? $this->success('Successfully deleted share')
+            ? $this->success('Share deleted')
             : $this->error('Error! could not delete share');
     }
 

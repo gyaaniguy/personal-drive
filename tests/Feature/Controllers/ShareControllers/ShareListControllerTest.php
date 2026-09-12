@@ -84,7 +84,7 @@ class ShareListControllerTest extends BaseFeatureTest
         // delete -> row gone
         $this->post(route('drive.share-delete'), ['_token' => csrf_token(), 'id' => $share->id])
             ->assertSessionHas('status', true)
-            ->assertSessionHas('message', 'Successfully deleted share');
+            ->assertSessionHas('message', 'Share deleted');
 
         $this->get('shares-all')->assertInertia(
             fn($page) => $page

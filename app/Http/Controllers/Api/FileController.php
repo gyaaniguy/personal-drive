@@ -2,28 +2,25 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\Api\CreateFileRequest;
 use App\Http\Requests\Api\ListFilesRequest;
 use App\Http\Requests\Api\MoveFilesRequest;
 use App\Http\Requests\Api\RenameFileRequest;
 use App\Http\Requests\Api\SaveFileRequest;
-use App\Http\Requests\Api\UploadFilesRequest;
+use App\Http\Requests\DriveRequests\UploadRequest;
 use App\Models\LocalFile;
 use App\Services\FileDeleteService;
 use App\Services\FileMoveService;
 use App\Services\FileRenameService;
 use App\Services\FileSaveService;
-use App\Services\LocalFileStatsService;
 use App\Services\PathService;
-use App\Helpers\ResponseHelper;
 use App\Services\UploadService;
 use App\Traits\FlashMessages;
 use App\Traits\HasJsonPagination;
 use Illuminate\Http\JsonResponse;
 use Illuminate\Pagination\LengthAwarePaginator;
-use Illuminate\Support\Facades\Log;
-use Exception;
 
 class FileController extends Controller
 {
@@ -32,7 +29,6 @@ class FileController extends Controller
 
     public function __construct(
         protected PathService $pathService,
-        protected LocalFileStatsService $localFileStatsService,
         protected UploadService $uploadService,
         protected FileDeleteService $fileDeleteService,
         protected FileMoveService $fileMoveService,
@@ -83,47 +79,29 @@ class FileController extends Controller
         ])]);
     }
 
-    public function upload(UploadFilesRequest $request): JsonResponse
+    public function upload(UploadRequest $request): JsonResponse
     {
-        $files = $request->validated('files') ?? [];
-        $publicPath = $request->validated('path') ?? '';
-        $publicPath = $this->pathService->cleanDrivePublicPath($publicPath);
-        $privatePath = $this->pathService->genPrivatePathFromPublic($publicPath);
-        $overwrite = $request->boolean('overwrite');
-
-        if (!$files) {
-            return ResponseHelper::json('No files uploaded', false, 422);
-        }
-        if (!$privatePath) {
-            return ResponseHelper::json('Could not find storage path', false, 422);
-        }
-
-        $result = $this->uploadService->processFileUpload(
+        $files = $request->validated('files');
+        $result = $this->uploadService->upload(
             $files,
-            $privatePath,
-            $publicPath,
+            $request->validated('path') ?? '',
+            useTempForConflicts: false,
             swallowErrors: true,
-            overwrite: $overwrite,
+            overwrite: $request->boolean('overwrite'),
         );
-
-        $this->localFileStatsService->generateStats($publicPath, $files);
 
         $message = $result['successful'] > 0
             ? 'Files uploaded: ' . $result['successful'] . ' out of ' . count($files)
-            : ($result['duplicates'] > 0 ? 'No new files uploaded' : 'Some/All files upload failed');
+            : ($result['duplicates'] > 0 ? 'No new files uploaded' : 'Some/All Files upload failed');
 
         if ($result['duplicates'] > 0) {
             $message .= ' (Skipped ' . $result['duplicates'] . ' existing; send overwrite=1 to replace)';
         }
-        if ($result['conflicts']) {
-            $message .= ' (Conflicts: ' . $this->uploadService->summarizeConflicts($result['conflicts']) . ')';
-        }
-
-        $newFiles = LocalFile::filesForDrive($publicPath);
+        $message .= $this->uploadService->conflictsMessage($result['conflicts']);
 
         return response()->json([
             'message' => $message,
-            'files' => $newFiles->values(),
+            'files' => LocalFile::filesForDrive($result['publicPath'])->values(),
             'skipped' => $result['duplicates'],
             'conflicts' => $result['conflicts'],
         ]);
@@ -228,12 +206,7 @@ class FileController extends Controller
             return ResponseHelper::json('File not found', false, 404);
         }
 
-        try {
-            $this->fileRenameService->renameFile($file, $name);
-        } catch (Exception $e) {
-            Log::error('File rename failed', ['exception' => $e]);
-            return ResponseHelper::json('Rename failed', false, 422);
-        }
+        $this->fileRenameService->renameFile($file, $name);
 
         $file->refresh();
 
@@ -249,16 +222,12 @@ class FileController extends Controller
     {
         $result = $this->fileSaveService->save($id, $request->validated('content'));
 
-        if ($result['message'] === 'Could not find file') {
-            return ResponseHelper::json($result['message'], false, 404);
-        }
-
         if (!$result['success']) {
-            return ResponseHelper::json($result['message'], false, 422);
+            return ResponseHelper::json($result['message'], false, $result['code']);
         }
 
         return response()->json([
-            'message' => 'File saved',
+            'message' => $result['message'],
             'file' => $result['file']->fresh(),
         ]);
     }

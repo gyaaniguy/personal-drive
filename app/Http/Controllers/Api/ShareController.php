@@ -4,7 +4,7 @@ namespace App\Http\Controllers\Api;
 
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
-use App\Http\Requests\Api\CreateShareRequest;
+use App\Http\Requests\DriveRequests\ShareFilesGenRequest;
 use App\Http\Requests\Api\ListSharesRequest;
 use App\Models\Share;
 use App\Services\ShareService;
@@ -30,7 +30,7 @@ class ShareController extends Controller
         return $this->paginateJson($paginator, 'shares');
     }
 
-    public function store(CreateShareRequest $request): JsonResponse
+    public function store(ShareFilesGenRequest $request): JsonResponse
     {
         $result = $this->shareService->create(
             $request->validated('fileList'),

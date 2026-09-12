@@ -4,6 +4,11 @@ namespace App\Exceptions\PersonalDriveExceptions;
 
 class UploadFileException extends PersonalDriveException
 {
+    public static function noStoragePath(): self
+    {
+        return new self('Could not find storage path');
+    }
+
     public static function outOfMemory(): UploadFileException
     {
         return new self('Memory exhausted while uploading. Increase PHP allocated memory');
