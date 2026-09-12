@@ -62,7 +62,7 @@ class ShareGuestControllerTest extends BaseFeatureTest
         $response->assertOk();
     }
 
-    public function test_share_fetch_html_file_forces_attachment()
+    public function test_share_fetch_html_file_is_sandboxed_inline()
     {
         $slug = 'testslug';
         $htmlFile = UploadedFile::fake()->createWithContent(
@@ -82,7 +82,7 @@ class ShareGuestControllerTest extends BaseFeatureTest
 
         $response = $this->get(route('drive.fetch-file', ['id' => $localFile->id, 'slug' => $slug]));
         $response->assertOk();
-        $this->assertStringContainsString('attachment', $response->headers->get('Content-Disposition'));
+        $this->assertSame('sandbox', $response->headers->get('Content-Security-Policy'));
         $this->assertSame('nosniff', $response->headers->get('X-Content-Type-Options'));
     }
 

@@ -64,7 +64,7 @@ class FileFetchControllerTest extends BaseFeatureTest
         $this->assertSame('nosniff', $response->headers->get('X-Content-Type-Options'));
     }
 
-    public function test_index_forces_attachment_for_html()
+    public function test_index_sandboxes_html_inline()
     {
         $file = UploadedFile::fake()->createWithContent(
             'evil.html',
@@ -78,7 +78,7 @@ class FileFetchControllerTest extends BaseFeatureTest
 
         $response = $this->get(route('drive.fetch-file', ['id' => $localFile->id]));
         $response->assertOk();
-        $this->assertStringContainsString('attachment', $response->headers->get('Content-Disposition'));
+        $this->assertSame('sandbox', $response->headers->get('Content-Security-Policy'));
         $this->assertSame('nosniff', $response->headers->get('X-Content-Type-Options'));
     }
 

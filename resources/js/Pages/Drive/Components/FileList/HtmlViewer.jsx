@@ -7,6 +7,7 @@ const HtmlViewer = ({ id, slug }) => {
             src={src}
             title="HTML Content"
             frameBorder="0"
+            sandbox=""
         />
     );
 };

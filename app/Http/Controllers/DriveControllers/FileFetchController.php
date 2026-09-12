@@ -76,6 +76,10 @@ class FileFetchController extends Controller
                 . $this->sanitizeFilenameForHeader($file->filename)
                 . '"';
         }
+        if ($file->file_type === 'html') {
+            // Render inline but neutralize scripts/same-origin access.
+            $headers['Content-Security-Policy'] = 'sandbox';
+        }
 
         foreach ($headers as $name => $value) {
             header($name . ': ' . $value);
