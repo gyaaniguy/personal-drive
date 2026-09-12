@@ -73,6 +73,30 @@ function FeaturesDocs() {
                     What Personal Drive can do and where to find each feature.
                 </p>
             </div>
+            <div className="rounded-lg border border-blue-500/40 bg-blue-500/10 p-4">
+                <h3 className="text-blue-200 text-lg font-bold mb-3">
+                    Keyboard Shortcuts
+                </h3>
+                <table className="w-full text-left text-gray-300">
+                    <tbody>
+                        {[
+                            ["←", "Previous image/video in the media viewer"],
+                            ["→", "Next image/video in the media viewer"],
+                            ["Esc", "Close the media viewer or an open menu"],
+                            ["Ctrl + Enter", "Save changes while editing a text file"],
+                        ].map(([keys, desc], i) => (
+                            <tr key={keys} className={`align-middle ${i % 2 ? "bg-blue-500/5" : ""}`}>
+                                <td className="py-1 pr-4 whitespace-nowrap">
+                                    <kbd className="inline-block rounded border border-gray-500 bg-gray-800 px-2 py-0.5 font-mono text-sm text-blue-200">
+                                        {keys}
+                                    </kbd>
+                                </td>
+                                <td className="py-1 font-mono text-sm">{desc}</td>
+                            </tr>
+                        ))}
+                    </tbody>
+                </table>
+            </div>
             {FEATURES.map((f) => (
                 <div key={f.title}>
                     <h3 className="text-blue-200 text-lg font-bold mb-3">
@@ -95,7 +119,7 @@ export default function DocsTab({
     php_max_file_uploads,
     server_configs = [],
 }) {
-    const [sub, setSub] = useState("server");
+    const [sub, setSub] = useState("features");
     return (
         <div className="space-y-6">
             <div className="flex gap-1">

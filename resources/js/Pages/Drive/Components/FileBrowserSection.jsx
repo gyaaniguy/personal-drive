@@ -373,9 +373,9 @@ const FileBrowserSection = memo(
                     alertStatus={alertStatus}
                 />
 
-                <div className="flex flex-col justify-end gap-x-2 rounded-md md:mt-5 lg:flex-row ">
+                <div className="contents lg:flex lg:sticky lg:top-0 lg:z-20 lg:flex-row lg:justify-end lg:gap-x-2 lg:rounded-md lg:bg-gray-800 lg:mt-5">
                     <Breadcrumb path={path} isAdmin={isAdmin} />
-                    <div className="flex w-full min-w-0 items-center justify-end gap-x-1 lg:w-auto lg:shrink-0 justify-self-end">
+                    <div className="sticky top-0 z-20 flex w-full min-w-0 items-center justify-end gap-x-1 bg-gray-800 py-1 lg:static lg:w-auto lg:shrink-0 justify-self-end">
                         {selectedFiles.size > 0 && (
                             <div className="flex min-h-5 shrink-0 gap-x-1">
                                 <DownloadButton
@@ -442,22 +442,21 @@ const FileBrowserSection = memo(
                             <div className="flex">
                                 <button
                                     aria-label="Tile view"
-                                    className={`p-2 mx-1 rounded-md ${currentViewMode === "TileViewOne" ? "bg-gray-900 border border-blue-300" : "bg-gray-600"} hover:bg-gray-500 active:bg-gray-800`}
+                                    className={`inline-flex min-h-7 min-w-7 items-center justify-center p-1 mx-1 rounded-md ${currentViewMode === "TileViewOne" ? "bg-gray-900 border border-blue-300" : "bg-gray-600"} hover:bg-gray-500 active:bg-gray-800`}
                                     onClick={() =>
                                         handleViewModeClick("TileViewOne")
                                     }
                                 >
-                                    <Grid className="w-5 h-5" />
+                                    <Grid className="w-4 h-4" />
                                 </button>
                                 <button
                                     aria-label="List view"
-                                    className={`p-2 ml-1 text-white rounded-md ${currentViewMode === "ListView" ? "bg-gray-900 border border-blue-300" : "bg-gray-600"} hover:bg-gray-500 active:bg-gray-800 text-ellipsis
-`}
+                                    className={`inline-flex min-h-7 min-w-7 items-center justify-center p-1 ml-1 text-white rounded-md ${currentViewMode === "ListView" ? "bg-gray-900 border border-blue-300" : "bg-gray-600"} hover:bg-gray-500 active:bg-gray-800`}
                                     onClick={() =>
                                         handleViewModeClick("ListView")
                                     }
                                 >
-                                    <List className="w-5 h-5" />
+                                    <List className="w-4 h-4" />
                                 </button>
                             </div>
                         </div>

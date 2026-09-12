@@ -30,6 +30,6 @@ class ThumbnailController extends Controller
         if ($thumbsGenerated === 0) {
             return $this->errorTo('drive', 'No thumbnails generated. No valid files found', ['path' => $publicPath]);
         }
-        return $this->successTo('drive', 'Thumbnails generated', ['path' => $publicPath]);
+        return $this->successTo('drive', '', ['path' => $publicPath]);
     }
 }

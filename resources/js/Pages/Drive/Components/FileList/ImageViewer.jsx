@@ -3,6 +3,7 @@ const ImageViewer = ({ id, slug }) => {
     src += slug ? "/" + slug : "";
     return (
         <img
+            key={src}
             className="max-h-screen  object-contain"
             src={src} // Dynamically load the file
             alt="Selected File"

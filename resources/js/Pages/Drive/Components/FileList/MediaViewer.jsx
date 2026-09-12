@@ -166,8 +166,9 @@ const MediaViewer = ({
                             (selectedFileType === "pdf" && (
                                 <PdfViewer id={selectedid} slug={slug} />
                             )) ||
-                            ((selectedFileType === "text" ||
-                                selectedFileType === "empty") && (
+                            ((["text", "empty", "txt", "csv", "ini"].includes(
+                                selectedFileType,
+                            )) && (
                                 <TxtViewer
                                     key={previewFile.id}
                                     previewFile={previewFile}

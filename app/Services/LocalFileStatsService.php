@@ -69,7 +69,8 @@ class LocalFileStatsService
         } elseif (str_contains($mimeType, 'x-empty')) {
             $fileType = 'empty';
         } else {
-            $fileType = $item->getExtension();
+            $extension = strtolower($item->getExtension());
+            $fileType = $this->isTextFile($extension) ? 'text' : $extension;
         }
 
         return $fileType;
@@ -145,5 +146,10 @@ class LocalFileStatsService
                 'file_type' => $this->getFileType($file, $file->isDir()),
             ]
         );
+    }
+
+    public function isTextFile(string $extension): bool
+    {
+        return in_array($extension, ['txt', 'csv', 'ini', 'log', 'md'], true);
     }
 }

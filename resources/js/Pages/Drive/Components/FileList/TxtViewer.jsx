@@ -22,7 +22,6 @@ const TxtViewer = ({
     const [savedMessage, setSavedMessage] = useState("");
     const textareaRef = useRef(null);
     const editedContentRef = useRef("");
-    const [showEditHint, setShowEditHint] = useState(false);
     const [hasSeenEditHint, setHasSeenEditHint] = useLocalStorageBool(
         "txt_edit_hint",
         false,
@@ -88,6 +87,7 @@ const TxtViewer = ({
         if (!isAdmin) {
             return;
         }
+        setHasSeenEditHint(true);
         setIsInEditMode(true);
     };
 
@@ -119,14 +119,6 @@ const TxtViewer = ({
     useEffect(() => {
         editedContentRef.current = editedContent;
     }, [editedContent]);
-
-    useEffect(() => {
-        if (!isAdmin || hasSeenEditHint) {
-            return;
-        }
-        setShowEditHint(true);
-        setHasSeenEditHint(true);
-    }, [isAdmin, hasSeenEditHint, setHasSeenEditHint]);
 
     const handleKeyDown = useCallback(
         (e) => {
@@ -176,7 +168,7 @@ const TxtViewer = ({
                     {content || "Empty File"}
                 </pre>
             )}
-            {!isInEditMode && showEditHint && (
+            {!isInEditMode && isAdmin && !hasSeenEditHint && (
                 <div className="pointer-events-none absolute inset-x-0 top-0 flex justify-center">
                     <p className="text-lg font-medium text-gray-100 drop-shadow-[0_0_6px_rgba(255,255,255,0.55)]">
                         Click to edit

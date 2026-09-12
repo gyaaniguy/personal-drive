@@ -59,7 +59,7 @@ const TileViewOne = ({
                     />
                     <label className="hover:cursor-pointer">Select All</label>
                 </div>
-                <div className="hover:cursor-pointer flex items-center gap-x-2">
+                <div className="hover:cursor-pointer flex items-center gap-x-1 md:gap-x-2">
                     <label></label>
                     <button
                         className={`flex items-center p-1 rounded-md bg-gray-700 hover:bg-gray-600  ${sortDetails.key === "filename" ? "bg-gray-900 border border-gray-500/80 text-blue-400" : ""}`}
