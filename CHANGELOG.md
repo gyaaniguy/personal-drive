@@ -1,29 +1,38 @@
 # Changelog
 
-## Not versioned changes
+## [v2.0.0] - 2025-09-13
 
+### Added
 - Go-to-folder quick navigation (Ctrl+G): type a folder name to filter and jump to any folder by keyboard
 - Password-protected file upload (client-side AES-256 encrypted zip)
 - Upload queue with per-upload progress reporting
 - Favorites for files and folders, with a dedicated Favorites menu
 - Sort by modification date, with selected sort preferences remembered
 - Lazy-loaded image, text, and PDF viewers
-- Reliability improvements for uploads, moves, downloads, and storage resync
-- Html viewer
-- Improved responsive mobile layout and drive controls
+- HTML viewer
 - Audio player
 - Audiobook features: save position automatically, multiple rewind buttons
-- Streamline settings for autoplaying media
-- Improve setup.sh for better permission handling
-- Better error messages for failed move/download and conflict uploads
+- Two Factor Authentication powered by TOTP protocol (e.g. Google Authenticator)
+- No-auth mode
+- Support running behind reverse proxies via configurable/optional trusted proxies
 - Show total shares count
+
+### Changed
+- Streamlined settings for autoplaying media
+- Improved responsive mobile layout and drive controls
+- Improved setup.sh for better permission handling
+- Safer setup: re-running `setup.sh` keeps your `.env` and `APP_KEY`; later `.env` edits apply without clearing caches
+- Better error messages for failed move/download and conflict uploads
 - Handle too-long path names
-- Security hardening: storage-path and symlink protection, safer file responses, sanitized text content, rate-limited two-factor attempts, and stronger share-access checks
-- Support running behind reverse proxies by adding configurable/optional trusted proxies
-- Support no auth mode
-- Two Factor Authentication powered by TOTP protocol. Ex: Google Authenticator
-- Safer setup: re-running `setup.sh` keeps your `.env` and `APP_KEY`, and later `.env` edits apply without clearing caches
+
+### Fixed
+- Reliability improvements for uploads, moves, downloads, and storage resync
 - Search, move, and resync fixes: favorites and shares survive moves, search no longer breaks in subfolders, awkward file names handled
+
+### Security
+- Storage-path and symlink protection, safer file responses, sanitized text content, rate-limited two-factor attempts, and stronger share-access checks
+
+### Testing
 - Automated install testing for both the script and Docker install paths, plus a local check script run before every push
 
 ## [v1.0.0] - 2025-08-07

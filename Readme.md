@@ -9,6 +9,7 @@
 ## Table of Contents
 - [Why Personal Drive?](#why-personal-drive)
 - [Demo](#demo)
+- [What's New in v2](#whats-new-in-v2)
 - [Features](#features)
 - [Requirements](#requirements)
 - [Installation](#installation)
@@ -34,6 +35,22 @@
 
 ## Demo:
 🌐 [Live Demo](https://demo.personaldrive.xyz/)
+
+---
+## What's New in v2:
+
+- 🔐 **Two Factor Authentication** — TOTP (Google Authenticator, etc.)
+- 🔒 **Password-protected uploads** — client-side AES-256 encrypted zips
+- 🎧 **Audiobook support** — save position + rewind controls
+- ⌨️ **Go-to-folder** — Ctrl+G to jump to any folder by name
+- ⭐ **Favorites** — pin files and folders for quick access
+- 🌐 **Reverse proxy support** — configurable trusted proxies
+- 🙈 **No-auth mode** — optional open access
+- 📤 **Upload queue** — per-upload progress reporting
+- 📄 **More previews** — HTML viewer, lazy-loaded image/text/PDF
+- 🛡️ **Security hardening** — symlink protection, rate-limited 2FA, stronger share checks
+
+See the [full changelog](CHANGELOG.md).
 
 ---
 
