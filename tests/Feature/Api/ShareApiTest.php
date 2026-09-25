@@ -614,6 +614,56 @@ class ShareApiTest extends BaseFeatureTest
         $this->assertDatabaseHas('shares', ['slug' => 'mixed-share']);
     }
 
+    public function test_create_direct_share_returns_download_url(): void
+    {
+        $files = $this->createTestFiles(1);
+
+        $response = $this->postJson('/api/v1/shares', [
+            'fileList' => [(string) $files[0]->id],
+            'slug' => 'direct-api',
+            'direct' => true,
+        ], $this->authHeaders());
+
+        $response->assertOk();
+        $this->assertStringEndsWith('/download/direct-api', $response->json('url'));
+        $this->assertTrue(Share::whereBySlug('direct-api')->firstOrFail()->direct);
+    }
+
+    public function test_create_direct_share_with_multiple_files_returns_422(): void
+    {
+        $files = $this->createTestFiles();
+        $fileIds = array_map(fn($f) => (string) $f->id, $files);
+
+        $response = $this->postJson('/api/v1/shares', [
+            'fileList' => $fileIds,
+            'slug' => 'direct-multi',
+            'direct' => true,
+        ], $this->authHeaders());
+
+        $response->assertStatus(422)
+            ->assertJsonPath('message', 'Direct links work only for a single file');
+        $this->assertDatabaseMissing('shares', ['slug' => 'direct-multi']);
+    }
+
+    public function test_create_direct_share_with_folder_returns_422(): void
+    {
+        $this->postJson('/api/v1/files/create', [
+            'name' => 'direct-folder',
+            'type' => 'folder',
+        ], $this->authHeaders())->assertOk();
+        $folder = LocalFile::where('filename', 'direct-folder')->where('is_dir', true)->first();
+
+        $response = $this->postJson('/api/v1/shares', [
+            'fileList' => [(string) $folder->id],
+            'slug' => 'direct-folder',
+            'direct' => true,
+        ], $this->authHeaders());
+
+        $response->assertStatus(422)
+            ->assertJsonPath('message', 'Direct links work only for a single file');
+        $this->assertDatabaseMissing('shares', ['slug' => 'direct-folder']);
+    }
+
     protected function tearDown(): void
     {
         Storage::disk('local')->deleteDirectory('');

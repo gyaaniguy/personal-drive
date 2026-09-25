@@ -10,7 +10,7 @@ use Illuminate\Support\Str;
 
 class ShareService
 {
-    public function create(array $fileIds, ?string $slug = '', ?string $password = '', ?string $expiry = ''): array
+    public function create(array $fileIds, ?string $slug = '', ?string $password = '', ?string $expiry = '', bool $direct = false): array
     {
         $localFiles = LocalFile::getByIds($fileIds)->get();
 
@@ -29,7 +29,7 @@ class ShareService
 
         $slug = $slug ?: Str::random(10);
         $hashedPassword = $password ? Hash::make($password) : '';
-        $share = Share::add($slug, $hashedPassword, $expiry, $localFiles->first()->public_path);
+        $share = Share::add($slug, $hashedPassword, $expiry, $localFiles->first()->public_path, $direct);
 
         if (!SharedFile::addArray($localFiles, $share->id)) {
             $share->delete();
@@ -41,10 +41,21 @@ class ShareService
             'success' => true,
             'message' => 'Share created',
             'share' => $share,
-            'url' => url('/shared/' . $slug),
+            'url' => url(($direct ? '/download/' : '/shared/') . $slug),
         ];
     }
 
+
+    public function isSingleFile(array $fileIds): bool
+    {
+        if (count($fileIds) !== 1) {
+            return false;
+        }
+
+        $file = LocalFile::getById($fileIds[0]);
+
+        return $file && $file->isValidFile();
+    }
 
     public function toggle(int $id): array
     {

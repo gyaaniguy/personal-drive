@@ -109,6 +109,8 @@ Route::post(
 )->middleware(['throttle:shared'])->name('shared.check-password');
 Route::get('/shared-password/{slug}', [ShareControllers\ShareFilesGuestController::class, 'passwordPage'])
     ->middleware(['throttle:shared'])->name('shared.password');
+Route::get('/download/{slug}', [ShareControllers\ShareDirectDownloadController::class, 'index'])
+    ->middleware(['throttle:shared'])->name('shared.direct');
 Route::get('/shared/{slug}/{path?}', [ShareControllers\ShareFilesGuestController::class, 'index'])->where(
     'path',
     '.*'

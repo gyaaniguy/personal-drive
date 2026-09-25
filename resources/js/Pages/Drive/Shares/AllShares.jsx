@@ -7,6 +7,7 @@ import CopyShareLinkButton from "@/Pages/Drive/Components/Shares/CopyShareLinkBu
 
 export default function AllShares({ shares, totalShares }) {
     let shareRoot = window.location.origin + "/shared/";
+    let directRoot = window.location.origin + "/download/";
 
     function handlePause(id) {
         router.post(
@@ -83,8 +84,16 @@ export default function AllShares({ shares, totalShares }) {
                                             <td className="p-1 sm:p-2 md:p-4  flex gap-y-2 flex-col max-w-[500px] ">
                                                 <div className="flex gap-10 items-center ">
                                                     <span className="break-all font-semibold text-sm sm:text-lg text-indigo-300">
-                                                        {shareRoot + share.slug}
+                                                        {(share.direct
+                                                            ? directRoot
+                                                            : shareRoot) +
+                                                            share.slug}
                                                     </span>
+                                                    {share.direct && (
+                                                        <span className="text-xs px-2 py-0.5 rounded bg-indigo-800 text-indigo-200">
+                                                            Direct
+                                                        </span>
+                                                    )}
                                                 </div>
 
                                                 <div>
@@ -123,7 +132,9 @@ export default function AllShares({ shares, totalShares }) {
                                                         <span>
                                                             <CopyShareLinkButton
                                                                 sharedLink={
-                                                                    shareRoot +
+                                                                    (share.direct
+                                                                        ? directRoot
+                                                                        : shareRoot) +
                                                                     share.slug
                                                                 }
                                                             />

@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers\Api;
 
+use App\Exceptions\PersonalDriveExceptions\ShareFileException;
 use App\Helpers\ResponseHelper;
 use App\Http\Controllers\Controller;
 use App\Http\Requests\DriveRequests\ShareFilesGenRequest;
@@ -32,11 +33,17 @@ class ShareController extends Controller
 
     public function store(ShareFilesGenRequest $request): JsonResponse
     {
+        $fileList = $request->validated('fileList');
+        if ($request->validated('direct', false) && !$this->shareService->isSingleFile($fileList)) {
+            throw ShareFileException::directNeedsSingleFile();
+        }
+
         $result = $this->shareService->create(
             $request->validated('fileList'),
             $request->validated('slug', ''),
             $request->validated('password', ''),
             $request->validated('expiry', ''),
+            $request->validated('direct', false),
         );
 
         if (!$result['success']) {

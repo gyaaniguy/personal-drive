@@ -10,15 +10,17 @@ const ShareModal = ({
     selectedFiles,
     setSelectAllToggle,
 }) => {
-    let formDefaultData = { password: "", expiry: 7, slug: "" };
+    let formDefaultData = { password: "", expiry: 7, slug: "", direct: false };
     const [formData, setFormData] = useState({ ...formDefaultData });
     const [sharedLink, setSharedLink] = useState("");
 
+    const canShareDirect = selectedFiles.size === 1;
+
     const handleChange = (e) => {
-        const { id, value } = e.target;
+        const { id, value, type, checked } = e.target;
         setFormData((prevState) => ({
             ...prevState,
-            [id]: value,
+            [id]: type === "checkbox" ? checked : value,
         }));
     };
 
@@ -38,6 +40,7 @@ const ShareModal = ({
             "/share-files",
             {
                 ...formData,
+                direct: canShareDirect && formData.direct,
                 fileList: Array.from(selectedFiles),
             },
             {
@@ -98,6 +101,30 @@ const ShareModal = ({
                     onSubmit={handleSubmit}
                     className="space-y-3 text-gray-300"
                 >
+                    {canShareDirect && (
+                        <div>
+                            <label
+                                htmlFor="direct"
+                                className="flex items-center gap-2 text-sm font-medium"
+                            >
+                                <input
+                                    type="checkbox"
+                                    id="direct"
+                                    checked={formData.direct}
+                                    onChange={handleChange}
+                                    className="rounded bg-gray-800"
+                                />
+                                Direct download link
+                                {formData.direct && (
+                                    <span className="text-xs font-normal text-gray-400">
+                                        {formData.password
+                                            ? "(Browser asks for password. Any username works.)"
+                                            : "(Anyone with the link can download.)"}
+                                    </span>
+                                )}
+                            </label>
+                        </div>
+                    )}
                     <div>
                         <label
                             htmlFor="password"
@@ -119,7 +146,7 @@ const ShareModal = ({
                             className="block text-sm font-medium "
                         >
                             Expire in days{" "}
-                            <span className="text-xs font-normal text-gray-500">
+                            <span className="text-xs font-normal text-gray-400">
                                 (0 = never expires)
                             </span>
                         </label>
@@ -137,7 +164,7 @@ const ShareModal = ({
                             className="block text-sm font-medium "
                         >
                             Custom URL slug{" "}
-                            <span className="text-xs font-normal text-gray-500">
+                            <span className="text-xs font-normal text-gray-400">
                                 (numbers, letters, dash and underscore)
                             </span>
                         </label>

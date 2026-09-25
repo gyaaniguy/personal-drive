@@ -18,10 +18,11 @@ class Share extends Model
 
     protected $appends = ['expiry_time'];
 
-    protected $fillable = ['slug', 'password', 'expiry', 'public_path'];
+    protected $fillable = ['slug', 'password', 'expiry', 'public_path', 'direct'];
 
     protected $casts = [
         'expiry' => 'integer',
+        'direct' => 'boolean',
     ];
 
     public static function add(
@@ -29,6 +30,7 @@ class Share extends Model
         ?string $password = '',
         ?string $expiry = '',
         ?string $publicPath = '',
+        bool $direct = false,
     ): self {
         try {
             return static::create(
@@ -37,6 +39,7 @@ class Share extends Model
                 'password' => $password,
                 'expiry' => $expiry ? (int) $expiry : null,
                 'public_path' => $publicPath,
+                'direct' => $direct,
                 ]
             );
         } catch (Throwable $e) {

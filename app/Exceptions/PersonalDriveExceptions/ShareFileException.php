@@ -13,4 +13,9 @@ class ShareFileException extends PersonalDriveException
     {
         return new self('Wrong password');
     }
+
+    public static function directNeedsSingleFile(): ShareFileException
+    {
+        return new self('Direct links work only for a single file');
+    }
 }

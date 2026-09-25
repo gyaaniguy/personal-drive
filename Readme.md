@@ -46,7 +46,7 @@
 - ⭐ **Favorites** — pin files and folders for quick access
 - 🌐 **Reverse proxy support** — configurable trusted proxies
 - 🙈 **No-auth mode** — optional open access
-- 📤 **Upload queue** — per-upload progress reporting
+- 📤 **Upload queue** — per-upload progress reporting and cancellation
 - 📄 **More previews** — HTML viewer, lazy-loaded image/text/PDF
 - 🛡️ **Security hardening** — symlink protection, rate-limited 2FA, stronger share checks
 
@@ -69,7 +69,7 @@ See the [full changelog](CHANGELOG.md).
 - Files are indexed
 - Dynamically generated thumbnails
 - Upload multiple files or entire folders recursively
-- Upload queue with per-upload progress reporting
+- Upload queue with per-upload progress reporting and cancellation
 - Select one or all files in a folder
 - Download, delete, share selected files
 - Two layouts: list view and tile view
