@@ -22,6 +22,8 @@ yarn-error.log
 /.vscode
 /.zed
 database/db/database.sqlite
+database/db/database.sqlite-shm
+database/db/database.sqlite-wal
 ./database/db/database.sqlite
 GEMINI.md
 CLAUDE.md
