@@ -6,7 +6,7 @@ const getUploadStatus = (item) => {
     return `${item.progress}%`;
 };
 
-const UploadQueueDialog = ({ items }) => {
+const UploadQueueDialog = ({ items, canCancel, onCancel }) => {
     if (!items.length) return null;
 
     return (
@@ -21,8 +21,21 @@ const UploadQueueDialog = ({ items }) => {
                     <li key={item.id} className="flex flex-col gap-1">
                         <div className="flex justify-between gap-3 ">
                             <span className="truncate">{item.name}</span>
-                            <span className="shrink-0 text-green-400 text-xs">
-                                {getUploadStatus(item)}
+                            <span className="flex shrink-0 items-center gap-2">
+                                <span className="text-green-400 text-xs">
+                                    {getUploadStatus(item)}
+                                </span>
+                                {canCancel(item) && (
+                                    <button
+                                        type="button"
+                                        aria-label={`Cancel ${item.name} upload`}
+                                        title="Cancel upload"
+                                        className="text-gray-400 hover:text-red-400"
+                                        onClick={() => onCancel(item.id)}
+                                    >
+                                        ✕
+                                    </button>
+                                )}
                             </span>
                         </div>
                         {item.status !== "queued" && (

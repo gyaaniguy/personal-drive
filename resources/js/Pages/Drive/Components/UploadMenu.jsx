@@ -36,7 +36,7 @@ const UploadMenu = ({ path, setStatusMessage, files }) => {
     const [isPwUploadModalOpen, setIsPwUploadModalOpen] = useState(false);
     const isFile = useRef(false);
 
-    function uploadFiles(selectedFileForUpload, onProgress) {
+    function uploadFiles(selectedFileForUpload, onProgress, onCancelToken) {
         setStatusMessage("Uploading...");
         const formData = new FormData();
 
@@ -52,6 +52,10 @@ const UploadMenu = ({ path, setStatusMessage, files }) => {
         router.post("/upload", formData, {
             only: ["files", "flash"],
             onProgress,
+            onCancelToken,
+            onCancel: () => {
+                uploadQueue.finish();
+            },
             onSuccess: (page) => {
                 setUploadedFiles(selectedFileForUpload);
 
@@ -106,7 +110,11 @@ const UploadMenu = ({ path, setStatusMessage, files }) => {
                     onResolved={uploadQueue.finish}
                 />
             )}
-            <UploadQueueDialog items={uploadQueue.items} />
+            <UploadQueueDialog
+                items={uploadQueue.items}
+                canCancel={uploadQueue.canCancel}
+                onCancel={uploadQueue.cancel}
+            />
 
             <DropdownMenu
                 ariaLabel="New"

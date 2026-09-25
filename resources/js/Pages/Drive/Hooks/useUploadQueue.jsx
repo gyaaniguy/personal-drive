@@ -2,6 +2,9 @@ import { useEffect, useRef, useState } from "react";
 
 const STORAGE_KEY = "personal-drive-uploads";
 
+// Identifies this tab; only the tab that started an upload can cancel it.
+const TAB_ID = crypto.randomUUID();
+
 const readQueue = () => JSON.parse(localStorage.getItem(STORAGE_KEY) || "[]");
 
 const getName = (files) => {
@@ -13,6 +16,8 @@ const getName = (files) => {
 const useUploadQueue = () => {
     const queueRef = useRef(readQueue());
     const doneRef = useRef(null);
+    const cancelTokensRef = useRef(new Map());
+    const cancelledIdsRef = useRef(new Set());
     const [items, setItems] = useState(queueRef.current);
 
     const save = (nextItems) => {
@@ -47,6 +52,7 @@ const useUploadQueue = () => {
             id: crypto.randomUUID(),
             name: getName(files),
             status: "queued",
+            owner: TAB_ID,
         };
 
         save([...queueRef.current, item]);
@@ -56,9 +62,15 @@ const useUploadQueue = () => {
                 "personal-drive-upload",
                 () =>
                     new Promise((done) => {
+                        if (cancelledIdsRef.current.has(item.id)) {
+                            done();
+                            return;
+                        }
+
                         doneRef.current = done;
                         update(item.id, { status: "uploading" });
-                        upload(files, (progress) => {
+
+                        const onProgress = (progress) => {
                             if (progress.percentage == null) return;
 
                             update(item.id, {
@@ -68,13 +80,37 @@ const useUploadQueue = () => {
                                         ? "processing"
                                         : "uploading",
                             });
-                        });
+                        };
+                        const onCancelToken = (token) => {
+                            cancelTokensRef.current.set(item.id, token);
+                        };
+
+                        upload(files, onProgress, onCancelToken);
                     }),
             )
             .finally(() => {
                 doneRef.current = null;
+                cancelTokensRef.current.delete(item.id);
+                cancelledIdsRef.current.delete(item.id);
                 remove(item.id);
             });
+    };
+
+    const canCancel = (item) =>
+        item.owner === TAB_ID &&
+        (item.status === "queued" || item.status === "uploading");
+
+    const cancel = (id) => {
+        const item = queueRef.current.find((entry) => entry.id === id);
+        if (!item || !canCancel(item)) return;
+
+        if (item.status === "queued") {
+            cancelledIdsRef.current.add(id);
+            remove(id);
+            return;
+        }
+
+        cancelTokensRef.current.get(id)?.cancel();
     };
 
     useEffect(() => {
@@ -100,7 +136,7 @@ const useUploadQueue = () => {
         return () => window.removeEventListener("storage", sync);
     }, []);
 
-    return { add, finish, items };
+    return { add, cancel, canCancel, finish, items };
 };
 
 export default useUploadQueue;
