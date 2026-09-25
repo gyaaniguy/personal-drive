@@ -4,9 +4,7 @@
 
 ### Added
 - Cancel queued or in-progress uploads from the upload queue (only from the tab that started them)
-
-### Changed
-- Improved share modal styling
+- Direct download links for single-file shares (optional password via HTTP Basic auth)
 
 ## [v2.0.0] - 2025-09-13
 

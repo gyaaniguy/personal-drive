@@ -60,6 +60,7 @@ See the [full changelog](CHANGELOG.md).
   - Password protection
   - Set expiration
   - Set custom URL
+  - Direct download links for single files
   - A sharing control panel to pause and delete existing shares
 - Media player and slideshow:
   - Play and view images, videos and audios
