@@ -118,7 +118,10 @@ const ShareModal = ({
                             htmlFor="expiry"
                             className="block text-sm font-medium "
                         >
-                            Expire in days
+                            Expire in days{" "}
+                            <span className="text-xs font-normal text-gray-500">
+                                (0 = never expires)
+                            </span>
                         </label>
                         <input
                             type="text"
@@ -133,8 +136,10 @@ const ShareModal = ({
                             htmlFor="slug"
                             className="block text-sm font-medium "
                         >
-                            Custom URL slug ( Numbers, letters dash and
-                            underscore )
+                            Custom URL slug{" "}
+                            <span className="text-xs font-normal text-gray-500">
+                                (numbers, letters, dash and underscore)
+                            </span>
                         </label>
                         <input
                             type="text"
