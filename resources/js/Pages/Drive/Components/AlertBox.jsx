@@ -1,17 +1,31 @@
 import React, { useEffect, useRef, useState } from "react";
-import { usePage } from "@inertiajs/react";
+import { router, usePage } from "@inertiajs/react";
+
+const NO_ALERT = { message: "", status: true };
+
+let pageFromHistory =
+    performance.getEntriesByType("navigation")[0]?.type === "back_forward";
+window.addEventListener("popstate", () => (pageFromHistory = true));
+router.on("start", () => {
+    pageFromHistory = false;
+});
 
 const AlertBox = React.memo(function AlertBox({ message, alertStatus = true }) {
     let icon;
     let bgStatus = "bg-gray-500";
     let { flash, errors } = usePage().props;
-    const [alertBoxData, setAlertBoxData] = useState(flash);
+    const [alertBoxData, setAlertBoxData] = useState(NO_ALERT);
     const shownFlash = useRef(null);
     const shownErrors = useRef(null);
     const shownMessage = useRef(null);
 
     // Effect to update alertBoxData when props change
     useEffect(() => {
+        if (pageFromHistory) {
+            shownFlash.current = flash;
+            shownErrors.current = errors;
+        }
+
         const hasErrors = Object.keys(errors).length > 0;
         const hasNewServerAlert =
             (flash.message && shownFlash.current !== flash) ||
@@ -38,7 +52,7 @@ const AlertBox = React.memo(function AlertBox({ message, alertStatus = true }) {
     useEffect(() => {
         if (!alertBoxData.message) return;
         const timer = setTimeout(() => {
-            setAlertBoxData({ message: "", status: true });
+            setAlertBoxData(NO_ALERT);
         }, 10000);
         return () => clearTimeout(timer);
     }, [alertBoxData.message]);
