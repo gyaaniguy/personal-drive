@@ -85,7 +85,7 @@ class LoginRequestTest extends TestCase
         $this->request->authenticate();
     }
 
-    public function test_authenticate_with_remember_me()
+    public function test_authenticate_always_sets_remember_token()
     {
         $user = User::create([
             'username' => 'testuser',
@@ -93,15 +93,17 @@ class LoginRequestTest extends TestCase
             'is_admin' => true,
         ]);
 
+        // Simulate what Login.jsx sends: remember is false (no checkbox)
         $this->request->merge([
             'username' => 'testuser',
             'password' => 'password123',
-            'remember' => true,
+            'remember' => false,
         ]);
 
         $this->request->authenticate();
 
         $this->assertAuthenticatedAs($user);
+        $this->assertNotNull($user->fresh()->remember_token, 'remember_token must be persisted regardless of request');
     }
 
     public function test_ensure_is_not_rate_limited_when_below_threshold()
