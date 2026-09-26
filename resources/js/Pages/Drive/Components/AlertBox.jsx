@@ -8,7 +8,9 @@ const AlertBox = React.memo(function AlertBox({ message, alertStatus = true }) {
     const [alertBoxData, setAlertBoxData] = useState(flash);
     const shownFlash = useRef(null);
     const shownErrors = useRef(null);
-    // Effect to update messageToPrint when props change
+    const shownMessage = useRef(null);
+
+    // Effect to update alertBoxData when props change
     useEffect(() => {
         const hasErrors = Object.keys(errors).length > 0;
         const hasNewServerAlert =
@@ -26,14 +28,20 @@ const AlertBox = React.memo(function AlertBox({ message, alertStatus = true }) {
             setAlertBoxData(nextAlert);
             shownFlash.current = flash;
             shownErrors.current = errors;
-        } else if (message) {
+        } else if (message && shownMessage.current !== message) {
             setAlertBoxData({ message, status: alertStatus });
+            shownMessage.current = message;
         }
+    }, [flash, errors, message, alertStatus]);
+
+    // Auto-dismiss: only restarts when the displayed message text changes
+    useEffect(() => {
+        if (!alertBoxData.message) return;
         const timer = setTimeout(() => {
             setAlertBoxData({ message: "", status: true });
         }, 10000);
         return () => clearTimeout(timer);
-    }, [flash, errors, message, alertStatus]);
+    }, [alertBoxData.message]);
 
     switch (alertBoxData.status) {
         case false:
