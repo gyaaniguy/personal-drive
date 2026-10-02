@@ -32,7 +32,7 @@
         "axios": "^1.20.0",
         "@tailwindcss/typography": "^0.5.16",
         "@zip.js/zip.js": "^2.8.26",
-        "dompurify": "^3.4.13",
+        "dompurify": "^3.4.16",
         "highlight.js": "^11.11.1",
         "lucide-react": "^0.462.0",
         "marked": "^15.0.8",
