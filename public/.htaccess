@@ -6,8 +6,6 @@
     RewriteCond %{REQUEST_FILENAME} !-d
     RewriteRule ^ index.php [L]
 </IfModule>
-SetEnv XDEBUG_SESSION_START 1
-
 # Prevent directory listing
 Options -Indexes
 
