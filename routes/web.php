@@ -95,11 +95,11 @@ Route::middleware([TwoFactorGuest::class])->group(callback: function () {
 
 // admin or shared
 Route::post('/download-files', [DriveControllers\DownloadController::class, 'index'])
-    ->middleware([HandleAuthOrGuestMiddleware::class]);
+    ->middleware([HandleAuthOrGuestMiddleware::class, 'throttle:guest']);
 Route::get('/fetch-file/{id}/{slug?}', [DriveControllers\FileFetchController::class, 'index'])
-    ->middleware([HandleAuthOrGuestMiddleware::class])->name('drive.fetch-file');
+    ->middleware([HandleAuthOrGuestMiddleware::class, 'throttle:guest'])->name('drive.fetch-file');
 Route::get('/fetch-thumb/{id}/{slug?}', [DriveControllers\FileFetchController::class, 'getThumb'])
-    ->middleware([HandleAuthOrGuestMiddleware::class])
+    ->middleware([HandleAuthOrGuestMiddleware::class, 'throttle:guest'])
     ->name('drive.get-thumb');
 
 // shared guest routes

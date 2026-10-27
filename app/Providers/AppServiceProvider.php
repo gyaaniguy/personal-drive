@@ -113,6 +113,27 @@ class AppServiceProvider extends ServiceProvider
         );
 
         RateLimiter::for(
+            'guest',
+            function (Request $request) {
+                return [
+                    Limit::perMinute(60)
+                        ->by($request->ip())
+                        ->response(
+                            function () {
+                                throw ThrottleException::tooMany();
+                            }
+                        ),
+                    Limit::perHour(300)
+                        ->by($request->ip())
+                        ->response(
+                            function () {
+                                throw ThrottleException::tooMany();
+                            }
+                        ),
+                ];
+            }
+        );
+        RateLimiter::for(
             'api',
             function (Request $request) {
                 return Limit::perMinute(100)
