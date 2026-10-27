@@ -67,13 +67,22 @@ class AppServiceProvider extends ServiceProvider
         RateLimiter::for(
             'shared',
             function (Request $request) {
-                return Limit::perMinute(20)
-                    ->by($request->ip())
-                    ->response(
-                        function () {
-                            throw ThrottleException::tooMany();
-                        }
-                    );
+                return [
+                    Limit::perMinute(10)
+                        ->by($request->ip())
+                        ->response(
+                            function () {
+                                throw ThrottleException::tooMany();
+                            }
+                        ),
+                    Limit::perHour(20)
+                        ->by($request->ip())
+                        ->response(
+                            function () {
+                                throw ThrottleException::tooMany();
+                            }
+                        ),
+                ];
             }
         );
 
