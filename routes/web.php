@@ -134,8 +134,7 @@ Route::middleware([PreventSetupAccess::class, 'web'])->group(function () {
     Route::get('/setup/account', [
         AdminControllers\SetupController::class, 'show'
     ])->middleware(EnsureFrontendBuilt::class)->name('setup.account');
-    Route::post('/setup/account', [AdminControllers\SetupController::class, 'update'])
-        ->middleware('throttle:setup');
+    Route::post('/setup/account', [AdminControllers\SetupController::class, 'update']);
     Route::post('/setup/storage', [AdminControllers\AdminConfigController::class, 'update']);
 });
 
