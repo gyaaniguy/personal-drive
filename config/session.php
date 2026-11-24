@@ -169,7 +169,7 @@ return [
     |
     */
 
-    'secure' => env('SESSION_SECURE_COOKIE'),
+    'secure' => env('DISABLE_HTTPS', false) ? false : env('SESSION_SECURE_COOKIE'),
 
     /*
     |--------------------------------------------------------------------------
